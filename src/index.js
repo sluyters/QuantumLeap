@@ -1,5 +1,4 @@
-const cdollar = require('./framework/recognizers/cdollar');
-const pdollarplus = require('./framework/recognizers/pdollarplus');
+const pdollarplus = require('./framework/recognizers/PDollarPlusRecognizer');
 const fakerecognizer = require('./framework/recognizers/FakeRecognizer');
 const datasetLoader = require('./dataset/LeapmotionDataset');
 
@@ -10,7 +9,7 @@ let MAXT = 4; //Maximum Training Templates
 let R = 100; //Repetitions
 let N = 8; //Points/Shapes
 let datasetFolder = "smartphone";
-let RECOGNIZERS = ["FakeRecognizer"];
+let RECOGNIZERS = ["PDollarPlusRecognizer"];
 
 
 let PrintResults = function(results, title) {
@@ -54,7 +53,7 @@ let StartUserDepDeviceDepTesting = function(dataset) {
             let current_recognition_score = 0;
             let current_execution_time = 0.0;
             for(let r=0 ; r<R ; r++) {
-                let recognizer = new fakerecognizer.FakeRecognizer("Fake Recognizer");
+                let recognizer = new pdollarplus.PDollarPlusRecognizer("PDollarPlus Recognizer", N);
 
                 let candidates = SelectCandidates(dataset);
                 let training_templates = [];
@@ -67,7 +66,7 @@ let StartUserDepDeviceDepTesting = function(dataset) {
                         let training = -1;
                         while(training==-1 || training_templates[index].includes(training)) training = GetRandomNumber(0, gesture.getSample().length);
                         training_templates[index].push(training);
-                        recognizer.addGesture(gesture.getSample()[training]);
+                        recognizer.addGesture(gesture.name, gesture.getSample()[training]);
                         index++;
                     });
                 }
