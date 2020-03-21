@@ -11,7 +11,7 @@ let MAXT = 4; //Maximum Training Templates
 let R = 100; //Repetitions
 let N = 8; //Points/Shapes
 //let D = 0; //(FILES2.length>0) ? 2 : 1;
-let datasetFolder = "framework/dataset";
+let datasetFolder = "dataset/smartphone";
 let RECOGNIZERS = ["FakeRecognizer"];
 
 

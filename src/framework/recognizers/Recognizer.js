@@ -14,4 +14,6 @@ class Recognizer {
 
 }
 
-export default Recognizer;
+module.exports = {
+    Recognizer
+};

@@ -1,16 +1,19 @@
-import Recognizer from './Recognizer'
+const recognizer = require('./Recognizer');
 
-class FakeRecognizer extends Recognizer{
+class FakeRecognizer extends recognizer.Recognizer{
 
 
     addGesture(){
-        console.log('addGesture');
+        //console.log('addGesture');
     }
 
     recognize(){
-        console.log('recognize');
+        //console.log('recognize');
+        return {Name:"Demo", Time: 5};
     }
 
 }
 
-export default FakeRecognizer;
+module.exports = {
+    FakeRecognizer
+};
