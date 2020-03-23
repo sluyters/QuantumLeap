@@ -22,25 +22,32 @@ function loadDataset(name, directory) {
             let gestureData = new StrokeData();
             let stroke = new Stroke();
 
+            let DEBUG = false;
+
             for (let i = 0; i < rawGestureData['data'].length; i++) {
                 let frame = rawGestureData['data'][i];
 
                 for (const hand of frame['hands']) {
                     if (hand['type'] === 'right') {
+
+                        DEBUG = true;
+
                         let palmPosition = hand['palmPosition']
                         let x = palmPosition[0];
                         let y = palmPosition[1];
                         let z = palmPosition[2];
-                        let t = frame['timestamp']
-                        stroke.addPoint(new Point(x, y, z, t))
+                        let t = frame['timestamp'];
+                        stroke.addPoint(new Point(x, y, z, t));
                     }
                 }
             }
-            gestureData.addStroke(stroke);
-            gestureClass.addSample(gestureData)
+            if (DEBUG) {
+                gestureData.addStroke(stroke);
+                gestureClass.addSample(gestureData);
+            }
         });
 
-        gestureSet.addGestureClass(gestureClass)
+        gestureSet.addGestureClass(gestureClass);
     })
     
     return gestureSet;

@@ -1,12 +1,15 @@
+// Testing parameters =======================================================================================
+// Recognizer
+const Recognizer = require('./recognizers/PDollarPlusRecognizer').PDollarPlusRecognizer;
+//const Recognizer = require('./recognizers/P3DollarRecognizer').P3DollarRecognizer;
 
-//const {FakeRecognizer:Recognizer} = require('./framework/recognizers/FakeRecognizer');
-const {PDollarPlusRecognizer:Recognizer} = require('./recognizers/PDollarPlusRecognizer');
-
+// Dataset
 const datasetConverter = require('./datasets/SmartphoneConverter');
 //const datasetConverter = require('./datasets/LeapmotionConverter');
 let datasetName = "test";
 let datasetFolder = "smartphone";
 
+// Other parameters
 let P = 1; //Participants
 let G = 16; //Gesture Classes
 let TperG = 5; //Templates per Gesture Class
@@ -15,7 +18,7 @@ let R = 100; //Repetitions
 let N = 8; //Points/Shapes
 let RECOGNIZERS = [Recognizer.name];
 
-
+// Testing framework ========================================================================================
 let PrintResults = function(results, title) {
     for(let r=0 ; r<results.length ; r++) {
         console.log("#### " + title + " for " + RECOGNIZERS[r] + " ####");
@@ -116,7 +119,6 @@ let GetRandomNumber = function(min, max) {
 };
 
 
-//let dataset = datasetConverter.loadDataset("test", "leapmotion")
 let dataset = datasetConverter.loadDataset(datasetName, datasetFolder);
 let result = StartUserDepDeviceDepTesting(dataset);
 PrintResults(result, 'USER-DEPENDENT TESTING');
