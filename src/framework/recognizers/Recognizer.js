@@ -1,5 +1,7 @@
 class Recognizer {
 
+    static name = "Recognizer";
+
     constructor(name) {
         this.name = name;
     }

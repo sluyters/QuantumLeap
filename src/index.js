@@ -1,8 +1,11 @@
-const pdollarplus = require('./framework/recognizers/PDollarPlusRecognizer');
-const fakerecognizer = require('./framework/recognizers/FakeRecognizer');
-const datasetLoader = require('./dataset/LeapmotionDataset');
 
-const datasetConverter = require('./dataset/LeapmotionConverter');
+//const {FakeRecognizer:Recognizer} = require('./framework/recognizers/FakeRecognizer');
+const {PDollarPlusRecognizer:Recognizer} = require('./recognizers/PDollarPlusRecognizer');
+
+const datasetConverter = require('./datasets/SmartphoneConverter');
+//const datasetConverter = require('./datasets/LeapmotionConverter');
+let datasetName = "test";
+let datasetFolder = "smartphone";
 
 let P = 1; //Participants
 let G = 16; //Gesture Classes
@@ -10,8 +13,7 @@ let TperG = 5; //Templates per Gesture Class
 let MAXT = 4; //Maximum Training Templates
 let R = 100; //Repetitions
 let N = 8; //Points/Shapes
-let datasetFolder = "smartphone";
-let RECOGNIZERS = ["PDollarPlusRecognizer"];
+let RECOGNIZERS = [Recognizer.name];
 
 
 let PrintResults = function(results, title) {
@@ -55,7 +57,7 @@ let StartUserDepDeviceDepTesting = function(dataset) {
             let current_recognition_score = 0;
             let current_execution_time = 0.0;
             for(let r=0 ; r<R ; r++) {
-                let recognizer = new pdollarplus.PDollarPlusRecognizer("PDollarPlus Recognizer", N);
+                let recognizer = new Recognizer(N);
 
                 let candidates = SelectCandidates(dataset);
                 let training_templates = [];
@@ -113,10 +115,8 @@ let GetRandomNumber = function(min, max) {
     return Math.floor(Math.random()*(max - min))+min;
 };
 
-// Example of use (sorry de l'avoir foutu là oups)
-let testData = datasetConverter.loadDataset("test", "leapmotion")
-console.log(testData)
 
-let dataset = (new datasetLoader.LeapmotionDataset(datasetFolder)).loadDataset();
+//let dataset = datasetConverter.loadDataset("test", "leapmotion")
+let dataset = datasetConverter.loadDataset(datasetName, datasetFolder);
 let result = StartUserDepDeviceDepTesting(dataset);
 PrintResults(result, 'USER-DEPENDENT TESTING');
