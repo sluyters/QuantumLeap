@@ -1,13 +1,14 @@
 // Testing parameters =======================================================================================
 // Recognizer
-const Recognizer = require('./recognizers/PDollarPlusRecognizer').PDollarPlusRecognizer;
-//const Recognizer = require('./recognizers/P3DollarRecognizer').P3DollarRecognizer;
+//const Recognizer = require('./recognizers/PDollarPlusRecognizer').PDollarPlusRecognizer;
+const Recognizer = require('./recognizers/P3DollarRecognizer').P3DollarRecognizer;
 
 // Dataset
-const datasetConverter = require('./datasets/SmartphoneConverter');
-//const datasetConverter = require('./datasets/LeapmotionConverter');
+//const datasetConverter = require('./datasets/SmartphoneConverter');
+const datasetConverter = require('./datasets/LeapmotionConverter');
 let datasetName = "test";
-let datasetFolder = "smartphone";
+//let datasetFolder = "smartphone";
+let datasetFolder = "leapmotion";
 
 // Other parameters
 let P = 1; //Participants
