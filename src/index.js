@@ -2,6 +2,8 @@ const pdollarplus = require('./framework/recognizers/PDollarPlusRecognizer');
 const fakerecognizer = require('./framework/recognizers/FakeRecognizer');
 const datasetLoader = require('./dataset/LeapmotionDataset');
 
+const datasetConverter = require('./dataset/LeapmotionConverter');
+
 let P = 1; //Participants
 let G = 16; //Gesture Classes
 let TperG = 5; //Templates per Gesture Class
@@ -111,6 +113,9 @@ let GetRandomNumber = function(min, max) {
     return Math.floor(Math.random()*(max - min))+min;
 };
 
+// Example of use (sorry de l'avoir foutu là oups)
+let testData = datasetConverter.loadDataset("test", "leapmotion")
+console.log(testData)
 
 let dataset = (new datasetLoader.LeapmotionDataset(datasetFolder)).loadDataset();
 let result = StartUserDepDeviceDepTesting(dataset);
