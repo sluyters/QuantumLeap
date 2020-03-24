@@ -12,9 +12,9 @@ let datasetFolder = "leapmotion";
 
 // Other parameters
 let P = 1; //Participants
-let G = 16; //Gesture Classes
-let TperG = 5; //Templates per Gesture Class
-let MAXT = 4; //Maximum Training Templates
+let G = 4; //Gesture Classes
+let TperG = 7; //Templates per Gesture Class
+let MAXT = 6; //Maximum Training Templates
 let R = 100; //Repetitions
 let N = 8; //Points/Shapes
 let RECOGNIZERS = [Recognizer.name];
