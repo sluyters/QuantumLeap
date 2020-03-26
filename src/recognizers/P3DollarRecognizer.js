@@ -10,6 +10,15 @@ class Point {
     }
 }
 
+class PointCloud {
+    constructor(name, points) {
+        this.Name = name;
+        this.Points = Resample(points, NumPoints);
+        this.Points = Scale(this.Points);
+        this.Points = TranslateTo(this.Points, Origin);
+    }
+}
+
 //
 // P3DollarRecognizer constants
 //
@@ -64,15 +73,6 @@ function convert(sample){
        });
 	});
     return points;
-}
-
-class PointCloud {
-    constructor(name, points) {
-        this.Name = name;
-        this.Points = Resample(points, NumPoints);
-        this.Points = Scale(this.Points);
-        this.Points = TranslateTo(this.Points, Origin);
-    }
 }
 
 //
