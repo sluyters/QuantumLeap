@@ -1,8 +1,5 @@
 const Recognizer = require('../framework/recognizers/Recognizer');
-const {
-	performance,
-	PerformanceObserver
-} = require('perf_hooks');
+
 /**
  * The $P+ Point-Cloud Recognizer (JavaScript version)
  *
@@ -97,7 +94,7 @@ class PDollarPlusRecognizer extends Recognizer {
 	recognize(sample, nbrPoints)
 	{
 		let points = convert(sample);
-		let t0 = performance.now();
+		let t0 = Date.now();
 		NumPoints = nbrPoints;
 		var candidate = new PointCloud("", points);
 
@@ -114,8 +111,8 @@ class PDollarPlusRecognizer extends Recognizer {
 				u = i; // point-cloud index
 			}
 		}
-		let t1 = performance.now();
-		return (u == -1) ? new $PP_Result("No match.", 0.0, t1-t0) : new $PP_Result(this.PointClouds[u].Name, b > 1.0 ? 1.0 / b : 1.0, t1-t0);
+		let t1 = Date.now();
+		return (u == -1) ? { 'Name': 'No match', 'Time': t1-t0 } : { 'Name': this.PointClouds[u].Name, 'Time': t1-t0 };
 	}
 	addGesture = function(name, sample, nbrPoints)
 	{
