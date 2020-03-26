@@ -27,6 +27,8 @@ const Origin = new Point(0,0,0,0);
 
 class P3DollarRecognizer extends Recognizer {
 
+	static name = "P3DollarRecognizer";
+
     constructor(N) {
 		super();
 		this.N = N;

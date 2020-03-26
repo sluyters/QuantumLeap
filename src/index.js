@@ -1,7 +1,7 @@
 // Testing parameters =======================================================================================
 // Recognizer
 //const Recognizer = require('./recognizers/PDollarPlusRecognizer').PDollarPlusRecognizer;
-const Recognizer = require('./recognizers/P3DollarRecognizer').P3DollarRecognizer;
+const Recognizer = require('./recognizers/P3DollarPlusRecognizer').P3DollarPlusRecognizer;
 
 // Dataset
 //const datasetConverter = require('./datasets/SmartphoneConverter');

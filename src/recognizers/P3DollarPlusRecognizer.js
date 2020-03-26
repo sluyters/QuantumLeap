@@ -1,4 +1,4 @@
-const Recognizer = require('../framework/recognizers/Recognizer');
+const Recognizer = require('../framework/recognizers/Recognizer').Recognizer;
 
 /**
  * The $P+ Point-Cloud Recognizer (JavaScript version)
@@ -50,7 +50,7 @@ const Recognizer = require('../framework/recognizers/Recognizer');
 // Point class
 //
 class Point {
-	constructor(x, y, z, angle = 0.0) {
+	constructor(x, y, z, id, angle = 0.0) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -74,28 +74,29 @@ function PointCloud(name, points) // constructor
 //
 // PDollarPlusRecognizer constants
 //
-const NumPointClouds = 0;
 const NumPoints = 8;
 const Origin = new Point(0, 0, 0, 0);
+
 //
 // PDollarPlusRecognizer class
 //
-class PDollarPlusRecognizer extends Recognizer {
+class P3DollarPlusRecognizer extends Recognizer {
+
+	static name = "P3DollarPlusRecognizer";
 
     constructor(N) {
 		super();
-		this.N = N;
+		this.NumPoints = N;
 		this.PointClouds = new Array();
 	}
 	
 	//
 	// The $P+ Point-Cloud Recognizer API begins here -- 3 methods: Recognize(), AddGesture(), DeleteUserGestures()
 	//
-	recognize(sample, nbrPoints)
+	recognize(sample)
 	{
 		let points = convert(sample);
 		let t0 = Date.now();
-		NumPoints = nbrPoints;
 		var candidate = new PointCloud("", points);
 
 		var u = -1;
@@ -114,10 +115,9 @@ class PDollarPlusRecognizer extends Recognizer {
 		let t1 = Date.now();
 		return (u == -1) ? { 'Name': 'No match', 'Time': t1-t0 } : { 'Name': this.PointClouds[u].Name, 'Time': t1-t0 };
 	}
-	addGesture = function(name, sample, nbrPoints)
+	addGesture(name, sample)
 	{
 		let points = convert(sample);
-		NumPoints = nbrPoints;
 		this.PointClouds[this.PointClouds.length] = new PointCloud(name, points);
 		var num = 0;
 		for (var i = 0; i < this.PointClouds.length; i++) {
@@ -178,6 +178,7 @@ function CloudDistance(pts1, pts2, minSoFar) // revised for $P+
 	}
 	return sum;
 }
+
 function Resample(points, n)
 {
 	var I = PathLength(points) / (n - 1); // interval length
@@ -205,6 +206,7 @@ function Resample(points, n)
 		newpoints[newpoints.length] = new Point(points[points.length - 1].x, points[points.length - 1].y, points[points.length - 1].z, points[points.length - 1].id);
 	return newpoints;
 }
+
 function Scale(points)
 {
 	var minX = +Infinity, maxX = -Infinity, minY = +Infinity, maxY = -Infinity, minZ = +Infinity, maxZ = -Infinity;
@@ -226,6 +228,7 @@ function Scale(points)
 	}
 	return newpoints;
 }
+
 function TranslateTo(points, pt) // translates points' centroid
 {
 	var c = Centroid(points);
@@ -238,6 +241,7 @@ function TranslateTo(points, pt) // translates points' centroid
 	}
 	return newpoints;
 }
+
 function ComputeNormalizedTurningAngles(points) // $P+
 {
 	var newpoints = new Array();
@@ -259,6 +263,7 @@ function ComputeNormalizedTurningAngles(points) // $P+
 		points[points.length - 1].id);
 	return newpoints;
 }
+
 function Centroid(points)
 {
 	var x = 0.0, y = 0.0, z = 0.0;
@@ -272,6 +277,7 @@ function Centroid(points)
 	z /= points.length;
 	return new Point(x, y, z, 0);
 }
+
 function PathLength(points) // length traversed by a point path
 {
 	var d = 0.0;
@@ -281,6 +287,7 @@ function PathLength(points) // length traversed by a point path
 	}
 	return d;
 }
+
 function DistanceWithAngle(p1, p2) // $P+
 {
 	var dx = p2.x - p1.x;
@@ -289,6 +296,7 @@ function DistanceWithAngle(p1, p2) // $P+
 	var da = p2.angle - p1.angle;
 	return Math.sqrt(dx * dx + dy * dy + dz * dz + da * da);
 }
+
 function Distance(p1, p2) // Euclidean distance between two points
 {
 	var dx = p2.x - p1.x;
@@ -299,5 +307,5 @@ function Distance(p1, p2) // Euclidean distance between two points
 
 module.exports = {
 	Point,
-	PDollarPlusRecognizer
+	P3DollarPlusRecognizer
 };
