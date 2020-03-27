@@ -74,7 +74,7 @@ function PointCloud(name, points) // constructor
 //
 // PDollarPlusRecognizer constants
 //
-const NumPoints = 8;
+NumPoints = 8;
 const Origin = new Point(0, 0, 0, 0);
 
 //
@@ -86,7 +86,7 @@ class P3DollarPlusRecognizer extends Recognizer {
 
     constructor(N) {
 		super();
-		this.NumPoints = N;
+		NumPoints = N;
 		this.PointClouds = new Array();
 	}
 	
@@ -113,7 +113,7 @@ class P3DollarPlusRecognizer extends Recognizer {
 			}
 		}
 		let t1 = Date.now();
-		return (u == -1) ? { 'Name': 'No match', 'Time': t1-t0 } : { 'Name': this.PointClouds[u].Name, 'Time': t1-t0 };
+		return (u == -1) ? { 'Name': 'No match', 'Time': t1-t0, 'Score': 0.0 } : { 'Name': this.PointClouds[u].Name, 'Time': t1-t0, 'Score': b > 1.0 ? 1.0 / b : 1.0 };
 	}
 	addGesture(name, sample)
 	{
