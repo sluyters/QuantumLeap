@@ -1,6 +1,6 @@
 const StrokeData = require('../framework/gestures/StrokeData').StrokeData;
 const Recognizer = require('../framework/recognizers/Recognizer').Recognizer;
-const P3DollarPlusRecognizer = require('./P3DollarPlusRecognizer').P3DollarPlusRecognizer;
+const P3DollarPlusXRecognizer = require('./P3DollarPlusXRecognizer').P3DollarPlusXRecognizer;
 
 class Hybrid3DollarRecognizer extends Recognizer {
 
@@ -9,10 +9,10 @@ class Hybrid3DollarRecognizer extends Recognizer {
         this.numPoints = N;
         
         // Initialize recognizer for large scale movement
-        this.largeScaleRecognizer = new P3DollarPlusRecognizer(N);
+        this.largeScaleRecognizer = new P3DollarPlusXRecognizer(N);
 
         // Initialize recognizer for fine movements
-        this.smallScaleRecognizer = new P3DollarPlusRecognizer(N);
+        this.smallScaleRecognizer = new P3DollarPlusXRecognizer(N);
 	}
 
 	addGesture(name, sample){
@@ -42,6 +42,7 @@ class Hybrid3DollarRecognizer extends Recognizer {
         var lScaleRes = this.largeScaleRecognizer.recognize(largeScaleGestureData);
         var sScaleRes = this.smallScaleRecognizer.recognize(smallScaleGestureData);
 
+        // TODO modify rule
         if (lScaleRes['Score'] > sScaleRes['Score']) {
             return lScaleRes;
         } else {

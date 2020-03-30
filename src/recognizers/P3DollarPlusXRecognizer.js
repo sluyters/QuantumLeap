@@ -74,20 +74,21 @@ function PointCloud(name, points) // constructor
 //
 // PDollarPlusRecognizer constants
 //
-NumPoints = 8;
+NumPoints = 16;
 const Origin = new Point(0, 0, 0, 0);
 
 //
 // PDollarPlusRecognizer class
 //
-class P3DollarPlusRecognizer extends Recognizer {
+class P3DollarPlusXRecognizer extends Recognizer {
 
-	static name = "P3DollarPlusRecognizer";
+	static name = "P3DollarPlusXRecognizer";
 
     constructor(N) {
 		super();
 		NumPoints = N;
 		this.PointClouds = new Array();
+		this.conflicts = {};
 	}
 	
 	//
@@ -98,32 +99,56 @@ class P3DollarPlusRecognizer extends Recognizer {
 		let t0 = Date.now();
 		var candidate = new PointCloud("", points);
 
-		var u = -1;
-		var b = +Infinity;
-		for (var i = 0; i < this.PointClouds.length; i++) // for each point-cloud template
-		{
-			var d = Math.min(
-				CloudDistance(candidate.Points, this.PointClouds[i].Points, b),
-				CloudDistance(this.PointClouds[i].Points, candidate.Points, b)
-				); // $P+
-			if (d < b) {
-				b = d; // best (least) distance
-				u = i; // point-cloud index
-			}
+		var {u, b} = this.recognizeHelper(candidate);
+
+		if (u != -1 && this.conflicts.hasOwnProperty(this.PointClouds[u].Name)) {
+			let dirDist1 = DirDist(candidate.Points, this.PointClouds[u].Points);
+			let dirDist2 = DirDist(candidate.Points, this.PointClouds[this.conflicts[this.PointClouds[u].Name].index].Points);
+			u = dirDist1 > dirDist2 ? u : this.conflicts[this.PointClouds[u].Name].index;
 		}
+
 		let t1 = Date.now();
 		return (u == -1) ? { 'Name': 'No match', 'Time': t1-t0, 'Score': 0.0 } : { 'Name': this.PointClouds[u].Name, 'Time': t1-t0, 'Score': b > 1.0 ? 1.0 / b : 1.0 };
 	}
 
 	addGesture(name, sample) {
 		let points = convert(sample);
-		this.PointClouds[this.PointClouds.length] = new PointCloud(name, points);
+		var template = new PointCloud(name, points);
+
+		if (this.PointClouds.length > 0) {
+			const {u, b} = this.recognizeHelper(template);
+
+			if (this.PointClouds[u].Name != name && (1.0 / b) > 0.8) {
+				this.conflicts[name] = {'name': this.PointClouds[u].Name, 'index': u};
+				this.conflicts[this.PointClouds[u].Name] =  {'name': name, 'index': this.PointClouds.length};
+			}
+		}
+
+		this.PointClouds[this.PointClouds.length] = template;
+
 		var num = 0;
 		for (var i = 0; i < this.PointClouds.length; i++) {
 			if (this.PointClouds[i].Name == name)
 				num++;
 		}
 		return num;
+	}
+
+	recognizeHelper(pointcloud) {
+		var u = -1;
+		var b = +Infinity;
+		for (var i = 0; i < this.PointClouds.length; i++) // for each point-cloud template
+		{
+			var d = Math.min(
+				CloudDistance(pointcloud.Points, this.PointClouds[i].Points, b),
+				CloudDistance(this.PointClouds[i].Points, pointcloud.Points, b)
+				); // $P+
+			if (d < b) {
+				b = d; // best (least) distance
+				u = i; // point-cloud index
+			}
+		}
+		return {u, b};
 	}
 }
 
@@ -304,7 +329,22 @@ function Distance(p1, p2) // Euclidean distance between two points
 	return Math.sqrt(dx * dx + dy * dy + dz * dz);
 }
 
+function DirDist(points1, points2) {
+	const padding = 2;
+	let dist = 0;
+	for (var i = padding; i < NumPoints - (1 + padding); i+=1) {
+		let v1x = points1[i+1].x - points1[i].x;
+		let v1y = points1[i+1].y - points1[i].y;
+		let v1z = points1[i+1].z - points1[i].z;
+		let v2x = points2[i+1].x - points2[i].x;
+		let v2y = points2[i+1].y - points2[i].y;
+		let v2z = points2[i+1].z - points2[i].z;
+		dist += v1x * v2x + v1y * v2y + v1z * v2z;
+	}
+	return dist;
+}
+
 module.exports = {
 	Point,
-	P3DollarPlusRecognizer
+	P3DollarPlusXRecognizer
 };
