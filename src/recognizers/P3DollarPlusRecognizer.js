@@ -84,10 +84,18 @@ class P3DollarPlusRecognizer extends Recognizer {
 
 	static name = "P3DollarPlusRecognizer";
 
-    constructor(N) {
+    constructor(N, dataset) {
 		super();
 		NumPoints = N;
 		this.PointClouds = new Array();
+		if (dataset!==undefined){
+			dataset.getGestureClass().forEach((gesture, key, self) => {
+				gesture.getSample().forEach(sample => {
+						this.addGesture(gesture.name, sample);
+					}
+				);
+			});
+		}
 	}
 	
 	//

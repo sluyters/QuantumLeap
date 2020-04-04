@@ -1,35 +1,53 @@
 const Sensor = require('./Sensor').Sensor;
+const path = require('path');
+const express = require('express');
 
 class FakeSensor extends Sensor{
 
+    static gestureset = [];
+    static callback = undefined;
+    static dataset = undefined;
     constructor(dataset) {
         super();
-        this.dataset = dataset;
+        FakeSensor.dataset = dataset;
+        FakeSensor.gestureset = [];
+        dataset.getGestureClass().forEach((gesture, key, self) => {
+            FakeSensor.gestureset.push(gesture.name);
+        });
+
+        this.app = express();
+        this.app.use(express.static((path.join(__dirname, 'public'))));
+
+        this.app.get('/', function (req, res) {
+            res.sendFile(path.join(__dirname + '/index.html'));
+        });
+        this.app.get('/gestureset', function (req, res) {
+            res.send(JSON.stringify({"gestureset": FakeSensor.gestureset}));
+        });
+        // e.g.: /controls/focus?override=true
+        this.app.post('/play/:gesture', function (req, res) {
+            let gesture = req.params.gesture;
+            console.log(gesture + " received");
+            if(FakeSensor.callback!==undefined)
+                FakeSensor.callback(FakeSensor.dataset.getGestureClass().get(gesture).getSample()[1]);
+            res.sendStatus(200);
+
+        });
     }
 
     onGesture(callback){
-        this.callback=callback;
+        FakeSensor.callback=callback;
     }
 
     async acquireData(){
-        while (true)
-        {
-            await sleep(5000);
-            //take one random sample;
-            if(this.callback!==undefined)
-                this.callback(this.dataset.getGestureClass().get("3zoom").getSample()[1]);
-        }
+        this.app.listen(3001, function () {
+            console.log('FakeSensor available at http://localhost:3001');
+        });
     }
 
     stop(){
         console.log("End sensor");
     }
-}
-
-function sleep(ms) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
 }
 
 module.exports = {

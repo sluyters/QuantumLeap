@@ -1,9 +1,11 @@
-const Recognizer = require('./framework/recognizers/FakeRecognizer').FakeRecognizer;
+//const Recognizer = require('./framework/recognizers/FakeRecognizer').FakeRecognizer;
+const Recognizer = require('./recognizers/P3DollarPlusRecognizer').P3DollarPlusRecognizer;
 const Sensor = require('./framework/sensors/FakeSensor').FakeSensor;
 
 const datasetConverter = require('./datasets/LeapmotionConverter');
 let datasetName = "test";
 let datasetFolder = "leapmotion";
+let N = 8; //Points/Shapes
 
 const WebSocket = require('ws');
 const http = require('http');
@@ -14,7 +16,7 @@ const APP_INTERFACE_PORT = 6442;
 
 // Load the training set and feed it to the recognizer
 let dataset = datasetConverter.loadDataset(datasetName, datasetFolder);
-var recognizer = new Recognizer(dataset);
+let recognizer = new Recognizer(N, dataset);
 
 var sensor = new Sensor(dataset);
 
@@ -64,4 +66,3 @@ function getWebSocketServer(ip, port) {
 
     return wsServer;
 }
-

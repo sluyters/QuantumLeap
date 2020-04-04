@@ -2,7 +2,7 @@ const Recognizer = require('./Recognizer').Recognizer;
 
 class FakeRecognizer extends Recognizer{
 
-    constructor(dataset) {
+    constructor(N, dataset) {
         super();
         this.gestureset=[];
         //TODO need to init gestureset so can't call super(dataset)
