@@ -2,15 +2,22 @@ class Recognizer {
 
     static name = "Recognizer";
 
-    constructor(name) {
-        this.name = name;
+    constructor(dataset) {
+        if (dataset!==undefined){
+            dataset.getGestureClass().forEach((gesture, key, self) => {
+                gesture.getSample().forEach(sample => {
+                    this.addGesture(gesture.name, sample);
+                    }
+                );
+            });
+        }
     }
 
-    addGesture(){
+    addGesture(name, sample){
         throw new Error('You must implement this function');
     }
 
-    recognize(){
+    recognize(sample){
         throw new Error('You must implement this function');
     }
 
