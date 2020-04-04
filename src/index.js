@@ -31,23 +31,22 @@ wsServer.on('connection', function connection(ws) {
     });
 
     sensor.onGesture(data => {
-        var { success, name, time } = recognizer.recognize(data);
-        if (success) {
-            console.log(name);
-            ws.send(JSON.stringify({ 'gesture': name }));
+        let result = recognizer.recognize(data);
+        if (result.Name!==undefined) {
+            console.log(result.Name + " sent");
+            ws.send(JSON.stringify({ 'gesture': result.Name }));
         }
     });
 
     ws.on('close', function() {
-        sensorIF.stop();
+        sensor.stop();
     });
 
     ws.on('error', function(error) {
-        sensorIF.stop();
+        sensor.stop();
     });
 
     sensor.acquireData();
-    console.log("test");
 });
 
 
@@ -65,10 +64,4 @@ function getWebSocketServer(ip, port) {
 
     return wsServer;
 }
-
-sensor.onGesture(data => {
-    console.log(recognizer.recognize(data));
-});
-sensor.acquireData();
-console.log("debug");
 

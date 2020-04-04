@@ -16,8 +16,13 @@ class FakeSensor extends Sensor{
         {
             await sleep(5000);
             //take one random sample;
-            this.callback(this.dataset.getGestureClass().get("3zoom").getSample()[1]);
+            if(this.callback!==undefined)
+                this.callback(this.dataset.getGestureClass().get("3zoom").getSample()[1]);
         }
+    }
+
+    stop(){
+        console.log("End sensor");
     }
 }
 
