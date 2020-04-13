@@ -118,7 +118,7 @@ class P3DollarPlusXRecognizer extends Recognizer {
 		if (this.PointClouds.length > 0) {
 			const {u, b} = this.recognizeHelper(template);
 
-			if (this.PointClouds[u].Name != name && (1.0 / b) > 0.8) {
+			if (u != 1 && this.PointClouds[u].Name != name && (1.0 / b) > 0.8) {
 				this.conflicts[name] = {'name': this.PointClouds[u].Name, 'index': u};
 				this.conflicts[this.PointClouds[u].Name] =  {'name': name, 'index': this.PointClouds.length};
 			}
