@@ -2,13 +2,17 @@
 // Recognizer
 //const Recognizer = require('./recognizers/PDollarPlusRecognizer').PDollarPlusRecognizer;
 const Recognizer = require('./recognizers/P3DollarPlusRecognizer').P3DollarPlusRecognizer;
+//const Recognizer = require('./recognizers/P3DollarPlusXRecognizer').P3DollarPlusXRecognizer;
 
 // Dataset
 //const datasetConverter = require('./datasets/SmartphoneConverter');
 const datasetConverter = require('./datasets/LeapmotionConverter');
+//const datasetConverter = require('./datasets/uWaveConverter');
+
 let datasetName = "test";
 //let datasetFolder = "smartphone";
 let datasetFolder = "leapmotion";
+//let datasetFolder = "uWaveGestureLibrary";
 
 // Other parameters
 let P = 1; //Participants

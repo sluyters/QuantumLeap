@@ -31,7 +31,7 @@ class P3DollarRecognizer extends Recognizer {
 
     constructor(N) {
 		super();
-		this.N = N;
+		NumPoints = N;
 		this.PointClouds = new Array();
     }
 
