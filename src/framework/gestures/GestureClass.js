@@ -1,8 +1,9 @@
 class GestureClass {
 
-    constructor(name) {
+    constructor(name, index) {
         this.name = name;
         this.samples = [];
+        this.index = index;
     }
 
     addSample(data){

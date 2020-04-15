@@ -6,7 +6,7 @@ class Recognizer {
         if (dataset!==undefined){
             dataset.getGestureClass().forEach((gesture, key, self) => {
                 gesture.getSample().forEach(sample => {
-                    this.addGesture(gesture.name, sample);
+                        this.addGesture(gesture.name, sample);
                     }
                 );
             });

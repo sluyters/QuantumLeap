@@ -11,10 +11,12 @@ const Point = require('../framework/gestures/Point').Point3D;
 function loadDataset(name, directory) {
     let gestureSet = new GestureSet(name);
     let dirPath = path.join(__dirname, directory);
+    let gestureIndex = 0;
 
     fs.readdirSync(dirPath).forEach((dir) => {
         let gestureClassDirPath = path.join(dirPath, dir);
-        let gestureClass = new GestureClass(dir);
+        let gestureClass = new GestureClass(dir, gestureIndex);
+        gestureIndex+=1;
         fs.readdirSync(gestureClassDirPath).forEach((file) => {
             let rawGesturePath = path.join(gestureClassDirPath, file);
             let rawGestureData = JSON.parse(fs.readFileSync(rawGesturePath));

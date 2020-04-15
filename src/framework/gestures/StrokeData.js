@@ -21,16 +21,7 @@ class Stroke {
     }
 }
 
-class Point2D {
-    constructor(x,y,t) {
-        this.x =x;
-        this.y = y;
-        this.t = t;
-    }
-}
-
 module.exports = {
     StrokeData,
-    Stroke,
-    Point2D
+    Stroke
 };
