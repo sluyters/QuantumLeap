@@ -1,23 +1,24 @@
 // Testing parameters =======================================================================================
 // Recognizer
 //const Recognizer = require('./recognizers/PDollarPlusRecognizer').PDollarPlusRecognizer;
-const Recognizer = require('./recognizers/P3DollarPlusRecognizer').P3DollarPlusRecognizer;
+//const Recognizer = require('./recognizers/P3DollarPlusRecognizer').P3DollarPlusRecognizer;
 //const Recognizer = require('./recognizers/P3DollarPlusXRecognizer').P3DollarPlusXRecognizer;
 
 // Dataset
-//const datasetConverter = require('./datasets/SmartphoneConverter');
-const datasetConverter = require('./datasets/LeapmotionConverter');
+
+let datasetFolder = "smartphone";
+const datasetConverter = require('./datasets/SmartphoneConverter');
+const Recognizer = require('./recognizers/PDollarPlusRecognizer').PDollarPlusRecognizer;
+
+//let datasetFolder = "leapmotion";
+//const datasetConverter = require('./datasets/LeapmotionConverter');
+
+//let datasetFolder = "uWaveGestureLibrary";
 //const datasetConverter = require('./datasets/uWaveConverter');
 
 let datasetName = "test";
-//let datasetFolder = "smartphone";
-let datasetFolder = "leapmotion";
-//let datasetFolder = "uWaveGestureLibrary";
 
 // Other parameters
-let G = 4; //Gesture Classes
-let TperG = 7; //Templates per Gesture Class
-let MAXT = 6; //Maximum Training Templates
 let R = 100; //Repetitions
 let N = 8; //Points/Shapes
 let RECOGNIZERS = [Recognizer.name];
@@ -26,6 +27,7 @@ let RECOGNIZERS = [Recognizer.name];
 let PrintResults = function(results) {
     for(let r=0 ; r<results.length ; r++) {
         console.log("#### " + RECOGNIZERS[r] + " #### number of repetition: " + R + ", N: " + N);
+        console.log("#### gesture set #### " + JSON.stringify(Array.from(dataset.getGestureClass().keys())));
         for(let i=0 ; i<results[r][0].length && i<results[r][1].length ; i++) {
             console.log("Recognition accuracy with " + (i+1) + " training templates per gesture: " + (results[r][0][i]*100).toFixed(2) + " (" + results[r][1][i].toFixed(2) + "ms)");
             console.log("Confusion matrice: " + JSON.stringify(results[r][2][i]));
@@ -40,10 +42,10 @@ let StartUserIndepTesting = function(dataset) {
     let execution_time = [];
     let confusion_matrices = [];
 
-    for(let tg=1 ; tg<=MAXT ; tg++) { //for each training set size
+    for(let tg=1 ; tg < dataset.TperG ; tg++) { //for each training set size
         let current_recognition_score = 0;
         let current_execution_time = 0.0;
-        let current_confusion_matrice = new Array(G).fill(0).map(() => new Array(G).fill(0));
+        let current_confusion_matrice = new Array(dataset.G).fill(0).map(() => new Array(dataset.G).fill(0));
 
         for(let r=0 ; r<R ; r++) { //repeat R time
             let recognizer = new Recognizer(N);
@@ -80,8 +82,8 @@ let StartUserIndepTesting = function(dataset) {
         confusion_matrices.push(current_confusion_matrice);
     }
     for(let i=0 ; i<recognition_rates.length ; i++) {
-        recognition_rates[i] = recognition_rates[i]/R;
-        execution_time[i] = execution_time[i]/R;
+        recognition_rates[i] = recognition_rates[i]/(R * dataset.G);
+        execution_time[i] = execution_time[i]/(R * dataset.G);
         // confusion_matrices[i].forEach(function(row, x, theArray) {
         //     row.forEach(function(col, y) {
         //         theArray[x][y] = col/100;
