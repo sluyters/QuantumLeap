@@ -1,24 +1,29 @@
 // Testing parameters =======================================================================================
 // Recognizer
 //const Recognizer = require('./recognizers/PDollarPlusRecognizer').PDollarPlusRecognizer;
-//const Recognizer = require('./recognizers/P3DollarPlusRecognizer').P3DollarPlusRecognizer;
+const Recognizer = require('./recognizers/P3DollarPlusRecognizer').P3DollarPlusRecognizer;
 //const Recognizer = require('./recognizers/P3DollarPlusXRecognizer').P3DollarPlusXRecognizer;
 
 // Dataset
 
-let datasetFolder = "smartphone";
-const datasetConverter = require('./datasets/SmartphoneConverter');
-const Recognizer = require('./recognizers/PDollarPlusRecognizer').PDollarPlusRecognizer;
+// let datasetFolder = "smartphone";
+// const datasetConverter = require('./datasets/SmartphoneConverter');
+// const Recognizer = require('./recognizers/PDollarPlusRecognizer').PDollarPlusRecognizer;
 
-//let datasetFolder = "leapmotion";
-//const datasetConverter = require('./datasets/LeapmotionConverter');
+// let datasetFolder = "leapmotion";
+// const datasetConverter = require('./datasets/LeapmotionConverter');
 
-//let datasetFolder = "uWaveGestureLibrary";
-//const datasetConverter = require('./datasets/uWaveConverter');
+// let datasetFolder = "uWaveGestureLibrary";
+// const datasetConverter = require('./datasets/uWaveConverter');
+
+
+let datasetFolder = "HandGestureDataset_SHREC2017_csv";
+const datasetConverter = require('./datasets/HandGestureCsv');
 
 let datasetName = "test";
 
 // Other parameters
+let MAXT = 16; //Maximum Training Templates
 let R = 100; //Repetitions
 let N = 8; //Points/Shapes
 let RECOGNIZERS = [Recognizer.name];
@@ -42,7 +47,7 @@ let StartUserIndepTesting = function(dataset) {
     let execution_time = [];
     let confusion_matrices = [];
 
-    for(let tg=1 ; tg < dataset.TperG ; tg++) { //for each training set size
+    for(let tg=1 ; tg < Math.min(dataset.TperG, MAXT) ; tg++) { //for each training set size
         let current_recognition_score = 0;
         let current_execution_time = 0.0;
         let current_confusion_matrice = new Array(dataset.G).fill(0).map(() => new Array(dataset.G).fill(0));
@@ -70,8 +75,11 @@ let StartUserIndepTesting = function(dataset) {
             dataset.getGestureClass().forEach((gesture, key, self) => {
                 let toBeTested = gesture.getSample()[candidates[c]];
                 let result = recognizer.recognize(toBeTested);
-                let result_index = dataset.getGestureClass().get(result.Name).index;
-                current_confusion_matrice[result_index][gesture.index] += 1;
+                if(dataset.getGestureClass().has(result.Name))
+                {
+                    let result_index = dataset.getGestureClass().get(result.Name).index;
+                    current_confusion_matrice[result_index][gesture.index] += 1;
+                }
                 current_recognition_score += (result.Name===gesture.name) ? 1 : 0;
                 current_execution_time += result.Time;
                 c++;

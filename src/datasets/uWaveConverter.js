@@ -11,6 +11,7 @@ const Point = require('../framework/gestures/Point').Point3D;
 function loadDataset(name, directory) {
     let gestureSet = new GestureSet(name);
     let dirPath = path.join(__dirname, directory);
+    let gestureIndex = 0;
 
     let gestureClasses = {};
 
