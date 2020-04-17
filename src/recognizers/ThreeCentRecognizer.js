@@ -23,8 +23,8 @@ class ThreeCentRecognizer extends Recognizer {
         NumPoints = N;
 
         this.templates = {};
+        this.threshold = Infinity;
 
-		this.PointClouds = new Array();
 		if (dataset!==undefined){
 			dataset.getGestureClass().forEach((gesture, key, self) => {
 				gesture.getSample().forEach(sample => {
@@ -43,7 +43,8 @@ class ThreeCentRecognizer extends Recognizer {
         points = normalizeP(points, NumPoints);
         
         let bestFitClass = "";
-        let minDist = this.threshold;
+        //let minDist = this.threshold;
+        let minDist = Infinity;
 
         // Compare gesture w/ each template
         Object.keys(this.templates).forEach((name) => {
@@ -104,9 +105,6 @@ class ThreeCentRecognizer extends Recognizer {
             var distancesHist = (((indexMax) * binWidth) + ((indexMax + 1) * binWidth)) / 2;
             //console.log(distancesHist)
             this.threshold = distancesHist;
-        } else {
-            // Todo improve
-            this.threshold = Infinity;
         }
 	}
 }
