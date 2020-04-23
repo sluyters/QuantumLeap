@@ -13,22 +13,18 @@ class StrokeData {
 
 class Stroke {
     constructor() {
-        this.paths = new Map();
+        this.paths = {};
     }
 
     addPath(label, path){
-        this.paths.set(label, path);
-    }
-
-    toJSON(clef){
-        return Array.from(this.paths.entries());
+        this.paths[label] = path;
     }
 }
 
 class Path {
     constructor(label) {
-        this.points = [];
         this.label = label;
+        this.points = [];
     }
 
     addPoint(point){

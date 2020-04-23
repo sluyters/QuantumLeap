@@ -15,8 +15,8 @@ const Recognizer = require('./recognizers/P3DollarPlusRecognizer').P3DollarPlusR
 // const datasetConverter = require('./datasets/LeapmotionConverter');
 
 
-let datasetFolder = "guinevere/user1";
-const datasetConverter = require('./datasets/LeapmotionConverter');
+let datasetFolder = "guinevere_unified";
+const datasetConverter = require('./datasets/UnifiedConverter');
 
 // let datasetFolder = "uWaveGestureLibrary";
 // const datasetConverter = require('./datasets/uWaveConverter');
@@ -52,7 +52,7 @@ let StartUserIndepTesting = function(dataset) {
     let execution_time = [];
     let confusion_matrices = [];
 
-    for(let tg=1 ; tg < Math.min(dataset.TperG, MAXT) ; tg++) { //for each training set size
+    for(let tg=1 ; tg < Math.min(dataset.getMinTemplate(), MAXT) ; tg++) { //for each training set size
         let current_recognition_score = 0;
         let current_execution_time = 0.0;
         let current_confusion_matrice = new Array(dataset.G).fill(0).map(() => new Array(dataset.G).fill(0));

@@ -138,7 +138,7 @@ class P3DollarPlusRecognizer extends Recognizer {
 function convert(sample) {
     let points = [];
     sample.strokes.forEach((stroke, stroke_id) => {
-       stroke.points.forEach((point) => {
+       stroke.paths["rigthPalmPosition"].points.forEach((point) => {
            points.push(new Point(point.x, point.y, point.z, stroke_id));
        });
 	});

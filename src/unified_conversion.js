@@ -44,7 +44,7 @@ fs.readdirSync(dirPath).forEach((user_dir) => {
       let frame = rawGestureData['data'][i];
 
       frame['pointables'].forEach( (pointable, index, array) =>{
-        let strokePath = stroke.paths.get(index);
+        let strokePath = stroke.paths[index];
         let tipPosition = pointable['tipPosition'];
         strokePath.addPoint(new Point(tipPosition[0], tipPosition[1], tipPosition[2], frame['timestamp']))
       });
@@ -52,10 +52,10 @@ fs.readdirSync(dirPath).forEach((user_dir) => {
       for (const hand of frame['hands']) {
         let strokePath;
         if (hand['type'] === 'right') {
-          strokePath = stroke.paths.get("rigthPalmPosition");
+          strokePath = stroke.paths["rigthPalmPosition"];
         }
         else{
-          strokePath = stroke.paths.get("leftPalmPosition");
+          strokePath = stroke.paths["leftPalmPosition"];
         }
         let palmPosition = hand['palmPosition'];
         let x = palmPosition[0];
@@ -68,7 +68,7 @@ fs.readdirSync(dirPath).forEach((user_dir) => {
     gestureData.addStroke(stroke);
 
     const newFilename = path.join(convertedPath, user_dir, sample);
-    fs.writeFileSync(newFilename, JSON.stringify(gestureData), function (err) {
+    fs.writeFileSync(newFilename, JSON.stringify(gestureData, null, 2), function (err) {
       if (err) throw err;
       //console.log('Saved!');
     });
