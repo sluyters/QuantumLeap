@@ -1,4 +1,4 @@
-const recognizer = require('../framework/recognizers/Recognizer');
+const recognizer = require('../../framework/recognizers/Recognizer');
 const pdollarplus = require('./pdollarplus');
 
 class PDollarPlusRecognizer extends recognizer.Recognizer{

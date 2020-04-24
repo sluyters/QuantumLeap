@@ -2,7 +2,8 @@
 // Recognizer
 //const Recognizer = require('./recognizers/PDollarPlusRecognizer').PDollarPlusRecognizer;
 //const Recognizer = require('./recognizers/P3DollarPlusRecognizer').P3DollarPlusRecognizer;
-const Recognizer = require('./recognizers/JackknifeRecognizer/JackknifeRecognizer').JackknifeRecognizer;
+//const Recognizer = require('./recognizers/JackknifeRecognizer/JackknifeRecognizer').JackknifeRecognizer;
+const Recognizer = require('./recognizers/uvplus-flexible-cloud/DollarRecognizer').DollarRecognizer;
 //const Recognizer = require('./recognizers/ThreeCentRecognizer').ThreeCentRecognizer;
 //const Recognizer = require('./recognizers/P3DollarPlusXRecognizer').P3DollarPlusXRecognizer;
 
@@ -59,7 +60,7 @@ let StartUserIndepTesting = function(dataset) {
         let current_confusion_matrice = new Array(dataset.G).fill(0).map(() => new Array(dataset.G).fill(0));
 
         for(let r=0 ; r<R ; r++) { //repeat R time
-            let recognizer = new Recognizer(N);
+            let recognizer = new Recognizer(N, ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "rigthPalmPosition"]);
 
             let candidates = SelectCandidates(dataset);
             let training_templates = [];

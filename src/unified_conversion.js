@@ -8,7 +8,7 @@ const Point = require('./framework/gestures/Point').Point3D;
 
 const dirPath = path.join(__dirname, 'datasets', 'guinevere');
 //const convertedPath = path.join(__dirname, 'datasets', 'guinevere_unified');
-const convertedPath = path.join(__dirname, 'datasets', 'guinevere_unified2');
+const convertedPath = path.join(__dirname, 'datasets', 'guinevere_unified');
 
 const fingers = ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition"];
 
