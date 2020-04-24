@@ -1,7 +1,7 @@
 //const Recognizer = require('./framework/recognizers/FakeRecognizer').FakeRecognizer;
-const Recognizer = require('./recognizers/P3DollarPlusRecognizer').P3DollarPlusRecognizer;
+const Recognizer = require('./recognizers/uvplus-flexible-cloud/DollarRecognizer').DollarRecognizer;
 const Sensor = require('./sensors/LeapSensor').LeapSensor;
-const GestureSegmenter = require('./framework/gesture-segmenter/lefthand-segmenter').Segmenter;
+const GestureSegmenter = require('./framework/gesture-segmenter/zoning-segmenter').Segmenter;
 
 let datasetName = "test";
 let datasetFolder = "guinevere_unified";
@@ -18,7 +18,7 @@ const APP_INTERFACE_PORT = 6442;
 
 // Load the training set and feed it to the recognizer
 let dataset = datasetConverter.loadDataset(datasetName, datasetFolder);
-let recognizer = new Recognizer(N, dataset);
+let recognizer = new Recognizer(N, ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "rigthPalmPosition"], dataset);
 
 var sensor = new Sensor(new GestureSegmenter());
 
