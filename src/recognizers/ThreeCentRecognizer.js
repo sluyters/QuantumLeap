@@ -16,7 +16,7 @@ NumPoints = 8;
 
 class ThreeCentRecognizer extends Recognizer {
 
-    static name = "P3DollarPlusRecognizer";
+    static name = "ThreeCentRecognizer";
     
     constructor(N, dataset) {
 		super();
@@ -111,8 +111,8 @@ class ThreeCentRecognizer extends Recognizer {
 
 function convert(sample) {
     let points = [];
-    sample.strokes.forEach((stroke, stroke_id) => {
-       stroke.points.forEach((point) => {
+    sample.strokes.forEach((stroke) => {
+       stroke.paths["rigthPalmPosition"].points.forEach((point) => {
            points.push(new Point(point.x, point.y, point.z));
        });
 	});

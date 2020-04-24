@@ -155,7 +155,7 @@ class P3DollarPlusXRecognizer extends Recognizer {
 function convert(sample) {
     let points = [];
     sample.strokes.forEach((stroke, stroke_id) => {
-       stroke.points.forEach((point) => {
+       stroke.paths["rigthPalmPosition"].points.forEach((point) => {
            points.push(new Point(point.x, point.y, point.z, stroke_id));
        });
 	});
@@ -330,9 +330,9 @@ function Distance(p1, p2) // Euclidean distance between two points
 }
 
 function DirDist(points1, points2) {
-	const padding = 2;
+	const padding = 0;
 	let dist = 0;
-	for (var i = padding; i < NumPoints - (1 + padding); i+=1) {
+	for (var i = padding; i < NumPoints - (1 + padding); i++) {
 		let v1x = points1[i+1].x - points1[i].x;
 		let v1y = points1[i+1].y - points1[i].y;
 		let v1z = points1[i+1].z - points1[i].z;

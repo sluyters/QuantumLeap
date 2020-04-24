@@ -101,8 +101,7 @@ class PointCloud {
 //
 // QDollarRecognizer constants
 //
-const NumPointClouds = 16;
-const NumPoints = 32;
+NumPoints = 32;
 const Origin = new Point(0, 0, 0, 0);
 const MaxIntCoord = 1024; // (intX, intY, intZ) range from [0, MaxIntCoord - 1]
 const LUTSize = 16; // default size of the lookup table is 16 x 16 x 16
@@ -112,9 +111,11 @@ const LUTScaleFactor = MaxIntCoord / LUTSize; // used to scale from (intX, intY,
 //
 class Q3DollarRecognizer extends Recognizer {
 
+	static name = "Q3DollarRecognizer";
+
 	constructor(N) {
 		super();
-		this.N = N;
+		NumPoints = N;
 		this.PointClouds = new Array();
 	}
 
@@ -149,10 +150,10 @@ class Q3DollarRecognizer extends Recognizer {
 	}
 }
 
-function convert(sample){
+function convert(sample) {
     let points = [];
     sample.strokes.forEach((stroke, stroke_id) => {
-       stroke.points.forEach((point) => {
+       stroke.paths["rigthPalmPosition"].points.forEach((point) => {
            points.push(new Point(point.x, point.y, point.z, stroke_id));
        });
 	});
