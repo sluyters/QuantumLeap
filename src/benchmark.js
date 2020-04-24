@@ -1,7 +1,8 @@
 // Testing parameters =======================================================================================
 // Recognizer
 //const Recognizer = require('./recognizers/PDollarPlusRecognizer').PDollarPlusRecognizer;
-const Recognizer = require('./recognizers/P3DollarPlusRecognizer').P3DollarPlusRecognizer;
+//const Recognizer = require('./recognizers/P3DollarPlusRecognizer').P3DollarPlusRecognizer;
+const Recognizer = require('./recognizers/JackknifeRecognizer/JackknifeRecognizer').JackknifeRecognizer;
 //const Recognizer = require('./recognizers/ThreeCentRecognizer').ThreeCentRecognizer;
 //const Recognizer = require('./recognizers/P3DollarPlusXRecognizer').P3DollarPlusXRecognizer;
 
