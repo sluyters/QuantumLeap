@@ -1,11 +1,13 @@
 //const Recognizer = require('./framework/recognizers/FakeRecognizer').FakeRecognizer;
-const Recognizer = require('./recognizers/P3DollarPlusRecognizer').P3DollarPlusRecognizer;
-const Sensor = require('./framework/sensors/FakeSensor').FakeSensor;
+const Recognizer = require('./recognizers/uvplus-flexible-cloud/DollarRecognizer').DollarRecognizer;
+const Sensor = require('./sensors/LeapSensor').LeapSensor;
+const GestureSegmenter = require('./framework/gesture-segmenter/zoning-segmenter').Segmenter;
 
-const datasetConverter = require('./datasets/LeapmotionConverter');
 let datasetName = "test";
-let datasetFolder = "leapmotion";
+let datasetFolder = "guinevere_unified";
+const datasetConverter = require('./datasets/UnifiedConverter');
 let N = 8; //Points/Shapes
+const DEBUG = true;
 
 const WebSocket = require('ws');
 const http = require('http');
@@ -16,9 +18,9 @@ const APP_INTERFACE_PORT = 6442;
 
 // Load the training set and feed it to the recognizer
 let dataset = datasetConverter.loadDataset(datasetName, datasetFolder);
-let recognizer = new Recognizer(N, dataset);
+let recognizer = new Recognizer(N, ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "rigthPalmPosition"], dataset);
 
-var sensor = new Sensor(dataset);
+var sensor = new Sensor(new GestureSegmenter());
 
 var wsServer = getWebSocketServer(APP_INTERFACE_IP, APP_INTERFACE_PORT);
 wsServer.on('connection', function connection(ws) {
@@ -65,4 +67,16 @@ function getWebSocketServer(ip, port) {
     var wsServer = new WebSocket.Server({ server });
 
     return wsServer;
+}
+
+if(DEBUG)
+{
+    sensor.onGesture(data => {
+        console.log(JSON.stringify(data));
+        let result = recognizer.recognize(data);
+        if (result.Name!==undefined) {
+            console.log(result.Name + " detected");
+        }
+    });
+    sensor.acquireData();
 }

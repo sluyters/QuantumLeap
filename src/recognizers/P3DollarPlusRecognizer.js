@@ -103,6 +103,8 @@ class P3DollarPlusRecognizer extends Recognizer {
 	//
 	recognize(sample) {
 		let points = convert(sample);
+		if(points.length === 0)
+			return { 'Name': 'No match', 'Time': 0, 'Score': 0.0 };
 		let t0 = Date.now();
 		var candidate = new PointCloud("", points);
 
