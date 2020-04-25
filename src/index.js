@@ -16,9 +16,12 @@ const http = require('http');
 const APP_INTERFACE_IP = '127.0.0.1';
 const APP_INTERFACE_PORT = 6442;
 
+const fingers = ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition", "rigthPalmPosition", "leftPalmPosition"];
+
+
 // Load the training set and feed it to the recognizer
 let dataset = datasetConverter.loadDataset(datasetName, datasetFolder);
-let recognizer = new Recognizer(N, ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "rigthPalmPosition"], dataset);
+let recognizer = new Recognizer(N, fingers, dataset);
 
 var sensor = new Sensor(new GestureSegmenter());
 
@@ -72,7 +75,7 @@ function getWebSocketServer(ip, port) {
 if(DEBUG)
 {
     sensor.onGesture(data => {
-        console.log(JSON.stringify(data));
+        //console.log(JSON.stringify(data));
         let result = recognizer.recognize(data);
         if (result.Name!==undefined) {
             console.log(result.Name + " detected");

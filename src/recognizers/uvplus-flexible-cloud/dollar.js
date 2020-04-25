@@ -80,7 +80,7 @@ UVPRecognizer.prototype.recognize = function(articulations) {
     let t0 = performance.now();
 
     let minDissimilarity = +Infinity;
-    let besTemplate = -1;
+    let bestTemplate = -1;
 
     // preprocess the points to represent the candidate gesture
     let candidate = new Gesture(this.preprocess(articulations));
@@ -100,10 +100,10 @@ UVPRecognizer.prototype.recognize = function(articulations) {
 
     // stop timer
     let t1 = performance.now();
-
-    return new Array(this.trainingTemplates[bestTemplate].name, t1 - t0);
+    let res = (this.trainingTemplates.length === 0 || bestTemplate === -1) ? "Undefined" : this.trainingTemplates[bestTemplate].name;
+    return [res, t1 - t0];
   }
-  return new Array(false, 0); // error: not enough articulations
+  return [false, 0]; // error: not enough articulations
 }
 
 /**

@@ -35,6 +35,9 @@ let R = 100; //Repetitions
 let N = 8; //Points/Shapes
 let RECOGNIZERS = [Recognizer.name];
 
+const fingers = ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition", "rigthPalmPosition", "leftPalmPosition"];
+
+
 // Testing framework ========================================================================================
 let PrintResults = function(results) {
     for(let r=0 ; r<results.length ; r++) {
@@ -60,7 +63,7 @@ let StartUserIndepTesting = function(dataset) {
         let current_confusion_matrice = new Array(dataset.G).fill(0).map(() => new Array(dataset.G).fill(0));
 
         for(let r=0 ; r<R ; r++) { //repeat R time
-            let recognizer = new Recognizer(N, ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "rigthPalmPosition"]);
+            let recognizer = new Recognizer(N, fingers);
 
             let candidates = SelectCandidates(dataset);
             let training_templates = [];

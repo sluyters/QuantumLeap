@@ -33,9 +33,12 @@ class DollarRecognizer extends recognizer.Recognizer{
         let points =[];
         sample.strokes.forEach((stroke,stroke_id) =>{
             this.articulations.forEach(articulation =>{
-                points.push(stroke.paths[articulation].points);
+                let articulationPoints = (stroke.paths[articulation].points.length !== 0) ? stroke.paths[articulation].points : [new dollar.Point(0,0,0)];
+                //console.log(JSON.stringify(articulationPoints))
+                points.push(articulationPoints);
             });
         });
+        //console.log(JSON.stringify(points));
         return points;
     }
 

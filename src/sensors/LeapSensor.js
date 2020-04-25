@@ -61,7 +61,7 @@ function convert(frame) {
         points.push({label: label, point: new Point(x, y, z, t)});
     }
 
-    frame['pointables'].forEach( (pointable, index, array) =>{
+    frame['fingers'].forEach( (pointable, index, array) =>{
         if (!pointable.tool) {
             // Get the name of the finger from handId and type
             let fingerName;

@@ -29,6 +29,7 @@ class Segmenter {
             if(this.strokeData !== null){
                 let strokeData = this.strokeData;
                 this.strokeData = null;
+                console.log("Gesture end\t" + JSON.stringify(strokeData));
                 return { success: true, strokeData: strokeData};
             }else{
                 return { success: false, frames: null };
@@ -36,6 +37,7 @@ class Segmenter {
         }
 
         if(this.strokeData === null){
+            console.log("Gesture start");
             this.strokeData = new StrokeData();
             let stroke = new Stroke();
             this.strokeData.addStroke(stroke);
