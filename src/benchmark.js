@@ -5,7 +5,7 @@
 //const Recognizer = require('./recognizers/JackknifeRecognizer/JackknifeRecognizer').JackknifeRecognizer;
 const Recognizer = require('./recognizers/uvplus-flexible-cloud/DollarRecognizer').DollarRecognizer;
 //const Recognizer = require('./recognizers/ThreeCentRecognizer').ThreeCentRecognizer;
-//const Recognizer = require('./recognizers/P3DollarPlusXRecognizer').P3DollarPlusXRecognizer;
+//const Recognizer = require('./recognizers/HybridP3DollarPlusXRecognizer/HybridP3DollarPlusXRecognizer').HybridP3DollarPlusXRecognizer;
 
 // Dataset
 
@@ -32,7 +32,7 @@ let datasetName = "test";
 // Other parameters
 let MAXT = 16; //Maximum Training Templates
 let R = 100; //Repetitions
-let N = 8; //Points/Shapes
+let N = 16; //Points/Shapes
 let RECOGNIZERS = [Recognizer.name];
 
 const fingers = ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition", "rigthPalmPosition", "leftPalmPosition"];
