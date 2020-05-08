@@ -1,6 +1,31 @@
 class StrokeData {
 
-    constructor() {
+    constructor(user) {
+        this.user = user;
+        this.paths = {};
+    }
+
+    addPath(label, path){
+        this.paths[label] = path;
+    }
+
+}
+
+class Stroke {
+    constructor(id) {
+        this.id = id;
+        this.points = [];
+    }
+
+    addPoint(stroke){
+        this.points.push(stroke);
+    }
+
+}
+
+class Path {
+    constructor(label) {
+        this.label = label;
         this.strokes = [];
     }
 
@@ -8,28 +33,6 @@ class StrokeData {
         this.strokes.push(stroke);
     }
 
-
-}
-
-class Stroke {
-    constructor() {
-        this.paths = {};
-    }
-
-    addPath(label, path){
-        this.paths[label] = path;
-    }
-}
-
-class Path {
-    constructor(label) {
-        this.label = label;
-        this.points = [];
-    }
-
-    addPoint(point){
-        this.points.push(point);
-    }
 }
 
 module.exports = {
