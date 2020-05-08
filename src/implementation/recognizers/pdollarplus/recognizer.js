@@ -1,7 +1,7 @@
-const recognizer = require('../../framework/recognizers/Recognizer');
+const recognizer = require('../../../framework/recognizers/Recognizer');
 const pdollarplus = require('./pdollarplus');
 
-class PDollarPlusRecognizer extends recognizer.Recognizer{
+class Recognizer extends recognizer.Recognizer{
 
     static name = "PDollarPlusRecognizer";
 
@@ -33,5 +33,5 @@ function convert(sample){
 }
 
 module.exports = {
-    PDollarPlusRecognizer
+    PDollarPlusRecognizer: Recognizer
 };

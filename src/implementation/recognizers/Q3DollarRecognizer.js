@@ -1,4 +1,4 @@
-const Recognizer = require('../framework/recognizers/Recognizer').Recognizer;
+const Recognizer = require('../../framework/recognizers/Recognizer').Recognizer;
 
 /**
  * The $Q Super-Quick Recognizer (JavaScript version)

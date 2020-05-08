@@ -1,57 +1,16 @@
-// Testing parameters =======================================================================================
-// Recognizer
-//const Recognizer = require('./recognizers/PDollarPlusRecognizer').PDollarPlusRecognizer;
-//const Recognizer = require('./recognizers/P3DollarPlusRecognizer').P3DollarPlusRecognizer;
-//const Recognizer = require('./recognizers/JackknifeRecognizer/JackknifeRecognizer').JackknifeRecognizer;
-const Recognizer = require('./recognizers/uvplus-flexible-cloud/DollarRecognizer').DollarRecognizer;
-//const Recognizer = require('./recognizers/ThreeCentRecognizer').ThreeCentRecognizer;
-//const Recognizer = require('./recognizers/HybridP3DollarPlusXRecognizer/HybridP3DollarPlusXRecognizer').HybridP3DollarPlusXRecognizer;
+const config = require('./benchmarkConfig');
 
-// Dataset
-
-// let datasetFolder = "smartphone";
-// const datasetConverter = require('./datasets/SmartphoneConverter');
-// const Recognizer = require('./recognizers/PDollarPlusRecognizer').PDollarPlusRecognizer;
-
-// let datasetFolder = "leapmotion";
-// const datasetConverter = require('./datasets/LeapmotionConverter');
-
-
-let datasetFolder = "guinevere_unified";
-const datasetConverter = require('./datasets/UnifiedConverter');
-
-// let datasetFolder = "uWaveGestureLibrary";
-// const datasetConverter = require('./datasets/uWaveConverter');
-
-
-// let datasetFolder = "HandGestureDataset_SHREC2017_csv";
-// const datasetConverter = require('./datasets/HandGestureCsv');
-
-let datasetName = "test";
-
-// Other parameters
-let MAXT = 16; //Maximum Training Templates
-let R = 100; //Repetitions
-let N = 16; //Points/Shapes
-let RECOGNIZERS = [Recognizer.name];
-
-const fingers = ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition", "rigthPalmPosition", "leftPalmPosition"];
-
-
-// Testing framework ========================================================================================
-let PrintResults = function(results) {
-    for(let r=0 ; r<results.length ; r++) {
-        console.log("#### " + RECOGNIZERS[r] + " #### number of repetition: " + R + ", N: " + N);
-        console.log("#### gesture set #### " + JSON.stringify(Array.from(dataset.getGestureClass().keys())));
-        for(let i=0 ; i<results[r][0].length && i<results[r][1].length ; i++) {
-            console.log("Recognition accuracy with " + (i+1) + " training templates per gesture: " + (results[r][0][i]*100).toFixed(2) + " (" + results[r][1][i].toFixed(2) + "ms)");
-            console.log("Confusion matrice: " + JSON.stringify(results[r][2][i]));
-        }
+let PrintResults = function(results, recognizer, dataset) {
+    console.log("#### " + recognizer + " #### number of repetition: " + R + ", N: " + N);
+    console.log("#### gesture set " + dataset.name + " #### " + JSON.stringify(Array.from(dataset.getGestureClass().keys())));
+    for(let i=0 ; i<results[0].length && i<results[1].length ; i++) {
+        console.log("Recognition accuracy with " + (i+1) + " training templates per gesture: " + (results[0][i]*100).toFixed(2) + " (" + results[1][i].toFixed(2) + "ms)");
+        console.log("Confusion matrice: " + JSON.stringify(results[2][i]));
     }
     console.log("--------")
 };
 
-let StartUserIndepTesting = function(dataset) {
+let StartTesting = function(dataset, Recognizer, recognizerConfig) {
     //console.log(dataset);
     let recognition_rates = [];
     let execution_time = [];
@@ -63,7 +22,7 @@ let StartUserIndepTesting = function(dataset) {
         let current_confusion_matrice = new Array(dataset.G).fill(0).map(() => new Array(dataset.G).fill(0));
 
         for(let r=0 ; r<R ; r++) { //repeat R time
-            let recognizer = new Recognizer(N, fingers);
+            let recognizer = new Recognizer(recognizerConfig);
 
             let candidates = SelectCandidates(dataset);
             let training_templates = [];
@@ -108,9 +67,7 @@ let StartUserIndepTesting = function(dataset) {
         //     });
         // });
     }
-    return [
-        [recognition_rates, execution_time, confusion_matrices]
-        ];
+    return [recognition_rates, execution_time, confusion_matrices];
 };
 
 /**
@@ -130,7 +87,23 @@ let GetRandomNumber = function(min, max) {
     return Math.floor(Math.random()*(max - min))+min;
 };
 
+let test = function(datasetName, DatasetLoader, GestureRecognizer, GestureRecognizerConfig){
+    let dataset = DatasetLoader.loadDataset(datasetName, config.datasetFolder);
+    let result = StartTesting(dataset, GestureRecognizer, GestureRecognizerConfig);
+    PrintResults(result, GestureRecognizer.name , dataset);
+};
 
-let dataset = datasetConverter.loadDataset(datasetName, datasetFolder);
-let result = StartUserIndepTesting(dataset);
-PrintResults(result);
+let MAXT = config.maxt; //Maximum Training Templates
+let R = config.r; //Repetitions
+let N = config.n; //Points/Shapes
+
+for(let i=0; i < config.recognizers.length; i++){
+    let recognizer = config.recognizers[i];
+    for(let j=0; j < config.datasets.length; j++){
+        let dataset = config.datasets[j];
+        test(dataset.name, dataset.loader, recognizer.module, recognizer.options);
+    }
+}
+
+
+

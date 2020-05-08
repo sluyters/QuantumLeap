@@ -1,13 +1,13 @@
 //const Recognizer = require('./framework/recognizers/FakeRecognizer').FakeRecognizer;
-const Recognizer = require('./recognizers/uvplus-flexible-cloud/DollarRecognizer').DollarRecognizer;
-const Sensor = require('./sensors/LeapSensor').LeapSensor;
-const GestureSegmenter = require('./framework/gesture-segmenter/zoning-segmenter').Segmenter;
+const Recognizer = require('./implementation/recognizers/uvplus-flexible-cloud/recognizer').DollarRecognizer;
+const Sensor = require('./implementation/sensors/LeapSensor').LeapSensor;
+const GestureSegmenter = require('./implementation/gesture-segmenter/zoning-segmenter').Segmenter;
 
 let datasetName = "test";
 let datasetFolder = "guinevere_unified";
-const datasetConverter = require('./datasets/UnifiedConverter');
+const datasetConverter = require('./implementation/datasets/UnifiedConverter');
 let N = 8; //Points/Shapes
-const DEBUG = true;
+const DEBUG = false;
 
 const WebSocket = require('ws');
 const http = require('http');

@@ -1,17 +1,17 @@
 const path = require('path');
 const fs = require('fs');
 
-const GestureSet = require('../framework/gestures/GestureSet').GestureSet;
-const GestureClass = require('../framework/gestures/GestureClass').GestureClass;
-const StrokeData = require('../framework/gestures/StrokeData').StrokeData;
-const Stroke = require('../framework/gestures/StrokeData').Stroke;
-const Point = require('../framework/gestures/Point').Point3D;
-const Path = require('../framework/gestures/StrokeData').Path;
+const GestureSet = require('../../framework/gestures/GestureSet').GestureSet;
+const GestureClass = require('../../framework/gestures/GestureClass').GestureClass;
+const StrokeData = require('../../framework/gestures/StrokeData').StrokeData;
+const Stroke = require('../../framework/gestures/StrokeData').Stroke;
+const Point = require('../../framework/gestures/Point').Point3D;
+const Path = require('../../framework/gestures/StrokeData').Path;
 
 
 function loadDataset(name, directory) {
     let gestureSet = new GestureSet(name);
-    let dirPath = path.join(__dirname, directory);
+    let dirPath = path.join(directory, name);
     let gestureIndex = 0;
 
     fs.readdirSync(dirPath).forEach((user) => {

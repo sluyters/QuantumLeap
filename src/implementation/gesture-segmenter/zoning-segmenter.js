@@ -1,7 +1,7 @@
-const StrokeData = require('../gestures/StrokeData').StrokeData;
-const Stroke = require('../gestures/StrokeData').Stroke;
-const Path = require('../gestures/StrokeData').Path;
-const Point = require('../gestures/Point').Point3D;
+const StrokeData = require('../../framework/gestures/StrokeData').StrokeData;
+const Stroke = require('../../framework/gestures/StrokeData').Stroke;
+const Path = require('../../framework/gestures/StrokeData').Path;
+const Point = require('../../framework/gestures/Point').Point3D;
 const fingers = ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition"];
 
 const xBorn = 150;
