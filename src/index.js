@@ -5,7 +5,7 @@ const GestureSegmenter = require('./implementation/gesture-segmenter/zoning-segm
 
 let datasetName = "test";
 let datasetFolder = "guinevere_unified";
-const datasetConverter = require('./implementation/datasets/UnifiedDatasetLoader');
+const datasetConverter = require('./framework/datasets/UnifiedDatasetLoader');
 let N = 8; //Points/Shapes
 const DEBUG = false;
 
