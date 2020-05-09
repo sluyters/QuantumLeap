@@ -74,7 +74,7 @@ function PointCloud(name, points) // constructor
 //
 // PDollarPlusRecognizer constants
 //
-NumPoints = 8;
+let NumPoints = 8;
 const Origin = new Point(0, 0, 0, 0);
 
 //
@@ -84,9 +84,9 @@ class P3DollarPlusRecognizer extends Recognizer {
 
 	static name = "P3DollarPlusRecognizer";
 
-    constructor(N, dataset) {
+    constructor(options, dataset) {
 		super();
-		NumPoints = N;
+		NumPoints = options.samplingPoints;
 		this.PointClouds = new Array();
 		if (dataset!==undefined){
 			dataset.getGestureClass().forEach((gesture, key, self) => {
@@ -104,7 +104,7 @@ class P3DollarPlusRecognizer extends Recognizer {
 	recognize(sample) {
 		let points = convert(sample);
 		if(points.length === 0)
-			return { 'Name': 'No match', 'Time': 0, 'Score': 0.0 };
+			return { name: "", time: 0, score: 0.0 };
 		let t0 = Date.now();
 		var candidate = new PointCloud("", points);
 
@@ -122,12 +122,14 @@ class P3DollarPlusRecognizer extends Recognizer {
 			}
 		}
 		let t1 = Date.now();
-		return (u == -1) ? { 'Name': 'No match', 'Time': t1-t0, 'Score': 0.0 } : { 'Name': this.PointClouds[u].Name, 'Time': t1-t0, 'Score': b > 1.0 ? 1.0 / b : 1.0 };
+		return (u == -1) ? { name: "", time: t1-t0, score: 0.0 } : { name: this.PointClouds[u].Name, time: t1-t0, score: b > 1.0 ? 1.0 / b : 1.0 };
 	}
 
 	addGesture(name, sample) {
 		let points = convert(sample);
 		this.PointClouds[this.PointClouds.length] = new PointCloud(name, points);
+		// if(Number.isNaN(new PointCloud(name, points).Points[0].x))
+		// 	console.log("\t" + JSON.stringify(points))
 		var num = 0;
 		for (var i = 0; i < this.PointClouds.length; i++) {
 			if (this.PointClouds[i].Name == name)
@@ -138,13 +140,13 @@ class P3DollarPlusRecognizer extends Recognizer {
 }
 
 function convert(sample) {
-    let points = [];
-    sample.strokes.forEach((stroke, stroke_id) => {
-       stroke.paths["rigthPalmPosition"].points.forEach((point) => {
-           points.push(new Point(point.x, point.y, point.z, stroke_id));
-       });
+	let points = [];
+	sample.paths["rightPalmPosition"].strokes.forEach((stroke, stroke_id) => {
+		stroke.points.forEach((point) => {
+			points.push(new Point(point.x, point.y, point.z, stroke_id));
+		});
 	});
-    return points;
+	return points;
 }
 
 //

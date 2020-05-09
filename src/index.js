@@ -77,8 +77,8 @@ if(DEBUG)
     sensor.onGesture(data => {
         //console.log(JSON.stringify(data));
         let result = recognizer.recognize(data);
-        if (result.Name!==undefined) {
-            console.log(result.Name + " detected");
+        if (result.name) {
+            console.log(result.name + " detected");
         }
     });
     sensor.acquireData();

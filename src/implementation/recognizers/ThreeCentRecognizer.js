@@ -12,15 +12,15 @@ class Point {
 }
 
 
-NumPoints = 8;
+let NumPoints = 8;
 
 class ThreeCentRecognizer extends Recognizer {
 
     static name = "ThreeCentRecognizer";
     
-    constructor(N, dataset) {
+    constructor(options, dataset) {
 		super();
-        NumPoints = N;
+        NumPoints = options.samplingPoints;
 
         this.templates = {};
         this.threshold = Infinity;
@@ -60,7 +60,7 @@ class ThreeCentRecognizer extends Recognizer {
         
         //----------------------------------------------------------------------------------------------------
 		let t1 = Date.now();
-		return (bestFitClass === "") ? { 'Name': 'No match', 'Time': t1-t0, 'Score': 0.0 } : { 'Name': bestFitClass, 'Time': t1-t0, 'Score': minDist };
+		return (bestFitClass === "") ? { name: "", time: t1-t0, 'Score': 0.0 } : { name: bestFitClass, time: t1-t0, 'Score': minDist };
 	}
     
 
@@ -110,13 +110,7 @@ class ThreeCentRecognizer extends Recognizer {
 }
 
 function convert(sample) {
-    let points = [];
-    sample.strokes.forEach((stroke) => {
-       stroke.paths["rigthPalmPosition"].points.forEach((point) => {
-           points.push(new Point(point.x, point.y, point.z));
-       });
-	});
-    return points;
+    return sample.paths["rightPalmPosition"].strokes[0].points;
 }
 
 function histogram(data, numBins) {

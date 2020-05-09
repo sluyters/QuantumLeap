@@ -44,13 +44,13 @@ let StartTesting = function(dataset, Recognizer, recognizerConfig) {
             dataset.getGestureClass().forEach((gesture, key, self) => {
                 let toBeTested = gesture.getSample()[candidates[c]];
                 let result = recognizer.recognize(toBeTested);
-                if(dataset.getGestureClass().has(result.Name))
+                if(dataset.getGestureClass().has(result.name))
                 {
-                    let result_index = dataset.getGestureClass().get(result.Name).index;
+                    let result_index = dataset.getGestureClass().get(result.name).index;
                     current_confusion_matrice[result_index][gesture.index] += 1;
                 }
-                current_recognition_score += (result.Name===gesture.name) ? 1 : 0;
-                current_execution_time += result.Time;
+                current_recognition_score += (result.name===gesture.name) ? 1 : 0;
+                current_execution_time += result.time;
                 c++;
             });
         }

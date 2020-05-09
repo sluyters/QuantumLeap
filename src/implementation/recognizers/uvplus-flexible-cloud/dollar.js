@@ -100,7 +100,7 @@ UVPRecognizer.prototype.recognize = function(articulations) {
 
     // stop timer
     let t1 = performance.now();
-    let res = (this.trainingTemplates.length === 0 || bestTemplate === -1) ? "Undefined" : this.trainingTemplates[bestTemplate].name;
+    let res = (this.trainingTemplates.length === 0 || bestTemplate === -1) ? "" : this.trainingTemplates[bestTemplate].name;
     return [res, t1 - t0];
   }
   return [false, 0]; // error: not enough articulations

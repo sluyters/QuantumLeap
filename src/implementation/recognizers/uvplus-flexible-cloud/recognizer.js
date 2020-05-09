@@ -26,7 +26,7 @@ class Recognizer extends recognizer.Recognizer{
 
     recognize(sample){
         let result = this.recognizer.recognize(this.convert(sample));
-        return {Name:result[0], Time: result[1]};
+        return {name:result[0], time: result[1]};
     }
 
     convert(sample){

@@ -101,7 +101,7 @@ class PointCloud {
 //
 // QDollarRecognizer constants
 //
-NumPoints = 32;
+let NumPoints = 32;
 const Origin = new Point(0, 0, 0, 0);
 const MaxIntCoord = 1024; // (intX, intY, intZ) range from [0, MaxIntCoord - 1]
 const LUTSize = 16; // default size of the lookup table is 16 x 16 x 16
@@ -113,10 +113,19 @@ class Q3DollarRecognizer extends Recognizer {
 
 	static name = "Q3DollarRecognizer";
 
-	constructor(N) {
+	constructor(options, dataset) {
 		super();
-		NumPoints = N;
+		NumPoints = options.samplingPoints;
 		this.PointClouds = new Array();
+
+		if (dataset!==undefined){
+			dataset.getGestureClass().forEach((gesture, key, self) => {
+				gesture.getSample().forEach(sample => {
+						this.addGesture(gesture.name, sample);
+					}
+				);
+			});
+		}
 	}
 
 	addGesture(name, sample){
@@ -146,16 +155,16 @@ class Q3DollarRecognizer extends Recognizer {
 			}
 		}
 		var t1 = Date.now();
-		return (u == -1) ? { 'Name': 'No match', 'Time': t1-t0 } : { 'Name': this.PointClouds[u].Name, 'Time': t1-t0 };
+		return (u == -1) ? { name: "", time: t1-t0 } : { name: this.PointClouds[u].Name, time: t1-t0 };
 	}
 }
 
 function convert(sample) {
     let points = [];
-    sample.strokes.forEach((stroke, stroke_id) => {
-       stroke.paths["rigthPalmPosition"].points.forEach((point) => {
-           points.push(new Point(point.x, point.y, point.z, stroke_id));
-       });
+	sample.paths["rightPalmPosition"].strokes.forEach((stroke, stroke_id) => {
+		stroke.points.forEach((point) => {
+			points.push(new Point(point.x, point.y, point.z, stroke_id));
+		});
 	});
     return points;
 }

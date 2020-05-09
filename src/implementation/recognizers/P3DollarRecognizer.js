@@ -22,17 +22,26 @@ class PointCloud {
 //
 // P3DollarRecognizer constants
 //
-const NumPoints = 32;
+let NumPoints = 32;
 const Origin = new Point(0,0,0,0);
 
 class P3DollarRecognizer extends Recognizer {
 
 	static name = "P3DollarRecognizer";
 
-    constructor(N) {
+    constructor(options, dataset) {
 		super();
-		NumPoints = N;
+		NumPoints = options.samplingPoints;
 		this.PointClouds = new Array();
+
+		if (dataset!==undefined){
+			dataset.getGestureClass().forEach((gesture, key, self) => {
+				gesture.getSample().forEach(sample => {
+						this.addGesture(gesture.name, sample);
+					}
+				);
+			});
+		}
     }
 
     addGesture(name, sample){
@@ -68,13 +77,7 @@ class P3DollarRecognizer extends Recognizer {
 }
 
 function convert(sample){
-    let points = [];
-    sample.strokes.forEach((stroke, stroke_id) => {
-       stroke.points.forEach((point) => {
-           points.push(new Point(point.x, point.y, point.z, stroke_id));
-       });
-	});
-    return points;
+    return sample.paths["rightPalmPosition"].strokes[0].points;
 }
 
 //

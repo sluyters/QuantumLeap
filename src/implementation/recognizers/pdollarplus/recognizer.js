@@ -5,10 +5,19 @@ class Recognizer extends recognizer.Recognizer{
 
     static name = "PDollarPlusRecognizer";
 
-    constructor(N) {
+    constructor(options, dataset) {
         super();
-        this.N = N;
+        this.N = options.samplingPoints;
         this.recognizer = new pdollarplus.PDollarPlusRecognizer();
+
+        if (dataset!==undefined){
+            dataset.getGestureClass().forEach((gesture, key, self) => {
+                gesture.getSample().forEach(sample => {
+                        this.addGesture(gesture.name, sample);
+                    }
+                );
+            });
+        }
     }
 
     addGesture(name, sample){

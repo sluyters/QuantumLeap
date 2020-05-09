@@ -28,12 +28,12 @@ class Recognizer extends AbstractRecognizer {
     recognize(sample) {
         let jackknifeSample = convert(sample);
         if (!jackknifeSample) {
-            return { success: false, name: 'No match', time: 0.0 };
+            return { name: "", time: 0.0 };
         }
         let t0 = Date.now();
         let ret = this.jackknifeRecognizer.classify(jackknifeSample);
         let t1 = Date.now();
-		return (ret == -1) ? { success: false, name: 'No match', time: t1-t0 } : { success: true, name: ret, time: t1-t0 };
+		return (ret == -1) ? { name: "", time: t1-t0 } : { name: ret, time: t1-t0 };
 	}
 
 	addGesture(name, sample, train = false) {
@@ -55,35 +55,33 @@ function convert(sample, name) {
         jackknifeSample = new Sample();
     }
 
+    let pathsLabels = Object.keys(sample.paths).sort();
     // check min distance START
     let maxMovement = 0;
     let threshold = 40;
     let initPoints = {};
-    for (const articulation of Object.keys(sample.strokes[0].paths)) {
-        initPoints[articulation] = sample.strokes[0].paths[articulation].points[0];
+    for (const articulation of pathsLabels) {
+        initPoints[articulation] = sample.paths[articulation].strokes[0].points[0];
     }
     // check min distance END
 
-    sample.strokes.forEach((stroke) => {
-        let trajectory = [];
-        let labels = Object.keys(stroke.paths).sort();
-        let nFrames = stroke.paths[labels[0]].points.length;
-        for (let i = 0; i < nFrames; i++) {
-            let vCoordinates = []; 
-            for (const label of labels) {
-                let point = stroke.paths[label].points[i]
-                // check min distance START
-                let articulationMovement = distance(point, initPoints[label]);
-                maxMovement = Math.max(maxMovement, articulationMovement); 
-                // check min distance END
-                vCoordinates.push(point.x);
-                vCoordinates.push(point.y);
-                vCoordinates.push(point.z);
-            }
-            trajectory.push(new Vector(vCoordinates));
-        }    
-        jackknifeSample.add_trajectory(trajectory);
-    });
+    let nFrames = sample.paths[pathsLabels[0]].strokes[0].points.length;
+    let trajectory = [];
+    for (let i = 0; i < nFrames; i++) {
+        let vCoordinates = [];
+        for (const articulation of pathsLabels) {
+            let point = sample.paths[articulation].strokes[0].points[i];
+            // check min distance START
+            let articulationMovement = distance(point, initPoints[articulation]);
+            maxMovement = Math.max(maxMovement, articulationMovement);
+            // check min distance END
+            vCoordinates.push(point.x);
+            vCoordinates.push(point.y);
+            vCoordinates.push(point.z);
+        }
+        trajectory.push(new Vector(vCoordinates));
+    }
+    jackknifeSample.add_trajectory(trajectory);
     
     return maxMovement > threshold ? jackknifeSample : null;
     //return jackknifeSample;

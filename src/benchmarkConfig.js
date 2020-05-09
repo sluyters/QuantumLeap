@@ -17,6 +17,7 @@ const P3DollarPlusXRecognizer = require('./implementation/recognizers/p3dollarpl
 const UVPRecognizer = require('./implementation/recognizers/uvplus-flexible-cloud/recognizer').DollarRecognizer;
 const ThreeCentRecognizer = require('./implementation/recognizers/ThreeCentRecognizer').ThreeCentRecognizer;
 const P3DollarRecognizer = require('./implementation/recognizers/P3DollarPlusRecognizer').P3DollarPlusRecognizer;
+const Q3DollarRecognizer = require('./implementation/recognizers/Q3DollarRecognizer').Q3DollarRecognizer;
 //2D
 const PDollarPlusRecognizer = require('./implementation/recognizers/pdollarplus/recognizer').Recognizer;
 
@@ -34,11 +35,23 @@ config.recognizers = [
             samplingPoints : 8,
             articulations: fingers
         }
-    }//,
-    // {
-    //     module: JackknifeRecognizer,
-    //     options: {samplingPoints : 16}
-    // }
+    },
+    {
+        module: JackknifeRecognizer,
+        options: {samplingPoints : 8}
+    },
+    {
+        module: ThreeCentRecognizer,
+        options: {samplingPoints : 8}
+    },
+    {
+        module: P3DollarRecognizer,
+        options: {samplingPoints : 8}
+    },
+    {
+        module: Q3DollarRecognizer,
+        options: {samplingPoints : 8}
+    }
 ];
 
 config.datasets = [
@@ -56,7 +69,7 @@ config.datasets = [
 let dirPath = path.join(__dirname, "datasets");
 config.datasetFolder = dirPath;
 
-config.mint = 10; //Minimum Training Templates
+config.mint = 14; //Minimum Training Templates
 config.maxt = 16; //Maximum Training Templates
 config.r = 100; //Repetitions
 config.n = 8; //Points/Shapes
