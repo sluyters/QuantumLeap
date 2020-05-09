@@ -4,7 +4,7 @@ const path = require('path');
 // Gesture Datasets loader
 const LeapMotionDatasetLoader = require('./implementation/datasets/LeapmotionConverter');
 const SmartphoneDatasetLoader = require('./implementation/datasets/SmartphoneConverter');
-const UnifiedDatasetLoader = require('./implementation/datasets/UnifiedConverter');
+const UnifiedDatasetLoader = require('./implementation/datasets/UnifiedDatasetLoader');
 const HandGestureDatasetLoader = require('./implementation/datasets/HandGestureCsv');
 const UWaveDatasetLoader = require('./implementation/datasets/uWaveConverter');
 
