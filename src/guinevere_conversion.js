@@ -28,10 +28,16 @@ fs.readdirSync(dirPath).forEach((user_dir) => {
     fs.readdirSync(gestureSampleDirPath).forEach((sample) => {
         let rawGesturePath = path.join(gestureSampleDirPath, sample);
         let rawGestureData = JSON.parse(fs.readFileSync(rawGesturePath));
-        let gestureData = new StrokeData(parseInt(user_dir));
 
         let gesture = sample.split(".")[0].split("-");
         let gestureName = gesture[0].split("#")[0];
+        let infosupp = undefined;
+        if(gesture[0].split("#").length > 1){
+            infosupp = gesture[0].split("#")[1];
+        }
+        let id = gesture[1];
+
+        let gestureData = new StrokeData(parseInt(user_dir), id, infosupp);
         if(gestureSet.getGestureClass().has(gestureName)){
             gestureSet.getGestureClass().get(gestureName).addSample(gestureData);
         }
@@ -120,14 +126,16 @@ function writeDataset() {
 
     gestureSet.getGestureClass().forEach(gestureClass =>{
         fs.mkdirSync(path.join(convertedPath, gestureClass.name));
-        let id = 0;
         gestureClass.samples.forEach(sample =>{
             let userDirPath = path.join(convertedPath, gestureClass.name, sample.user.toString().padStart(2, "0"));
             if(!fs.existsSync(userDirPath)){
                 fs.mkdirSync(userDirPath);
-                id = 0;
             }
-            const newFilename = path.join(userDirPath, id.toString().padStart(2, "0") + ".json");
+            let newFilename = gestureClass.name + "-";
+            if(sample.infosupp)
+                newFilename = newFilename + sample.infosupp + "-";
+            newFilename = newFilename + sample.id.toString().padStart(2, "0") + ".json";
+            newFilename = path.join(userDirPath, newFilename);
             let toWrite = {};
             toWrite.name = gestureClass.name;
             toWrite.subject = sample.user;
@@ -144,7 +152,6 @@ function writeDataset() {
                 if (err) throw err;
                 //console.log('Saved!');
             });
-            id++;
         })
     });
 }

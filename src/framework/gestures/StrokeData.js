@@ -1,8 +1,10 @@
 class StrokeData {
 
-    constructor(user) {
+    constructor(user, id, infosupp) {
         this.user = user;
+        this.id = id;
         this.paths = {};
+        this.infosupp = infosupp;
     }
 
     addPath(label, path){
