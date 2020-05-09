@@ -29,16 +29,16 @@ var config = {};
 
 config.recognizers = [
     {
-        module: JackknifeRecognizer,
-        options: {samplingPoints : 16}
-    },
-    {
         module: UVPRecognizer,
         options: {
-            samplingPoints : 16,
+            samplingPoints : 8,
             articulations: fingers
         }
-    }
+    }//,
+    // {
+    //     module: JackknifeRecognizer,
+    //     options: {samplingPoints : 16}
+    // }
 ];
 
 config.datasets = [
@@ -56,9 +56,10 @@ config.datasets = [
 let dirPath = path.join(__dirname, "datasets");
 config.datasetFolder = dirPath;
 
+config.mint = 10; //Minimum Training Templates
 config.maxt = 16; //Maximum Training Templates
 config.r = 100; //Repetitions
-config.n = 16; //Points/Shapes
+config.n = 8; //Points/Shapes
 
 module.exports = config;
 

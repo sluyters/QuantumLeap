@@ -4,7 +4,7 @@ let PrintResults = function(results, recognizer, dataset) {
     console.log("#### " + recognizer + " #### number of repetition: " + R + ", N: " + N);
     console.log("#### gesture set " + dataset.name + " #### " + JSON.stringify(Array.from(dataset.getGestureClass().keys())));
     for(let i=0 ; i<results[0].length && i<results[1].length ; i++) {
-        console.log("Recognition accuracy with " + (i+1) + " training templates per gesture: " + (results[0][i]*100).toFixed(2) + " (" + results[1][i].toFixed(2) + "ms)");
+        console.log("Recognition accuracy with " + (i+ MINT) + " training templates per gesture: " + (results[0][i]*100).toFixed(2) + " (" + results[1][i].toFixed(2) + "ms)");
         console.log("Confusion matrice: " + JSON.stringify(results[2][i]));
     }
     console.log("--------")
@@ -16,7 +16,7 @@ let StartTesting = function(dataset, Recognizer, recognizerConfig) {
     let execution_time = [];
     let confusion_matrices = [];
 
-    for(let tg=1 ; tg < Math.min(dataset.getMinTemplate(), MAXT) ; tg++) { //for each training set size
+    for(let tg= MINT ; tg < Math.min(dataset.getMinTemplate(), MAXT) ; tg++) { //for each training set size
         let current_recognition_score = 0;
         let current_execution_time = 0.0;
         let current_confusion_matrice = new Array(dataset.G).fill(0).map(() => new Array(dataset.G).fill(0));
@@ -93,6 +93,8 @@ let test = function(datasetName, DatasetLoader, GestureRecognizer, GestureRecogn
     PrintResults(result, GestureRecognizer.name , dataset);
 };
 
+
+let MINT = config.mint; //Maximum Training Templates
 let MAXT = config.maxt; //Maximum Training Templates
 let R = config.r; //Repetitions
 let N = config.n; //Points/Shapes

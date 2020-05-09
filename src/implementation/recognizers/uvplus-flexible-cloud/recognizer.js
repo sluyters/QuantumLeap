@@ -31,14 +31,14 @@ class Recognizer extends recognizer.Recognizer{
 
     convert(sample){
         let points =[];
-        sample.strokes.forEach((stroke,stroke_id) =>{
-            this.articulations.forEach(articulation =>{
-                let articulationPoints = (stroke.paths[articulation].points.length !== 0) ? stroke.paths[articulation].points : [new dollar.Point(0,0,0)];
-                //console.log(JSON.stringify(articulationPoints))
-                points.push(articulationPoints);
+        for(let path in sample.paths){
+            let strokes = sample.paths[path].strokes;
+            let articulationPoints = [];
+            strokes.forEach(stroke =>{
+                articulationPoints = articulationPoints.concat(stroke.points);
             });
-        });
-        //console.log(JSON.stringify(points));
+            points.push(articulationPoints);
+        }
         return points;
     }
 

@@ -149,6 +149,11 @@ UVPRecognizer.prototype.resample = function(articulations) {
   }
   for (let a = 0; a < this.numberOfArticulations; a += 1) {
     for (let i = 1; i < arts[a].length; i += 1) {
+      if(intervals[a] === 0)
+      {
+        resampledArticulations[a] = Array(this.numberOfArticulations).fill(new Point(0,0,0));
+        break;
+      }
       let dist2 = this.betweenPointsEuclideanDistance(arts[a][i - 1], arts[a][i]);
       if ((dist[a] + dist2) >= intervals[a]) {
         let p = new Point(
