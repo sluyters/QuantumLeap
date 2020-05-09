@@ -9,6 +9,7 @@ const Path = require('../../framework/gestures/StrokeData').Path;
 const Point = require('../../framework/gestures/Point').Point3D;
 const UnifiedDatasetLoader = require('../../framework/datasets/UnifiedDatasetLoader');
 
+const palms = ["rightPalmPosition", "leftPalmPosition"];
 const fingers = ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition"];
 
 const device = {
@@ -45,68 +46,76 @@ function loadDataset(name, directory) {
                 gestureSet.addGestureClass(gestureClass);
             }
 
-
+            // Init stroke paths
             fingers.forEach((fingerName) => {
                 let strokePath = new Path(fingerName);
                 gestureData.addPath(fingerName, strokePath);
                 let stroke = new Stroke(0);
                 strokePath.addStroke(stroke);
             });
+            for (const palm of palms) {
+                let strokePath = new Path(palm);
+                gestureData.addPath(palm, strokePath);
+                let stroke = new Stroke(0);
+                strokePath.addStroke(stroke);
+            }
 
-            let strokePath = new Path("rigthPalmPosition");
-            gestureData.addPath("rigthPalmPosition", strokePath);
-            let stroke = new Stroke(0);
-            strokePath.addStroke(stroke);
-
-            strokePath = new Path("leftPalmPosition");
-            gestureData.addPath("leftPalmPosition", strokePath);
-            stroke = new Stroke(0);
-            strokePath.addStroke(stroke);
 
             for (let i = 0; i < rawGestureData['data'].length; i++) {
                 let frame = rawGestureData['data'][i];
+
+                let points = {};
+                for (const palm of palms) {
+                    points[palm] = null;
+                }
+                for (const finger of fingers) {
+                    points[finger] = null;
+                }
+
                 let rightHandId = -1;
                 let leftHandId = -1;
                 for (const hand of frame['hands']) {
+                    let palmName;
                     if (hand['type'] === 'right') {
                         rightHandId = hand['id'];
-                        stroke = gestureData.paths["rigthPalmPosition"].strokes[0];
-                    } else {
+                        palmName = "rightPalmPosition";
+                    }
+                    else {
                         leftHandId = hand['id'];
-                        stroke = gestureData.paths["leftPalmPosition"].strokes[0];
+                        palmName = "leftPalmPosition";
                     }
                     let palmPosition = hand['palmPosition'];
-                    let x = palmPosition[0];
-                    let y = palmPosition[1];
-                    let z = palmPosition[2];
-                    let t = frame['timestamp'];
-                    stroke.addPoint(new Point(x, y, z, t));
+                    points[palmName] = new Point(palmPosition[0], palmPosition[1], palmPosition[2], frame['timestamp']);
                 }
 
                 for (const pointable of frame['pointables']) {
                     if (!pointable.tool) {
                         // Get the name of the finger from handId and type
-                        let fingerName;
-                        if (pointable.handId == rightHandId) {
-                            fingerName = getFingerName("right", pointable.type);
-                        } else if (pointable.handId == leftHandId) {
-                            fingerName = getFingerName("left", pointable.type);
-                        }
-                        if (sample === "C_swipe_up-4.json" && user_dir === "03")
-                            console.log(sample + " " + user_dir + " " + fingerName + " " + pointable.type + " " + pointable.handId)
-                        let stroke = gestureData.paths[fingerName].strokes[0];
+                        let fingerName = getFingerName(pointable.handId == rightHandId, pointable.type);
                         let tipPosition = pointable['tipPosition'];
-                        stroke.addPoint(new Point(tipPosition[0], tipPosition[1], tipPosition[2], frame['timestamp']))
+                        points[fingerName] = new Point(tipPosition[0], tipPosition[1], tipPosition[2], frame['timestamp']);
                     }
                 }
+
+                // Add points to paths (with default point w/ coordinates (x=0, y=0, z=0))
+                Object.keys(points).forEach((articulation) => {
+                    let stroke = gestureData.paths[articulation].strokes[0];
+                    if (points[articulation] === null) {
+                        // Default coordinates
+                        stroke.addPoint(new Point(0, 0, 0, frame['timestamp']));
+                    } else {
+                        // Coordinates from frame
+                        stroke.addPoint(points[articulation]);
+                    }
+                });
             }
         });
     });
     return gestureSet;
 }
 
-function getFingerName(hand, type) {
-    if (hand == "right") {
+function getFingerName(isRight, type) {
+    if (isRight) {
         return fingers[type];
     } else {
         return fingers[5 + type];
