@@ -128,8 +128,6 @@ class P3DollarPlusRecognizer extends Recognizer {
 	addGesture(name, sample) {
 		let points = convert(sample);
 		this.PointClouds[this.PointClouds.length] = new PointCloud(name, points);
-		// if(Number.isNaN(new PointCloud(name, points).Points[0].x))
-		// 	console.log("\t" + JSON.stringify(points))
 		var num = 0;
 		for (var i = 0; i < this.PointClouds.length; i++) {
 			if (this.PointClouds[i].Name == name)
