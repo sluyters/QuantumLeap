@@ -74,7 +74,7 @@ function PointCloud(name, points) // constructor
 //
 // PDollarPlusRecognizer constants
 //
-NumPoints = 16;
+NumPoints = 8;
 const Origin = new Point(0, 0, 0, 0);
 
 //
@@ -82,27 +82,30 @@ const Origin = new Point(0, 0, 0, 0);
 //
 class Recognizer extends AbstractRecognizer {
 
-    constructor(templates) {
+    static name = "P3DollarPlusXRecognizer";
+
+    constructor(options, dataset) {
 		super();
+		NumPoints = options.samplingPoints;
 		this.PointClouds = new Array();
 		this.conflicts = {};
-
-		// Load templates
-		Object.keys(templates).forEach((name) => {
-			templates[name].forEach((template) => {
-				this.addGesture(name, template.data);
+		if (dataset!==undefined){
+			dataset.getGestureClass().forEach((gesture) => {
+				gesture.getSample().forEach(sample => {
+						this.addGesture(gesture.name, sample);
+					}
+				);
 			});
-		});
+		}
 	}
 	
 	//
 	// The $P+ Point-Cloud Recognizer API begins here -- 3 methods: Recognize(), AddGesture(), DeleteUserGestures()
 	//
-	recognize(frames) {
-		let points = convert(frames);
+	recognize(sample) {
+		let points = convert(sample);
 		if (points.length < 2) {
-			//return { 'Name': 'No match', 'Time': 0.0, 'Score': 0.0 };
-			return { success: false, name: "", time: 0.0 };
+			return { name: "", time: 0, score: 0.0 };
 		}
 
 		let t0 = Date.now();
@@ -117,29 +120,20 @@ class Recognizer extends AbstractRecognizer {
 		}
 
 		let t1 = Date.now();
-		//return (u == -1) ? { 'Name': 'No match', 'Time': t1-t0, 'Score': 0.0 } : { 'Name': this.PointClouds[u].Name, 'Time': t1-t0, 'Score': b > 1.0 ? 1.0 / b : 1.0 };
-		// console.log(b > 1.0 ? 1.0 / b : 1.0);
-		// if ((b > 1.0 ? 1.0 / b : 1.0) < 0.25 ) {
-		// 	return { success: false, name: "", time: t1-t0 };
-		// }
-		return (u == -1) ? { success: false, name: "", time: t1-t0 } :  { success: true, name: this.PointClouds[u].Name, time: t1-t0 };
+		return (u == -1) ? { name: "", time: t1-t0, score: 0.0 } : { name: this.PointClouds[u].Name, time: t1-t0, score: b > 1.0 ? 1.0 / b : 1.0 };
 	}
 
 	addGesture(name, sample) {
 		let points = convert(sample);
 		var template = new PointCloud(name, points);
-
 		if (this.PointClouds.length > 0) {
 			const {u, b} = this.recognizeHelper(template);
-
 			if (u != -1 && this.PointClouds[u].Name != name && (1.0 / b) > 0.8) {
 				this.conflicts[name] = {'name': this.PointClouds[u].Name, 'index': u};
 				this.conflicts[this.PointClouds[u].Name] =  {'name': name, 'index': this.PointClouds.length};
 			}
 		}
-
 		this.PointClouds[this.PointClouds.length] = template;
-
 		var num = 0;
 		for (var i = 0; i < this.PointClouds.length; i++) {
 			if (this.PointClouds[i].Name == name)
@@ -166,27 +160,14 @@ class Recognizer extends AbstractRecognizer {
 	}
 }
 
-function convert(frames) {
+function convert(sample) {
     let points = [];
-    // sample.strokes.forEach((stroke, stroke_id) => {
-    //    stroke.points.forEach((point) => {
-    //        points.push(new Point(point.x, point.y, point.z, stroke_id));
-    //    });
-	// });
-
-	for (const frame of frames) {
-		for (const hand of frame.hands) {
-			if (hand.type === "right") {
-				let palmPosition = hand['palmPosition']
-				let x = palmPosition[0];
-				let y = palmPosition[1];
-				let z = palmPosition[2];
-				points.push(new Point(x, y, z, 0));
-			}
-		}
-	}
-	//console.log(points)
-    return points;
+	sample.paths["rightPalmPosition"].strokes.forEach((stroke, stroke_id) => {
+		stroke.points.forEach((point) => {
+			points.push(new Point(point.x, point.y, point.z, stroke_id));
+		});
+	});
+	return points;
 }
 
 //

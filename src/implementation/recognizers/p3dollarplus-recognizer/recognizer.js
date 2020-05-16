@@ -1,4 +1,4 @@
-const Recognizer = require('../../framework/recognizers/Recognizer').Recognizer;
+const AbstractRecognizer = require('../../../framework/recognizers/Recognizer').Recognizer;
 
 /**
  * The $P+ Point-Cloud Recognizer (JavaScript version)
@@ -80,7 +80,7 @@ const Origin = new Point(0, 0, 0, 0);
 //
 // PDollarPlusRecognizer class
 //
-class P3DollarPlusRecognizer extends Recognizer {
+class Recognizer extends AbstractRecognizer {
 
 	static name = "P3DollarPlusRecognizer";
 
@@ -316,5 +316,5 @@ function Distance(p1, p2) // Euclidean distance between two points
 
 module.exports = {
 	Point,
-	P3DollarPlusRecognizer
+	Recognizer
 };

@@ -1,5 +1,5 @@
+const AbstractRecognizer = require('../../../framework/recognizers/Recognizer').Recognizer;
 const math = require('mathjs');
-const Recognizer = require('../../framework/recognizers/Recognizer').Recognizer;
 const Spline = require('cubic-spline');
 
 
@@ -14,7 +14,7 @@ class Point {
 
 let NumPoints = 8;
 
-class ThreeCentRecognizer extends Recognizer {
+class Recognizer extends AbstractRecognizer {
 
     static name = "ThreeCentRecognizer";
     
@@ -209,5 +209,5 @@ function spline(x, y, xq) {
 
 
 module.exports = {
-	ThreeCentRecognizer
+	Recognizer
 };

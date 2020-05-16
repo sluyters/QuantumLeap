@@ -11,13 +11,13 @@ const UWaveDatasetLoader = require('./implementation/datasets/uWaveConverter');
 
 // Gesture Recognizers
 //3D
-const HybridP3DollarPlusXRecognizer = require('./implementation/recognizers/hybrid-p3dollarplusx-recognizer/recognizer').Recognizer;
+const HybridP3DollarPlusXRecognizer = require('./implementation/recognizers/hybridp3dollarplusx-recognizer/recognizer').Recognizer;
 const JackknifeRecognizer = require('./implementation/recognizers/jackknife-recognizer/recognizer').Recognizer;
 const P3DollarPlusXRecognizer = require('./implementation/recognizers/p3dollarplusx-recognizer/recognizer').Recognizer;
 const UVPRecognizer = require('./implementation/recognizers/uvplus-flexible-cloud/recognizer').DollarRecognizer;
-const ThreeCentRecognizer = require('./implementation/recognizers/ThreeCentRecognizer').ThreeCentRecognizer;
-const P3DollarRecognizer = require('./implementation/recognizers/P3DollarPlusRecognizer').P3DollarPlusRecognizer;
-const Q3DollarRecognizer = require('./implementation/recognizers/Q3DollarRecognizer').Q3DollarRecognizer;
+const ThreeCentRecognizer = require('./implementation/recognizers/threecent-recognizer/recognizer').Recognizer;
+const P3DollarPlusRecognizer = require('./implementation/recognizers/p3dollarplus-recognizer/recognizer').Recognizer;
+const Q3DollarRecognizer = require('./implementation/recognizers/q3dollar-recognizer/recognizer').Recognizer;
 //2D
 const PDollarPlusRecognizer = require('./implementation/recognizers/pdollarplus/recognizer').Recognizer;
 
@@ -45,9 +45,17 @@ config.recognizers = [
         options: {samplingPoints : 8}
     },
     {
-        module: P3DollarRecognizer,
+        module: P3DollarPlusRecognizer,
         options: {samplingPoints : 8}
     },
+    {
+        module: P3DollarPlusXRecognizer,
+        options: {samplingPoints : 8}
+    },
+    // {
+    //     module: HybridP3DollarPlusXRecognizer,
+    //     options: {samplingPoints : 8}
+    // },
     {
         module: Q3DollarRecognizer,
         options: {samplingPoints : 8}

@@ -1,4 +1,4 @@
-const Recognizer = require('../../framework/recognizers/Recognizer').Recognizer;
+const AbstractRecognizer = require('../../../framework/recognizers/Recognizer').Recognizer;
 
 /**
  * The $Q Super-Quick Recognizer (JavaScript version)
@@ -109,7 +109,7 @@ const LUTScaleFactor = MaxIntCoord / LUTSize; // used to scale from (intX, intY,
 //
 // Q3DollarRecognizer class
 //
-class Q3DollarRecognizer extends Recognizer {
+class Recognizer extends AbstractRecognizer {
 
 	static name = "Q3DollarRecognizer";
 
@@ -374,5 +374,5 @@ function EuclideanDistance(pt1, pt2)
 }
 
 module.exports = {
-    Q3DollarRecognizer
+    Recognizer
 }

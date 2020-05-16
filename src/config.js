@@ -19,12 +19,12 @@ const UWaveDatasetLoader = require('./implementation/datasets/uWaveConverter');
 
 // Gesture Recognizers
 //3D
-const HybridP3DollarPlusXRecognizer = require('./implementation/recognizers/hybrid-p3dollarplusx-recognizer/recognizer').Recognizer;
+const HybridP3DollarPlusXRecognizer = require('./implementation/recognizers/hybridp3dollarplusx-recognizer/recognizer').Recognizer;
 const JackknifeRecognizer = require('./implementation/recognizers/jackknife-recognizer/recognizer').Recognizer;
 const P3DollarPlusXRecognizer = require('./implementation/recognizers/p3dollarplusx-recognizer/recognizer').Recognizer;
 const UVPRecognizer = require('./implementation/recognizers/uvplus-flexible-cloud/recognizer').Recognizer;
-const ThreeCentRecognizer = require('./implementation/recognizers/ThreeCentRecognizer').ThreeCentRecognizer;
-const P3DollarRecognizer = require('./implementation/recognizers/P3DollarPlusRecognizer').P3DollarPlusRecognizer;
+const ThreeCentRecognizer = require('./implementation/recognizers/threecent-recognizer/recognizer').Recognizer;
+const P3DollarPlusRecognizer = require('./implementation/recognizers/p3dollarplus-recognizer/recognizer').Recognizer;
 //2D
 const PDollarPlusRecognizer = require('./implementation/recognizers/pdollarplus/recognizer').Recognizer;
 

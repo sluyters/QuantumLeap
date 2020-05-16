@@ -1,5 +1,4 @@
-const Recognizer = require('../../framework/recognizers/Recognizer').Recognizer;
-
+const AbstractRecognizer = require('../../../framework/recognizers/Recognizer').Recognizer;
 
 class Point {
 	constructor(x, y, z, id) {
@@ -25,7 +24,7 @@ class PointCloud {
 let NumPoints = 32;
 const Origin = new Point(0,0,0,0);
 
-class P3DollarRecognizer extends Recognizer {
+class Recognizer extends AbstractRecognizer {
 
 	static name = "P3DollarRecognizer";
 
@@ -216,5 +215,5 @@ function Distance(p1, p2) {
 }
 
 module.exports = {
-    P3DollarRecognizer
+    Recognizer
 }
