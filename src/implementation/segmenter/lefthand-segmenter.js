@@ -25,7 +25,7 @@ class Segmenter {
                 this.strokeData = new StrokeData();
                 for (const articulation of frame.articulations) {
                     let path = new Path(articulation.label);
-                    strokeData.addPath(articulation.label, path);
+                    this.strokeData.addPath(articulation.label, path);
                     let stroke = new Stroke();
                     path.addStroke(stroke);
                     // Quick hack to remove left hand
@@ -40,7 +40,7 @@ class Segmenter {
                     let path = this.strokeData.paths[articulation.label];
                     let stroke = path.strokes[0];
                     // Quick hack to remove left hand
-                    if (articulation.includes("left")) {
+                    if (articulation.label.includes("left")) {
                         stroke.addPoint(new Point(0, 0, 0, frame.timestamp));
                     } else {
                         stroke.addPoint(articulation.point);

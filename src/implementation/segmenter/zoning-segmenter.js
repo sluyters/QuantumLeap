@@ -34,7 +34,7 @@ class Segmenter {
                 this.strokeData = new StrokeData();
                 for (const articulation of frame.articulations) {
                     let path = new Path(articulation.label);
-                    strokeData.addPath(articulation.label, path);
+                    this.strokeData.addPath(articulation.label, path);
                     let stroke = new Stroke();
                     path.addStroke(stroke);
                     stroke.addPoint(articulation.point);
@@ -74,8 +74,8 @@ function isWithinBounds(frame) {
         withinBounds = x < xBound && x > -xBound && z < zBound && z > -zBound;
     } 
     if (!withinBounds && frame.hasRightHand) {
-        let x = frame.getArticulation(frame, "rightPalmPosition").point.x;
-        let z = frame.getArticulation(frame, "rightPalmPosition").point.z;
+        let x = frame.getArticulation("rightPalmPosition").point.x;
+        let z = frame.getArticulation("rightPalmPosition").point.z;
         withinBounds = x < xBound && x > -xBound && z < zBound && z > -zBound;
     }
     return withinBounds;
