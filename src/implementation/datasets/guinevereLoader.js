@@ -1,12 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 
-const GestureSet = require('../../framework/gestures/GestureSet').GestureSet;
-const GestureClass = require('../../framework/gestures/GestureClass').GestureClass;
-const StrokeData = require('../../framework/gestures/StrokeData').StrokeData;
-const Stroke = require('../../framework/gestures/StrokeData').Stroke;
-const Path = require('../../framework/gestures/StrokeData').Path;
-const Point = require('../../framework/gestures/Point').Point3D;
+const GestureSet = require('../../framework/gestures/gesture-set').GestureSet;
+const GestureClass = require('../../framework/gestures/gesture-class').GestureClass;
+const StrokeData = require('../../framework/gestures/stroke-data').StrokeData;
+const Stroke = require('../../framework/gestures/stroke-data').Stroke;
+const Path = require('../../framework/gestures/stroke-data').Path;
+const Point = require('../../framework/gestures/point').Point3D;
 const UnifiedDatasetLoader = require('../../framework/datasets/UnifiedDatasetLoader');
 
 const palms = ["rightPalmPosition", "leftPalmPosition"];
@@ -37,8 +37,8 @@ function loadDataset(name, directory) {
             let id = gesture[1];
 
             let gestureData = new StrokeData(parseInt(user_dir), id, infosupp);
-            if (gestureSet.getGestureClass().has(gestureName)) {
-                gestureSet.getGestureClass().get(gestureName).addSample(gestureData);
+            if (gestureSet.getGestureClasses().has(gestureName)) {
+                gestureSet.getGestureClasses().get(gestureName).addSample(gestureData);
             } else {
                 let gestureClass = new GestureClass(gestureName, gestureIndex);
                 gestureIndex += 1;

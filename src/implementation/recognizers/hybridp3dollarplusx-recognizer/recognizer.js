@@ -1,4 +1,4 @@
-const AbstractRecognizer = require('../../../framework/recognizers/Recognizer').Recognizer;
+const AbstractRecognizer = require('../../../framework/recognizers/abstract-recognizer').AbstractRecognizer;
 const P3DollarPlusXRecognizer = require('./P3DollarPlusXRecognizer').Recognizer;
 const Point = require('./P3DollarPlusXRecognizer').Point;
 
@@ -19,7 +19,7 @@ class Recognizer extends AbstractRecognizer {
 
         // Load templates
 		if (dataset !== undefined){
-			dataset.getGestureClass().forEach((gesture) => {
+			dataset.getGestureClasses().forEach((gesture) => {
 				gesture.getSample().forEach(sample => {
 						this.addGesture(gesture.name, sample);
 					}

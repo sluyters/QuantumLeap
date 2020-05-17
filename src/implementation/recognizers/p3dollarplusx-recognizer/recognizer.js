@@ -1,4 +1,4 @@
-const AbstractRecognizer = require('../../../framework/recognizers/Recognizer').Recognizer;
+const AbstractRecognizer = require('../../../framework/recognizers/abstract-recognizer').AbstractRecognizer;
 
 /**
  * The $P+ Point-Cloud Recognizer (JavaScript version)
@@ -90,7 +90,7 @@ class Recognizer extends AbstractRecognizer {
 		this.PointClouds = new Array();
 		this.conflicts = {};
 		if (dataset!==undefined){
-			dataset.getGestureClass().forEach((gesture) => {
+			dataset.getGestureClasses().forEach((gesture) => {
 				gesture.getSample().forEach(sample => {
 						this.addGesture(gesture.name, sample);
 					}

@@ -1,12 +1,12 @@
 const path = require('path');
 const fs = require('fs-extra');
 
-const GestureSet = require('../gestures/GestureSet').GestureSet;
-const GestureClass = require('../gestures/GestureClass').GestureClass;
-const StrokeData = require('../gestures/StrokeData').StrokeData;
-const Stroke = require('../gestures/StrokeData').Stroke;
-const Point = require('../gestures/Point').Point3D;
-const Path = require('../gestures/StrokeData').Path;
+const GestureSet = require('../gestures/gesture-set').GestureSet;
+const GestureClass = require('../gestures/gesture-class').GestureClass;
+const StrokeData = require('../gestures/stroke-data').StrokeData;
+const Stroke = require('../gestures/stroke-data').Stroke;
+const Point = require('../gestures/point').Point3D;
+const Path = require('../gestures/stroke-data').Path;
 
 
 function loadDataset(name, directory) {
@@ -52,7 +52,7 @@ function writeDataset(dataset, directory) {
     }
     fs.mkdirSync(directory);
 
-    dataset.getGestureClass().forEach(gestureClass =>{
+    dataset.getGestureClasses().forEach(gestureClass =>{
         fs.mkdirSync(path.join(directory, gestureClass.name));
         gestureClass.samples.forEach(sample =>{
             let userDirPath = path.join(directory, gestureClass.name, sample.user.toString().padStart(2, "0"));

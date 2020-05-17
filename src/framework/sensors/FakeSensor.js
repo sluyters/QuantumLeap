@@ -11,7 +11,7 @@ class FakeSensor extends Sensor{
         super();
         FakeSensor.dataset = dataset;
         FakeSensor.gestureset = [];
-        dataset.getGestureClass().forEach((gesture, key, self) => {
+        dataset.getGestureClasses().forEach((gesture, key, self) => {
             FakeSensor.gestureset.push(gesture.name);
         });
 
@@ -21,7 +21,7 @@ class FakeSensor extends Sensor{
         this.app.get('/', function (req, res) {
             res.sendFile(path.join(__dirname + '/index.html'));
         });
-        this.app.get('/gestureset', function (req, res) {
+        this.app.get('/gesture-set', function (req, res) {
             res.send(JSON.stringify({"gestureset": FakeSensor.gestureset}));
         });
         // e.g.: /controls/focus?override=true
@@ -29,7 +29,7 @@ class FakeSensor extends Sensor{
             let gesture = req.params.gesture;
             console.log(gesture + " received");
             if(FakeSensor.callback!==undefined)
-                FakeSensor.callback(FakeSensor.dataset.getGestureClass().get(gesture).getSample()[1]);
+                FakeSensor.callback(FakeSensor.dataset.getGestureClasses().get(gesture).getSample()[1]);
             res.sendStatus(200);
 
         });

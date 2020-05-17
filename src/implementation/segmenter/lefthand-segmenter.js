@@ -1,10 +1,12 @@
-const StrokeData = require('../../framework/gestures/StrokeData').StrokeData;
-const Stroke = require('../../framework/gestures/StrokeData').Stroke;
-const Path = require('../../framework/gestures/StrokeData').Path;
-const Point = require('../../framework/gestures/Point').Point3D;
+const AbstractSegmenter = require('../../framework/segmenters/abstract-segmenter').AbstractSegmenter;
+const StrokeData = require('../../framework/gestures/stroke-data').StrokeData;
+const Stroke = require('../../framework/gestures/stroke-data').Stroke;
+const Path = require('../../framework/gestures/stroke-data').Path;
+const Point = require('../../framework/gestures/point').Point3D;
 
-class Segmenter {
+class Segmenter extends AbstractSegmenter {
     constructor(options) {
+        super(options);
         this.minFrames = options.minSegmentLength;
         this.maxFrames = options.maxSegmentLength;
         this.strokeData = null;

@@ -1,3 +1,4 @@
+const AbstractClassifier = require('../../../framework/classifiers/abstract-classifier').AbstractClassifier;
 const GPSDRecognizer = require('./gpsd/gpsd-static-recognizer').Recognizer;
 const Point = require('./gpsd/gpsd-static-recognizer').Point;
 
@@ -39,8 +40,9 @@ let flat = [
     new Point(18.3766, 195.168, -61.1797)
 ];
 
-class Classifier {
-    constructor(config) {
+class Classifier extends AbstractClassifier {
+    constructor(options) {
+        super(options);
         this.staticRecognizer = new GPSDRecognizer();
         // TODO modify and take gestures and non-gestures from a dataset
         this.staticRecognizer.addGesture("", pinch);

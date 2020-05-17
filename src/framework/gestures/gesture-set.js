@@ -11,7 +11,7 @@ class GestureSet {
         this.G += 1;
     }
 
-    getGestureClass(){
+    getGestureClasses(){
         return this.gestures;
     }
 

@@ -2,7 +2,7 @@ const config = require('./benchmarkConfig');
 
 let PrintResults = function(results, recognizer, dataset) {
     console.log("#### " + recognizer + " #### number of repetition: " + R + ", N: " + N);
-    console.log("#### gesture set " + dataset.name + " #### " + JSON.stringify(Array.from(dataset.getGestureClass().keys())));
+    console.log("#### gesture set " + dataset.name + " #### " + JSON.stringify(Array.from(dataset.getGestureClasses().keys())));
     for(let i=0 ; i<results[0].length && i<results[1].length ; i++) {
         console.log("Recognition accuracy with " + (i+ MINT) + " training templates per gesture: " + (results[0][i]*100).toFixed(2) + " (" + results[1][i].toFixed(2) + "ms)");
         console.log("Confusion matrice: " + JSON.stringify(results[2][i]));
@@ -31,7 +31,7 @@ let StartTesting = function(dataset, Recognizer, recognizerConfig) {
             });
             for(let t=0 ; t<tg ; t++) { //add tg strokeData per gestureClass
                 let index = 0;
-                dataset.getGestureClass().forEach((gesture, key, self) => {
+                dataset.getGestureClasses().forEach((gesture, key, self) => {
                     let training = -1;
                     while(training==-1 || training_templates[index].includes(training)) training = GetRandomNumber(0, gesture.getSample().length);
                     training_templates[index].push(training);
@@ -41,12 +41,12 @@ let StartTesting = function(dataset, Recognizer, recognizerConfig) {
             }
             // Recognition after tg training templates
             let c = 0;
-            dataset.getGestureClass().forEach((gesture, key, self) => {
+            dataset.getGestureClasses().forEach((gesture, key, self) => {
                 let toBeTested = gesture.getSample()[candidates[c]];
                 let result = recognizer.recognize(toBeTested);
-                if(dataset.getGestureClass().has(result.name))
+                if(dataset.getGestureClasses().has(result.name))
                 {
-                    let result_index = dataset.getGestureClass().get(result.name).index;
+                    let result_index = dataset.getGestureClasses().get(result.name).index;
                     current_confusion_matrice[result_index][gesture.index] += 1;
                 }
                 current_recognition_score += (result.name===gesture.name) ? 1 : 0;
@@ -75,7 +75,7 @@ let StartTesting = function(dataset, Recognizer, recognizerConfig) {
  */
 let SelectCandidates = function(dataset) {
     let candidates = [];
-    dataset.getGestureClass().forEach((value, key, self) => {
+    dataset.getGestureClasses().forEach((value, key, self) => {
         candidates.push(GetRandomNumber(0, value.getSample().length));
     });
     return candidates;

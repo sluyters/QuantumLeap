@@ -7,7 +7,7 @@ class FakeRecognizer extends Recognizer{
         this.gestureset=[];
         //TODO need to init gestureset so can't call super(dataset)
         if (dataset!==undefined){
-            dataset.getGestureClass().forEach((gesture, key, self) => {
+            dataset.getGestureClasses().forEach((gesture, key, self) => {
                 gesture.getSample().forEach(sample => {
                         this.addGesture(gesture.name, sample);
                     }

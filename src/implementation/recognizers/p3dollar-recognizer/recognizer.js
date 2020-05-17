@@ -1,4 +1,4 @@
-const AbstractRecognizer = require('../../../framework/recognizers/Recognizer').Recognizer;
+const AbstractRecognizer = require('../../../framework/recognizers/abstract-recognizer').AbstractRecognizer;
 
 class Point {
 	constructor(x, y, z, id) {
@@ -34,7 +34,7 @@ class Recognizer extends AbstractRecognizer {
 		this.PointClouds = new Array();
 
 		if (dataset!==undefined){
-			dataset.getGestureClass().forEach((gesture, key, self) => {
+			dataset.getGestureClasses().forEach((gesture, key, self) => {
 				gesture.getSample().forEach(sample => {
 						this.addGesture(gesture.name, sample);
 					}

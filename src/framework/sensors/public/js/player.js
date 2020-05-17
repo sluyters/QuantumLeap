@@ -1,7 +1,7 @@
 var url = "http://localhost:3001";
 
 function getGestureSet() {
-    fetch(url + "/gestureset", {
+    fetch(url + "/gesture-set", {
         method: 'GET'
     }).then((res) => {
         return res.json();

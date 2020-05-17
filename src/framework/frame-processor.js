@@ -38,7 +38,7 @@ class FrameProcessor {
         if (!this.enabledGestures.includes(name)) {
             // The gesture is not already enabled
             if (this.config.general.loadGesturesFromClient) {
-                let gestureClass = this.dataset.getGestureClass(name);
+                let gestureClass = this.dataset.getGestureClasses(name);
                 if (gestureClass) {
                     for (template of gestureClass.getSample()) {
                         this.recognizer.addGesture(name, template);

@@ -11,7 +11,7 @@ class Recognizer extends recognizer.Recognizer{
         this.articulations = options.articulations;
         this.recognizer = new dollar.UVPRecognizer(this.articulations.length, this.N);
         if (dataset!==undefined){
-            dataset.getGestureClass().forEach((gesture, key, self) => {
+            dataset.getGestureClasses().forEach((gesture, key, self) => {
                 gesture.getSample().forEach(sample => {
                         this.addGesture(gesture.name, sample);
                     }

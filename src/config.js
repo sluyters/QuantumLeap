@@ -11,8 +11,8 @@ const UnifiedDatasetLoader = require('./framework/datasets/UnifiedDatasetLoader'
 // const UWaveDatasetLoader = require('./implementation/datasets/uWaveConverter');
 
 // Classifiers
-const GPSDClassifier = require('./implementation/classifier/gpsd-classifier/classifier').Classifier;
-const NoClassifier = require('./implementation/classifier/placeholder-classifier/classifier').Classifier;
+const GPSDClassifier = require('./implementation/classifiers/gpsd-classifier/classifier').Classifier;
+const NoClassifier = require('./implementation/classifiers/placeholder-classifier/classifier').Classifier;
 
 // Static Gesture Analyzers
 const BasicStaticAnalyzer = require('./implementation/static-analyzer/basic-analyzer/static-analyzer').StaticAnalyzer;
@@ -56,7 +56,7 @@ config.recognizer.options = {};
 // General Configuration
 config.general.reportGesturesFromClient = false;     // Report recognized gestures only if they are requested by the client
 config.general.loadGesturesFromClient = false;      // Load gestures based on requests from the client (requires detectGesturesFromClient = true to have an effect)
-config.general.sendContinuousData = false;
+config.general.sendContinuousData = true;
 config.general.debug = true;
 
 // Server
