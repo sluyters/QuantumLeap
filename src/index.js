@@ -14,6 +14,7 @@ function run() {
     // Start the websocket server
     var wsServer = getWebSocketServer(config.server.ip, config.server.port);
     wsServer.on('connection', async function connection(ws) {
+        console.log('Connected!')
         frameProcessor.resetContext();
         // Handle messages from the client
         ws.on('message', function(message) {

@@ -70,7 +70,7 @@ class FrameProcessor {
 
     processFrame(frame) {
         let staticPose = this.classifier.classify(frame);
-        if (staticPose && this.enabledPoses.includes(staticPose)) {
+        if (staticPose && (!this.config.general.reportGesturesFromClient || this.enabledPoses.includes(staticPose))) {
             // Static pose detected
             let data = this.staticAnalyzer.analyze(frame);
             // this.segmenter.notifyStatic()
@@ -80,7 +80,7 @@ class FrameProcessor {
             let segment = this.segmenter.segment(frame);
             if (segment) {
                 let { name, time, score } = this.recognizer.recognize(segment);
-                if (name && this.enabledGestures.includes(name)) {
+                if (name && (!this.config.general.reportGesturesFromClient || this.enabledGestures.includes(name))) {
                     this.segmenter.notifyRecognition();
                     return { 'type': 'dynamic', 'name': name, 'data': {} };
                 }

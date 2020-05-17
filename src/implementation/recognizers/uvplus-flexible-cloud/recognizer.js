@@ -47,5 +47,5 @@ class Recognizer extends recognizer.Recognizer{
 
 
 module.exports = {
-    DollarRecognizer: Recognizer
+    Recognizer
 };

@@ -12,6 +12,7 @@ const UnifiedDatasetLoader = require('./framework/datasets/UnifiedDatasetLoader'
 
 // Classifiers
 const GPSDClassifier = require('./implementation/classifier/gpsd-classifier/classifier').Classifier;
+const NoClassifier = require('./implementation/classifier/placeholder-classifier/classifier').Classifier;
 
 // Static Gesture Analyzers
 const BasicStaticAnalyzer = require('./implementation/static-analyzer/basic-analyzer/static-analyzer').StaticAnalyzer;
@@ -53,7 +54,8 @@ config.recognizer.options = {};
 
 // CONFIGURATION ----------------------------------------------------------------------------------
 // General Configuration
-config.general.loadGesturesFromClient = false;       // Load gestures based on requests from the client
+config.general.reportGesturesFromClient = false;     // Report recognized gestures only if they are requested by the client
+config.general.loadGesturesFromClient = false;      // Load gestures based on requests from the client (requires detectGesturesFromClient = true to have an effect)
 config.general.debug = true;
 
 // Server
@@ -65,7 +67,7 @@ config.sensor.module = LeapSensor;
 config.sensor.options.framerate = 60;				// Sensor framerate [seconds]
 
 // Classifier
-config.classifier.module = GPSDClassifier;
+config.classifier.module = NoClassifier;
 //config.classifier.options;
 
 // Static Gesture Analyzer
@@ -89,7 +91,7 @@ config.segmenter.options.xBound = 120;				// 1/2 width of the zone (if applicabl
 config.segmenter.options.zBound = 60;				// 1/2 depth of the zone (if applicable) [mm]
 
 // Gesture Recognizer
-config.recognizer.module = JackknifeRecognizer;
+config.recognizer.module = UVPRecognizer;
 config.recognizer.options.samplingPoints = 16;		// Number of sampling points [#points]
 config.recognizer.options.articulations = ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition", "rigthPalmPosition", "leftPalmPosition"];
 
