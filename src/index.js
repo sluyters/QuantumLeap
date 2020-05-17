@@ -35,8 +35,8 @@ function run() {
         });
         // Process sensor frames
         sensor.loop((frame, appData) => {
-            if (appData) {
-                // If there is data to send to the application
+            if (appData && config.general.sendContinuousData) {
+                // If there is continuous data to send to the application
                 let message = { frame: appData };
                 ws.send(JSON.stringify(message));
             }

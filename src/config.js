@@ -56,6 +56,7 @@ config.recognizer.options = {};
 // General Configuration
 config.general.reportGesturesFromClient = false;     // Report recognized gestures only if they are requested by the client
 config.general.loadGesturesFromClient = false;      // Load gestures based on requests from the client (requires detectGesturesFromClient = true to have an effect)
+config.general.sendContinuousData = false;
 config.general.debug = true;
 
 // Server
