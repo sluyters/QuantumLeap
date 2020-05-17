@@ -19,7 +19,7 @@ class Recognizer extends AbstractRecognizer {
 
         // Load templates
 		if (dataset !== undefined){
-			dataset.getGestureClasses().forEach((gesture) => {
+			dataset.getGestureClass().forEach((gesture) => {
 				gesture.getSample().forEach(sample => {
 						this.addGesture(gesture.name, sample);
 					}

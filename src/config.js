@@ -1,21 +1,26 @@
 // MODULES ----------------------------------------------------------------------------------------
 // Sensor Interfaces
-const LeapSensor = require('./implementation/sensors/LeapSensor').LeapSensor;
-
+//const LeapSensor = require('./implementation/sensors/LeapSensor').LeapSensor;
+const LeapSensor = require('./implementation/sensors/leap-sensor').Sensor;
 
 // Gesture Datasets loader
-const LeapMotionDatasetLoader = require('./implementation/datasets/LeapmotionConverter');
-const SmartphoneDatasetLoader = require('./implementation/datasets/SmartphoneConverter');
 const UnifiedDatasetLoader = require('./framework/datasets/UnifiedDatasetLoader');
-const HandGestureDatasetLoader = require('./implementation/datasets/HandGestureCsv');
-const UWaveDatasetLoader = require('./implementation/datasets/uWaveConverter');
+// const LeapMotionDatasetLoader = require('./implementation/datasets/LeapmotionConverter');
+// const SmartphoneDatasetLoader = require('./implementation/datasets/SmartphoneConverter');
+// const HandGestureDatasetLoader = require('./implementation/datasets/HandGestureCsv');
+// const UWaveDatasetLoader = require('./implementation/datasets/uWaveConverter');
 
+// Classifiers
+const GPSDClassifier = require('./implementation/classifier/gpsd-classifier/classifier').Classifier;
+
+// Static Gesture Analyzers
+const BasicStaticAnalyzer = require('./implementation/static-analyzer/basic-analyzer/static-analyzer').StaticAnalyzer;
 
 // Gesture Segmenters
-//const WindowSegmenter = require('./implementation/segmenter/window-segmenter').Segmenter;
-//const ZoningSegmenter = require('./implementation/segmenter/zoning-segmenter').Segmenter;
-//const LeftHandSegmenter = require('./implementation/segmenter/lefthand-segmenter').Segmenter;
-//const FrameSegmenter = require('./implementation/segmenter/frame-segmenter').Segmenter;
+const WindowSegmenter = require('./implementation/segmenter/window-segmenter').Segmenter;
+const ZoningSegmenter = require('./implementation/segmenter/zoning-segmenter').Segmenter;
+const LeftHandSegmenter = require('./implementation/segmenter/lefthand-segmenter').Segmenter;
+const FrameSegmenter = require('./implementation/segmenter/frame-segmenter').Segmenter;
 
 // Gesture Recognizers
 //3D
@@ -31,7 +36,6 @@ const PDollarPlusRecognizer = require('./implementation/recognizers/pdollarplus/
 
 // CONFIG INIT ------------------------------------------------------------------------------------
 var config = {};
-
 config.general = {};
 config.server = {};
 config.sensor = {};
@@ -41,6 +45,7 @@ config.classifier.options = {};
 config.staticAnalyzer = {};
 config.staticAnalyzer.options = {};
 config.dataset = {};
+config.dataset.options = {};
 config.segmenter = {};
 config.segmenter.options = {};
 config.recognizer = {};
@@ -49,6 +54,7 @@ config.recognizer.options = {};
 // CONFIGURATION ----------------------------------------------------------------------------------
 // General Configuration
 config.general.loadGesturesFromClient = false;       // Load gestures based on requests from the client
+config.general.debug = true;
 
 // Server
 config.server.ip = '127.0.0.1';						// IP of the server (for app interface)
@@ -59,15 +65,18 @@ config.sensor.module = LeapSensor;
 config.sensor.options.framerate = 60;				// Sensor framerate [seconds]
 
 // Classifier
-//config.classifier.module = GPSDClassifier;
+config.classifier.module = GPSDClassifier;
 //config.classifier.options;
 
 // Static Gesture Analyzer
-//config.staticAnalyzer.module = BasicStaticAnalyzer;
+config.staticAnalyzer.module = BasicStaticAnalyzer;
 //config.staticAnalyzer.options = 
 
 // Gesture Dataset
-config.dataset.module = BasicDataset;
+config.dataset.module = UnifiedDatasetLoader;
+config.dataset.options.directory = "./datasets";
+config.dataset.options.name = "guinevere_unified";
+
 
 // Gesture Segmenter
 config.segmenter.module = WindowSegmenter;
@@ -82,6 +91,8 @@ config.segmenter.options.zBound = 60;				// 1/2 depth of the zone (if applicable
 // Gesture Recognizer
 config.recognizer.module = JackknifeRecognizer;
 config.recognizer.options.samplingPoints = 16;		// Number of sampling points [#points]
+config.recognizer.options.articulations = ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition", "rigthPalmPosition", "leftPalmPosition"];
+
 
 
 module.exports = config;

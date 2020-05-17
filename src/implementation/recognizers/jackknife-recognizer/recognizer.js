@@ -15,7 +15,7 @@ class Recognizer extends AbstractRecognizer {
         blades.set_ip_defaults();
         this.jackknifeRecognizer = new Jackknife(blades)
 		if (dataset !== undefined){
-			dataset.getGestureClasses().forEach((gesture) => {
+			dataset.getGestureClass().forEach((gesture) => {
 				gesture.getSample().forEach(sample => {
 						this.addGesture(gesture.name, sample, false);
 					}

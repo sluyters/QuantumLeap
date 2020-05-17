@@ -24,6 +24,7 @@ class LeapSensor extends Sensor{
     async acquireData(){
         Leap.loop((frame) => {
             let rawData = convert(frame);
+            console.log(rawData)
             let { success, strokeData } = this.gestureSegmenter.segment(rawData);
             if (success) {
                 LeapSensor.callback(strokeData);

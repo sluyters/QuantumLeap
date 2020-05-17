@@ -3,12 +3,12 @@ class GestureSet {
     constructor(name) {
         this.name = name;
         this.gestures = new Map();
-        this.G =0;
+        this.G = 0;
     }
 
     addGestureClass(gestureClass){
         this.gestures.set(gestureClass.name,gestureClass);
-        this.G +=1;
+        this.G += 1;
     }
 
     getGestureClass(){
