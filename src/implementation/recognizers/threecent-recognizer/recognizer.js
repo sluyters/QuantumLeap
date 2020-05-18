@@ -13,6 +13,7 @@ class Point {
 
 
 let NumPoints = 8;
+let pathName;
 
 class Recognizer extends AbstractRecognizer {
 
@@ -21,6 +22,7 @@ class Recognizer extends AbstractRecognizer {
     constructor(options, dataset) {
 		super();
         NumPoints = options.samplingPoints;
+        pathName = options.pathName;
 
         this.templates = {};
         this.threshold = Infinity;
@@ -110,7 +112,7 @@ class Recognizer extends AbstractRecognizer {
 }
 
 function convert(sample) {
-    return sample.paths["rightPalmPosition"].strokes[0].points;
+    return sample.paths[pathName].strokes[0].points;
 }
 
 function histogram(data, numBins) {

@@ -5,13 +5,13 @@ const GestureSet = require('../../framework/gestures/gesture-set').GestureSet;
 const GestureClass = require('../../framework/gestures/gesture-class').GestureClass;
 const StrokeData = require('../../framework/gestures/stroke-data').StrokeData;
 const Stroke = require('../../framework/gestures/stroke-data').Stroke;
+const Path = require('../../framework/gestures/stroke-data').Path;
 const Point = require('../../framework/gestures/point').Point3D;
 
 
 function loadDataset(name, directory) {
     let gestureSet = new GestureSet(name);
-    let dirPath = path.join(__dirname, directory);
-    let gestureIndex = 0;
+    let dirPath = path.join(directory, name);
 
     let gestureClasses = {};
 
@@ -23,7 +23,9 @@ function loadDataset(name, directory) {
             let rawGesturePath = path.join(gestureClassDirPath, file);
             let lines = fs.readFileSync(rawGesturePath, 'utf-8').split(/\r?\n/);
             let gestureData = new StrokeData();
-            let stroke = new Stroke();
+            let strokePath = new Path("main");
+            let stroke = new Stroke(0);
+            strokePath.addStroke(stroke);
 
             let gestureId = file.slice(23, 24);
 
@@ -43,7 +45,7 @@ function loadDataset(name, directory) {
                 // Ignore, probably bad data
                 console.log(`Too few datapoints (${index}) - ${rawGesturePath}`);
             } else {
-                gestureData.addStroke(stroke);
+                gestureData.addPath("main", strokePath);
                 if (!gestureClasses.hasOwnProperty(gestureId)) {
                     gestureClasses[gestureId] = new GestureClass(`Gesture ${gestureId}`);
                 }

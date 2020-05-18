@@ -1,5 +1,5 @@
-const fs = require('fs');
 const path = require('path');
+const fs = require('fs');
 
 const GestureSet = require('../../framework/gestures/gesture-set').GestureSet;
 const GestureClass = require('../../framework/gestures/gesture-class').GestureClass;
@@ -7,44 +7,26 @@ const StrokeData = require('../../framework/gestures/stroke-data').StrokeData;
 const Stroke = require('../../framework/gestures/stroke-data').Stroke;
 const Path = require('../../framework/gestures/stroke-data').Path;
 const Point = require('../../framework/gestures/point').Point3D;
-const UnifiedDatasetLoader = require('../../framework/datasets/UnifiedDatasetLoader');
 
 const palms = ["rightPalmPosition", "leftPalmPosition"];
 const fingers = ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition"];
 
-const device = {
-    'osBrowserInfo': 'Leap Motion Controller', 'resolutionHeight': null,
-    'resolutionWidth': null, 'windowHeight': null, 'windowWidth': null,
-    'pixelRatio': null, 'mouse': false, 'pen': false, 'finger': false,
-    'acceleration': false, 'webcam': true
-};
 
 function loadDataset(name, directory) {
     let gestureSet = new GestureSet(name);
+    let dirPath = path.join(directory, name);
     let gestureIndex = 0;
-    fs.readdirSync(directory).forEach((user_dir) => {
-        let gestureSampleDirPath = path.join(directory, user_dir);
-        fs.readdirSync(gestureSampleDirPath).forEach((sample) => {
-            let rawGesturePath = path.join(gestureSampleDirPath, sample);
+
+    fs.readdirSync(dirPath).forEach((dir) => {
+        let gestureClassDirPath = path.join(dirPath, dir);
+        let gestureClass = new GestureClass(dir, gestureIndex);
+        gestureIndex+=1;
+        fs.readdirSync(gestureClassDirPath).forEach((sample) => {
+            let rawGesturePath = path.join(gestureClassDirPath, sample);
             let rawGestureData = JSON.parse(fs.readFileSync(rawGesturePath));
-
-            let gesture = sample.split(".")[0].split("-");
-            let gestureName = gesture[0].split("#")[0];
-            let infosupp = undefined;
-            if (gesture[0].split("#").length > 1) {
-                infosupp = gesture[0].split("#")[1];
-            }
-            let id = gesture[1];
-
-            let gestureData = new StrokeData(parseInt(user_dir), id, infosupp);
-            if (gestureSet.getGestureClasses().has(gestureName)) {
-                gestureSet.getGestureClasses().get(gestureName).addSample(gestureData);
-            } else {
-                let gestureClass = new GestureClass(gestureName, gestureIndex);
-                gestureIndex += 1;
-                gestureClass.addSample(gestureData);
-                gestureSet.addGestureClass(gestureClass);
-            }
+            let filename = sample.split(".")[0].split("-");
+            let gestureData = new StrokeData(parseInt(filename[1]), parseInt(filename[2]));
+            gestureClass.addSample(gestureData);
 
             // Init stroke paths
             fingers.forEach((fingerName) => {
@@ -109,8 +91,12 @@ function loadDataset(name, directory) {
                     }
                 });
             }
+
         });
+
+        gestureSet.addGestureClass(gestureClass);
     });
+    
     return gestureSet;
 }
 
@@ -122,11 +108,6 @@ function getFingerName(isRight, type) {
     }
 }
 
-
-if (require.main === module) {
-    const dirPath = path.join(__dirname, '../../datasets', 'guinevere');
-    const convertedPath = path.join(__dirname, '../../datasets', 'guinevere_unified');
-
-    let dataset = loadDataset("guinevere_unified", dirPath);
-    UnifiedDatasetLoader.writeDataset(dataset, convertedPath);
-}
+module.exports = {
+    loadDataset
+};

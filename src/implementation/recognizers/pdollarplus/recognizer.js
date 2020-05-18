@@ -1,6 +1,9 @@
 const recognizer = require('../../../framework/recognizers/Recognizer');
 const pdollarplus = require('./pdollarplus');
 
+
+let pathName;
+
 class Recognizer extends recognizer.Recognizer{
 
     static name = "PDollarPlusRecognizer";
@@ -8,6 +11,7 @@ class Recognizer extends recognizer.Recognizer{
     constructor(options, dataset) {
         super();
         this.N = options.samplingPoints;
+        pathName = options.pathName;
         this.recognizer = new pdollarplus.PDollarPlusRecognizer();
 
         if (dataset!==undefined){
@@ -26,14 +30,14 @@ class Recognizer extends recognizer.Recognizer{
 
     recognize(sample){
         let result = this.recognizer.Recognize(convert(sample), this.N);
-        return {Name:result.Name, Time: result.Time};
+        return {name:result.Name, time: result.Time};
     }
 
 }
 
 function convert(sample){
     let PP_points =[];
-    sample.strokes.forEach((stroke,stroke_id) =>{
+    sample.paths[pathName].strokes.forEach((stroke,stroke_id) =>{
        stroke.points.forEach(point => {
            PP_points.push(new pdollarplus.$PP_Point(point.x, point.y, stroke_id));
        });

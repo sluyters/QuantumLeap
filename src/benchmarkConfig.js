@@ -2,11 +2,11 @@
 const path = require('path');
 
 // Gesture Datasets loader
-const LeapMotionDatasetLoader = require('./implementation/datasets/LeapmotionConverter');
-const SmartphoneDatasetLoader = require('./implementation/datasets/SmartphoneConverter');
+const LeapMotionDatasetLoader = require('./implementation/datasets/LeapmotionDatasetLoader');
+const SmartphoneDatasetLoader = require('./implementation/datasets/SmartphoneDatasetLoader');
 const UnifiedDatasetLoader = require('./framework/datasets/UnifiedDatasetLoader');
-const HandGestureDatasetLoader = require('./implementation/datasets/HandGestureCsv');
-const UWaveDatasetLoader = require('./implementation/datasets/uWaveConverter');
+const HandGestureDatasetLoader = require('./implementation/datasets/HandGestureCsvDatasetLoader');
+const UWaveDatasetLoader = require('./implementation/datasets/uWaveDatasetLoader');
 
 
 // Gesture Recognizers
@@ -19,7 +19,7 @@ const ThreeCentRecognizer = require('./implementation/recognizers/threecent-reco
 const P3DollarPlusRecognizer = require('./implementation/recognizers/p3dollarplus-recognizer/recognizer').Recognizer;
 const Q3DollarRecognizer = require('./implementation/recognizers/q3dollar-recognizer/recognizer').Recognizer;
 //2D
-const PDollarPlusRecognizer = require('./implementation/recognizers/pdollarplus/recognizer').Recognizer;
+const PDollarPlusRecognizer = require('./implementation/recognizers/pdollarplus/recognizer').PDollarPlusRecognizer;
 
 const fingers = ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition", "rigthPalmPosition", "leftPalmPosition"];
 
@@ -33,7 +33,7 @@ config.recognizers = [
         module: UVPRecognizer,
         options: {
             samplingPoints : 8,
-            articulations: fingers
+            articulations: ["main"]//fingers
         }
     },
     {
@@ -42,15 +42,24 @@ config.recognizers = [
     },
     {
         module: ThreeCentRecognizer,
-        options: {samplingPoints : 8}
+        options: {
+            samplingPoints : 8,
+            pathName: "main"
+        }
     },
     {
         module: P3DollarPlusRecognizer,
-        options: {samplingPoints : 8}
+        options: {
+            samplingPoints : 8,
+            pathName: "main"
+        }
     },
     {
         module: P3DollarPlusXRecognizer,
-        options: {samplingPoints : 8}
+        options: {
+            samplingPoints : 8,
+            pathName: "main"
+        }
     },
     // {
     //     module: HybridP3DollarPlusXRecognizer,
@@ -58,18 +67,40 @@ config.recognizers = [
     // },
     {
         module: Q3DollarRecognizer,
-        options: {samplingPoints : 8}
-    }
+        options: {
+            samplingPoints : 8,
+            pathName: "main"
+        }
+    },
+    // {
+    //     module: PDollarPlusRecognizer,
+    //     options: {
+    //         samplingPoints : 8,
+    //         pathName: "main"
+    //     }
+    // }
 ];
 
 config.datasets = [
-    {
-        name: "guinevere_unified",
-        loader: UnifiedDatasetLoader
-    }//,
+    // {
+    //     name: "guinevere_unified",
+    //     loader: UnifiedDatasetLoader
+    // }
     // {
     //     name: "leapmotion",
     //     loader: LeapMotionDatasetLoader
+    // }
+    {
+        name: "HandGestureDataset_SHREC2017_csv",
+        loader: HandGestureDatasetLoader
+    }
+    // {
+    //     name: "uWaveGestureLibrary",
+    //     loader: UWaveDatasetLoader
+    // }
+    // {
+    //     name: "smartphone",
+    //     loader: SmartphoneDatasetLoader
     // }
 ];
 
@@ -77,8 +108,8 @@ config.datasets = [
 let dirPath = path.join(__dirname, "datasets");
 config.datasetFolder = dirPath;
 
-config.mint = 14; //Minimum Training Templates
-config.maxt = 16; //Maximum Training Templates
+config.mint = 2; //Minimum Training Templates
+config.maxt = 8; //Maximum Training Templates
 config.r = 100; //Repetitions
 config.n = 8; //Points/Shapes
 

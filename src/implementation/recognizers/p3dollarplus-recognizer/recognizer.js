@@ -75,6 +75,7 @@ function PointCloud(name, points) // constructor
 // PDollarPlusRecognizer constants
 //
 let NumPoints = 8;
+let pathName;
 const Origin = new Point(0, 0, 0, 0);
 
 //
@@ -87,6 +88,7 @@ class Recognizer extends AbstractRecognizer {
     constructor(options, dataset) {
 		super();
 		NumPoints = options.samplingPoints;
+		pathName = options.pathName;
 		this.PointClouds = new Array();
 		if (dataset!==undefined){
 			dataset.getGestureClasses().forEach((gesture, key, self) => {
@@ -139,7 +141,7 @@ class Recognizer extends AbstractRecognizer {
 
 function convert(sample) {
 	let points = [];
-	sample.paths["rightPalmPosition"].strokes.forEach((stroke, stroke_id) => {
+	sample.paths[pathName].strokes.forEach((stroke, stroke_id) => {
 		stroke.points.forEach((point) => {
 			points.push(new Point(point.x, point.y, point.z, stroke_id));
 		});

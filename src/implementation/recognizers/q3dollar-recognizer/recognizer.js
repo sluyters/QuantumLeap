@@ -102,6 +102,7 @@ class PointCloud {
 // QDollarRecognizer constants
 //
 let NumPoints = 32;
+let pathName;
 const Origin = new Point(0, 0, 0, 0);
 const MaxIntCoord = 1024; // (intX, intY, intZ) range from [0, MaxIntCoord - 1]
 const LUTSize = 16; // default size of the lookup table is 16 x 16 x 16
@@ -116,6 +117,7 @@ class Recognizer extends AbstractRecognizer {
 	constructor(options, dataset) {
 		super();
 		NumPoints = options.samplingPoints;
+		pathName = options.pathName;
 		this.PointClouds = new Array();
 
 		if (dataset!==undefined){
@@ -161,7 +163,7 @@ class Recognizer extends AbstractRecognizer {
 
 function convert(sample) {
     let points = [];
-	sample.paths["rightPalmPosition"].strokes.forEach((stroke, stroke_id) => {
+	sample.paths[pathName].strokes.forEach((stroke, stroke_id) => {
 		stroke.points.forEach((point) => {
 			points.push(new Point(point.x, point.y, point.z, stroke_id));
 		});
