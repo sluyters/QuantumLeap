@@ -19,7 +19,7 @@ class FrameProcessor {
 
     resetContext() {
         if (this.config.general.loadGesturesFromClient) {
-            for (const gestureName of this.enabledGesture) {
+            for (const gestureName of this.enabledGestures) {
                 // TODO this.recognizer.removeGesture(gestureName);
             }
         }
@@ -40,7 +40,7 @@ class FrameProcessor {
             if (this.config.general.loadGesturesFromClient) {
                 let gestureClass = this.dataset.getGestureClasses(name);
                 if (gestureClass) {
-                    for (template of gestureClass.getSample()) {
+                    for (const template of gestureClass.getSample()) {
                         this.recognizer.addGesture(name, template);
                     }
                 }
