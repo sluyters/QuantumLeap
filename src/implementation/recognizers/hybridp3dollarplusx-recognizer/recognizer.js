@@ -4,9 +4,13 @@ const Point = require('./P3DollarPlusXRecognizer').Point;
 
 class Recognizer extends AbstractRecognizer {
 
+    static name = "HybridP3DollarPlusX";
+
 	constructor(options, dataset) {
 		super();
         this.N = options.samplingPoints;
+        this.palmThreshold = options.palmThreshold;
+        this.fingerThreshold = options.fingerThreshold;
 
         // Initialize recognizer for large scale movement
         this.largeScaleRecognizer = new P3DollarPlusXRecognizer(options.samplingPoints);
@@ -29,19 +33,19 @@ class Recognizer extends AbstractRecognizer {
 	}
 
 	addGesture(name, sample){
-        const { scale, gestureData } = parseData(sample);
+        const { scale, gestureData } = parseData(sample, this.palmThreshold, this.fingerThreshold);
         // Add gesture
         if (scale === "small") {
             this.smallScaleRecognizer.addGesture(name, gestureData);
         } else if (scale === "large") {
             this.largeScaleRecognizer.addGesture(name, gestureData);
         } else {
-            console.log("static gesture ?");
+            //console.log("static gesture ?");
         }
     }
 
     recognize(sample){
-        const { scale, gestureData } = parseData(sample);
+        const { scale, gestureData } = parseData(sample, this.palmThreshold, this.fingerThreshold);
         if (scale === "small") {
             return this.smallScaleRecognizer.recognize(gestureData);
         } else if (scale === "large") {
@@ -53,16 +57,11 @@ class Recognizer extends AbstractRecognizer {
 	}
 }
 
-function parseData(sample) {
-    const palmThreshold = 50;
-    const fingerThreshold = 15;
-
-    let stroke = sample.strokes[0];
-
+function parseData(sample, palmThreshold, fingerThreshold) {
     // Determine max palm translation
     let maxPalmTranslation = 0;
     let palmData = [];
-    for (const point of stroke.paths['rightPalmPosition'].points) {
+    for (const point of sample.paths['rightPalmPosition'].strokes[0].points) {
         palm = new Point(point.x, point.y, point.z, 0);
         palmData.push(palm);
         let palmTranslation = distance(palmData[0], palm);
@@ -75,9 +74,9 @@ function parseData(sample) {
     let fingersData = {};
     for (const finger of ["rightThumbPosition", "rightIndexPosition"]) {
         fingersData[finger] = [];
-        for (let i = 0; i < stroke.paths[finger].points.length; i++) {
-            let palmPoint = stroke.paths['rightPalmPosition'].points[i];
-            let fingerPoint = stroke.paths[finger].points[i];
+        for (let i = 0; i < sample.paths[finger].strokes[0].points.length; i++) {
+            let palmPoint = sample.paths['rightPalmPosition'].strokes[0].points[i];
+            let fingerPoint = sample.paths[finger].strokes[0].points[i];
             // Compute translated point
             let x = fingerPoint.x - palmPoint.x;
             let y = fingerPoint.y - palmPoint.y;

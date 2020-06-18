@@ -3,16 +3,22 @@
 //const LeapSensor = require('./implementation/sensors/LeapSensor').LeapSensor;
 const LeapSensor = require('./implementation/sensors/leap-sensor').Sensor;
 
-// Gesture Datasets loader
+// Gesture Datasets loaders
 const UnifiedDatasetLoader = require('./framework/datasets/UnifiedDatasetLoader');
 // const LeapMotionDatasetLoader = require('./implementation/datasets/LeapmotionConverter');
 // const SmartphoneDatasetLoader = require('./implementation/datasets/SmartphoneConverter');
 // const HandGestureDatasetLoader = require('./implementation/datasets/HandGestureCsv');
 // const UWaveDatasetLoader = require('./implementation/datasets/uWaveConverter');
 
+// Pose datasets loaders
+const MMHGRDatasetLoader = require('./implementation/datasets/pose/mmhgr-loader');
+
 // Classifiers
-const GPSDClassifier = require('./implementation/classifiers/gpsd-classifier/classifier').Classifier;
 const NoClassifier = require('./implementation/classifiers/placeholder-classifier/classifier').Classifier;
+const GPSDClassifier = require('./implementation/classifiers/gpsd-classifier/classifier').Classifier;
+const GPSDaClassifier = require('./implementation/classifiers/gpsda-classifier/classifier').Classifier;
+const GPSDaDissimilarityClassifier = require('./implementation/classifiers/gpsdadissimilarity-classifier/classifier').Classifier;
+const P3DollarPlusClassifier = require('./implementation/classifiers/p3dollarplus-classifier/classifier').Classifier; 
 
 // Static Gesture Analyzers
 const BasicStaticAnalyzer = require('./implementation/static-analyzer/basic-analyzer/static-analyzer').StaticAnalyzer;
@@ -38,64 +44,85 @@ const PDollarPlusRecognizer = require('./implementation/recognizers/pdollarplus/
 // CONFIG INIT ------------------------------------------------------------------------------------
 var config = {};
 config.general = {};
+config.general.pose = {};
+config.general.gesture = {};
 config.server = {};
-config.sensor = {};
-config.sensor.options = {};
-config.classifier = {};
-config.classifier.options = {};
-config.staticAnalyzer = {};
-config.staticAnalyzer.options = {};
-config.dataset = {};
-config.dataset.options = {};
-config.segmenter = {};
-config.segmenter.options = {};
-config.recognizer = {};
-config.recognizer.options = {};
+config.datasets = {};
 
 // CONFIGURATION ----------------------------------------------------------------------------------
 // General Configuration
-config.general.reportGesturesFromClient = false;     // Report recognized gestures only if they are requested by the client
-config.general.loadGesturesFromClient = false;      // Load gestures based on requests from the client (requires detectGesturesFromClient = true to have an effect)
-config.general.sendContinuousData = true;
-config.general.debug = true;
+config.general.debug = true;                        // Show debug logs
+config.general.sendContinuousData = true;           // Send data from each frame to the client
+config.general.gesture = {
+    sendIfRequeste: true,                           // Send recognized gestures only if they are requested by the client
+    loadOnRequest: true                             // Load gestures based on requests from the client
+}
+config.general.pose = {
+    sendIfRequested: true,                          // Send recognized gestures only if they are requested by the client
+    loadOnRequest: true                             // Load gestures based on requests from the client
+}
 
 // Server
 config.server.ip = '127.0.0.1';						// IP of the server (for app interface)
 config.server.port = 6442;							// Port of the server (for app interface)
 
 // Sensor Interface
-config.sensor.module = LeapSensor;
-config.sensor.options.framerate = 60;				// Sensor framerate [seconds]
-
-// Classifier
-config.classifier.module = NoClassifier;
-//config.classifier.options;
+config.sensor = {
+    module: LeapSensor,
+    options: {
+        framerate: 60                               // Sensor framerate [seconds]
+    }
+}
 
 // Static Gesture Analyzer
-config.staticAnalyzer.module = BasicStaticAnalyzer;
-//config.staticAnalyzer.options = 
-
-// Gesture Dataset
-config.dataset.module = UnifiedDatasetLoader;
-config.dataset.options.directory = "./datasets";
-config.dataset.options.name = "guinevere_unified";
-
+config.staticAnalyzer = {
+    module: BasicStaticAnalyzer,
+    options: {}
+}
 
 // Gesture Segmenter
-config.segmenter.module = ZoningSegmenter;
-config.segmenter.options.minSegmentLength = 10;		// Minimum length of a segment (if applicable) [#frames]
-config.segmenter.options.maxSegmentLength = 60;		// Maximum length of a segment (if applicable) [#frames]
-config.segmenter.options.windowWidth = 20;			// Width of the window (if applicable) [#frames]
-config.segmenter.options.intervalLength = 3;		// Length of the interval between 2 consecutive segments (if applicable) [#frames]
-config.segmenter.options.pauseLength = 60;			// Length of the pause after a gesture has been detected (if applicable) [#frames]
-config.segmenter.options.xBound = 120;				// 1/2 width of the zone (if applicable) [mm]
-config.segmenter.options.zBound = 60;				// 1/2 depth of the zone (if applicable) [mm]
+config.segmenter = {
+    module: ZoningSegmenter,
+    options: {
+        minSegmentLength: 10,                       // Minimum length of a segment (if applicable) [#frames]
+        maxSegmentLength: 60,                       // Maximum length of a segment (if applicable) [#frames]
+        windowWidth: 20,                            // Width of the window (if applicable) [#frames]
+        intervalLength: 3,                          // Length of the interval between 2 consecutive segments (if applicable) [#frames]
+        pauseLength: 60,                            // Length of the pause after a gesture has been detected (if applicable) [#frames]
+        xBound: 120,                                // 1/2 width of the zone (if applicable) [mm]
+        zBound: 60                                  // 1/2 depth of the zone (if applicable) [mm]
+    }
+}
+
+// Gesture Dataset
+config.datasets.gesture = {
+    directory: "./datasets/gesture",
+    loader: UnifiedDatasetLoader,
+    name: "guinevere_unified"
+}
+
+// Pose Dataset
+config.datasets.pose = {
+    directory: "./datasets/pose",
+    loader: MMHGRDatasetLoader,
+    name: "multi_mod_hand_gest_recog"
+}
 
 // Gesture Recognizer
-config.recognizer.module = JackknifeRecognizer;
-config.recognizer.options.samplingPoints = 16;		// Number of sampling points [#points]
-config.recognizer.options.articulations = ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition", "rigthPalmPosition", "leftPalmPosition"];
+config.recognizer = {
+    module: HybridP3DollarPlusXRecognizer,
+    options: {
+        samplingPoints: 16,                         // Number of sampling points [#points]
+        articulations: ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition", "rigthPalmPosition", "leftPalmPosition"]
+    }
+}
 
-
+// Pose Classifier
+config.classifier = {
+    module: P3DollarPlusClassifier,
+    options: {
+        articulations: ["rightPalmPosition", "rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition"]
+    }
+}
 
 module.exports = config;
