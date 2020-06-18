@@ -1,5 +1,4 @@
 class AbstractRecognizer {
-
     constructor(options, dataset) {
         // Empty
     }

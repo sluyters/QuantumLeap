@@ -2,31 +2,14 @@
 // Sensor Interfaces
 const LeapSensor = require('./implementation/sensors/leap-sensor').Sensor;
 
-// Gesture Datasets loaders
-const UnifiedDatasetLoader = require('./framework/datasets/UnifiedDatasetLoader');
-const LeapMotionDatasetLoader = require('./implementation/datasets/LeapMotionDatasetLoader');
-const SmartphoneDatasetLoader = require('./implementation/datasets/SmartphoneDatasetLoader');
-const HandGestureDatasetLoader = require('./implementation/datasets/HandGestureCsvDatasetLoader');
-const UWaveDatasetLoader = require('./implementation/datasets/uWaveDatasetLoader');
-
-// Pose datasets loaders
-const MMHGRDatasetLoader = require('./implementation/datasets/pose/mmhgr-loader');
-
-// Classifiers
-const NoClassifier = require('./implementation/classifiers/placeholder-classifier/classifier').Classifier;
-const GPSDClassifier = require('./implementation/classifiers/gpsd-classifier/classifier').Classifier;
-const GPSDaClassifier = require('./implementation/classifiers/gpsda-classifier/classifier').Classifier;
-const GPSDaDissimilarityClassifier = require('./implementation/classifiers/gpsdadissimilarity-classifier/classifier').Classifier;
-const P3DollarPlusClassifier = require('./implementation/classifiers/p3dollarplus-classifier/classifier').Classifier; 
-
-// Static Gesture Analyzers
-const BasicStaticAnalyzer = require('./implementation/static-analyzer/basic-analyzer/static-analyzer').StaticAnalyzer;
+// Pose Analyzers
+const BasicAnalyzer = require('./implementation/analyzers/basic-analyzer/analyzer').Analyzer;
 
 // Gesture Segmenters
-const WindowSegmenter = require('./implementation/segmenter/window-segmenter').Segmenter;
-const ZoningSegmenter = require('./implementation/segmenter/zoning-segmenter').Segmenter;
-const LeftHandSegmenter = require('./implementation/segmenter/lefthand-segmenter').Segmenter;
-const FrameSegmenter = require('./implementation/segmenter/frame-segmenter').Segmenter;
+const WindowSegmenter = require('./implementation/segmenters/window-segmenter').Segmenter;
+const ZoningSegmenter = require('./implementation/segmenters/zoning-segmenter').Segmenter;
+const LeftHandSegmenter = require('./implementation/segmenters/lefthand-segmenter').Segmenter;
+const FrameSegmenter = require('./implementation/segmenters/frame-segmenter').Segmenter;
 
 // Gesture Recognizers
 //3D
@@ -39,6 +22,22 @@ const P3DollarPlusRecognizer = require('./implementation/recognizers/p3dollarplu
 //2D
 const PDollarPlusRecognizer = require('./implementation/recognizers/pdollarplus/recognizer').Recognizer;
 
+// Pose Classifiers
+const NoClassifier = require('./implementation/classifiers/placeholder-classifier/classifier').Classifier;
+const GPSDClassifier = require('./implementation/classifiers/gpsd-classifier/classifier').Classifier;
+const GPSDaClassifier = require('./implementation/classifiers/gpsda-classifier/classifier').Classifier;
+const GPSDaDissimilarityClassifier = require('./implementation/classifiers/gpsdadissimilarity-classifier/classifier').Classifier;
+const P3DollarPlusClassifier = require('./implementation/classifiers/p3dollarplus-classifier/classifier').Classifier; 
+
+// Gesture Dataset Loaders
+const UnifiedDatasetLoader = require('./framework/datasets/UnifiedDatasetLoader');
+const LeapMotionDatasetLoader = require('./implementation/datasets/LeapMotionDatasetLoader');
+const SmartphoneDatasetLoader = require('./implementation/datasets/SmartphoneDatasetLoader');
+const HandGestureDatasetLoader = require('./implementation/datasets/HandGestureCsvDatasetLoader');
+const UWaveDatasetLoader = require('./implementation/datasets/uWaveDatasetLoader');
+
+// Pose Dataset Loaders
+const MMHGRDatasetLoader = require('./implementation/datasets/pose/mmhgr-loader');
 
 // CONFIG INIT ------------------------------------------------------------------------------------
 var config = {};
@@ -73,9 +72,9 @@ config.sensor = {
     }
 }
 
-// Static Gesture Analyzer
-config.staticAnalyzer = {
-    module: BasicStaticAnalyzer,
+// Pose Analyzer
+config.analyzer = {
+    module: BasicAnalyzer,
     options: {}
 }
 

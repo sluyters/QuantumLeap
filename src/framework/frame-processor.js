@@ -1,7 +1,7 @@
 class FrameProcessor {
     constructor(config) {
         // Initialize analyzer, segmenter, datasets, recognizer and classifier
-        this.staticAnalyzer = new config.staticAnalyzer.module(config.staticAnalyzer.options);
+        this.analyzer = new config.analyzer.module(config.analyzer.options);
         this.segmenter = new config.segmenter.module(config.segmenter.options);
         this.gestureDataset = config.datasets.gesture.loader.loadDataset(config.datasets.gesture.name, config.datasets.gesture.directory);
         this.poseDataset = config.datasets.pose.loader.loadDataset(config.datasets.pose.name, config.datasets.pose.directory);
@@ -89,7 +89,7 @@ class FrameProcessor {
         console.log(staticPose)
         if (staticPose && (!this.config.general.pose.sendIfRequested || this.enabledPoses.includes(staticPose))) {
             // Static pose detected
-            let data = this.staticAnalyzer.analyze(frame);
+            let data = this.analyzer.analyze(frame);
             // this.segmenter.notifyStatic()
             return { 'type': 'static', 'name': staticPose, 'data': data };
         } else {

@@ -1,5 +1,9 @@
-class StaticAnalyzer {
-    constructor(config) {
+const AbstractAnalyzer = require('../../../framework/analyzers/abstract-analyzer').AbstractAnalyzer;
+
+class Analyzer extends AbstractAnalyzer {
+
+    constructor(options) {
+        super(options);
         this.previousFrame = null;
     }
 
@@ -52,5 +56,5 @@ function getDistance(p1, p2) {
 }
 
 module.exports = {
-    StaticAnalyzer
+    Analyzer
 }
