@@ -1,5 +1,6 @@
 const AbstractRecognizer = require('../../../framework/recognizers/abstract-recognizer').AbstractRecognizer;
 const PDollarPlusRecognizer = require('./pdollarplus/pdollarplus').PDollarPlusRecognizer;
+const Point =  require('./pdollarplus/pdollarplus').$PP_Point;
 
 let pathName;
 
@@ -38,7 +39,7 @@ function convert(sample){
     let PP_points =[];
     sample.paths[pathName].strokes.forEach((stroke,stroke_id) =>{
        stroke.points.forEach(point => {
-           PP_points.push(new pdollarplus.$PP_Point(point.x, point.y, stroke_id));
+           PP_points.push(new Point(point.x, point.y, stroke_id));
        });
     });
     return PP_points;
