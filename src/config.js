@@ -1,14 +1,13 @@
 // MODULES ----------------------------------------------------------------------------------------
 // Sensor Interfaces
-//const LeapSensor = require('./implementation/sensors/LeapSensor').LeapSensor;
 const LeapSensor = require('./implementation/sensors/leap-sensor').Sensor;
 
 // Gesture Datasets loaders
 const UnifiedDatasetLoader = require('./framework/datasets/UnifiedDatasetLoader');
-// const LeapMotionDatasetLoader = require('./implementation/datasets/LeapmotionConverter');
-// const SmartphoneDatasetLoader = require('./implementation/datasets/SmartphoneConverter');
-// const HandGestureDatasetLoader = require('./implementation/datasets/HandGestureCsv');
-// const UWaveDatasetLoader = require('./implementation/datasets/uWaveConverter');
+const LeapMotionDatasetLoader = require('./implementation/datasets/LeapMotionDatasetLoader');
+const SmartphoneDatasetLoader = require('./implementation/datasets/SmartphoneDatasetLoader');
+const HandGestureDatasetLoader = require('./implementation/datasets/HandGestureCsvDatasetLoader');
+const UWaveDatasetLoader = require('./implementation/datasets/uWaveDatasetLoader');
 
 // Pose datasets loaders
 const MMHGRDatasetLoader = require('./implementation/datasets/pose/mmhgr-loader');
