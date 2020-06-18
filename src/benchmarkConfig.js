@@ -21,7 +21,7 @@ const ThreeCentRecognizer = require('./implementation/recognizers/threecent-reco
 const P3DollarPlusRecognizer = require('./implementation/recognizers/p3dollarplus-recognizer/recognizer').Recognizer;
 const Q3DollarRecognizer = require('./implementation/recognizers/q3dollar-recognizer/recognizer').Recognizer;
 //2D
-const PDollarPlusRecognizer = require('./implementation/recognizers/pdollarplus-recognizer/recognizer').PDollarPlusRecognizer;
+const PDollarPlusRecognizer = require('./implementation/recognizers/pdollarplus-recognizer/recognizer').Recognizer;
 
 // Pose classifiers
 const GPSDClassifier = require('./implementation/classifiers/gpsd-classifier/classifier').Classifier;
