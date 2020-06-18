@@ -1,10 +1,9 @@
-const recognizer = require('../../../framework/recognizers/Recognizer');
-const pdollarplus = require('./pdollarplus');
-
+const AbstractRecognizer = require('../../../framework/recognizers/abstract-recognizer').AbstractRecognizer;
+const PDollarPlusRecognizer = require('./pdollarplus/pdollarplus').PDollarPlusRecognizer;
 
 let pathName;
 
-class Recognizer extends recognizer.Recognizer{
+class Recognizer extends AbstractRecognizer {
 
     static name = "PDollarPlusRecognizer";
 
@@ -12,7 +11,7 @@ class Recognizer extends recognizer.Recognizer{
         super();
         this.N = options.samplingPoints;
         pathName = options.pathName;
-        this.recognizer = new pdollarplus.PDollarPlusRecognizer();
+        this.recognizer = new PDollarPlusRecognizer();
 
         if (dataset!==undefined){
             dataset.getGestureClasses().forEach((gesture, key, self) => {
@@ -46,5 +45,5 @@ function convert(sample){
 }
 
 module.exports = {
-    PDollarPlusRecognizer: Recognizer
+    Recognizer
 };

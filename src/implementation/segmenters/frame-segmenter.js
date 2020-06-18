@@ -4,7 +4,7 @@ class Segmenter {
     }
 
     segment(frame) {
-        return { success: true, frames: [frame] };
+        return frame;
     }
 }
 

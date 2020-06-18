@@ -1,6 +1,6 @@
-const AbstractSensor = require('../../framework/sensors/abstract-sensor').AbstractSensor
-const Point = require('../../framework/gestures/point').Point3D;
-const { Frame, Articulation } = require('../../framework/frames/frame');
+const AbstractSensor = require('../../../framework/sensors/abstract-sensor').AbstractSensor
+const Point = require('../../../framework/gestures/point').Point3D;
+const { Frame, Articulation } = require('../../../framework/frames/frame');
 const Leap = require('leapjs');
 
 const rArticulations = ["rightPalmPosition", "rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition"];

@@ -1,8 +1,8 @@
-const Sensor = require('./Sensor').Sensor;
+const AbstractSensor = require('./abstract-sensor').AbstractSensor;
 const path = require('path');
 const express = require('express');
 
-class FakeSensor extends Sensor{
+class Sensor extends AbstractSensor {
 
     static gestureset = [];
     static callback = undefined;
@@ -51,5 +51,5 @@ class FakeSensor extends Sensor{
 }
 
 module.exports = {
-    FakeSensor
+    Sensor
 };

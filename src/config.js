@@ -1,6 +1,6 @@
 // MODULES ----------------------------------------------------------------------------------------
 // Sensor Interfaces
-const LeapSensor = require('./implementation/sensors/leap-sensor').Sensor;
+const LeapSensor = require('./implementation/sensors/leap-sensor/sensor').Sensor;
 
 // Pose Analyzers
 const BasicAnalyzer = require('./implementation/analyzers/basic-analyzer/analyzer').Analyzer;
@@ -16,11 +16,11 @@ const FrameSegmenter = require('./implementation/segmenters/frame-segmenter').Se
 const HybridP3DollarPlusXRecognizer = require('./implementation/recognizers/hybridp3dollarplusx-recognizer/recognizer').Recognizer;
 const JackknifeRecognizer = require('./implementation/recognizers/jackknife-recognizer/recognizer').Recognizer;
 const P3DollarPlusXRecognizer = require('./implementation/recognizers/p3dollarplusx-recognizer/recognizer').Recognizer;
-const UVPRecognizer = require('./implementation/recognizers/uvplus-flexible-cloud/recognizer').Recognizer;
+const UVPRecognizer = require('./implementation/recognizers/uvplusflexiblecloud-recognizer/recognizer').Recognizer;
 const ThreeCentRecognizer = require('./implementation/recognizers/threecent-recognizer/recognizer').Recognizer;
 const P3DollarPlusRecognizer = require('./implementation/recognizers/p3dollarplus-recognizer/recognizer').Recognizer;
 //2D
-const PDollarPlusRecognizer = require('./implementation/recognizers/pdollarplus/recognizer').Recognizer;
+const PDollarPlusRecognizer = require('./implementation/recognizers/pdollarplus-recognizer/recognizer').Recognizer;
 
 // Pose Classifiers
 const NoClassifier = require('./implementation/classifiers/placeholder-classifier/classifier').Classifier;

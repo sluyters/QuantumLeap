@@ -1,4 +1,4 @@
-class Sensor {
+class AbstractSensor {
 
     onGesture(callback){
         throw new Error('You must implement this function');
@@ -14,5 +14,5 @@ class Sensor {
 }
 
 module.exports = {
-    Sensor
+    AbstractSensor
 };

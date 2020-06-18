@@ -1,5 +1,3 @@
-const AbstractRecognizer = require('../../../framework/recognizers/Recognizer').Recognizer;
-
 /**
  * The $P+ Point-Cloud Recognizer (JavaScript version)
  *
@@ -80,10 +78,9 @@ const Origin = new Point(0, 0, 0, 0);
 //
 // PDollarPlusRecognizer class
 //
-class Recognizer extends AbstractRecognizer {
+class P3DollarPlusXRecognizer {
 
     constructor(N) {
-		super();
 		NumPoints = N;
 		this.PointClouds = new Array();
 		this.conflicts = {};
@@ -337,5 +334,5 @@ function DirDist(points1, points2) {
 
 module.exports = {
 	Point,
-	Recognizer
+	P3DollarPlusXRecognizer
 };

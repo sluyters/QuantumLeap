@@ -1,7 +1,7 @@
-const recognizer = require('../../../framework/recognizers/Recognizer');
-const dollar = require('./dollar');
+const AbstractRecognizer = require('../../../framework/recognizers/abstract-recognizer').AbstractRecognizer;
+const UVPRecognizer = require('./uvplusflexiblecloud/dollar').UVPRecognizer;
 
-class Recognizer extends recognizer.Recognizer{
+class Recognizer extends AbstractRecognizer{
 
     static name = "DollarRecognizer";
 
@@ -9,7 +9,7 @@ class Recognizer extends recognizer.Recognizer{
         super();
         this.N = options.samplingPoints;
         this.articulations = options.articulations;
-        this.recognizer = new dollar.UVPRecognizer(this.articulations.length, this.N);
+        this.recognizer = new UVPRecognizer(this.articulations.length, this.N);
         if (dataset!==undefined){
             dataset.getGestureClasses().forEach((gesture, key, self) => {
                 gesture.getSample().forEach(sample => {

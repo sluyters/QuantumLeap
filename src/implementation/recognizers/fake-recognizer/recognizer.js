@@ -1,9 +1,9 @@
-const Recognizer = require('./Recognizer').Recognizer;
+const AbstractRecognizer = require('../../../framework/recognizers/abstract-recognizer').AbstractRecognizer;
 
-class FakeRecognizer extends Recognizer{
+class Recognizer extends AbstractRecognizer{
 
-    constructor(N, dataset) {
-        super();
+    constructor(options, dataset) {
+        super(options);
         this.gestureset=[];
         //TODO need to init gestureset so can't call super(dataset)
         if (dataset!==undefined){
@@ -31,5 +31,5 @@ class FakeRecognizer extends Recognizer{
 }
 
 module.exports = {
-    FakeRecognizer
+    Recognizer
 };

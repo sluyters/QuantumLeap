@@ -24,6 +24,16 @@ class Recognizer extends AbstractRecognizer {
             this.jackknifeRecognizer.train(6, 2, 1.0);
         }
     }
+
+	addGesture(name, sample, train = false) {
+        let jackknifeSample = convert(sample, name);
+        if (jackknifeSample) {
+            this.jackknifeRecognizer.add_template(jackknifeSample);
+            if (train) {
+                this.jackknifeRecognizer.train(6, 2, 1.0);
+            }
+        }
+    }
     
     recognize(sample) {
         let jackknifeSample = convert(sample);
@@ -34,16 +44,6 @@ class Recognizer extends AbstractRecognizer {
         let ret = this.jackknifeRecognizer.classify(jackknifeSample);
         let t1 = Date.now();
 		return (ret == -1) ? { name: "", time: t1-t0 } : { name: ret, time: t1-t0 };
-	}
-
-	addGesture(name, sample, train = false) {
-        let jackknifeSample = convert(sample, name);
-        if (jackknifeSample) {
-            this.jackknifeRecognizer.add_template(jackknifeSample);
-            if (train) {
-                this.jackknifeRecognizer.train(6, 2, 1.0);
-            }
-        }
 	}
 }
 
