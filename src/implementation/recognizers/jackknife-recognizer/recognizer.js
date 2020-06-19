@@ -44,7 +44,11 @@ class Recognizer extends AbstractRecognizer {
         let ret = this.jackknifeRecognizer.classify(jackknifeSample);
         let t1 = Date.now();
 		return (ret == -1) ? { name: "", time: t1-t0 } : { name: ret, time: t1-t0 };
-	}
+    }
+    
+    toString() {
+        return `${Recognizer.name} [ samplingPoints = ${this.N} ]`;
+    }
 }
 
 function convert(sample, name) {

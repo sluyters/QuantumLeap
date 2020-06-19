@@ -15,6 +15,10 @@ class Classifier extends AbstractClassifier {
     classify(frame) {
         return { 'name': "", 'time': 0.0 };
     }
+
+    toString() {
+        return `${Classifier.name}`;
+    }
 }
 
 module.exports = {

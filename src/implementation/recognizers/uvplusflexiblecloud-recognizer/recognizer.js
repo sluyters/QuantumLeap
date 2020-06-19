@@ -11,7 +11,7 @@ class Recognizer extends AbstractRecognizer{
         this.articulations = options.articulations;
         this.recognizer = new UVPRecognizer(this.articulations.length, this.N);
         if (dataset!==undefined){
-            dataset.getGestureClasses().forEach((gesture, key, self) => {
+            dataset.getGestureClasses().forEach((gesture) => {
                 gesture.getSample().forEach(sample => {
                         this.addGesture(gesture.name, sample);
                     }
@@ -21,29 +21,31 @@ class Recognizer extends AbstractRecognizer{
     }
 
     addGesture(name, sample){
-        this.recognizer.storeTemplate(this.convert(sample), name);
+        this.recognizer.storeTemplate(convert(sample), name);
     }
 
     recognize(sample){
-        let result = this.recognizer.recognize(this.convert(sample));
+        let result = this.recognizer.recognize(convert(sample));
         return {name:result[0], time: result[1]};
     }
 
-    convert(sample){
-        let points =[];
-        for(let path in sample.paths){
-            let strokes = sample.paths[path].strokes;
-            let articulationPoints = [];
-            strokes.forEach(stroke =>{
-                articulationPoints = articulationPoints.concat(stroke.points);
-            });
-            points.push(articulationPoints);
-        }
-        return points;
+    toString() {
+        return `${Recognizer.name} [ samplingPoints = ${this.N} ]`;
     }
-
 }
 
+function convert(sample){
+    let points =[];
+    for(let path in sample.paths){
+        let strokes = sample.paths[path].strokes;
+        let articulationPoints = [];
+        strokes.forEach(stroke =>{
+            articulationPoints = articulationPoints.concat(stroke.points);
+        });
+        points.push(articulationPoints);
+    }
+    return points;
+}
 
 
 module.exports = {

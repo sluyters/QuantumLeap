@@ -28,43 +28,14 @@ class Recognizer extends AbstractRecognizer {
         this.threshold = Infinity;
 
 		if (dataset!==undefined){
-			dataset.getGestureClasses().forEach((gesture, key, self) => {
+			dataset.getGestureClasses().forEach((gesture) => {
 				gesture.getSample().forEach(sample => {
 						this.addGesture(gesture.name, sample);
 					}
 				);
 			});
 		}
-    }
-
-
-    recognize(sample) {
-		let points = convert(sample);
-        let t0 = Date.now();
-        //----------------------------------------------------------------------------------------------------
-        points = normalizeP(points, NumPoints);
-        
-        let bestFitClass = "";
-        //let minDist = this.threshold;
-        let minDist = Infinity;
-
-        // Compare gesture w/ each template
-        Object.keys(this.templates).forEach((name) => {
-            for (let i = 0; i < this.templates[name].length; i++) {
-                let tmpDist = gestureDistance(points, this.templates[name][i]);
-
-                if (tmpDist < minDist) {
-                    minDist = tmpDist;
-                    bestFitClass = name;
-                }
-            }
-        }); 
-        
-        //----------------------------------------------------------------------------------------------------
-		let t1 = Date.now();
-		return (bestFitClass === "") ? { name: "", time: t1-t0, 'Score': 0.0 } : { name: bestFitClass, time: t1-t0, 'Score': minDist };
-	}
-    
+    }  
 
     addGesture(name, sample) {
         let points = convert(sample);
@@ -108,7 +79,38 @@ class Recognizer extends AbstractRecognizer {
             //console.log(distancesHist)
             this.threshold = distancesHist;
         }
+    }
+
+    recognize(sample) {
+		let points = convert(sample);
+        let t0 = Date.now();
+        //----------------------------------------------------------------------------------------------------
+        points = normalizeP(points, NumPoints);
+        
+        let bestFitClass = "";
+        //let minDist = this.threshold;
+        let minDist = Infinity;
+
+        // Compare gesture w/ each template
+        Object.keys(this.templates).forEach((name) => {
+            for (let i = 0; i < this.templates[name].length; i++) {
+                let tmpDist = gestureDistance(points, this.templates[name][i]);
+
+                if (tmpDist < minDist) {
+                    minDist = tmpDist;
+                    bestFitClass = name;
+                }
+            }
+        }); 
+        
+        //----------------------------------------------------------------------------------------------------
+		let t1 = Date.now();
+		return (bestFitClass === "") ? { name: "", time: t1-t0, 'Score': 0.0 } : { name: bestFitClass, time: t1-t0, 'Score': minDist };
 	}
+    
+    toString() {
+        return `${Recognizer.name} [ samplingPoints = ${NumPoints}, pathName = ${pathName} ]`;
+    }
 }
 
 function convert(sample) {

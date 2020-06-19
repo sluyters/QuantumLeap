@@ -91,7 +91,7 @@ class Recognizer extends AbstractRecognizer {
 		pathName = options.pathName;
 		this.PointClouds = new Array();
 		if (dataset!==undefined){
-			dataset.getGestureClasses().forEach((gesture, key, self) => {
+			dataset.getGestureClasses().forEach((gesture) => {
 				gesture.getSample().forEach(sample => {
 						this.addGesture(gesture.name, sample);
 					}
@@ -137,6 +137,10 @@ class Recognizer extends AbstractRecognizer {
 		}
 		return num;
 	}
+
+	toString() {
+        return `${Recognizer.name} [ samplingPoints = ${NumPoints}, pathName = ${pathName} ]`;
+    }
 }
 
 function convert(sample) {

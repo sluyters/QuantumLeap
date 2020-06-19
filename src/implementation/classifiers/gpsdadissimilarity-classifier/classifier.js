@@ -9,6 +9,7 @@ class Classifier extends AbstractClassifier {
     constructor(options, dataset) {
         super(options);
         this.articulations = options.articulations;
+        this.alpha = options.alpha;
         this.staticRecognizer = new GPSDAlphaDissimilarityRecognizer(options.alpha);
         // Load gestures from the dataset
         if (dataset !== undefined) {
@@ -36,6 +37,10 @@ class Classifier extends AbstractClassifier {
         //console.log(points)
         let { success, name, time } = this.staticRecognizer.recognize(points);
         return success ? { 'name': name, 'time': time } : { 'name': "", 'time': time };
+    }
+
+    toString() {
+        return `${Classifier.name} [ alpha = ${this.alpha.toFixed(2)} ]`;
     }
 }
 

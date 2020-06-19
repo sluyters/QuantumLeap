@@ -9,7 +9,7 @@ class Classifier extends AbstractClassifier {
     constructor(options, dataset) {
         super(options);
         this.articulations = options.articulations;
-        this.staticRecognizer = new P3DollarPlusRecognizer(options.alpha);
+        this.staticRecognizer = new P3DollarPlusRecognizer(this.articulations.length);
         // Load gestures from the dataset
         if (dataset !== undefined) {
 			dataset.getGestureClasses().forEach((gesture) => {
@@ -41,6 +41,10 @@ class Classifier extends AbstractClassifier {
             //console.log(err);
             return { 'name': "", 'time': 0.0 };
         }
+    }
+
+    toString() {
+        return `${Classifier.name}`;
     }
 }
 

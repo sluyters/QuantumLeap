@@ -144,6 +144,10 @@ class Recognizer extends AbstractRecognizer {
 		return num;
 	}
 
+	toString() {
+        return `${Recognizer.name} [ samplingPoints = ${NumPoints}, pathName = ${pathName} ]`;
+    }
+
 	recognizeHelper(pointcloud) {
 		var u = -1;
 		var b = +Infinity;

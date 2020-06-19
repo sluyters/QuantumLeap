@@ -108,7 +108,9 @@ function getRandomNumber(min, max) {
  */
 function test(dataset, recognizerOrClassifierType, config, type = "recognizer"){
     let result = startTesting(dataset, recognizerOrClassifierType, config, type);
-    printResult(result, dataset, recognizerOrClassifierType.name, type);
+    let tmp = new recognizerOrClassifierType(config);
+    recognizerOrClassifierStr = tmp.toString();
+    printResult(result, dataset, recognizerOrClassifierStr, type);
 };
 
 

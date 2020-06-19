@@ -53,7 +53,11 @@ class Recognizer extends AbstractRecognizer {
             //console.log("static gesture ?")
             return { success: false, name: "", time: 0.0 };
         }
-	}
+    }
+    
+    toString() {
+        return `${Recognizer.name} [ samplingPoints = ${this.N}, palmThreshold = ${this.palmThreshold}, fingerThreshold = ${this.fingerThreshold} ]`;
+    }
 }
 
 function parseData(sample, palmThreshold, fingerThreshold) {
