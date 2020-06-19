@@ -15,34 +15,46 @@ class GestureHandler {
         this.client.onopen = function() {
             console.log('WebSocket Client Connected');
             this.isConnected = true;
-            // Register gestures to the server
+            // Init the message
+            let message = {
+                'type': 'operation',
+                'data': []
+            };
+            // Add addGestures operations to the message
             for (const gesture of Object.keys(this.gestureHandlers)) {
-                this.client.send(JSON.stringify({ 'addGesture': gesture }));
+                message.data.push({
+                    'type': 'addGesture',
+                    'name': gesture
+                });
             }
-            // Register poses to the server
+            // Add addPose operations to the message
             for (const pose of Object.keys(this.poseHandlers)) {
-                this.client.send(JSON.stringify({ 'addPose': pose }));
+                message.data.push({
+                    'type': 'addPose',
+                    'name': pose
+                });
             }
+            // Send the message to the server
+            this.client.send(JSON.stringify(message));
         }.bind(this);
+        // Handle messages from the server
         this.client.onmessage = function(event) {
-            let data = JSON.parse(event.data);
-            if (data.hasOwnProperty('gesture')) {
-                let gestureName = data.gesture.name;
-                if (data.gesture.type === 'dynamic') {
-                    // Dynamic gesture
-                    if (this.gestureHandlers.hasOwnProperty(gestureName)) {
-                        this.gestureHandlers[gestureName]();
-                        this.forEachHandler(gestureName);
-                    }
-                } else {
-                    // Pose
-                    if (this.poseHandlers.hasOwnProperty(gestureName)) {
-                        this.poseHandlers[gestureName](data.gesture.data);
+            let msg = JSON.parse(event.data);
+            if (msg.type === 'data') {
+                for (const dataMsg of msg.data) {
+                    if (dataMsg.type === 'frame') {
+                        this.frameHandler(dataMsg.data);
+                    } else if (dataMsg.type === 'pose') {
+                        if (this.poseHandlers.hasOwnProperty(dataMsg.name)) {
+                            this.poseHandlers[dataMsg.name](dataMsg.data);
+                        }
+                    } else if (dataMsg.type === 'gesture') {
+                        if (this.gestureHandlers.hasOwnProperty(dataMsg.name)) {
+                            this.gestureHandlers[dataMsg.name](dataMsg.data);
+                            this.forEachHandler(dataMsg.name);
+                        }
                     }
                 }
-            } 
-            if (data.hasOwnProperty('frame')) {
-                this.frameHandler(data.frame);
             }
         }.bind(this);
     }
@@ -87,7 +99,7 @@ class GestureHandler {
      */
     onGesture(gesture, callback) {
         if (this.isConnected) {
-            this.client.send(JSON.stringify({ 'addGesture': gesture }));
+            this.client.send(JSON.stringify(getOperationMessage('addGesture', gesture)));
         }
         this.gestureHandlers[gesture] = callback;
     }
@@ -99,7 +111,7 @@ class GestureHandler {
      */
     onPose(pose, callback) {
         if (this.isConnected) {
-            this.client.send(JSON.stringify({ 'addPose': pose }));
+            this.client.send(JSON.stringify(getOperationMessage('addPose', pose)));
         }
         this.poseHandlers[pose] = callback;
     }
@@ -112,7 +124,7 @@ class GestureHandler {
         if (this.gestureHandlers.hasOwnProperty(gesture)) {
             delete this.gestureHandlers[gesture];
             if (this.isConnected) {
-                this.client.send(JSON.stringify({ 'removeGesture': gesture }));
+                this.client.send(JSON.stringify(getOperationMessage('removeGesture', gesture)));
             }
         }
     }
@@ -125,7 +137,7 @@ class GestureHandler {
         if (this.poseHandlers.hasOwnProperty(pose)) {
             delete this.poseHandlers[pose];
             if (this.isConnected) {
-                this.client.send(JSON.stringify({ 'removePose': pose }));
+                this.client.send(JSON.stringify(getOperationMessage('removePose', pose)));
             }
         }
     }
@@ -135,6 +147,18 @@ class GestureHandler {
      */
     disconnect() {
         this.client.close();
+    }
+}
+
+function getOperationMessage(type, name) {
+    return { 
+        'type': 'operation',
+        'data': [
+            {
+                'type': type,
+                'name': name
+            }
+        ] 
     }
 }
 

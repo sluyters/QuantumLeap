@@ -91,7 +91,7 @@ class FrameProcessor {
             // Static pose detected
             let data = this.analyzer.analyze(frame);
             // this.segmenter.notifyStatic()
-            return { 'type': 'static', 'name': staticPose, 'data': data };
+            return { 'type': 'pose', 'name': staticPose, 'data': data };
         } else {
             // Dynamic gesture detected
             let segment = this.segmenter.segment(frame);
@@ -99,7 +99,7 @@ class FrameProcessor {
                 let { name, time, score } = this.recognizer.recognize(segment);
                 if (name && (!this.config.general.gesture.sendIfRequested || this.enabledGestures.includes(name))) {
                     this.segmenter.notifyRecognition();
-                    return { 'type': 'dynamic', 'name': name, 'data': {} };
+                    return { 'type': 'gesture', 'name': name, 'data': {} };
                 }
             }
         }

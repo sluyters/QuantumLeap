@@ -18,33 +18,38 @@ function run() {
         frameProcessor.resetContext();
         // Handle messages from the client
         ws.on('message', function(message) {
-            var data = JSON.parse(message);
-            if (data.hasOwnProperty('addPose')) {
-                let poseName = data.addPose;
-                frameProcessor.enablePose(poseName);
-            } else if (data.hasOwnProperty('addGesture')) {
-                let gestureName = data.addGesture;
-                frameProcessor.enableGesture(gestureName);
-            } else if (data.hasOwnProperty('removePose')) {
-                let poseName = data.removePose;
-                frameProcessor.disablePose(poseName);
-            } else if (data.hasOwnProperty('removeGesture')) {
-                let gestureName = data.removeGesture;
-                frameProcessor.disableGesture(gestureName);
+            var msg = JSON.parse(message);
+            if (msg.type === 'operation') {
+                for (const operation of msg.data) {
+                    if (operation.type === 'addPose') {
+                        frameProcessor.enablePose(operation.name);
+                    } else if (operation.type === 'addGesture') {
+                        frameProcessor.enableGesture(operation.name);
+                    } else if (operation.type === 'removePose') {
+                        frameProcessor.disablePose(operation.name);
+                    } else if (operation.type === 'removeGesture') {
+                        frameProcessor.disableGesture(operation.name);
+                    }
+                }
             }
         });
         // Process sensor frames
         sensor.loop((frame, appData) => {
             if (appData && config.general.sendContinuousData) {
                 // If there is continuous data to send to the application
-                let message = { frame: appData };
+                let message = getMessage('data');
+                message.data.push({
+                    'type': 'frame',
+                    'data': appData
+                })
                 ws.send(JSON.stringify(message));
             }
             // Gesture recognition
             var ret = frameProcessor.processFrame(frame);
             if (ret) {
                 // If there is gesture data to send to the application
-                let message = { gesture: ret };
+                let message = getMessage('data');
+                message.data.push(ret);
                 if (config.general.debug) {
                     console.log(JSON.stringify(message));
                 }
@@ -62,6 +67,13 @@ function run() {
             sensor.stop();
         });
     });
+}
+
+function getMessage(type) {
+    return { 
+        'type': type,
+        'data' : []
+    };
 }
 
 function getWebSocketServer(ip, port) {
