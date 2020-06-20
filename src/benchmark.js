@@ -43,12 +43,12 @@ function startTesting(dataset, recognizerOrClassifierType, config, type = "recog
                 dataset.getGestureClasses().forEach((gesture) => {
                     let training = -1;
                     while (training == -1 || training_templates[index].includes(training)) 
-                        training = getRandomNumber(0, gesture.getSample().length);
+                        training = getRandomNumber(0, gesture.getSamples().length);
                     training_templates[index].push(training);
                     if (type === "recognizer") { // Training a recognizer
-                        recognizerOrClassifier.addGesture(gesture.name, gesture.getSample()[training]);
+                        recognizerOrClassifier.addGesture(gesture.name, gesture.getSamples()[training]);
                     } else { // Training a classifier
-                        recognizerOrClassifier.addPose(gesture.name, gesture.getSample()[training]);
+                        recognizerOrClassifier.addPose(gesture.name, gesture.getSamples()[training]);
                     }
                     index++;
                 });
@@ -56,7 +56,7 @@ function startTesting(dataset, recognizerOrClassifierType, config, type = "recog
             // Recognition after tg training templates
             let c = 0;
             dataset.getGestureClasses().forEach((gesture) => {
-                let toBeTested = gesture.getSample()[candidates[c]];
+                let toBeTested = gesture.getSamples()[candidates[c]];
                 if (type === "recognizer") { // Benchmarking a recognizer
                     var result = recognizerOrClassifier.recognize(toBeTested);
                 } else { // Benchmarking a classifer
@@ -89,7 +89,7 @@ function startTesting(dataset, recognizerOrClassifierType, config, type = "recog
 function selectCandidates(dataset) {
     let candidates = [];
     dataset.getGestureClasses().forEach((value) => {
-        candidates.push(getRandomNumber(0, value.getSample().length));
+        candidates.push(getRandomNumber(0, value.getSamples().length));
     });
     return candidates;
 };

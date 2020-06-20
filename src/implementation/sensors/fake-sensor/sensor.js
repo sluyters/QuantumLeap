@@ -29,7 +29,7 @@ class Sensor extends AbstractSensor {
             let gesture = req.params.gesture;
             console.log(gesture + " received");
             if(FakeSensor.callback!==undefined)
-                FakeSensor.callback(FakeSensor.dataset.getGestureClasses().get(gesture).getSample()[1]);
+                FakeSensor.callback(FakeSensor.dataset.getGestureClasses().get(gesture).getSamples()[1]);
             res.sendStatus(200);
 
         });

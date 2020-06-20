@@ -12,7 +12,7 @@ class GestureClass {
         this.TperG += 1;
     }
 
-    getSample(){
+    getSamples(){
         return this.samples;
     }
 

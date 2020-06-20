@@ -41,7 +41,7 @@ class FrameProcessor {
             if (this.config.general.pose.loadOnRequest) {
                 let gestureClass = this.gestureDataset.getGestureClasses(name);
                 if (gestureClass) {
-                    for (const template of gestureClass.getSample()) {
+                    for (const template of gestureClass.getSamples()) {
                         this.classifier.addPose(name, template);
                     }
                 }
@@ -56,7 +56,7 @@ class FrameProcessor {
             if (this.config.general.gesture.loadOnRequest) {
                 let gestureClass = this.gestureDataset.getGestureClasses(name);
                 if (gestureClass) {
-                    for (const template of gestureClass.getSample()) {
+                    for (const template of gestureClass.getSamples()) {
                         this.recognizer.addGesture(name, template);
                     }
                 }
@@ -123,7 +123,7 @@ function initDataset(config) {
             for (const className of aggregate.classes) {
                 let oldClass = dataset.getGestureClasses().get(className);
                 // Add each sample of the gesture class to the aggregate class
-                oldClass.getSample().forEach((sample) => newClass.addSample(sample));
+                oldClass.getSamples().forEach((sample) => newClass.addSample(sample));
             }
             // Add the aggregate class to the new dataset
             newDataset.addGestureClass(newClass);

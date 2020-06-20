@@ -13,7 +13,7 @@ class Classifier extends AbstractClassifier {
         // Load gestures from the dataset
         if (dataset !== undefined) {
 			dataset.getGestureClasses().forEach((gesture) => {
-				gesture.getSample().forEach(sample => {
+				gesture.getSamples().forEach(sample => {
                     this.addPose(gesture.name, sample);
 				});
             });

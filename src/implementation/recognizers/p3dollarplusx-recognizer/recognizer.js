@@ -93,7 +93,7 @@ class Recognizer extends AbstractRecognizer {
 		this.conflicts = {};
 		if (dataset!==undefined){
 			dataset.getGestureClasses().forEach((gesture) => {
-				gesture.getSample().forEach(sample => {
+				gesture.getSamples().forEach(sample => {
 						this.addGesture(gesture.name, sample);
 					}
 				);
