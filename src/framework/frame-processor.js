@@ -1,10 +1,13 @@
+const GestureSet = require('./gestures/gesture-set').GestureSet;
+const GestureClass = require('./gestures/gesture-class').GestureClass;
+
 class FrameProcessor {
     constructor(config) {
         // Initialize analyzer, segmenter, datasets, recognizer and classifier
         this.analyzer = new config.analyzer.module(config.analyzer.options);
         this.segmenter = new config.segmenter.module(config.segmenter.options);
-        this.gestureDataset = config.datasets.gesture.loader.loadDataset(config.datasets.gesture.name, config.datasets.gesture.directory);
-        this.poseDataset = config.datasets.pose.loader.loadDataset(config.datasets.pose.name, config.datasets.pose.directory);
+        this.gestureDataset = initDataset(config.datasets.gesture);
+        this.poseDataset = initDataset(config.datasets.pose); 
         if (config.general.gesture.loadOnRequest) {
             this.recognizer =  new config.recognizer.module(config.recognizer.options);
         } else {
@@ -105,6 +108,29 @@ class FrameProcessor {
         }
         // Nothing detected
         return null;
+    }
+}
+
+function initDataset(config) {
+    // Load the dataset
+    let dataset = config.loader.loadDataset(config.name, config.directory);
+    // Select/aggregate/rename classes of the dataset if required
+    if (config.aggregateClasses.length != 0) {
+        let newDataset = new GestureSet(dataset.name);
+        config.aggregateClasses.forEach((aggregate, index) => {
+            let newClass = new GestureClass(aggregate.name, index);
+            // Fuse the classes into a new aggregate class
+            for (const className of aggregate.classes) {
+                let oldClass = dataset.getGestureClasses().get(className);
+                // Add each sample of the gesture class to the aggregate class
+                oldClass.getSample().forEach((sample) => newClass.addSample(sample));
+            }
+            // Add the aggregate class to the new dataset
+            newDataset.addGestureClass(newClass);
+        })
+        return newDataset
+    } else {
+        return dataset;
     }
 }
 

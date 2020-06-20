@@ -96,14 +96,28 @@ config.segmenter = {
 config.datasets.gesture = {
     directory: "./datasets/gesture",
     loader: UnifiedDatasetLoader,
-    name: "guinevere_unified"
+    name: "guinevere_unified",
+    aggregateClasses: [
+        { name: "swipe_up", classes: ["swipe_up", "open_hand_up"] },
+        { name: "swipe_down", classes: ["swipe_down", "open_hand_down"] },
+        { name: "swipe_left", classes: ["swipe_left", "open_hand_left"] },
+        { name: "swipe_right", classes: ["swipe_right", "open_hand_right"] },
+        { name: "tap", classes: ["tap"] },
+        { name: "turn_clockwise", classes: ["turn_clockwise"] },
+        { name: "turn_counter_clockwise", classes: ["turn_counter_clockwise"] },
+        { name: "pinch_in", classes: ["pinch_in"] },
+        { name: "pinch_out", classes: ["pinch_out"] },
+        { name: "thumbs_up", classes: ["thumbs_up"] },
+        { name: "thumbs_down", classes: ["thumbs_down"] }
+    ]
 }
 
 // Pose Dataset
 config.datasets.pose = {
     directory: "./datasets/pose",
     loader: MMHGRDatasetLoader,
-    name: "multi_mod_hand_gest_recog"
+    name: "multi_mod_hand_gest_recog",
+    aggregateClasses: []
 }
 
 // Gesture Recognizer
