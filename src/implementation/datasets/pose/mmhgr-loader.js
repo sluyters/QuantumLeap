@@ -7,7 +7,7 @@ const GestureClass = require('../../../framework/gestures/gesture-class').Gestur
 const GestureSet = require('../../../framework/gestures/gesture-set').GestureSet;
 const Point = require('../../../framework/gestures/point').Point3D;
 
-const fingers = ["Thumb", "Index", "Middle", "Ring", "Pinky"]
+const fingers = ["Thumb", "Index", "Middle", "Ring", "Pinky"];
 //const classNames = ["C", "down", "fist_moved", "five", "four", "hang", "heavy", "index", "L", "ok", "palm", "palm_m", "palm_u", "three", "two", "up"];
 const classNames = ["C", "down"];
 
@@ -22,7 +22,7 @@ function loadDataset(name, directory) {
 // Helper functions
 function parseFrame(path) {
     let xml = fs.readFileSync(path);
-    let parsedFrame;;
+    let parsedFrame;
     // Parse the xml file
     var parser = new xml2js.Parser({explicitArray: false, mergeAttrs: true});
     parser.parseString(xml, (err, res) => {

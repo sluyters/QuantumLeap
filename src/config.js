@@ -38,6 +38,7 @@ const UWaveDatasetLoader = require('./implementation/datasets/uWaveDatasetLoader
 
 // Pose Dataset Loaders
 const MMHGRDatasetLoader = require('./implementation/datasets/pose/mmhgr-loader');
+const LeapPoseDatasetLoader = require('./implementation/datasets/pose/leap-pose-loader');
 
 // CONFIG INIT ------------------------------------------------------------------------------------
 var config = {};
@@ -98,15 +99,15 @@ config.datasets.gesture = {
     loader: UnifiedDatasetLoader,
     name: "guinevere_unified",
     aggregateClasses: [
-        { name: "swipe_up", classes: ["swipe_up", "open_hand_up"] },
-        { name: "swipe_down", classes: ["swipe_down", "open_hand_down"] },
-        { name: "swipe_left", classes: ["swipe_left", "open_hand_left"] },
-        { name: "swipe_right", classes: ["swipe_right", "open_hand_right"] },
-        { name: "tap", classes: ["tap"] },
+        { name: "rhand_uswipe", classes: ["swipe_up", "open_hand_up"] },
+        { name: "rhand_dswipe", classes: ["swipe_down", "open_hand_down"] },
+        { name: "rhand_lswipe", classes: ["swipe_left", "open_hand_left"] },
+        { name: "rhand_rswipe", classes: ["swipe_right", "open_hand_right"] },
+        { name: "rindex_airtap", classes: ["tap"] },
         { name: "turn_clockwise", classes: ["turn_clockwise"] },
         { name: "turn_counter_clockwise", classes: ["turn_counter_clockwise"] },
-        { name: "pinch_in", classes: ["pinch_in"] },
-        { name: "pinch_out", classes: ["pinch_out"] },
+        { name: "rhand_close", classes: ["pinch_in"] },
+        { name: "rhand_open", classes: ["pinch_out"] },
         { name: "thumbs_up", classes: ["thumbs_up"] },
         { name: "thumbs_down", classes: ["thumbs_down"] }
     ]
@@ -115,8 +116,8 @@ config.datasets.gesture = {
 // Pose Dataset
 config.datasets.pose = {
     directory: "./datasets/pose",
-    loader: MMHGRDatasetLoader,
-    name: "multi_mod_hand_gest_recog",
+    loader: LeapPoseDatasetLoader,
+    name: "guinevre-pose",
     aggregateClasses: []
 }
 

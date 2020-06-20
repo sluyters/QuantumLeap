@@ -77,7 +77,7 @@ function startTesting(dataset, recognizerOrClassifierType, config, type = "recog
         confusion_matrices.push(current_confusion_matrice);
     }
     for(let i = 0 ; i < recognition_rates.length ; i++) {
-        recognition_rates[i] = recognition_rates[i]/(R * dataset.G);
+        recognition_rates[i] = recognition_rates[i] / (R * dataset.G);
         execution_time[i] = execution_time[i] / (R * dataset.G);
     }
     return [recognition_rates, execution_time, confusion_matrices];

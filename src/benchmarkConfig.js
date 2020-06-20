@@ -10,6 +10,7 @@ const UWaveDatasetLoader = require('./implementation/datasets/uWaveDatasetLoader
 
 // Pose datasets loaders
 const MMHGRDatasetLoader = require('./implementation/datasets/pose/mmhgr-loader');
+const LeapPoseDatasetLoader = require('./implementation/datasets/pose/leap-pose-loader');
 
 // Gesture recognizers
 //3D
@@ -41,84 +42,84 @@ config.classifiers = {};
 // CONFIGURATION ----------------------------------------------------------------------------------
 // General configuration
 config.minT = 2; // Minimum Training Templates
-config.maxT = 8; // Maximum Training Templates (included)
+config.maxT = 128; // Maximum Training Templates (included)
 config.nextT = x => x * 2; // Function used to increment the number of training templates
-config.r = 100; // Repetitions
+config.r = 1000; // Repetitions
 
 // Recognizers
 N_SAMPLING_POINTS = 16;
 config.recognizers.nSamplingPoints = N_SAMPLING_POINTS;
 config.recognizers.modules = [
-    {
-        module: UVPRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            articulations: articulationsBothHands
-        }
-    },
-    {
-        module: JackknifeRecognizer,
-        options: {samplingPoints: N_SAMPLING_POINTS}
-    },
-    {
-        module: ThreeCentRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            pathName: "rightPalmPosition"
-        }
-    },
-    {
-        module: P3DollarPlusRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            pathName: "rightPalmPosition"
-        }
-    },
-    {
-        module: P3DollarPlusXRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            pathName: "rightPalmPosition"
-        }
-    },
-    {
-        module: HybridP3DollarPlusXRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            palmThreshold: 50,
-            fingerThreshold: 15
-        }
-    },
-    {
-        module: HybridP3DollarPlusXRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            palmThreshold: 50,
-            fingerThreshold: 5
-        }
-    },
-    {
-        module: HybridP3DollarPlusXRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            palmThreshold: 1000,
-            fingerThreshold: 0
-        }
-    },
-    {
-        module: Q3DollarRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            pathName: "rightPalmPosition"
-        }
-    },
-    {
-        module: PDollarPlusRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            pathName: "rightPalmPosition"
-        }
-    }
+    // {
+    //     module: UVPRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         articulations: articulationsBothHands
+    //     }
+    // },
+    // {
+    //     module: JackknifeRecognizer,
+    //     options: {samplingPoints: N_SAMPLING_POINTS}
+    // },
+    // {
+    //     module: ThreeCentRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         pathName: "rightPalmPosition"
+    //     }
+    // },
+    // {
+    //     module: P3DollarPlusRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         pathName: "rightPalmPosition"
+    //     }
+    // },
+    // {
+    //     module: P3DollarPlusXRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         pathName: "rightPalmPosition"
+    //     }
+    // },
+    // {
+    //     module: HybridP3DollarPlusXRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         palmThreshold: 50,
+    //         fingerThreshold: 15
+    //     }
+    // },
+    // {
+    //     module: HybridP3DollarPlusXRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         palmThreshold: 50,
+    //         fingerThreshold: 5
+    //     }
+    // },
+    // {
+    //     module: HybridP3DollarPlusXRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         palmThreshold: 1000,
+    //         fingerThreshold: 0
+    //     }
+    // },
+    // {
+    //     module: Q3DollarRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         pathName: "rightPalmPosition"
+    //     }
+    // },
+    // {
+    //     module: PDollarPlusRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         pathName: "rightPalmPosition"
+    //     }
+    // }
 ];
 
 // Classifiers
@@ -132,14 +133,14 @@ config.classifiers.modules = [
     {
         module: GPSDaClassifier,
         options: {
-            alpha: 1.0,
+            alpha: 0.70,
             articulations: articulationsRightHand
         }
     },
     {
         module: GPSDaDissimilarityClassifier,
         options: {
-            alpha: 1.0,
+            alpha: 0.7,
             articulations: articulationsRightHand
         }
     },
@@ -155,7 +156,6 @@ config.classifiers.modules = [
 config.datasets.path = path.join(__dirname, "datasets");
 
 // Gesture datasets
-config.datasets.path = path.join(__dirname, "datasets");
 config.datasets.gesture = [
     {
         name: "guinevere_unified",
@@ -178,9 +178,13 @@ config.datasets.gesture = [
 // Pose datasets
 config.datasets.pose = [
     {
-        name: "multi_mod_hand_gest_recog",
-        loader: MMHGRDatasetLoader
+        loader: LeapPoseDatasetLoader,
+        name: "guinevre-pose"
     }
+    // {
+    //     loader: MMHGRDatasetLoader,
+    //     name: "multi_mod_hand_gest_recog"
+    // }
 ];
 
 module.exports = config;
