@@ -18,6 +18,9 @@ function run() {
         frameProcessor.resetContext();
         // Handle messages from the client
         ws.on('message', function(message) {
+            if (config.general.debug) {
+                console.log(message)
+            }
             var msg = JSON.parse(message);
             if (msg.type === 'operation') {
                 for (const operation of msg.data) {

@@ -7,12 +7,12 @@ class GestureClass {
         this.TperG = 0;
     }
 
-    addSample(data){
+    addSample(data) {
         this.samples.push(data);
         this.TperG += 1;
     }
 
-    getSamples(){
+    getSamples() {
         return this.samples;
     }
 

@@ -58,7 +58,7 @@ config.general.gesture = {
 }
 config.general.pose = {
     sendIfRequested: true,                          // Send recognized gestures only if they are requested by the client
-    loadOnRequest: true                             // Load gestures based on requests from the client
+    loadOnRequest: false                             // Load gestures based on requests from the client
 }
 
 // Server
@@ -81,7 +81,7 @@ config.analyzer = {
 
 // Gesture Segmenter
 config.segmenter = {
-    module: ZoningSegmenter,
+    module: LeftHandSegmenter,
     options: {
         minSegmentLength: 10,                       // Minimum length of a segment (if applicable) [#frames]
         maxSegmentLength: 60,                       // Maximum length of a segment (if applicable) [#frames]
@@ -104,8 +104,8 @@ config.datasets.gesture = {
         { name: "rhand_lswipe", classes: ["swipe_left", "open_hand_left"] },
         { name: "rhand_rswipe", classes: ["swipe_right", "open_hand_right"] },
         { name: "rindex_airtap", classes: ["tap"] },
-        { name: "turn_clockwise", classes: ["turn_clockwise"] },
-        { name: "turn_counter_clockwise", classes: ["turn_counter_clockwise"] },
+        { name: "rhand_crotate", classes: ["turn_clockwise"] },
+        { name: "rhand_acrotate", classes: ["turn_counter_clockwise"] },
         { name: "rhand_close", classes: ["pinch_in"] },
         { name: "rhand_open", classes: ["pinch_out"] },
         { name: "thumbs_up", classes: ["thumbs_up"] },
@@ -123,7 +123,7 @@ config.datasets.pose = {
 
 // Gesture Recognizer
 config.recognizer = {
-    module: HybridP3DollarPlusXRecognizer,
+    module: JackknifeRecognizer,
     options: {
         samplingPoints: 16,                         // Number of sampling points [#points]
         articulations: ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition", "rigthPalmPosition", "leftPalmPosition"]
@@ -132,7 +132,7 @@ config.recognizer = {
 
 // Pose Classifier
 config.classifier = {
-    module: P3DollarPlusClassifier,
+    module: NoClassifier,
     options: {
         articulations: ["rightPalmPosition", "rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition"]
     }

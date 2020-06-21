@@ -39,11 +39,13 @@ class FrameProcessor {
         if (!this.enabledPoses.includes(name)) {
             // The pose is not already enabled
             if (this.config.general.pose.loadOnRequest) {
-                let gestureClass = this.gestureDataset.getGestureClasses(name);
-                if (gestureClass) {
+                let gestureClass = this.gestureDataset.getGestureClasses().get(name);
+                if (gestureClass) {    
                     for (const template of gestureClass.getSamples()) {
                         this.classifier.addPose(name, template);
                     }
+                } else {
+                    console.error(`No pose class in the dataset with name '${name}'`);
                 }
             }
             this.enabledPoses.push(name);
@@ -54,11 +56,13 @@ class FrameProcessor {
         if (!this.enabledGestures.includes(name)) {
             // The gesture is not already enabled
             if (this.config.general.gesture.loadOnRequest) {
-                let gestureClass = this.gestureDataset.getGestureClasses(name);
+                let gestureClass = this.gestureDataset.getGestureClasses().get(name);
                 if (gestureClass) {
                     for (const template of gestureClass.getSamples()) {
                         this.recognizer.addGesture(name, template);
                     }
+                } else {
+                    console.error(`No gesture class in the dataset with name '${name}'`);
                 }
             }
             this.enabledGestures.push(name);
@@ -89,7 +93,6 @@ class FrameProcessor {
 
     processFrame(frame) {
         let staticPose = this.classifier.classify(frame).name;
-        console.log(staticPose)
         if (staticPose && (!this.config.general.pose.sendIfRequested || this.enabledPoses.includes(staticPose))) {
             // Static pose detected
             let data = this.analyzer.analyze(frame);
@@ -99,10 +102,14 @@ class FrameProcessor {
             // Dynamic gesture detected
             let segment = this.segmenter.segment(frame);
             if (segment) {
-                let { name, time, score } = this.recognizer.recognize(segment);
-                if (name && (!this.config.general.gesture.sendIfRequested || this.enabledGestures.includes(name))) {
-                    this.segmenter.notifyRecognition();
-                    return { 'type': 'gesture', 'name': name, 'data': {} };
+                try {
+                    let { name, time, score } = this.recognizer.recognize(segment);
+                    if (name && (!this.config.general.gesture.sendIfRequested || this.enabledGestures.includes(name))) {
+                        this.segmenter.notifyRecognition();
+                        return { 'type': 'gesture', 'name': name, 'data': {} };
+                    }
+                } catch (error) {
+                    console.error(`Recognizer error: ${error}`);
                 }
             }
         }

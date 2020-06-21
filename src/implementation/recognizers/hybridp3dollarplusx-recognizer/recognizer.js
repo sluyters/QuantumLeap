@@ -51,7 +51,7 @@ class Recognizer extends AbstractRecognizer {
             return this.largeScaleRecognizer.recognize(gestureData);
         } else {
             //console.log("static gesture ?")
-            return { success: false, name: "", time: 0.0 };
+            return { name: "", time: 0.0, score: 0.0 };
         }
     }
     

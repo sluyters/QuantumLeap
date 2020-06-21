@@ -92,7 +92,7 @@ class P3DollarPlusXRecognizer {
 	recognize(points) {
 		if (points.length < 2) {
 			//return { 'Name': 'No match', 'Time': 0.0, 'Score': 0.0 };
-			return { success: false, name: "", time: 0.0 };
+			return { name: "", time: 0.0, score: 0.0 };
 		}
 
 		let t0 = Date.now();
@@ -107,7 +107,7 @@ class P3DollarPlusXRecognizer {
 		}
 
 		let t1 = Date.now();
-		return (u == -1) ? { success: false, name: "", time: t1-t0 } :  { success: true, name: this.PointClouds[u].Name, time: t1-t0 };
+		return (u == -1) ? { name: "", time: t1-t0, score: 0.0 } :  { name: this.PointClouds[u].Name, time: t1-t0, score: b > 1.0 ? 1.0 / b : 1.0 };
 	}
 
 	addGesture(name, points) {
