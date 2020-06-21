@@ -27,9 +27,11 @@ class FrameProcessor {
 
     resetContext() {
         if (this.config.general.gesture.loadOnRequest) {
-            for (const gestureName of this.enabledGestures) {
-                // TODO this.recognizer.removeGesture(gestureName);
-            }
+            // for (const gestureName of this.enabledGestures) {
+            //     this.recognizer.removeGesture(gestureName);
+            // }
+            // TODO remove temporary fix / add option
+            this.recognizer =  new this.config.recognizer.module(this.config.recognizer.options);
         }
         this.enabledPoses = [];
         this.enabledGestures = [];
@@ -75,7 +77,7 @@ class FrameProcessor {
             // The pose was enabled, disable it
             this.enabledPoses.splice(index, 1);
             if (this.config.general.pose.loadOnRequest) {
-                // TODO this.classifier.removePose(name);
+                this.classifier.removePose(name);
             }
         }
     }
@@ -86,7 +88,7 @@ class FrameProcessor {
             // The gesture was enabled, disable it
             this.enabledGestures.splice(index, 1);
             if (this.config.general.gesture.loadOnRequest) {
-                // TODO this.recognizer.removeGesture(name);
+                this.recognizer.removeGesture(name);
             }
         }
     }

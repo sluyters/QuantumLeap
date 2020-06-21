@@ -123,8 +123,10 @@ config.datasets.pose = {
 
 // Gesture Recognizer
 config.recognizer = {
-    module: JackknifeRecognizer,
+    module: HybridP3DollarPlusXRecognizer,
     options: {
+        palmThreshold: 50,
+        fingerThreshold: 15,
         samplingPoints: 16,                         // Number of sampling points [#points]
         articulations: ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition", "rigthPalmPosition", "leftPalmPosition"]
     }
