@@ -33,6 +33,10 @@ class Recognizer {
         this.templates.push(new CPS(name, points));
         return true;
     }
+
+    removeGesture(name) {
+		this.templates = this.templates.filter(cps => cps.name !== name);
+	}
 }
 
 /**

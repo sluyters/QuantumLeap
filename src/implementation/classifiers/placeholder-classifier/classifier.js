@@ -12,6 +12,10 @@ class Classifier extends AbstractClassifier {
         // Nothing
     }
 
+    removePose(name) {
+        // Nothing
+    }
+
     classify(frame) {
         return { 'name': "", 'time': 0.0 };
     }

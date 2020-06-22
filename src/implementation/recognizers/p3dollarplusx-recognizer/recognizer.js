@@ -128,7 +128,6 @@ class Recognizer extends AbstractRecognizer {
 			delete this.conflicts[name];
 			delete this.conflicts[otherGestureName];
 		}
-
 	}
 
 	recognize(sample) {

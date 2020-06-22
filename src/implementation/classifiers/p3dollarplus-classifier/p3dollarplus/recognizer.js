@@ -122,6 +122,10 @@ class Recognizer {
 		}
 		return num;
 	}
+
+	removeGesture(name) {
+		this.PointClouds = this.PointClouds.filter(pointCloud => pointCloud.Name !== name);
+	}
 }
 
 //

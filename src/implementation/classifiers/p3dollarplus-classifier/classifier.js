@@ -28,6 +28,10 @@ class Classifier extends AbstractClassifier {
         this.staticRecognizer.addGesture(name, points);
     }
 
+    removePose(name) {
+        this.staticRecognizer.removeGesture(name);
+    }
+
     classify(frame) {
         let points = []
         for (const articulation of this.articulations) {
