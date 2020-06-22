@@ -125,6 +125,10 @@ function PDollarPlusRecognizer() // constructor
 		}
 		return num;
 	}
+	this.RemoveGesture = function(name) 
+	{
+		this.$PP_PointClouds = this.$PP_PointClouds.filter(pointCloud => pointCloud.Name !== name);
+	}
 	this.DeleteUserGestures = function()
 	{
 		this.$PP_PointClouds.length = 0; // clears any beyond the original set

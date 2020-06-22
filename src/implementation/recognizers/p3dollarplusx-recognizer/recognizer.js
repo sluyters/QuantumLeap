@@ -100,10 +100,37 @@ class Recognizer extends AbstractRecognizer {
 			});
 		}
 	}
-	
-	//
-	// The $P+ Point-Cloud Recognizer API begins here -- 3 methods: Recognize(), AddGesture(), DeleteUserGestures()
-	//
+
+	addGesture(name, sample) {
+		let points = convert(sample);
+		var template = new PointCloud(name, points);
+		if (this.PointClouds.length > 0) {
+			const {u, b} = this.recognizeHelper(template);
+			if (u != -1 && this.PointClouds[u].Name != name && (1.0 / b) > 0.8) {
+				this.conflicts[name] = {'name': this.PointClouds[u].Name, 'index': u};
+				this.conflicts[this.PointClouds[u].Name] =  {'name': name, 'index': this.PointClouds.length};
+			}
+		}
+		this.PointClouds[this.PointClouds.length] = template;
+		var num = 0;
+		for (var i = 0; i < this.PointClouds.length; i++) {
+			if (this.PointClouds[i].Name == name)
+				num++;
+		}
+		return num;
+	}
+
+	removeGesture(name) {
+		this.PointClouds = this.PointClouds.filter(pointCloud => pointCloud.Name !== name);
+		// Remove entry in conflicts
+		if (this.conflicts.hasOwnProperty(name)) {
+			let otherGestureName = this.conflicts[name].name;
+			delete this.conflicts[name];
+			delete this.conflicts[otherGestureName];
+		}
+
+	}
+
 	recognize(sample) {
 		let points = convert(sample);
 		if (points.length < 2) {
@@ -123,25 +150,6 @@ class Recognizer extends AbstractRecognizer {
 
 		let t1 = Date.now();
 		return (u == -1) ? { name: "", time: t1-t0, score: 0.0 } : { name: this.PointClouds[u].Name, time: t1-t0, score: b > 1.0 ? 1.0 / b : 1.0 };
-	}
-
-	addGesture(name, sample) {
-		let points = convert(sample);
-		var template = new PointCloud(name, points);
-		if (this.PointClouds.length > 0) {
-			const {u, b} = this.recognizeHelper(template);
-			if (u != -1 && this.PointClouds[u].Name != name && (1.0 / b) > 0.8) {
-				this.conflicts[name] = {'name': this.PointClouds[u].Name, 'index': u};
-				this.conflicts[this.PointClouds[u].Name] =  {'name': name, 'index': this.PointClouds.length};
-			}
-		}
-		this.PointClouds[this.PointClouds.length] = template;
-		var num = 0;
-		for (var i = 0; i < this.PointClouds.length; i++) {
-			if (this.PointClouds[i].Name == name)
-				num++;
-		}
-		return num;
 	}
 
 	toString() {

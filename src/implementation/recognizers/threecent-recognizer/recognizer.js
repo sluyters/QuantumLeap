@@ -81,6 +81,10 @@ class Recognizer extends AbstractRecognizer {
         }
     }
 
+    removeGesture(name) {
+        console.log("Cannot remove gesture!");
+    }
+
     recognize(sample) {
 		let points = convert(sample);
         let t0 = Date.now();

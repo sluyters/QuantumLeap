@@ -28,6 +28,10 @@ class Recognizer extends AbstractRecognizer {
         this.recognizer.AddGesture(name, convert(sample), this.N);
     }
 
+    removeGesture(name) {
+        this.recognizer.RemoveGesture(name);
+    }
+
     recognize(sample){
         let result = this.recognizer.Recognize(convert(sample), this.N);
         return {name:result.Name, time: result.Time};

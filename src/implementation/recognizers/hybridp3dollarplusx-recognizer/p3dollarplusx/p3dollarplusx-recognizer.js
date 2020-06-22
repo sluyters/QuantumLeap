@@ -85,30 +85,6 @@ class P3DollarPlusXRecognizer {
 		this.PointClouds = new Array();
 		this.conflicts = {};
 	}
-	
-	//
-	// The $P+ Point-Cloud Recognizer API begins here -- 3 methods: Recognize(), AddGesture(), DeleteUserGestures()
-	//
-	recognize(points) {
-		if (points.length < 2) {
-			//return { 'Name': 'No match', 'Time': 0.0, 'Score': 0.0 };
-			return { name: "", time: 0.0, score: 0.0 };
-		}
-
-		let t0 = Date.now();
-		var candidate = new PointCloud("", points);
-
-		var {u, b} = this.recognizeHelper(candidate);
-
-		if (u != -1 && this.conflicts.hasOwnProperty(this.PointClouds[u].Name)) {
-			let dirDist1 = DirDist(candidate.Points, this.PointClouds[u].Points);
-			let dirDist2 = DirDist(candidate.Points, this.PointClouds[this.conflicts[this.PointClouds[u].Name].index].Points);
-			u = dirDist1 > dirDist2 ? u : this.conflicts[this.PointClouds[u].Name].index;
-		}
-
-		let t1 = Date.now();
-		return (u == -1) ? { name: "", time: t1-t0, score: 0.0 } :  { name: this.PointClouds[u].Name, time: t1-t0, score: b > 1.0 ? 1.0 / b : 1.0 };
-	}
 
 	addGesture(name, points) {
 		var template = new PointCloud(name, points);
@@ -130,6 +106,37 @@ class P3DollarPlusXRecognizer {
 				num++;
 		}
 		return num;
+	}
+
+	removeGesture(name) {
+		this.PointClouds = this.PointClouds.filter(pointCloud => pointCloud.Name !== name);
+		// Remove entry in conflicts
+		if (this.conflicts.hasOwnProperty(name)) {
+			let otherGestureName = this.conflicts[name].name;
+			delete this.conflicts[name];
+			delete this.conflicts[otherGestureName];
+		}
+	}
+
+	recognize(points) {
+		if (points.length < 2) {
+			//return { 'Name': 'No match', 'Time': 0.0, 'Score': 0.0 };
+			return { name: "", time: 0.0, score: 0.0 };
+		}
+
+		let t0 = Date.now();
+		var candidate = new PointCloud("", points);
+
+		var {u, b} = this.recognizeHelper(candidate);
+
+		if (u != -1 && this.conflicts.hasOwnProperty(this.PointClouds[u].Name)) {
+			let dirDist1 = DirDist(candidate.Points, this.PointClouds[u].Points);
+			let dirDist2 = DirDist(candidate.Points, this.PointClouds[this.conflicts[this.PointClouds[u].Name].index].Points);
+			u = dirDist1 > dirDist2 ? u : this.conflicts[this.PointClouds[u].Name].index;
+		}
+
+		let t1 = Date.now();
+		return (u == -1) ? { name: "", time: t1-t0, score: 0.0 } :  { name: this.PointClouds[u].Name, time: t1-t0, score: b > 1.0 ? 1.0 / b : 1.0 };
 	}
 
 	recognizeHelper(pointcloud) {

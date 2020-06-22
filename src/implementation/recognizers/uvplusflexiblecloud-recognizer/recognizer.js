@@ -24,6 +24,10 @@ class Recognizer extends AbstractRecognizer{
         this.recognizer.storeTemplate(convert(sample), name);
     }
 
+    removeGesture(name) {
+        this.recognize.removeTemplate(name);
+    }
+
     recognize(sample){
         let result = this.recognizer.recognize(convert(sample));
         return {name:result[0], time: result[1]};

@@ -43,6 +43,11 @@ class Recognizer extends AbstractRecognizer {
         }
     }
 
+    removeGesture(name) {
+        this.smallScaleRecognizer.removeGesture(name);
+        this.largeScaleRecognizer.removeGesture(name);
+    }
+
     recognize(sample){
         const { scale, gestureData } = parseData(sample, this.palmThreshold, this.fingerThreshold);
         if (scale === "small") {

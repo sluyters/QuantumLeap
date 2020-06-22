@@ -67,6 +67,10 @@ UVPRecognizer.prototype.storeTemplate = function(articulations, name) {
   return false; // error: not enough articulations
 }
 
+UVPRecognizer.prototype.removeTemplate = function(name) {
+  this.trainingTemplates = this.trainingTemplates.filter(template => template.name !== name);
+}
+
 /**
  *  Determine the gesture class of an array of articulations' points (candidate)
  *  after preprocessing and cloud-matching against the stored training templates.

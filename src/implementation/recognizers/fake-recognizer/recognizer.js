@@ -22,6 +22,10 @@ class Recognizer extends AbstractRecognizer{
             this.gestureset.push(name);
     }
 
+    removeGesture(name) {
+        this.gestureset = this.gestureset.filter(gestureName => gestureName !== name);
+    }
+
     recognize(sample){
         //console.log('recognize');
 

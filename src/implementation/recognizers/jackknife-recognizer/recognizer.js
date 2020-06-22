@@ -34,6 +34,10 @@ class Recognizer extends AbstractRecognizer {
             }
         }
     }
+
+    removeGesture(name) {
+        console.log("Cannot remove gesture!");
+    }
     
     recognize(sample) {
         let jackknifeSample = convert(sample);

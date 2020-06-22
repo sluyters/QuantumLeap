@@ -99,10 +99,22 @@ class Recognizer extends AbstractRecognizer {
 			});
 		}
 	}
-	
-	//
-	// The $P+ Point-Cloud Recognizer API begins here -- 3 methods: Recognize(), AddGesture(), DeleteUserGestures()
-	//
+
+	addGesture(name, sample) {
+		let points = convert(sample);
+		this.PointClouds[this.PointClouds.length] = new PointCloud(name, points);
+		var num = 0;
+		for (var i = 0; i < this.PointClouds.length; i++) {
+			if (this.PointClouds[i].Name == name)
+				num++;
+		}
+		return num;
+	}
+
+	removeGesture(name) {
+		this.PointClouds = this.PointClouds.filter(pointCloud => pointCloud.Name !== name);
+	}
+
 	recognize(sample) {
 		let points = convert(sample);
 		if(points.length === 0)
@@ -125,17 +137,6 @@ class Recognizer extends AbstractRecognizer {
 		}
 		let t1 = Date.now();
 		return (u == -1) ? { name: "", time: t1-t0, score: 0.0 } : { name: this.PointClouds[u].Name, time: t1-t0, score: b > 1.0 ? 1.0 / b : 1.0 };
-	}
-
-	addGesture(name, sample) {
-		let points = convert(sample);
-		this.PointClouds[this.PointClouds.length] = new PointCloud(name, points);
-		var num = 0;
-		for (var i = 0; i < this.PointClouds.length; i++) {
-			if (this.PointClouds[i].Name == name)
-				num++;
-		}
-		return num;
 	}
 
 	toString() {

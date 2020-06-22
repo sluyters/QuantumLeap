@@ -52,7 +52,11 @@ class Recognizer extends AbstractRecognizer {
 				num++;
 		}
 		return num;
-    }
+	}
+	
+	removeGesture(name) {
+		this.PointClouds = this.PointClouds.filter(pointCloud => pointCloud.Name !== name);
+	}
 
     recognize(sample){
 		let points = convert(sample);
