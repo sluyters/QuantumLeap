@@ -81,7 +81,10 @@ class Sensor extends AbstractSensor {
                 appData = { 'fingers': fingers };
             }
 
-            callback(parsedFrame, appData);
+            // Callback only if a hand is visible
+            if (parsedFrame.hasRightHand || parsedFrame.hasLeftHand) {
+                callback(parsedFrame, appData);
+            }
         }.bind(this);
 
         this.sensorLoop = setInterval(processLeapFrame, 1000/this.framerate);
