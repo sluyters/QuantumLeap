@@ -23,6 +23,7 @@ class AbstractClassifier {
     /**
      * Return the name of the pose that corresponds to the frame.
      * @param {Object} frame - A frame from the sensor.
+     * @returns a JavaScript object with at least 2 properties: name (the name of the pose) and time (the execution time).
      */
     classify(frame) {
         throw new Error('You have to implement this function');
