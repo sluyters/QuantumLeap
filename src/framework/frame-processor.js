@@ -27,11 +27,19 @@ class FrameProcessor {
 
     resetContext() {
         if (this.config.general.gesture.loadOnRequest) {
-            // for (const gestureName of this.enabledGestures) {
-            //     this.recognizer.removeGesture(gestureName);
-            // }
-            // TODO remove temporary fix / add option
-            this.recognizer =  new this.config.recognizer.module(this.config.recognizer.options);
+            // TODO add option
+            for (const gestureName of this.enabledGestures) {
+                this.recognizer.removeGesture(gestureName);
+            }
+            //this.recognizer =  new this.config.recognizer.module(this.config.recognizer.options);
+        }
+        if (this.config.general.pose.loadOnRequest) {
+            // TODO add option
+            for (const poseName of this.enabledPoses) {
+                console.log(poseName)
+                this.classifier.removePose(poseName);
+            }
+            //this.classifier =  new this.config.classifier.module(this.config.classifier.options);
         }
         this.enabledPoses = [];
         this.enabledGestures = [];
@@ -41,7 +49,7 @@ class FrameProcessor {
         if (!this.enabledPoses.includes(name)) {
             // The pose is not already enabled
             if (this.config.general.pose.loadOnRequest) {
-                let gestureClass = this.gestureDataset.getGestureClasses().get(name);
+                let gestureClass = this.poseDataset.getGestureClasses().get(name);
                 if (gestureClass) {    
                     for (const template of gestureClass.getSamples()) {
                         this.classifier.addPose(name, template);
@@ -94,24 +102,29 @@ class FrameProcessor {
     }
 
     processFrame(frame) {
-        let staticPose = this.classifier.classify(frame).name;
+        let staticPose = "";
+        try {
+            staticPose = this.classifier.classify(frame).name;
+        } catch(error) {
+            console.error(`Classifier error: ${error}`);
+        }
         if (staticPose && (!this.config.general.pose.sendIfRequested || this.enabledPoses.includes(staticPose))) {
             // Static pose detected
             let data = this.analyzer.analyze(frame);
-            // this.segmenter.notifyStatic()
             return { 'type': 'pose', 'name': staticPose, 'data': data };
         } else {
-            // Dynamic gesture detected
+            // Try to segment and recognize dynamic gesture
             let segment = this.segmenter.segment(frame);
             if (segment) {
+                let name = "";
                 try {
-                    let { name, time, score } = this.recognizer.recognize(segment);
-                    if (name && (!this.config.general.gesture.sendIfRequested || this.enabledGestures.includes(name))) {
-                        this.segmenter.notifyRecognition();
-                        return { 'type': 'gesture', 'name': name, 'data': {} };
-                    }
+                    name = this.recognizer.recognize(segment).name;
                 } catch (error) {
                     console.error(`Recognizer error: ${error}`);
+                }
+                if (name && (!this.config.general.gesture.sendIfRequested || this.enabledGestures.includes(name))) {
+                    this.segmenter.notifyRecognition();
+                    return { 'type': 'gesture', 'name': name, 'data': {} };
                 }
             }
         }

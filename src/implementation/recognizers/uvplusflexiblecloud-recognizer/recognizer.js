@@ -25,7 +25,7 @@ class Recognizer extends AbstractRecognizer{
     }
 
     removeGesture(name) {
-        this.recognize.removeTemplate(name);
+        this.recognizer.removeTemplate(name);
     }
 
     recognize(sample){
