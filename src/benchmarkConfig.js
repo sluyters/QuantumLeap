@@ -19,6 +19,7 @@ const JackknifeRecognizer = require('./implementation/recognizers/jackknife-reco
 const P3DollarPlusXRecognizer = require('./implementation/recognizers/p3dollarplusx-recognizer/recognizer').Recognizer;
 const UVPRecognizer = require('./implementation/recognizers/uvplusflexiblecloud-recognizer/recognizer').Recognizer;
 const ThreeCentRecognizer = require('./implementation/recognizers/threecent-recognizer/recognizer').Recognizer;
+const P3DollarRecognizer = require('./implementation/recognizers/p3dollar-recognizer/recognizer').Recognizer;
 const P3DollarPlusRecognizer = require('./implementation/recognizers/p3dollarplus-recognizer/recognizer').Recognizer;
 const Q3DollarRecognizer = require('./implementation/recognizers/q3dollar-recognizer/recognizer').Recognizer;
 //2D
@@ -42,9 +43,9 @@ config.classifiers = {};
 // CONFIGURATION ----------------------------------------------------------------------------------
 // General configuration
 config.minT = 2; // Minimum Training Templates
-config.maxT = 128; // Maximum Training Templates (included)
+config.maxT = 8; // Maximum Training Templates (included)
 config.nextT = x => x * 2; // Function used to increment the number of training templates
-config.r = 1000; // Repetitions
+config.r = 100; // Repetitions
 
 // Recognizers
 N_SAMPLING_POINTS = 16;
@@ -69,6 +70,13 @@ config.recognizers.modules = [
     //     }
     // },
     // {
+    //     module: P3DollarRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         pathName: "rightPalmPosition"
+    //     }
+    // },
+    // {
     //     module: P3DollarPlusRecognizer,
     //     options: {
     //         samplingPoints: N_SAMPLING_POINTS,
@@ -82,14 +90,14 @@ config.recognizers.modules = [
     //         pathName: "rightPalmPosition"
     //     }
     // },
-    // {
-    //     module: HybridP3DollarPlusXRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         palmThreshold: 50,
-    //         fingerThreshold: 15
-    //     }
-    // },
+    {
+        module: HybridP3DollarPlusXRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            palmThreshold: 50,
+            fingerThreshold: 15
+        }
+    }
     // {
     //     module: HybridP3DollarPlusXRecognizer,
     //     options: {
@@ -124,32 +132,32 @@ config.recognizers.modules = [
 
 // Classifiers
 config.classifiers.modules = [
-    {
-        module: GPSDClassifier,
-        options: {
-            articulations: articulationsRightHand
-        }
-    },
-    {
-        module: GPSDaClassifier,
-        options: {
-            alpha: 0.70,
-            articulations: articulationsRightHand
-        }
-    },
-    {
-        module: GPSDaDissimilarityClassifier,
-        options: {
-            alpha: 0.7,
-            articulations: articulationsRightHand
-        }
-    },
-    {
-        module: P3DollarPlusClassifier,
-        options: {
-            articulations: articulationsRightHand
-        }
-    }
+    // {
+    //     module: GPSDClassifier,
+    //     options: {
+    //         articulations: articulationsRightHand
+    //     }
+    // },
+    // {
+    //     module: GPSDaClassifier,
+    //     options: {
+    //         alpha: 0.70,
+    //         articulations: articulationsRightHand
+    //     }
+    // },
+    // {
+    //     module: GPSDaDissimilarityClassifier,
+    //     options: {
+    //         alpha: 0.7,
+    //         articulations: articulationsRightHand
+    //     }
+    // },
+    // {
+    //     module: P3DollarPlusClassifier,
+    //     options: {
+    //         articulations: articulationsRightHand
+    //     }
+    // }
 ];
 
 // Datasets path

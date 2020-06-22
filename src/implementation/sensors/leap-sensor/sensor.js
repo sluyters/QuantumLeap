@@ -25,7 +25,6 @@ class Sensor extends AbstractSensor {
 
         let processLeapFrame = function () {
             let frame = this.controller.frame();
-            //let parsedFrame = initFrame(frame.timestamp);
             let parsedFrame = new Frame(frame.timestamp);
             let appData = null;
             let fingers = [];

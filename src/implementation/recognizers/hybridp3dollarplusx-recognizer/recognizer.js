@@ -1,5 +1,6 @@
 const AbstractRecognizer = require('../../../framework/recognizers/abstract-recognizer').AbstractRecognizer;
-const { P3DollarPlusXRecognizer, Point } = require('./p3dollarplusx/p3dollarplusx-recognizer');
+const P3DollarPlusXRecognizer = require('./p3dollarplusx/p3dollarplusx').P3DollarPlusXRecognizer;
+const Point = require('./p3dollarplusx/p3dollarplusx').Point;
 
 class Recognizer extends AbstractRecognizer {
 
@@ -7,15 +8,15 @@ class Recognizer extends AbstractRecognizer {
 
 	constructor(options, dataset) {
 		super();
-        this.N = options.samplingPoints;
+        this.samplingPoints = options.samplingPoints;
         this.palmThreshold = options.palmThreshold;
         this.fingerThreshold = options.fingerThreshold;
 
         // Initialize recognizer for large scale movement
-        this.largeScaleRecognizer = new P3DollarPlusXRecognizer(options.samplingPoints);
+        this.largeScaleRecognizer = new P3DollarPlusXRecognizer(this.samplingPoints);
 
         // Initialize recognizer for fine movements
-        this.smallScaleRecognizer = new P3DollarPlusXRecognizer(options.samplingPoints);
+        this.smallScaleRecognizer = new P3DollarPlusXRecognizer(this.samplingPoints);
 
         // Initialize recognizer for static gestures
         //this.staticRecognizer = new P3DollarPlusXRecognizer();
@@ -35,25 +36,27 @@ class Recognizer extends AbstractRecognizer {
         const { scale, gestureData } = parseData(sample, this.palmThreshold, this.fingerThreshold);
         // Add gesture
         if (scale === "small") {
-            this.smallScaleRecognizer.addGesture(name, gestureData);
+            this.smallScaleRecognizer.AddGesture(name, gestureData);
         } else if (scale === "large") {
-            this.largeScaleRecognizer.addGesture(name, gestureData);
+            this.largeScaleRecognizer.AddGesture(name, gestureData);
         } else {
             //console.log("static gesture ?");
         }
     }
 
     removeGesture(name) {
-        this.smallScaleRecognizer.removeGesture(name);
-        this.largeScaleRecognizer.removeGesture(name);
+        this.smallScaleRecognizer.RemoveGesture(name);
+        this.largeScaleRecognizer.RemoveGesture(name);
     }
 
     recognize(sample){
         const { scale, gestureData } = parseData(sample, this.palmThreshold, this.fingerThreshold);
         if (scale === "small") {
-            return this.smallScaleRecognizer.recognize(gestureData);
+            let result = this.smallScaleRecognizer.Recognize(gestureData);
+            return (result.Name === "No match.") ? { name: "", time: result.Time, score: result.Score } : { name: result.Name, time: result.Time, score: result.Score };
         } else if (scale === "large") {
-            return this.largeScaleRecognizer.recognize(gestureData);
+            let result = this.largeScaleRecognizer.Recognize(gestureData);
+            return (result.Name === "No match.") ? { name: "", time: result.Time, score: result.Score } : { name: result.Name, time: result.Time, score: result.Score };
         } else {
             //console.log("static gesture ?")
             return { name: "", time: 0.0, score: 0.0 };
@@ -61,7 +64,7 @@ class Recognizer extends AbstractRecognizer {
     }
     
     toString() {
-        return `${Recognizer.name} [ samplingPoints = ${this.N}, palmThreshold = ${this.palmThreshold}, fingerThreshold = ${this.fingerThreshold} ]`;
+        return `${Recognizer.name} [ samplingPoints = ${this.samplingPoints}, palmThreshold = ${this.palmThreshold}, fingerThreshold = ${this.fingerThreshold} ]`;
     }
 }
 
@@ -89,8 +92,8 @@ function parseData(sample, palmThreshold, fingerThreshold) {
             let x = fingerPoint.x - palmPoint.x;
             let y = fingerPoint.y - palmPoint.y;
             let z = fingerPoint.z - palmPoint.z;
-            let translatedPoint = new Point(x, y, z, fingerId);
             // Add translated point to list
+            let translatedPoint = new Point(x, y, z, fingerPoint.id);
             fingersData[finger].push(translatedPoint);
             let fingerTranslation = distance(fingersData[finger][0], translatedPoint);
             maxFingerTranslation = Math.max(fingerTranslation, maxFingerTranslation);
@@ -114,11 +117,10 @@ function parseData(sample, palmThreshold, fingerThreshold) {
     }
 }
 
-function distance(p1, p2) // Euclidean distance between two points
-{
-	var dx = p2.x - p1.x;
-	var dy = p2.y - p1.y;
-	var dz = p2.z - p1.z;
+function distance(p1, p2) {
+	var dx = p2.X - p1.X;
+	var dy = p2.Y - p1.Y;
+	var dz = p2.Z - p1.Z;
 	return Math.sqrt(dx * dx + dy * dy + dz * dz);
 }
 
