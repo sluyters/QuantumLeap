@@ -98,6 +98,8 @@ config.datasets.gesture = {
     directory: "./datasets/gesture",
     loader: UnifiedDatasetLoader,
     name: "guinevere_unified",
+    useCustomTemplatesPerClass: true,
+    templatesPerClass: 8,
     aggregateClasses: [
         { name: "rhand_uswipe", classes: ["swipe_up", "open_hand_up"] },
         { name: "rhand_dswipe", classes: ["swipe_down", "open_hand_down"] },
@@ -118,6 +120,8 @@ config.datasets.pose = {
     directory: "./datasets/pose",
     loader: LeapPoseDatasetLoader,
     name: "guinevre-pose",
+    useCustomTemplatesPerClass: true,
+    templatesPerClass: 100,
     aggregateClasses: []
 }
 

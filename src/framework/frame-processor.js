@@ -27,19 +27,10 @@ class FrameProcessor {
 
     resetContext() {
         if (this.config.general.gesture.loadOnRequest) {
-            // TODO add option
-            for (const gestureName of this.enabledGestures) {
-                this.recognizer.removeGesture(gestureName);
-            }
-            //this.recognizer =  new this.config.recognizer.module(this.config.recognizer.options);
+            this.recognizer =  new this.config.recognizer.module(this.config.recognizer.options);
         }
         if (this.config.general.pose.loadOnRequest) {
-            // TODO add option
-            for (const poseName of this.enabledPoses) {
-                console.log(poseName)
-                this.classifier.removePose(poseName);
-            }
-            //this.classifier =  new this.config.classifier.module(this.config.classifier.options);
+            this.classifier =  new this.config.classifier.module(this.config.classifier.options);
         }
         this.enabledPoses = [];
         this.enabledGestures = [];
@@ -140,20 +131,60 @@ function initDataset(config) {
     if (config.aggregateClasses.length != 0) {
         let newDataset = new GestureSet(dataset.name);
         config.aggregateClasses.forEach((aggregate, index) => {
+            // Aggregate gesture class
             let newClass = new GestureClass(aggregate.name, index);
+            let templates = [];
             // Fuse the classes into a new aggregate class
             for (const className of aggregate.classes) {
                 let oldClass = dataset.getGestureClasses().get(className);
-                // Add each sample of the gesture class to the aggregate class
-                oldClass.getSamples().forEach((sample) => newClass.addSample(sample));
+                templates = templates.concat(templates, oldClass.getSamples());
+            }
+            // Select a number of templates from the dataset if required
+            if (config.useCustomTemplatesPerClass) {
+                templates = getRandomSubarray(templates, config.templatesPerClass);
+            }
+            // Add the templates to the new gesture class
+            for (template of templates) {
+                newClass.addSample(template);
             }
             // Add the aggregate class to the new dataset
             newDataset.addGestureClass(newClass);
-        })
+        });
         return newDataset
     } else {
+        // Select a number of templates from the dataset if required
+        if (config.useCustomTemplatesPerClass) {
+            let newDataset = new GestureSet(dataset.name);
+            dataset.getGestureClasses().forEach(gestureClass => {
+                let newClass = new GestureClass(gestureClass.name, gestureClass.index); 
+                let templates = gestureClass.getSamples();
+                templates = getRandomSubarray(templates, config.templatesPerClass);
+                // Add the templates to the new gesture class
+                for (template of templates) {
+                    newClass.addSample(template);
+                }
+                newDataset.addGestureClass(newClass);
+            });
+            return newDataset;
+        }
         return dataset;
     }
+}
+
+// https://stackoverflow.com/questions/11935175/sampling-a-random-subset-from-an-array
+function getRandomSubarray(arr, size) {
+    if (size > arr.length) {
+        console.log("Not enough templates!")
+        return arr;
+    }
+    var shuffled = arr.slice(0), i = arr.length, min = i - size, temp, index;
+    while (i-- > min) {
+        index = Math.floor((i + 1) * Math.random());
+        temp = shuffled[index];
+        shuffled[index] = shuffled[i];
+        shuffled[i] = temp;
+    }
+    return shuffled.slice(min);
 }
 
 module.exports = {
