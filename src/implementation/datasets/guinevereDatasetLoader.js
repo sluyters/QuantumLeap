@@ -125,8 +125,8 @@ function getFingerName(isRight, type) {
 
 
 if (require.main === module) {
-    const dirPath = path.join(__dirname, '../../datasets');
-    const convertedPath = path.join(__dirname, '../../datasets', 'guinevere_unified');
+    const dirPath = path.join(__dirname, '../../datasets/gesture');
+    const convertedPath = path.join(__dirname, '../../datasets/gesture', 'guinevere_unified');
 
     let dataset = loadDataset("guinevere", dirPath);
     UnifiedDatasetLoader.writeDataset(dataset, convertedPath);
