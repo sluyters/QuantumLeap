@@ -9,7 +9,7 @@ class Recognizer extends AbstractRecognizer {
     constructor(options, dataset) {
 		super();
 		this.samplingPoints = options.samplingPoints;
-        this.pathName = options.pathName;
+        this.articulations = options.articulations;
         this.recognizer = new Q3DollarRecognizer(this.samplingPoints);
 		if (dataset !== undefined){
 			dataset.getGestureClasses().forEach((gesture) => {
@@ -22,7 +22,7 @@ class Recognizer extends AbstractRecognizer {
 	}
 	
 	addGesture(name, sample) {
-		let points = convert(sample, this.pathName);
+		let points = convert(sample, this.articulations);
 		this.recognizer.AddGesture(name, points);
 	}
 
@@ -31,7 +31,7 @@ class Recognizer extends AbstractRecognizer {
 	}
 
     recognize(sample) {
-		let points = convert(sample, this.pathName);
+		let points = convert(sample, this.articulations);
 		if(points.length === 0) {
             return { name: "", time: 0, score: 0.0 };
         }
@@ -40,20 +40,25 @@ class Recognizer extends AbstractRecognizer {
 	}
 
 	toString() {
-        return `${Recognizer.name} [ samplingPoints = ${this.samplingPoints}, pathName = ${this.pathName} ]`;
+        return `${Recognizer.name} [ samplingPoints = ${this.samplingPoints}, articulations = ${this.articulations} ]`;
     }
 
 }
 
-function convert(sample, pathName) {
+function convert(sample, articulations) {
 	let points = [];
-	sample.paths[pathName].strokes.forEach((stroke, stroke_id) => {
-		stroke.points.forEach((point) => {
-			points.push(new Point(point.x, point.y, point.z, stroke_id));
+	articulations.forEach((articulation, articulationID) => {
+		sample.paths[articulation].strokes.forEach((stroke, strokeId) => {
+			stroke.points.forEach((point) => {
+				// If multipoint, one stroke per articulation, otherwise, keep original strokes
+				let index = articulations.length > 1 ? articulationID : strokeId;
+				points.push(new Point(point.x, point.y, point.z, index));
+			});
 		});
 	});
-    return points;
+	return points;
 }
+
 
 module.exports = {
 	Recognizer

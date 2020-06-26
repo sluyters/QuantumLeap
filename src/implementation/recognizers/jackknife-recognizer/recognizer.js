@@ -11,6 +11,7 @@ class Recognizer extends AbstractRecognizer {
     constructor(options, dataset) {
         super();
         this.N = options.samplingPoints;
+        this.articulations = options.articulations;
         let blades = new jackknife_blades();
         blades.set_ip_defaults();
         this.jackknifeRecognizer = new Jackknife(blades)
@@ -26,7 +27,7 @@ class Recognizer extends AbstractRecognizer {
     }
 
 	addGesture(name, sample, train = false) {
-        let jackknifeSample = convert(sample, name);
+        let jackknifeSample = convert(sample, this.articulations, name);
         if (jackknifeSample) {
             this.jackknifeRecognizer.add_template(jackknifeSample);
             if (train) {
@@ -40,7 +41,7 @@ class Recognizer extends AbstractRecognizer {
     }
     
     recognize(sample) {
-        let jackknifeSample = convert(sample);
+        let jackknifeSample = convert(sample, this.articulations);
         if (!jackknifeSample) {
             return { name: "", time: 0.0 };
         }
@@ -55,7 +56,7 @@ class Recognizer extends AbstractRecognizer {
     }
 }
 
-function convert(sample, name) {
+function convert(sample, articulations, name) {
     let jackknifeSample;
     if (name) {
         jackknifeSample = new Sample(0, name);
@@ -63,21 +64,21 @@ function convert(sample, name) {
         jackknifeSample = new Sample();
     }
 
-    let pathsLabels = Object.keys(sample.paths).sort();
+    //let pathsLabels = Object.keys(sample.paths).sort();
     // check min distance START
     let maxMovement = 0;
     let threshold = 40;
     let initPoints = {};
-    for (const articulation of pathsLabels) {
+    for (const articulation of articulations) {
         initPoints[articulation] = sample.paths[articulation].strokes[0].points[0];
     }
     // check min distance END
 
-    let nFrames = sample.paths[pathsLabels[0]].strokes[0].points.length;
+    let nFrames = sample.paths[articulations[0]].strokes[0].points.length;
     let trajectory = [];
     for (let i = 0; i < nFrames; i++) {
         let vCoordinates = [];
-        for (const articulation of pathsLabels) {
+        for (const articulation of articulations) {
             let point = sample.paths[articulation].strokes[0].points[i];
             // check min distance START
             let articulationMovement = distance(point, initPoints[articulation]);

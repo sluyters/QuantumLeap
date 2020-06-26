@@ -31,7 +31,7 @@ const GPSDaClassifier = require('./implementation/classifiers/gpsda-classifier/c
 const GPSDaDissimilarityClassifier = require('./implementation/classifiers/gpsdadissimilarity-classifier/classifier').Classifier;
 const P3DollarPlusClassifier = require('./implementation/classifiers/p3dollarplus-classifier/classifier').Classifier; 
 
-const articulationsBothHands = ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition", "rigthPalmPosition", "leftPalmPosition"];
+const articulationsBothHands = ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition", "rightPalmPosition", "leftPalmPosition"];
 const articulationsRightHand = ["rightPalmPosition", "rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition"]
 
 // CONFIG INIT ------------------------------------------------------------------------------------
@@ -51,45 +51,62 @@ config.r = 100; // Repetitions
 N_SAMPLING_POINTS = 16;
 config.recognizers.nSamplingPoints = N_SAMPLING_POINTS;
 config.recognizers.modules = [
-    // {
-    //     module: UVPRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         articulations: articulationsBothHands
-    //     }
-    // },
-    // {
-    //     module: JackknifeRecognizer,
-    //     options: {samplingPoints: N_SAMPLING_POINTS}
-    // },
-    // {
-    //     module: ThreeCentRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         pathName: "rightPalmPosition"
-    //     }
-    // },
-    // {
-    //     module: P3DollarRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         pathName: "rightPalmPosition"
-    //     }
-    // },
-    // {
-    //     module: P3DollarPlusRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         pathName: "rightPalmPosition"
-    //     }
-    // },
-    // {
-    //     module: P3DollarPlusXRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         pathName: "rightPalmPosition"
-    //     }
-    // },
+    {
+        module: UVPRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: articulationsRightHand
+        }
+    },
+    {
+        module: JackknifeRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: articulationsRightHand
+        }
+    },
+    {
+        module: ThreeCentRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            pathName: "rightPalmPosition"
+        }
+    },
+    {
+        module: P3DollarRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: articulationsRightHand
+        }
+    },
+    {
+        module: P3DollarPlusRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: articulationsRightHand
+        }
+    },
+    {
+        module: Q3DollarRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: articulationsRightHand
+        }
+    },
+    {
+        module: P3DollarPlusXRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: articulationsRightHand
+        }
+    },
+    {
+        module: P3DollarPlusXRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: ["rightPalmPosition"]
+        }
+    },
     {
         module: HybridP3DollarPlusXRecognizer,
         options: {
@@ -112,13 +129,6 @@ config.recognizers.modules = [
     //         samplingPoints: N_SAMPLING_POINTS,
     //         palmThreshold: 1000,
     //         fingerThreshold: 0
-    //     }
-    // },
-    // {
-    //     module: Q3DollarRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         pathName: "rightPalmPosition"
     //     }
     // },
     // {

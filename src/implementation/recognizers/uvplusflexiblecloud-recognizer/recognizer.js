@@ -3,7 +3,7 @@ const UVPRecognizer = require('./uvplusflexiblecloud/dollar').UVPRecognizer;
 
 class Recognizer extends AbstractRecognizer{
 
-    static name = "DollarRecognizer";
+    static name = "UVPlusFlexibleCloudRecognizer";
 
     constructor(options, dataset) {
         super();
@@ -21,7 +21,7 @@ class Recognizer extends AbstractRecognizer{
     }
 
     addGesture(name, sample){
-        this.recognizer.storeTemplate(convert(sample), name);
+        this.recognizer.storeTemplate(convert(sample, this.articulations), name);
     }
 
     removeGesture(name) {
@@ -29,19 +29,19 @@ class Recognizer extends AbstractRecognizer{
     }
 
     recognize(sample){
-        let result = this.recognizer.recognize(convert(sample));
+        let result = this.recognizer.recognize(convert(sample, this.articulations));
         return {name:result[0], time: result[1]};
     }
 
     toString() {
-        return `${Recognizer.name} [ samplingPoints = ${this.N} ]`;
+        return `${Recognizer.name} [ samplingPoints = ${this.N}, articulations: ${this.articulations} ]`;
     }
 }
 
-function convert(sample){
+function convert(sample, articulations){
     let points =[];
-    for(let path in sample.paths){
-        let strokes = sample.paths[path].strokes;
+    for(const articulation of articulations){
+        let strokes = sample.paths[articulation].strokes;
         let articulationPoints = [];
         strokes.forEach(stroke =>{
             articulationPoints = articulationPoints.concat(stroke.points);
