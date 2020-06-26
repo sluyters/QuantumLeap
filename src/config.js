@@ -96,7 +96,7 @@ config.segmenter = {
 
 // Gesture Dataset
 config.datasets.gesture = {
-    directory: "./datasets/gesture",
+    directory: __dirname + "/datasets/gesture",
     loader: UnifiedDatasetLoader,
     name: "guinevere_unified",
     useCustomTemplatesPerClass: true,
@@ -118,7 +118,7 @@ config.datasets.gesture = {
 
 // Pose Dataset
 config.datasets.pose = {
-    directory: "./datasets/pose",
+    directory: __dirname + "/datasets/pose",
     loader: LeapPoseDatasetLoader,
     name: "guinevre-pose",
     useCustomTemplatesPerClass: true,
