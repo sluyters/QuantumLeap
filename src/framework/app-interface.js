@@ -1,8 +1,8 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
+import ReconnectingWebSocket from 'reconnecting-websocket';
 
 class GestureHandler {
-    
-    constructor() {
+    constructor(addr = "ws://127.0.0.1:6442") {
         // Save callbacks for gestures, poses, and frames
         this.gestureHandlers = {};
         this.poseHandlers = {};
@@ -10,53 +10,9 @@ class GestureHandler {
         this.frameHandler = (frame) => {};
         // True if the interface is connected to the server
         this.isConnected = false;
-        // Connect to the gesture recognizer.
-        this.client = new W3CWebSocket('ws://127.0.0.1:6442');
-        this.client.onopen = function() {
-            console.log('WebSocket Client Connected');
-            this.isConnected = true;
-            // Init the message
-            let message = {
-                'type': 'operation',
-                'data': []
-            };
-            // Add addGestures operations to the message
-            for (const gesture of Object.keys(this.gestureHandlers)) {
-                message.data.push({
-                    'type': 'addGesture',
-                    'name': gesture
-                });
-            }
-            // Add addPose operations to the message
-            for (const pose of Object.keys(this.poseHandlers)) {
-                message.data.push({
-                    'type': 'addPose',
-                    'name': pose
-                });
-            }
-            // Send the message to the server
-            this.client.send(JSON.stringify(message));
-        }.bind(this);
-        // Handle messages from the server
-        this.client.onmessage = function(event) {
-            let msg = JSON.parse(event.data);
-            if (msg.type === 'data') {
-                for (const dataMsg of msg.data) {
-                    if (dataMsg.type === 'frame') {
-                        this.frameHandler(dataMsg.data);
-                    } else if (dataMsg.type === 'pose') {
-                        if (this.poseHandlers.hasOwnProperty(dataMsg.name)) {
-                            this.poseHandlers[dataMsg.name](dataMsg.data);
-                        }
-                    } else if (dataMsg.type === 'gesture') {
-                        if (this.gestureHandlers.hasOwnProperty(dataMsg.name)) {
-                            this.gestureHandlers[dataMsg.name](dataMsg.data);
-                            this.forEachHandler(dataMsg.name);
-                        }
-                    }
-                }
-            }
-        }.bind(this);
+        // The websocket client
+        this.client = null;
+        this.connect(addr, 10000, 3000);
     }
 
     /**
@@ -140,6 +96,62 @@ class GestureHandler {
                 this.client.send(JSON.stringify(getOperationMessage('removePose', pose)));
             }
         }
+    }
+
+    /**
+     * Connect to the gesture recognizer
+     */
+    connect(addr, timeout, interval) {
+        this.client = new ReconnectingWebSocket(addr, [], {
+            constructor: W3CWebSocket,
+            connectionTimeout: timeout,  // in milliseconds
+            reconnectInterval: interval
+        });
+        this.client.onopen = function() {
+            console.log("WebSocket Client Connected");
+            this.isConnected = true;
+            // Init the message
+            let message = {
+                'type': 'operation',
+                'data': []
+            };
+            // Add addGestures operations to the message
+            for (const gesture of Object.keys(this.gestureHandlers)) {
+                message.data.push({
+                    'type': 'addGesture',
+                    'name': gesture
+                });
+            }
+            // Add addPose operations to the message
+            for (const pose of Object.keys(this.poseHandlers)) {
+                message.data.push({
+                    'type': 'addPose',
+                    'name': pose
+                });
+            }
+            // Send the message to the server
+            this.client.send(JSON.stringify(message));
+        }.bind(this);
+        // Handle messages from the server
+        this.client.onmessage = function(event) {
+            let msg = JSON.parse(event.data);
+            if (msg.type === 'data') {
+                for (const dataMsg of msg.data) {
+                    if (dataMsg.type === 'frame') {
+                        this.frameHandler(dataMsg.data);
+                    } else if (dataMsg.type === 'pose') {
+                        if (this.poseHandlers.hasOwnProperty(dataMsg.name)) {
+                            this.poseHandlers[dataMsg.name](dataMsg.data);
+                        }
+                    } else if (dataMsg.type === 'gesture') {
+                        if (this.gestureHandlers.hasOwnProperty(dataMsg.name)) {
+                            this.gestureHandlers[dataMsg.name](dataMsg.data);
+                            this.forEachHandler(dataMsg.name);
+                        }
+                    }
+                }
+            }
+        }.bind(this);
     }
 
     /**

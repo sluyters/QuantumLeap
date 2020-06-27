@@ -15,7 +15,6 @@ function run() {
     var wsServer = getWebSocketServer(config.server.ip, config.server.port);
     wsServer.on('connection', async function connection(ws) {
         console.log('Connected!')
-        frameProcessor.resetContext();
         // Handle messages from the client
         ws.on('message', function(message) {
             if (config.general.debug) {
@@ -63,11 +62,11 @@ function run() {
         ws.on('close', function() {
             console.log("Disconnected!")
             sensor.stop();
+            frameProcessor.resetContext();
         });
-        // Stop processing frames after connection error
+        // Connection error
         ws.on('error', function(error) {
             console.log(JSON.stringify(error));
-            sensor.stop();
         });
     });
 }
