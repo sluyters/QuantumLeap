@@ -4,29 +4,32 @@ class Analyzer extends AbstractAnalyzer {
 
     constructor(options) {
         super(options);
-        this.previousFrame = null;
+        this.firstFrame = null;
     }
 
     analyze(frame) {
         // TODO improve values
-        if (this.previousFrame === null) {
-            // Initialize previous frame
-            this.previousFrame = frame;
+        if (this.firstFrame === null) {
+            // Initialize first frame
+            this.firstFrame = frame;
         }
-        // Compute pinch, rotation, and translation wrt. previous frame. 
-        let pinch = computePinch(this.previousFrame, frame);
-        let rotation = computeRotation(this.previousFrame, frame);
-        let translation = computeTranslation(this.previousFrame, frame);
+        // Compute pinch, rotation, and translation wrt. first frame. 
+        let pinch = computePinch(this.firstFrame, frame);
+        let rotation = computeRotation(this.firstFrame, frame);
+        let translation = computeTranslation(this.firstFrame, frame);
         // Save the current frame for next call
-        this.previousFrame = frame;
         return { 'rotation': rotation, 'pinch': pinch, 'translation': translation };
+    }
+
+    reset() {
+        this.firstFrame = null;
     }
 }
 
 function computePinch(fromFrame, toFrame) {
     let dFrom = getDistance(fromFrame.getArticulation("rightThumbPosition").point, fromFrame.getArticulation("rightIndexPosition").point);
     let dTo = getDistance(toFrame.getArticulation("rightThumbPosition").point, toFrame.getArticulation("rightIndexPosition").point);
-    return (dTo / dFrom) - 1;
+    return (dTo / dFrom);
 }
 
 function computeRotation(fromFrame, toFrame) {
@@ -38,9 +41,9 @@ function computeRotation(fromFrame, toFrame) {
 function computeTranslation(fromFrame, toFrame) {
     let pFrom = fromFrame.getArticulation("rightPalmPosition").point;
     let pTo = toFrame.getArticulation("rightPalmPosition").point;
-    let dx = pTo.x - pFrom.x;
-    let dy = pTo.y - pFrom.y;
-    let dz = pTo.z - pFrom.z;
+    let dx = pTo.x / pFrom.x;
+    let dy = pTo.y / pFrom.y;
+    let dz = pTo.z / pFrom.z;
     return [dx, dy, dz];
 }
 

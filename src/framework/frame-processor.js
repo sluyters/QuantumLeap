@@ -101,9 +101,12 @@ class FrameProcessor {
         }
         if (staticPose && (!this.config.general.pose.sendIfRequested || this.enabledPoses.includes(staticPose))) {
             // Static pose detected
+            this.segmenter.notifyRecognition();
             let data = this.analyzer.analyze(frame);
             return { 'type': 'pose', 'name': staticPose, 'data': data };
         } else {
+            // Reset analyzer
+            this.analyzer.reset();
             // Try to segment and recognize dynamic gesture
             let segment = this.segmenter.segment(frame);
             if (segment) {

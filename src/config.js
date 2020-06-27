@@ -50,7 +50,7 @@ config.datasets = {};
 
 // CONFIGURATION ----------------------------------------------------------------------------------
 // General Configuration
-config.general.debug = true;                        // Show debug logs
+config.general.debug = false;                        // Show debug logs
 config.general.sendContinuousData = true;           // Send data from each frame to the client
 config.general.gesture = {
     sendIfRequeste: true,                           // Send recognized gestures only if they are requested by the client
@@ -69,7 +69,7 @@ config.server.port = 6442;							// Port of the server (for app interface)
 config.sensor = {
     module: LeapSensor,
     options: {
-        framerate: 60                               // Sensor framerate [seconds]
+        framerate: 60                               // Sensor framerate [images/seconds]
     }
 }
 
@@ -121,7 +121,7 @@ config.datasets.pose = {
     directory: __dirname + "/datasets/pose",
     loader: LeapPoseDatasetLoader,
     name: "guinevre-pose",
-    useCustomTemplatesPerClass: false,
+    useCustomTemplatesPerClass: true,
     templatesPerClass: 100,
     aggregateClasses: []
 }
@@ -139,7 +139,7 @@ config.recognizer = {
 
 // Pose Classifier
 config.classifier = {
-    module: NoClassifier,
+    module: P3DollarPlusClassifier,
     options: {
         articulations: ["rightPalmPosition", "rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition"]
     }
