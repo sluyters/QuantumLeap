@@ -11,6 +11,13 @@ class AbstractAnalyzer {
     analyze(frame) {
         throw new Error('You have to implement this function');
     }
+
+    /**
+     * Reset the internal state of the analyzer.
+     */
+    reset() {
+        throw new Error('You have to implement this function');
+    }
 }
 
 module.exports = {
