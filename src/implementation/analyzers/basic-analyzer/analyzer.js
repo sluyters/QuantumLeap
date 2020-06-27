@@ -41,9 +41,9 @@ function computeRotation(fromFrame, toFrame) {
 function computeTranslation(fromFrame, toFrame) {
     let pFrom = fromFrame.getArticulation("rightPalmPosition").point;
     let pTo = toFrame.getArticulation("rightPalmPosition").point;
-    let dx = pTo.x / pFrom.x;
-    let dy = pTo.y / pFrom.y;
-    let dz = pTo.z / pFrom.z;
+    let dx = pTo.x - pFrom.x;
+    let dy = pTo.y - pFrom.y;
+    let dz = pTo.z - pFrom.z;
     return [dx, dy, dz];
 }
 
