@@ -141,6 +141,8 @@ config.recognizer = {
 config.classifier = {
     module: P3DollarPlusClassifier,
     options: {
+        bufferLength: 10,
+        poseRatioThreshold: 0.6,
         articulations: ["rightPalmPosition", "rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition"]
     }
 }

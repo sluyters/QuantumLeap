@@ -26,7 +26,6 @@ class Sensor extends AbstractSensor {
         let processLeapFrame = function () {
             let frame = this.controller.frame();
             let parsedFrame = new Frame(frame.timestamp);
-            let appData = null;
             let fingers = [];
             // Palm positions
             for (const hand of frame.hands) {
@@ -71,18 +70,13 @@ class Sensor extends AbstractSensor {
                     parsedFrame.addArticulation(new Articulation(articulation, new Point(0.0, 0.0, 0.0, frame.timestamp)));
                 }
             }
-
-            if (fingers.length == 0 && hadRightHand) {
-                // If the hand is not visible anymore, send empty data once
-                appData = { 'fingers': fingers };
-                hadRightHand = false;
-            } else if (fingers.length > 0) {
-                appData = { 'fingers': fingers };
-            }
-
+            let appData = { 'fingers': fingers };
             // Callback only if a hand is visible
             if (parsedFrame.hasRightHand || parsedFrame.hasLeftHand) {
                 callback(parsedFrame, appData);
+            } else if (fingers.length == 0 && hadRightHand) {
+                callback(parsedFrame, appData);
+                hadRightHand = false;
             }
         }.bind(this);
 

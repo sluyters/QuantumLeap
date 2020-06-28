@@ -1,28 +1,30 @@
+const Point = require('../../../framework/gestures/point').Point3D;
+
 const AbstractAnalyzer = require('../../../framework/analyzers/abstract-analyzer').AbstractAnalyzer;
 
 class Analyzer extends AbstractAnalyzer {
 
     constructor(options) {
         super(options);
-        this.firstFrame = null;
+        this.previousFrame = null;
     }
 
     analyze(frame) {
-        // TODO improve values
-        if (this.firstFrame === null) {
+        if (this.previousFrame === null) {
             // Initialize first frame
-            this.firstFrame = frame;
+            this.previousFrame = frame;
         }
         // Compute pinch, rotation, and translation wrt. first frame. 
-        let pinch = computePinch(this.firstFrame, frame);
-        let rotation = computeRotation(this.firstFrame, frame);
-        let translation = computeTranslation(this.firstFrame, frame);
+        let pinch = computePinch(this.previousFrame, frame);
+        let rotation = computeRotation(this.previousFrame, frame);
+        let translation = computeTranslation(this.previousFrame, frame);
         // Save the current frame for next call
+        this.previousFrame = frame;
         return { 'rotation': rotation, 'pinch': pinch, 'translation': translation };
     }
 
     reset() {
-        this.firstFrame = null;
+        this.previousFrame = null;
     }
 }
 
@@ -33,9 +35,11 @@ function computePinch(fromFrame, toFrame) {
 }
 
 function computeRotation(fromFrame, toFrame) {
-    let alphaFromFrame = getAngleFromXAxis(fromFrame.getArticulation("rightThumbPosition").point, fromFrame.getArticulation("rightIndexPosition").point);
-    let alphaToFrame = getAngleFromXAxis(toFrame.getArticulation("rightThumbPosition").point, toFrame.getArticulation("rightIndexPosition").point);
-    return alphaFromFrame - alphaToFrame;
+    let vectorFrom = translateTo(fromFrame.getArticulation("rightIndexPosition").point, fromFrame.getArticulation("rightThumbPosition").point);
+    let vectorTo = translateTo(toFrame.getArticulation("rightIndexPosition").point, toFrame.getArticulation("rightThumbPosition").point);
+    let a = computeAngle(vectorTo, vectorFrom);
+    console.log(a)
+    return a
 }
 
 function computeTranslation(fromFrame, toFrame) {
@@ -47,8 +51,8 @@ function computeTranslation(fromFrame, toFrame) {
     return [dx, dy, dz];
 }
 
-function getAngleFromXAxis(p1, p2) {
-    return Math.atan2(p2.y - p1.y, p2.x - p1.x);
+function computeAngle(p1, p2) {
+    return Math.atan2(p1.x * p2.y - p1.y * p2.x, p1.x * p2.x + p1.y * p2.y);
 }
 
 function getDistance(p1, p2) {
@@ -56,6 +60,10 @@ function getDistance(p1, p2) {
     var dy = p2.y - p1.y;
     var dz = p2.z - p1.z;
 	return Math.sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+function translateTo(p1, p2) {
+	return new Point(p1.x - p2.x, p1.y - p2.y, p1.z - p2.z);
 }
 
 module.exports = {

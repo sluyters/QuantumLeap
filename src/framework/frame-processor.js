@@ -1,5 +1,6 @@
 const GestureSet = require('./gestures/gesture-set').GestureSet;
 const GestureClass = require('./gestures/gesture-class').GestureClass;
+const RingBuffer = require('ringbufferjs');
 
 class FrameProcessor {
     constructor(config) {
@@ -21,6 +22,9 @@ class FrameProcessor {
         // Keep track of enabled poses and gestures
         this.enabledPoses = [];
         this.enabledGestures = [];
+        // Initialize pose buffer
+        this.poseBuffer = new RingBuffer(config.classifier.options.bufferLength);
+        this.poseCounter = {};
         // Save config
         this.config = config;
     }
@@ -93,17 +97,34 @@ class FrameProcessor {
     }
 
     processFrame(frame) {
+        let oldPoseInfo = "";
+        let oldPoseRatio = 0;
+        if (this.poseBuffer.isFull()) {
+            oldPoseInfo = this.poseBuffer.deq();
+            if (oldPoseInfo.pose) {
+                oldPoseRatio = this.poseCounter[oldPoseInfo.pose]-- / this.config.classifier.options.bufferLength;
+            }
+        }
         let staticPose = "";
         try {
             staticPose = this.classifier.classify(frame).name;
         } catch(error) {
             console.error(`Classifier error: ${error}`);
         }
+        let newPoseInfo = { pose: "", data: "" };
         if (staticPose && (!this.config.general.pose.sendIfRequested || this.enabledPoses.includes(staticPose))) {
+            newPoseInfo = { pose: staticPose, data: this.analyzer.analyze(frame) };
+            if (!this.poseCounter.hasOwnProperty(staticPose)) {
+                this.poseCounter[staticPose] = 1;
+            } else {
+                this.poseCounter[staticPose]++;
+            }
+        }
+        this.poseBuffer.enq(newPoseInfo);
+        if (oldPoseInfo.pose && oldPoseRatio > this.config.classifier.options.poseRatioThreshold) {
             // Static pose detected
             this.segmenter.notifyRecognition();
-            let data = this.analyzer.analyze(frame);
-            return { 'type': 'pose', 'name': staticPose, 'data': data };
+            return { 'type': 'pose', 'name': oldPoseInfo.pose, 'data': oldPoseInfo.data };
         } else {
             // Reset analyzer
             this.analyzer.reset();
