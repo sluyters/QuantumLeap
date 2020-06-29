@@ -4,9 +4,6 @@ const fs = require('fs-extra');
 const GestureSet = require('../gestures/gesture-set').GestureSet;
 const GestureClass = require('../gestures/gesture-class').GestureClass;
 const StrokeData = require('../gestures/stroke-data').StrokeData;
-const Stroke = require('../gestures/stroke-data').Stroke;
-const Point = require('../gestures/point').Point3D;
-const Path = require('../gestures/stroke-data').Path;
 
 
 function loadDataset(name, directory) {

@@ -29,16 +29,15 @@ class Analyzer extends AbstractAnalyzer {
 }
 
 function computePinch(fromFrame, toFrame) {
-    let dFrom = getDistance(fromFrame.getArticulation("rightThumbPosition").point, fromFrame.getArticulation("rightIndexPosition").point);
-    let dTo = getDistance(toFrame.getArticulation("rightThumbPosition").point, toFrame.getArticulation("rightIndexPosition").point);
+    let dFrom = getDistance(fromFrame.getArticulation("rightThumbTipPosition").point, fromFrame.getArticulation("rightIndexTipPosition").point);
+    let dTo = getDistance(toFrame.getArticulation("rightThumbTipPosition").point, toFrame.getArticulation("rightIndexTipPosition").point);
     return (dTo / dFrom);
 }
 
 function computeRotation(fromFrame, toFrame) {
-    let vectorFrom = translateTo(fromFrame.getArticulation("rightIndexPosition").point, fromFrame.getArticulation("rightThumbPosition").point);
-    let vectorTo = translateTo(toFrame.getArticulation("rightIndexPosition").point, toFrame.getArticulation("rightThumbPosition").point);
+    let vectorFrom = translateTo(fromFrame.getArticulation("rightIndexTipPosition").point, fromFrame.getArticulation("rightThumbTipPosition").point);
+    let vectorTo = translateTo(toFrame.getArticulation("rightIndexTipPosition").point, toFrame.getArticulation("rightThumbTipPosition").point);
     let a = computeAngle(vectorTo, vectorFrom);
-    console.log(a)
     return a
 }
 

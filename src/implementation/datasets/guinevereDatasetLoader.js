@@ -9,8 +9,8 @@ const Path = require('../../framework/gestures/stroke-data').Path;
 const Point = require('../../framework/gestures/point').Point3D;
 const UnifiedDatasetLoader = require('../../framework/datasets/UnifiedDatasetLoader');
 
-const palms = ["rightPalmPosition", "leftPalmPosition"];
-const fingers = ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition"];
+const fingerNames = ["Thumb", "Index", "Middle", "Ring", "Pinky"];
+const fingerArticulations = ["Mcp", "Pip", "Tip"];
 
 const device = {
     'osBrowserInfo': 'Leap Motion Controller', 'resolutionHeight': null,
@@ -46,33 +46,35 @@ function loadDataset(name, directory) {
                 gestureClass.addSample(gestureData);
                 gestureSet.addGestureClass(gestureClass);
             }
-
             // Init stroke paths
-            fingers.forEach((fingerName) => {
-                let strokePath = new Path(fingerName);
-                gestureData.addPath(fingerName, strokePath);
+            for (const side of ["left", "right"]) {
+                let label = `${side}PalmPosition`
+                let strokePath = new Path(label);
+                gestureData.addPath(label, strokePath);
                 let stroke = new Stroke(0);
                 strokePath.addStroke(stroke);
-            });
-            for (const palm of palms) {
-                let strokePath = new Path(palm);
-                gestureData.addPath(palm, strokePath);
-                let stroke = new Stroke(0);
-                strokePath.addStroke(stroke);
+                for (const fingerName of fingerNames) {
+                    for (const fingerArticulation of fingerArticulations) {
+                        let label = `${side}${fingerName}${fingerArticulation}Position`;
+                        let strokePath = new Path(label);
+                        gestureData.addPath(label, strokePath);
+                        let stroke = new Stroke(0);
+                        strokePath.addStroke(stroke);
+                    }
+                }
             }
-
-
             for (let i = 0; i < rawGestureData['data'].length; i++) {
                 let frame = rawGestureData['data'][i];
-
                 let points = {};
-                for (const palm of palms) {
-                    points[palm] = null;
+                for (const side of ["left", "right"]) {
+                    points[`${side}PalmPosition`] = null;
+                    for (const fingerName of fingerNames) {
+                        for (const fingerArticulation of fingerArticulations) {
+                            let label = `${side}${fingerName}${fingerArticulation}Position`;
+                            points[label] = null;
+                        }
+                    }
                 }
-                for (const finger of fingers) {
-                    points[finger] = null;
-                }
-
                 let rightHandId = -1;
                 let leftHandId = -1;
                 for (const hand of frame['hands']) {
@@ -88,16 +90,17 @@ function loadDataset(name, directory) {
                     let palmPosition = hand['palmPosition'];
                     points[palmName] = new Point(palmPosition[0], palmPosition[1], palmPosition[2], frame['timestamp']);
                 }
-
-                for (const pointable of frame['pointables']) {
+                for (const pointable of frame.pointables) {
                     if (!pointable.tool) {
-                        // Get the name of the finger from handId and type
-                        let fingerName = getFingerName(pointable.handId == rightHandId, pointable.type);
-                        let tipPosition = pointable['tipPosition'];
-                        points[fingerName] = new Point(tipPosition[0], tipPosition[1], tipPosition[2], frame['timestamp']);
+                        for (const fingerArticulation of fingerArticulations) {
+                            // Get label (e.g., rightIndexTipPosition)
+                            let side = pointable.handId == rightHandId ? "right" : "left";
+                            let label = `${side}${fingerNames[pointable.type]}${fingerArticulation}Position`;
+                            let position = pointable[`${fingerArticulation.toLowerCase()}Position`];
+                            points[label] = new Point(position[0], position[1], position[2], frame.timestamp);
+                        }
                     }
                 }
-
                 // Add points to paths (with default point w/ coordinates (x=0, y=0, z=0))
                 Object.keys(points).forEach((articulation) => {
                     let stroke = gestureData.paths[articulation].strokes[0];
@@ -115,19 +118,13 @@ function loadDataset(name, directory) {
     return gestureSet;
 }
 
-function getFingerName(isRight, type) {
-    if (isRight) {
-        return fingers[type];
-    } else {
-        return fingers[5 + type];
-    }
-}
-
-
 if (require.main === module) {
     const dirPath = path.join(__dirname, '../../datasets/gesture');
     const convertedPath = path.join(__dirname, '../../datasets/gesture', 'guinevere_unified');
-
     let dataset = loadDataset("guinevere", dirPath);
     UnifiedDatasetLoader.writeDataset(dataset, convertedPath);
 }
+
+module.exports = {
+    loadDataset
+};

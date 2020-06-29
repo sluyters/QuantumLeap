@@ -83,7 +83,7 @@ function parseData(sample, palmThreshold, fingerThreshold) {
     let maxFingerTranslation = 0;
     let fingerId = 0;
     let fingersData = {};
-    for (const finger of ["rightThumbPosition", "rightIndexPosition"]) {
+    for (const finger of ["rightThumbTipPosition", "rightIndexTipPosition"]) {
         fingersData[finger] = [];
         for (let i = 0; i < sample.paths[finger].strokes[0].points.length; i++) {
             let palmPoint = sample.paths['rightPalmPosition'].strokes[0].points[i];

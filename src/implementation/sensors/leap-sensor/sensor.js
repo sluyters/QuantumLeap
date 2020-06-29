@@ -6,6 +6,9 @@ const Leap = require('leapjs');
 const rArticulations = ["rightPalmPosition", "rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition"];
 const lArticulations = ["leftPalmPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition"];
 
+const fingerNames = ["Thumb", "Index", "Middle", "Ring", "Pinky"];
+const fingerArticulations = ["Mcp", "Pip", "Tip"];
+
 class Sensor extends AbstractSensor {
     constructor(options) {
         super("Leap-Interface");
@@ -54,20 +57,42 @@ class Sensor extends AbstractSensor {
                             'tipVelocity': finger.tipVelocity 
                         });
                     }
-                    let fingerName = getFingerName(hand.type === 'right', finger.type);
-                    let tipPosition = finger.tipPosition;   
-                    parsedFrame.addArticulation(new Articulation(fingerName, new Point(tipPosition[0], tipPosition[1], tipPosition[2], frame.timestamp)));
+                    for (const fingerArticulation of fingerArticulations) {
+                        // Get label (e.g., rightIndexPipPosition)
+                        let label = `${hand.type}${fingerNames[finger.type]}${fingerArticulation}Position`;
+                        let position = new Point(...finger[`${fingerArticulation.toLowerCase()}Position`]);
+                        let articulation = new Articulation(label, position);
+                        parsedFrame.addArticulation(articulation);
+                    }
+
+                    // let fingerName = getFingerName(hand.type === 'right', finger.type);
+                    // let tipPosition = finger.tipPosition;   
+                    // parsedFrame.addArticulation(new Articulation(fingerName, new Point(tipPosition[0], tipPosition[1], tipPosition[2], frame.timestamp)));
                 });
             }
             // Add points if articulation not visible
             if (!parsedFrame.hasRightHand) {
-                for (const articulation of rArticulations) {
-                    parsedFrame.addArticulation(new Articulation(articulation, new Point(0.0, 0.0, 0.0, frame.timestamp)));
+                let label = `rightPalmPosition`;
+                let articulation = new Articulation(label, new Point(0.0, 0.0, 0.0, frame.timestamp));
+                parsedFrame.addArticulation(articulation);
+                for (const fingerName of fingerNames) {
+                    for (const fingerArticulation of fingerArticulations) {
+                        let label = `right${fingerName}${fingerArticulation}Position`;
+                        let articulation = new Articulation(label, new Point(0.0, 0.0, 0.0, frame.timestamp));
+                        parsedFrame.addArticulation(articulation);
+                    }
                 }
             } 
             if (!parsedFrame.hasLeftHand) {
-                for (const articulation of lArticulations) {
-                    parsedFrame.addArticulation(new Articulation(articulation, new Point(0.0, 0.0, 0.0, frame.timestamp)));
+                let label = `leftPalmPosition`;
+                let articulation = new Articulation(label, new Point(0.0, 0.0, 0.0, frame.timestamp));
+                parsedFrame.addArticulation(articulation);
+                for (const fingerName of fingerNames) {
+                    for (const fingerArticulation of fingerArticulations) {
+                        let label = `left${fingerName}${fingerArticulation}Position`;
+                        let articulation = new Articulation(label, new Point(0.0, 0.0, 0.0, frame.timestamp));
+                        parsedFrame.addArticulation(articulation);
+                    }
                 }
             }
             let appData = { 'fingers': fingers };
@@ -89,14 +114,6 @@ class Sensor extends AbstractSensor {
             this.controller.disconnect();
             this.sensorLoop = null;
         }
-    }
-}
-
-function getFingerName(isRight, type) {
-    if (isRight) {
-        return rArticulations[type + 1];
-    } else {
-        return lArticulations[type + 1];
     }
 }
 

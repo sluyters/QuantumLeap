@@ -31,6 +31,7 @@ const P3DollarPlusClassifier = require('./implementation/classifiers/p3dollarplu
 
 // Gesture Dataset Loaders
 const UnifiedDatasetLoader = require('./framework/datasets/UnifiedDatasetLoader');
+const GuinevereDatasetLoader = require('./implementation/datasets/guinevereDatasetLoader');
 const LeapMotionDatasetLoader = require('./implementation/datasets/LeapMotionDatasetLoader');
 const SmartphoneDatasetLoader = require('./implementation/datasets/SmartphoneDatasetLoader');
 const HandGestureDatasetLoader = require('./implementation/datasets/HandGestureCsvDatasetLoader');
@@ -39,6 +40,27 @@ const UWaveDatasetLoader = require('./implementation/datasets/uWaveDatasetLoader
 // Pose Dataset Loaders
 const MMHGRDatasetLoader = require('./implementation/datasets/pose/mmhgr-loader');
 const LeapPoseDatasetLoader = require('./implementation/datasets/pose/leap-pose-loader');
+
+// Articulations
+const fingerMcps = {
+    left: ["leftThumbMcpPosition", "leftIndexMcpPosition", "leftMiddleMcpPosition", "leftRingMcpPosition", "leftPinkyMcpPosition"],
+    right: ["rightThumbMcpPosition", "rightIndexMcpPosition", "rightMiddleMcpPosition", "rightRingMcpPosition", "rightPinkyMcpPosition"]
+}
+const fingerPips = {
+    left: ["leftThumbPipPosition", "leftIndexPipPosition", "leftMiddlePipPosition", "leftRingPipPosition", "leftPinkyPipPosition"],
+    right: ["rightThumbPipPosition", "rightIndexPipPosition", "rightMiddlePipPosition", "rightRingPipPosition", "rightPinkyPipPosition"]
+}
+const fingerTips = {
+    left: ["leftThumbTipPosition", "leftIndexTipPosition", "leftMiddleTipPosition", "leftRingTipPosition", "leftPinkyTipPosition"],
+    right: ["rightThumbTipPosition", "rightIndexTipPosition", "rightMiddleTipPosition", "rightRingTipPosition", "rightPinkyTipPosition"]
+}
+const palms = {
+    left: ["leftPalmPosition"],
+    right: ["rightPalmPosition"]
+}
+const articulationsBothHandsSimple = [].concat(palms.right, palms.left, fingerTips.right, fingerTips.left);
+const articulationsRightHandSimple = [].concat(palms.right, fingerTips.right);
+const articulationsRightHandDetailed = [].concat(palms.right, fingerMcps.right, fingerPips.right, fingerTips.right);
 
 // CONFIG INIT ------------------------------------------------------------------------------------
 var config = {};
@@ -128,22 +150,22 @@ config.datasets.pose = {
 
 // Gesture Recognizer
 config.recognizer = {
-    module: HybridP3DollarPlusXRecognizer,
+    module: JackknifeRecognizer,
     options: {
         palmThreshold: 50,
         fingerThreshold: 15,
         samplingPoints: 16,                         // Number of sampling points [#points]
-        articulations: ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "rightPalmPosition"]
+        articulations: articulationsRightHandSimple
     }
 }
 
 // Pose Classifier
 config.classifier = {
-    module: P3DollarPlusClassifier,
+    module: GPSDClassifier,
     options: {
         bufferLength: 10,
         poseRatioThreshold: 0.6,
-        articulations: ["rightPalmPosition", "rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition"]
+        articulations: articulationsRightHandDetailed
     }
 }
 

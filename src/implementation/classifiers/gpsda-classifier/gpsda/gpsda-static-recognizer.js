@@ -2,9 +2,9 @@
 class Recognizer {
     static name = "GPSDAlphaRecognizer";
 
-    constructor(alpha = 1) {
+    constructor(numPoints, alpha = 1) {
         this.alpha = alpha;
-        this.numPoints = 6;
+        this.numPoints = numPoints;
         this.templates = [];
     }
 

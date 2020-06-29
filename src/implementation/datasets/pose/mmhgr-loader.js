@@ -46,7 +46,7 @@ function parseFrame(path) {
                 for (const finger of fingers) {
                     // [x, y, z]
                     let fingerPosition = frameFingers[finger].TipPosition.data.split(/\s+/g).slice(1).map(str => parseFloat(str));
-                    parsedFrame.addArticulation(new Articulation(getArticulationLabel(hand === "Right", finger), new Point(...fingerPosition)));
+                    parsedFrame.addArticulation(new Articulation(getArticulationLabel(hand === "Right", finger + "Tip"), new Point(...fingerPosition)));
                 }
             }
         }

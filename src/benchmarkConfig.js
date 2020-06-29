@@ -31,8 +31,27 @@ const GPSDaClassifier = require('./implementation/classifiers/gpsda-classifier/c
 const GPSDaDissimilarityClassifier = require('./implementation/classifiers/gpsdadissimilarity-classifier/classifier').Classifier;
 const P3DollarPlusClassifier = require('./implementation/classifiers/p3dollarplus-classifier/classifier').Classifier; 
 
-const articulationsBothHands = ["rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition", "rightPalmPosition", "leftPalmPosition"];
-const articulationsRightHand = ["rightPalmPosition", "rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition"]
+// Articulations
+const fingerMcps = {
+    left: ["leftThumbMcpPosition", "leftIndexMcpPosition", "leftMiddleMcpPosition", "leftRingMcpPosition", "leftPinkyMcpPosition"],
+    right: ["rightThumbMcpPosition", "rightIndexMcpPosition", "rightMiddleMcpPosition", "rightRingMcpPosition", "rightPinkyMcpPosition"]
+}
+const fingerPips = {
+    left: ["leftThumbPipPosition", "leftIndexPipPosition", "leftMiddlePipPosition", "leftRingPipPosition", "leftPinkyPipPosition"],
+    right: ["rightThumbPipPosition", "rightIndexPipPosition", "rightMiddlePipPosition", "rightRingPipPosition", "rightPinkyPipPosition"]
+}
+const fingerTips = {
+    left: ["leftThumbTipPosition", "leftIndexTipPosition", "leftMiddleTipPosition", "leftRingTipPosition", "leftPinkyTipPosition"],
+    right: ["rightThumbTipPosition", "rightIndexTipPosition", "rightMiddleTipPosition", "rightRingTipPosition", "rightPinkyTipPosition"]
+}
+const palms = {
+    left: ["leftPalmPosition"],
+    right: ["rightPalmPosition"]
+}
+const articulationsBothHandsSimple = [].concat(palms.right, palms.left, fingerTips.right, fingerTips.left);
+const articulationsRightHandSimple = [].concat(palms.right, fingerTips.right);
+const articulationsRightHandDetailed = [].concat(palms.right, fingerMcps.right, fingerPips.right, fingerTips.right);
+
 
 // CONFIG INIT ------------------------------------------------------------------------------------
 var config = {};
@@ -55,14 +74,14 @@ config.recognizers.modules = [
         module: UVPRecognizer,
         options: {
             samplingPoints: N_SAMPLING_POINTS,
-            articulations: articulationsRightHand
+            articulations: articulationsRightHandSimple
         }
     },
     {
         module: JackknifeRecognizer,
         options: {
             samplingPoints: N_SAMPLING_POINTS,
-            articulations: articulationsRightHand
+            articulations: articulationsRightHandSimple
         }
     },
     {
@@ -76,28 +95,28 @@ config.recognizers.modules = [
         module: P3DollarRecognizer,
         options: {
             samplingPoints: N_SAMPLING_POINTS,
-            articulations: articulationsRightHand
+            articulations: articulationsRightHandSimple
         }
     },
     {
         module: P3DollarPlusRecognizer,
         options: {
             samplingPoints: N_SAMPLING_POINTS,
-            articulations: articulationsRightHand
+            articulations: articulationsRightHandSimple
         }
     },
     {
         module: Q3DollarRecognizer,
         options: {
             samplingPoints: N_SAMPLING_POINTS,
-            articulations: articulationsRightHand
+            articulations: articulationsRightHandSimple
         }
     },
     {
         module: P3DollarPlusXRecognizer,
         options: {
             samplingPoints: N_SAMPLING_POINTS,
-            articulations: articulationsRightHand
+            articulations: articulationsRightHandSimple
         }
     },
     {
@@ -114,60 +133,60 @@ config.recognizers.modules = [
             palmThreshold: 50,
             fingerThreshold: 15
         }
+    },
+    {
+        module: HybridP3DollarPlusXRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            palmThreshold: 50,
+            fingerThreshold: 5
+        }
+    },
+    {
+        module: HybridP3DollarPlusXRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            palmThreshold: 1000,
+            fingerThreshold: 0
+        }
+    },
+    {
+        module: PDollarPlusRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            pathName: "rightPalmPosition"
+        }
     }
-    // {
-    //     module: HybridP3DollarPlusXRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         palmThreshold: 50,
-    //         fingerThreshold: 5
-    //     }
-    // },
-    // {
-    //     module: HybridP3DollarPlusXRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         palmThreshold: 1000,
-    //         fingerThreshold: 0
-    //     }
-    // },
-    // {
-    //     module: PDollarPlusRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         pathName: "rightPalmPosition"
-    //     }
-    // }
 ];
 
 // Classifiers
 config.classifiers.modules = [
-    // {
-    //     module: GPSDClassifier,
-    //     options: {
-    //         articulations: articulationsRightHand
-    //     }
-    // },
-    // {
-    //     module: GPSDaClassifier,
-    //     options: {
-    //         alpha: 0.70,
-    //         articulations: articulationsRightHand
-    //     }
-    // },
-    // {
-    //     module: GPSDaDissimilarityClassifier,
-    //     options: {
-    //         alpha: 0.7,
-    //         articulations: articulationsRightHand
-    //     }
-    // },
-    // {
-    //     module: P3DollarPlusClassifier,
-    //     options: {
-    //         articulations: articulationsRightHand
-    //     }
-    // }
+    {
+        module: GPSDClassifier,
+        options: {
+            articulations: articulationsRightHandSimple
+        }
+    },
+    {
+        module: GPSDaClassifier,
+        options: {
+            alpha: 0.70,
+            articulations: articulationsRightHandSimple
+        }
+    },
+    {
+        module: GPSDaDissimilarityClassifier,
+        options: {
+            alpha: 0.7,
+            articulations: articulationsRightHandSimple
+        }
+    },
+    {
+        module: P3DollarPlusClassifier,
+        options: {
+            articulations: articulationsRightHandSimple
+        }
+    }
 ];
 
 // Datasets path
@@ -195,14 +214,14 @@ config.datasets.gesture = [
 
 // Pose datasets
 config.datasets.pose = [
-    {
-        loader: LeapPoseDatasetLoader,
-        name: "guinevre-pose"
-    }
     // {
-    //     loader: MMHGRDatasetLoader,
-    //     name: "multi_mod_hand_gest_recog"
-    // }
+    //     loader: LeapPoseDatasetLoader,
+    //     name: "guinevre-pose"
+    // },
+    {
+        loader: MMHGRDatasetLoader,
+        name: "multi_mod_hand_gest_recog"
+    }
 ];
 
 module.exports = config;

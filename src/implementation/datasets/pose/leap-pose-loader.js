@@ -6,7 +6,8 @@ const GestureClass = require('../../../framework/gestures/gesture-class').Gestur
 const { Frame, Articulation } = require('../../../framework/frames/frame');
 const Point = require('../../../framework/gestures/point').Point3D;
 
-const fingers = ["Thumb", "Index", "Middle", "Ring", "Pinky"]
+const fingerNames = ["Thumb", "Index", "Middle", "Ring", "Pinky"];
+const fingerArticulations = ["Mcp", "Pip", "Tip"];
 
 function loadDataset(name, directory) {
     let gestureSet = new GestureSet(name);
@@ -42,7 +43,7 @@ function parseFrame(frame) {
         if (hand.type === "right") {
             rightHandId = hand.id;
         }
-        let label = getArticulationLabel(hand.type === "right", "Palm");
+        let label = `${hand.type}PalmPosition`;
         let position = new Point(...hand.palmPosition);
         let articulation = new Articulation(label, position);
         parsedFrame.addArticulation(articulation);
@@ -50,17 +51,17 @@ function parseFrame(frame) {
     // Add fingers
     for (const pointable of frame.pointables) {
         if (!pointable.tool) {
-            let label = getArticulationLabel(pointable.handId == rightHandId, fingers[pointable.type]);
-            let position = new Point(...pointable.tipPosition);
-            let articulation = new Articulation(label, position);
-            parsedFrame.addArticulation(articulation);
+            for (const fingerArticulation of fingerArticulations) {
+                // Get label (e.g., rightIndexPipPosition)
+                let side = pointable.handId == rightHandId ? "right" : "left";
+                let label = `${side}${fingerNames[pointable.type]}${fingerArticulation}Position`;
+                let position = new Point(...pointable[`${fingerArticulation.toLowerCase()}Position`]);
+                let articulation = new Articulation(label, position);
+                parsedFrame.addArticulation(articulation);
+            }
         }
     }
     return parsedFrame;
-}
-
-function getArticulationLabel(isRight, name) {
-    return `${isRight ? "right" : "left"}${name}Position`;
 }
 
 module.exports = {

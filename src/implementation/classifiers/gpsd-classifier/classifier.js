@@ -9,7 +9,7 @@ class Classifier extends AbstractClassifier {
     constructor(options, dataset) {
         super(options);
         this.articulations = options.articulations;
-        this.staticRecognizer = new GPSDRecognizer();
+        this.staticRecognizer = new GPSDRecognizer(options.articulations.length);
         // Load gestures from the dataset
         if (dataset !== undefined) {
 			dataset.getGestureClasses().forEach((gesture) => {
@@ -37,7 +37,6 @@ class Classifier extends AbstractClassifier {
         for (const articulation of this.articulations) {
             points.push(frame.getArticulation(articulation).point);
         }
-        //console.log(points)
         let { success, name, time } = this.staticRecognizer.recognize(points);
         return success ? { 'name': name, 'time': time } : { 'name': "", 'time': time };
     }

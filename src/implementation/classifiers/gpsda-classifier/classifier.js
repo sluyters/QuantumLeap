@@ -10,7 +10,7 @@ class Classifier extends AbstractClassifier {
         super(options);
         this.articulations = options.articulations;
         this.alpha = options.alpha;
-        this.staticRecognizer = new GPSDaRecognizer(options.alpha);
+        this.staticRecognizer = new GPSDaRecognizer(options.articulations.length, options.alpha);
         // Load gestures from the dataset
         if (dataset !== undefined) {
 			dataset.getGestureClasses().forEach((gesture) => {
