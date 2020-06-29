@@ -2,11 +2,12 @@
 const path = require('path');
 
 // Gesture datasets loaders
-const LeapMotionDatasetLoader = require('./implementation/datasets/LeapmotionDatasetLoader');
-const SmartphoneDatasetLoader = require('./implementation/datasets/SmartphoneDatasetLoader');
-const UnifiedDatasetLoader = require('./framework/datasets/UnifiedDatasetLoader');
-const HandGestureDatasetLoader = require('./implementation/datasets/HandGestureCsvDatasetLoader');
-const UWaveDatasetLoader = require('./implementation/datasets/uWaveDatasetLoader');
+const UnifiedDatasetLoader = require('./framework/datasets/unified-loader');
+const GuinevereDatasetLoader = require('./implementation/datasets/gesture/guinevere-loader');
+const LeapMotionDatasetLoader = require('./implementation/datasets/gesture/leap-gesture-loader');
+const SmartphoneDatasetLoader = require('./implementation/datasets/gesture/smartphone-loader');
+const HandGestureDatasetLoader = require('./implementation/datasets/gesture/hand-gesture-csv-loader');
+const UWaveDatasetLoader = require('./implementation/datasets/gesture/uwave-loader');
 
 // Pose datasets loaders
 const MMHGRDatasetLoader = require('./implementation/datasets/pose/mmhgr-loader');

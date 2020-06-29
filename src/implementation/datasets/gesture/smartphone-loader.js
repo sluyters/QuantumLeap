@@ -1,12 +1,12 @@
 const path = require('path');
 const fs = require('fs');
 
-const GestureSet = require('../../framework/gestures/gesture-set').GestureSet;
-const GestureClass = require('../../framework/gestures/gesture-class').GestureClass;
-const StrokeData = require('../../framework/gestures/stroke-data').StrokeData;
-const Stroke = require('../../framework/gestures/stroke-data').Stroke;
-const Path = require('../../framework/gestures/stroke-data').Path;
-const Point = require('../../framework/gestures/point').Point2D;
+const GestureSet = require('../../../framework/gestures/gesture-set').GestureSet;
+const GestureClass = require('../../../framework/gestures/gesture-class').GestureClass;
+const StrokeData = require('../../../framework/gestures/stroke-data').StrokeData;
+const Stroke = require('../../../framework/gestures/stroke-data').Stroke;
+const Path = require('../../../framework/gestures/stroke-data').Path;
+const Point = require('../../../framework/gestures/point').Point2D;
 
 
 function loadDataset(name, directory) {

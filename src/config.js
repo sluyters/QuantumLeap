@@ -30,12 +30,12 @@ const GPSDaDissimilarityClassifier = require('./implementation/classifiers/gpsda
 const P3DollarPlusClassifier = require('./implementation/classifiers/p3dollarplus-classifier/classifier').Classifier; 
 
 // Gesture Dataset Loaders
-const UnifiedDatasetLoader = require('./framework/datasets/UnifiedDatasetLoader');
-const GuinevereDatasetLoader = require('./implementation/datasets/guinevereDatasetLoader');
-const LeapMotionDatasetLoader = require('./implementation/datasets/LeapMotionDatasetLoader');
-const SmartphoneDatasetLoader = require('./implementation/datasets/SmartphoneDatasetLoader');
-const HandGestureDatasetLoader = require('./implementation/datasets/HandGestureCsvDatasetLoader');
-const UWaveDatasetLoader = require('./implementation/datasets/uWaveDatasetLoader');
+const UnifiedDatasetLoader = require('./framework/datasets/unified-loader');
+const GuinevereDatasetLoader = require('./implementation/datasets/gesture/guinevere-loader');
+const LeapMotionDatasetLoader = require('./implementation/datasets/gesture/leap-gesture-loader');
+const SmartphoneDatasetLoader = require('./implementation/datasets/gesture/smartphone-loader');
+const HandGestureDatasetLoader = require('./implementation/datasets/gesture/hand-gesture-csv-loader');
+const UWaveDatasetLoader = require('./implementation/datasets/gesture/uwave-loader');
 
 // Pose Dataset Loaders
 const MMHGRDatasetLoader = require('./implementation/datasets/pose/mmhgr-loader');
@@ -119,8 +119,8 @@ config.segmenter = {
 // Gesture Dataset
 config.datasets.gesture = {
     directory: __dirname + "/datasets/gesture",
-    loader: UnifiedDatasetLoader,
-    name: "guinevere_unified",
+    loader: LeapMotionDatasetLoader,
+    name: "guinevere",
     useCustomTemplatesPerClass: true,
     templatesPerClass: 8,
     aggregateClasses: [
