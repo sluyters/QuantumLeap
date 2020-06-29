@@ -97,6 +97,7 @@ class FrameProcessor {
     }
 
     processFrame(frame) {
+        // Get pose and data from the pose buffer
         let oldPoseInfo = "";
         let oldPoseRatio = 0;
         if (this.poseBuffer.isFull()) {

@@ -164,7 +164,7 @@ config.classifier = {
     module: GPSDClassifier,
     options: {
         bufferLength: 10,
-        poseRatioThreshold: 0.6,
+        poseRatioThreshold: 0.7,
         articulations: articulationsRightHandDetailed
     }
 }
