@@ -18,9 +18,10 @@ class Analyzer extends AbstractAnalyzer {
         let pinch = computePinch(this.previousFrame, frame);
         let rotation = computeRotation(this.previousFrame, frame);
         let translation = computeTranslation(this.previousFrame, frame);
+        let thumbVector = computeThumbVector(frame);
         // Save the current frame for next call
         this.previousFrame = frame;
-        return { 'rotation': rotation, 'pinch': pinch, 'translation': translation };
+        return { 'rotation': rotation, 'pinch': pinch, 'translation': translation, 'thumbVector': thumbVector };
     }
 
     reset() {
@@ -48,6 +49,11 @@ function computeTranslation(fromFrame, toFrame) {
     let dy = pTo.y - pFrom.y;
     let dz = pTo.z - pFrom.z;
     return [dx, dy, dz];
+}
+
+function computeThumbVector(frame) {
+    let tVector = translateTo(frame.getArticulation("rightThumbTipPosition").point, frame.getArticulation("rightPalmPosition").point);
+    return [tVector.x, tVector.y, tVector.z];
 }
 
 function computeAngle(p1, p2) {

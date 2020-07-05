@@ -74,15 +74,15 @@ config.datasets = {};
 
 // CONFIGURATION ----------------------------------------------------------------------------------
 // General Configuration
-config.general.debug = false;                        // Show debug logs
+config.general.debug = false;                       // Show debug logs
 config.general.sendContinuousData = true;           // Send data from each frame to the client
 config.general.gesture = {
-    sendIfRequeste: true,                           // Send recognized gestures only if they are requested by the client
+    sendIfRequested: true,                          // Send recognized gestures only if they are requested by the client
     loadOnRequest: true                             // Load gestures based on requests from the client
 }
 config.general.pose = {
     sendIfRequested: true,                          // Send recognized gestures only if they are requested by the client
-    loadOnRequest: false                             // Load gestures based on requests from the client
+    loadOnRequest: false                            // Load gestures based on requests from the client
 }
 
 // Server
@@ -165,8 +165,8 @@ config.recognizer = {
 config.classifier = {
     module: GPSDClassifier,
     options: {
-        bufferLength: 10,
-        poseRatioThreshold: 0.7,
+        bufferLength: 15,
+        poseRatioThreshold: 0.8,
         articulations: articulationsRightHandDetailed
     }
 }

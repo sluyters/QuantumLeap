@@ -40,23 +40,19 @@ function run() {
             let message = getMessage('data');
             if (appData && config.general.sendContinuousData) {
                 // If there is continuous data to send to the application
-                //let message = getMessage('data');
                 message.data.push({
                     'type': 'frame',
                     'data': appData
                 })
-                //ws.send(JSON.stringify(message));
             }
             // Gesture recognition
             var ret = frameProcessor.processFrame(frame);
             if (ret) {
                 // If there is gesture data to send to the application
-                //let message = getMessage('data');
                 message.data.push(ret);
                 if (config.general.debug) {
                     console.log(JSON.stringify(message));
                 }
-                //ws.send(JSON.stringify(message));
             }
             if (message.data.length > 0) {
                 ws.send(JSON.stringify(message));

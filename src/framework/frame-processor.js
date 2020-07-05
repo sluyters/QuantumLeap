@@ -122,10 +122,12 @@ class FrameProcessor {
             }
         }
         this.poseBuffer.enq(newPoseInfo);
-        if (oldPoseInfo.pose && oldPoseRatio > this.config.classifier.options.poseRatioThreshold) {
-            // Static pose detected
-            this.segmenter.notifyRecognition();
-            return { 'type': 'pose', 'name': oldPoseInfo.pose, 'data': oldPoseInfo.data };
+        if (oldPoseInfo.pose) {
+            if (oldPoseRatio > this.config.classifier.options.poseRatioThreshold) {
+                // Static pose detected
+                this.segmenter.notifyRecognition();
+                return { 'type': 'pose', 'name': oldPoseInfo.pose, 'data': oldPoseInfo.data };
+            }
         } else {
             // Reset analyzer
             this.analyzer.reset();
