@@ -3,6 +3,7 @@
 const LeapSensor = require('./implementation/sensors/leap-sensor/sensor').Sensor;
 
 // Pose Analyzers
+const NoAnalyzer = require('./implementation/analyzers/placeholder-analyzer/analyzer').Analyzer;
 const BasicAnalyzer = require('./implementation/analyzers/basic-analyzer/analyzer').Analyzer;
 
 // Gesture Segmenters
@@ -12,6 +13,7 @@ const LeftHandSegmenter = require('./implementation/segmenters/lefthand-segmente
 const FrameSegmenter = require('./implementation/segmenters/frame-segmenter').Segmenter;
 
 // Gesture Recognizers
+const NoRecognizer = require('./implementation/recognizers/placeholder-recognizer/recognizer').Recognizer;
 //3D
 const HybridP3DollarPlusXRecognizer = require('./implementation/recognizers/hybridp3dollarplusx-recognizer/recognizer').Recognizer;
 const JackknifeRecognizer = require('./implementation/recognizers/jackknife-recognizer/recognizer').Recognizer;

@@ -17,7 +17,7 @@ class Classifier extends AbstractClassifier {
     }
 
     classify(frame) {
-        return { 'name': "", 'time': 0.0 };
+        return { name: "", time: 0.0 };
     }
 
     toString() {
