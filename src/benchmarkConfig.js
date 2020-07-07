@@ -162,32 +162,32 @@ config.recognizers.modules = [
 
 // Classifiers
 config.classifiers.modules = [
-    {
-        module: GPSDClassifier,
-        options: {
-            articulations: articulationsRightHandSimple
-        }
-    },
-    {
-        module: GPSDaClassifier,
-        options: {
-            alpha: 0.70,
-            articulations: articulationsRightHandSimple
-        }
-    },
-    {
-        module: GPSDaDissimilarityClassifier,
-        options: {
-            alpha: 0.7,
-            articulations: articulationsRightHandSimple
-        }
-    },
-    {
-        module: P3DollarPlusClassifier,
-        options: {
-            articulations: articulationsRightHandSimple
-        }
-    }
+    // {
+    //     module: GPSDClassifier,
+    //     options: {
+    //         articulations: articulationsRightHandSimple
+    //     }
+    // },
+    // {
+    //     module: GPSDaClassifier,
+    //     options: {
+    //         alpha: 0.70,
+    //         articulations: articulationsRightHandSimple
+    //     }
+    // },
+    // {
+    //     module: GPSDaDissimilarityClassifier,
+    //     options: {
+    //         alpha: 0.7,
+    //         articulations: articulationsRightHandSimple
+    //     }
+    // },
+    // {
+    //     module: P3DollarPlusClassifier,
+    //     options: {
+    //         articulations: articulationsRightHandSimple
+    //     }
+    // }
 ];
 
 // Datasets path
