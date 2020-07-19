@@ -62,7 +62,7 @@ config.classifiers = {};
 
 // CONFIGURATION ----------------------------------------------------------------------------------
 // General configuration
-config.minT = 2; // Minimum Training Templates
+config.minT = 1; // Minimum Training Templates
 config.maxT = 8; // Maximum Training Templates (included)
 config.nextT = x => x * 2; // Function used to increment the number of training templates
 config.r = 100; // Repetitions
@@ -71,123 +71,243 @@ config.r = 100; // Repetitions
 N_SAMPLING_POINTS = 16;
 config.recognizers.nSamplingPoints = N_SAMPLING_POINTS;
 config.recognizers.modules = [
-    {
-        module: UVPRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            articulations: articulationsRightHandSimple
-        }
-    },
-    {
-        module: JackknifeRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            articulations: articulationsRightHandSimple
-        }
-    },
-    {
-        module: ThreeCentRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            pathName: "rightPalmPosition"
-        }
-    },
-    {
-        module: P3DollarRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            articulations: articulationsRightHandSimple
-        }
-    },
-    {
-        module: P3DollarPlusRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            articulations: articulationsRightHandSimple
-        }
-    },
-    {
-        module: Q3DollarRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            articulations: articulationsRightHandSimple
-        }
-    },
-    {
-        module: P3DollarPlusXRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            articulations: articulationsRightHandSimple
-        }
-    },
-    {
-        module: P3DollarPlusXRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            articulations: ["rightPalmPosition"]
-        }
-    },
-    {
-        module: HybridP3DollarPlusXRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            palmThreshold: 50,
-            fingerThreshold: 15
-        }
-    },
-    {
-        module: HybridP3DollarPlusXRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            palmThreshold: 50,
-            fingerThreshold: 5
-        }
-    },
-    {
-        module: HybridP3DollarPlusXRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            palmThreshold: 1000,
-            fingerThreshold: 0
-        }
-    },
-    {
-        module: PDollarPlusRecognizer,
-        options: {
-            samplingPoints: N_SAMPLING_POINTS,
-            pathName: "rightPalmPosition"
-        }
-    }
+    // {
+    //     module: UVPRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         articulations: articulationsRightHandSimple
+    //     }
+    // },
+    // {
+    //     module: UVPRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         articulations: ["rightPalmPosition"]
+    //     }
+    // },
+    // {
+    //     module: JackknifeRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         articulations: articulationsRightHandSimple
+    //     }
+    // },
+    // {
+    //     module: JackknifeRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         articulations: ["rightPalmPosition"]
+    //     }
+    // },
+    // {
+    //     module: ThreeCentRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         pathName: "rightPalmPosition"
+    //     }
+    // },
+    // {
+    //     module: P3DollarRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         articulations: articulationsRightHandSimple
+    //     }
+    // },
+    // {
+    //     module: P3DollarRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         articulations: ["rightPalmPosition"]
+    //     }
+    // },
+    // {
+    //     module: P3DollarPlusRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         articulations: articulationsRightHandSimple
+    //     }
+    // },
+    // {
+    //     module: P3DollarPlusRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         articulations: ["rightPalmPosition"]
+    //     }
+    // },
+    // {
+    //     module: Q3DollarRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         articulations: articulationsRightHandSimple
+    //     }
+    // },
+    // {
+    //     module: Q3DollarRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         articulations: ["rightPalmPosition"]
+    //     }
+    // },
+    // {
+    //     module: P3DollarPlusXRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         articulations: articulationsRightHandSimple
+    //     }
+    // },
+    // {
+    //     module: P3DollarPlusXRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         articulations: ["rightPalmPosition"]
+    //     }
+    // },
+    // {
+    //     module: HybridP3DollarPlusXRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         palmThreshold: 50,
+    //         fingerThreshold: 0
+    //     }
+    // },
+
+    // {
+    //     module: HybridP3DollarPlusXRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         palmThreshold: 50,
+    //         fingerThreshold: 5
+    //     }
+    // },
+    // {
+    //     module: HybridP3DollarPlusXRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         palmThreshold: 1000,
+    //         fingerThreshold: 0
+    //     }
+    // },
+    // {
+    //     module: PDollarPlusRecognizer,
+    //     options: {
+    //         samplingPoints: N_SAMPLING_POINTS,
+    //         pathName: "rightPalmPosition"
+    //     }
+    // }
 ];
 
 // Classifiers
 config.classifiers.modules = [
-    // {
-    //     module: GPSDClassifier,
-    //     options: {
-    //         articulations: articulationsRightHandSimple
-    //     }
-    // },
-    // {
-    //     module: GPSDaClassifier,
-    //     options: {
-    //         alpha: 0.70,
-    //         articulations: articulationsRightHandSimple
-    //     }
-    // },
-    // {
-    //     module: GPSDaDissimilarityClassifier,
-    //     options: {
-    //         alpha: 0.7,
-    //         articulations: articulationsRightHandSimple
-    //     }
-    // },
-    // {
-    //     module: P3DollarPlusClassifier,
-    //     options: {
-    //         articulations: articulationsRightHandSimple
-    //     }
-    // }
+    {
+        module: GPSDaClassifier,
+        options: {
+            alpha: 0.60,
+            articulations: articulationsRightHandSimple
+        }
+    },
+    {
+        module: GPSDaClassifier,
+        options: {
+            alpha: 0.60,
+            articulations: articulationsRightHandDetailed
+        }
+    },
+    {
+        module: GPSDaClassifier,
+        options: {
+            alpha: 0.70,
+            articulations: articulationsRightHandSimple
+        }
+    },
+    {
+        module: GPSDaClassifier,
+        options: {
+            alpha: 0.70,
+            articulations: articulationsRightHandDetailed
+        }
+    },
+    {
+        module: GPSDaClassifier,
+        options: {
+            alpha: 0.80,
+            articulations: articulationsRightHandSimple
+        }
+    },
+    {
+        module: GPSDaClassifier,
+        options: {
+            alpha: 0.80,
+            articulations: articulationsRightHandDetailed
+        }
+    },
+    {
+        module: GPSDaClassifier,
+        options: {
+            alpha: 0.90,
+            articulations: articulationsRightHandSimple
+        }
+    },
+    {
+        module: GPSDaClassifier,
+        options: {
+            alpha: 0.90,
+            articulations: articulationsRightHandDetailed
+        }
+    },
+    {
+        module: GPSDaClassifier,
+        options: {
+            alpha: 1.00,
+            articulations: articulationsRightHandSimple
+        }
+    },
+    {
+        module: GPSDaClassifier,
+        options: {
+            alpha: 1.00,
+            articulations: articulationsRightHandDetailed
+        }
+    },
+    {
+        module: GPSDaClassifier,
+        options: {
+            alpha: 1.10,
+            articulations: articulationsRightHandSimple
+        }
+    },
+    {
+        module: GPSDaClassifier,
+        options: {
+            alpha: 1.10,
+            articulations: articulationsRightHandDetailed
+        }
+    },
+    {
+        module: GPSDaDissimilarityClassifier,
+        options: {
+            alpha: 0.7,
+            articulations: articulationsRightHandSimple
+        }
+    },
+    {
+        module: GPSDaDissimilarityClassifier,
+        options: {
+            alpha: 0.7,
+            articulations: articulationsRightHandDetailed
+        }
+    },
+    {
+        module: P3DollarPlusClassifier,
+        options: {
+            articulations: articulationsRightHandSimple
+        }
+    },
+    {
+        module: P3DollarPlusClassifier,
+        options: {
+            articulations: articulationsRightHandDetailed
+        }
+    }
 ];
 
 // Datasets path
@@ -197,32 +317,66 @@ config.datasets.path = path.join(__dirname, "datasets");
 config.datasets.gesture = [
     {
         name: "guinevere_unified",
-        loader: UnifiedDatasetLoader
+        loader: UnifiedDatasetLoader,
+        aggregateClasses: [
+            { name: "swipe up", classes: ["swipe_up"] },
+            { name: "swipe down", classes: ["swipe_down"] },
+            { name: "swipe left", classes: ["swipe_left"] },
+            { name: "swipe right", classes: ["swipe_right"] },
+            { name: "tap", classes: ["tap"] },
+            { name: "rotate clockwise", classes: ["turn_clockwise"] },
+            { name: "rotate anti-clockwise", classes: ["turn_counter_clockwise"] },
+            { name: "pinch in", classes: ["pinch_in"] },
+            { name: "pinch out", classes: ["pinch_out"] },
+            { name: "thumbs up", classes: ["thumbs_up"] },
+            { name: "thumbs down", classes: ["thumbs_down"] }
+        ]
+    },
+    {
+        name: "guinevere_unified",
+        loader: UnifiedDatasetLoader,
+        aggregateClasses: [
+            { name: "swipe up", classes: ["swipe_up"] },
+            { name: "swipe left", classes: ["swipe_left"] },
+            { name: "swipe right", classes: ["swipe_right"] },
+            { name: "tap", classes: ["tap"] }
+        ]
     }
     // {
     //     name: "leapmotion",
-    //     loader: LeapMotionDatasetLoader
+    //     loader: LeapMotionDatasetLoader,
+    //     aggregateClasses: []
     // }
     // {
     //     name: "uWaveGestureLibrary",
-    //     loader: UWaveDatasetLoader
+    //     loader: UWaveDatasetLoader,
+    //     aggregateClasses: []
     // }
     // {
     //     name: "smartphone",
-    //     loader: SmartphoneDatasetLoader
+    //     loader: SmartphoneDatasetLoader,
+    //     aggregateClasses: []
     // }
 ];
 
 // Pose datasets
 config.datasets.pose = [
-    // {
-    //     loader: LeapPoseDatasetLoader,
-    //     name: "guinevre-pose"
-    // },
     {
-        loader: MMHGRDatasetLoader,
-        name: "multi_mod_hand_gest_recog"
+        loader: LeapPoseDatasetLoader,
+        name: "guinevre-pose",
+        aggregateClasses: [
+            { name: "flat", classes: ["flat"] },
+            { name: "point", classes: ["point-index"] },
+            { name: "pinch", classes: ["pinch"] },
+            { name: "grab", classes: ["grab"] },
+            { name: "thumb", classes: ["thumb"] }
+        ]
     }
+    // {
+    //     loader: MMHGRDatasetLoader,
+    //     name: "multi_mod_hand_gest_recog"
+    //     aggregateClasses: []
+    // }
 ];
 
 module.exports = config;
