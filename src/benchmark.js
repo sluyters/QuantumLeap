@@ -13,18 +13,6 @@ const N = config.recognizers.nSamplingPoints; // Points/Shapes
 
 function run() {
     // // Test classifiers
-    // if (config.classifiers.modules.length > 0) {
-    //     for(let i=0; i < config.datasets.pose.length; i++){
-    //         let datasetConfig = config.datasets.pose[i];
-    //         let datasetPath = path.join(config.datasets.path, "pose");
-    //         let dataset = loadDataset(datasetPath, datasetConfig);
-    //         for(let j=0; j < config.classifiers.modules.length; j++){
-    //             let classifier = config.classifiers.modules[j];
-    //             test(dataset, classifier.module, classifier.options, "classifier");
-    //         }
-    //     }
-    //     fs.writeFileSync('results-poses.json', JSON.stringify(results));
-    // }
     if (config.classifiers.modules.length > 0) {
         let results = [];
         for(let i=0; i < config.datasets.pose.length; i++){
@@ -80,31 +68,9 @@ function run() {
 }
 
 /**
- * Display the results of a test
- */
-function printResult(results, dataset, recognizerOrClassifierName, type = "recognizer") {
-    if (type === "recognizer") {
-        console.log("#### " + recognizerOrClassifierName + " #### number of repetition: " + R + ", N: " + N);
-    } else {
-        console.log("#### " + recognizerOrClassifierName + " #### number of repetition: " + R);
-    }
-    console.log("#### gesture set " + dataset.name + " #### " + JSON.stringify(Array.from(dataset.getGestureClasses().keys())));
-    let nTemplates = MINT;
-    for(let i = 0 ; i < results[0].length && i < results[1].length ; i++) {
-        console.log("Recognition accuracy with " + nTemplates + " training templates per gesture: " + (results[0][i]*100).toFixed(2) + " (" + results[1][i].toFixed(2) + "ms)");
-        console.log("Confusion matrice: " + JSON.stringify(results[2][i]));
-        nTemplates = computeNextT(nTemplates);
-    }
-    console.log("--------")
-};
-
-/**
  * User-independent testing
  */
 function startUserIndependentTesting(dataset, recognizerOrClassifierType, config, type = "recognizer") {
-    //let recognitionRates = [];
-    //let executionTimes = [];
-    //let confusionMatrices = [];
     let results = [];
     // Perform the test for each size of training set
     for(let trainingSetSize = MINT ; trainingSetSize <= Math.min(dataset.getMinTemplate(), MAXT); trainingSetSize = computeNextT(trainingSetSize)) {
@@ -115,10 +81,6 @@ function startUserIndependentTesting(dataset, recognizerOrClassifierType, config
             confusionMatrix: []
         };
         res.confusionMatrix = new Array(dataset.G).fill(0).map(() => new Array(dataset.G).fill(0));
-
-        //let recognitionRate = 0;
-        //let executionTime = 0.0;
-        //let confusionMatrix = new Array(dataset.G).fill(0).map(() => new Array(dataset.G).fill(0));
         
         // Repeat the test R times
         for(let r = 0 ; r < R ; r++) {
@@ -161,31 +123,24 @@ function startUserIndependentTesting(dataset, recognizerOrClassifierType, config
                 if (type === "recognizer") {
                     var result = recognizerOrClassifier.recognize(toBeTested);
                 } else {
-                    var result = recognizerOrClassifier.classify(toBeTested);
+                    var result = recognizerOrClassifier.classify(toBeTested.frame);
                 }
                 // Update the confusion matrix
                 if (dataset.getGestureClasses().has(result.name)) {
                     let resultIndex = dataset.getGestureClasses().get(result.name).index;
                     res.confusionMatrix[gestureClass.index][resultIndex] += 1;
-                    //confusionMatrix[gestureClass.index][resultIndex] += 1;
                 }
                 // Update execution time and accuracy
                 res.accuracy += (result.name===gestureClass.name) ? 1 : 0;
                 res.time += result.time;
-                //recognitionRate += (result.name===gestureClass.name) ? 1 : 0;
-                //executionTime += result.time;
                 index++;
             });
         }
         res.accuracy = res.accuracy / (R * dataset.G);
         res.time = res.time / (R * dataset.G);
         results.push(res);
-        //recognitionRates.push(recognitionRate / (R * dataset.G));
-        //executionTimes.push(executionTime / (R * dataset.G));
-        //confusionMatrices.push(confusionMatrix);
     }
     return results;
-    //return [recognitionRates, executionTimes, confusionMatrices];
 };
 
 /**
@@ -244,9 +199,6 @@ function loadDataset(datasetPath, datasetConfig) {
  */
 function test(dataset, recognizerOrClassifierType, config, type = "recognizer"){
     let result = startUserIndependentTesting(dataset, recognizerOrClassifierType, config, type);
-    //let tmp = new recognizerOrClassifierType(config);
-    //recognizerOrClassifierStr = tmp.toString();
-    //printResult(result, dataset, recognizerOrClassifierStr, type);
     return result;
 };
 

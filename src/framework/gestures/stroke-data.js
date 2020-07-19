@@ -1,16 +1,13 @@
-class StrokeData {
+const Sample = require('./sample').Sample;
 
+class StrokeData extends Sample {
     constructor(user, id, infosupp) {
-        this.user = user;
-        this.id = id;
+        super(user, id, infosupp);
         this.paths = {};
-        this.infosupp = infosupp;
     }
-
     addPath(label, path){
         this.paths[label] = path;
     }
-
 }
 
 class Stroke {
@@ -18,11 +15,9 @@ class Stroke {
         this.id = id;
         this.points = [];
     }
-
     addPoint(stroke){
         this.points.push(stroke);
     }
-
 }
 
 class Path {
@@ -30,11 +25,9 @@ class Path {
         this.label = label;
         this.strokes = [];
     }
-
     addStroke(stroke){
         this.strokes.push(stroke);
     }
-
 }
 
 module.exports = {

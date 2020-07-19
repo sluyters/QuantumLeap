@@ -5,6 +5,7 @@ const xml2js = require('xml2js');
 const { Frame, Articulation } = require('../../../framework/frames/frame');
 const GestureClass = require('../../../framework/gestures/gesture-class').GestureClass;
 const GestureSet = require('../../../framework/gestures/gesture-set').GestureSet;
+const PoseData = require('../../../framework/gestures/pose-data').PoseData;
 const Point = require('../../../framework/gestures/point').Point3D;
 
 const fingers = ["Thumb", "Index", "Middle", "Ring", "Pinky"];
@@ -64,10 +65,14 @@ function parseGestureSet(datasetPath, name) {
         fs.readdirSync(datasetPath).forEach((userDir) => {
             for (const type of ["train_pose", "test_pose"]) {
                 let classPath = path.join(datasetPath, userDir, type, className);
+                let id = 0;
                 fs.readdirSync(classPath).forEach((frame) => {
                     let framePath = path.join(classPath, frame);
                     let parsedFrame = parseFrame(framePath);
-                    gestureClass.addSample(parsedFrame);
+                    let userId = parseInt(userDir.split("_"));
+                    let poseData = new PoseData(userId, id, parsedFrame, undefined);
+                    gestureClass.addSample(poseData);
+                    id++;
                 });
             }
         });

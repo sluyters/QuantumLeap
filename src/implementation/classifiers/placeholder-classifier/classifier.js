@@ -8,7 +8,7 @@ class Classifier extends AbstractClassifier {
         super(options);
     }
 
-    addPose(name, frame) {
+    addPose(name, sample) {
         // Nothing
     }
 

@@ -46,7 +46,7 @@ def getDirName(path):
 
 
 # Open results and parse json file
-file = open('results-poses.json')
+file = open('results-gestures.json')
 results = json.load(file)
 # Get current working directory
 path = getDirName(os.path.join(os.getcwd(), "results"))
@@ -97,7 +97,7 @@ for dataset in results:
                 accuracy = (correct/total) * 100
                 classAccuracies.append(accuracy)
                 print('Gesture class {0} - Accuracy: {1:.2f}%'.format(gestures[index], accuracy))
-            print('Global accuracy: {0:.2f}% - Stdev: {1:.2f} - Variance: {2:.2f}'.format(statistics.mean(classAccuracies), statistics.stdev(classAccuracies), statistics.variance(classAccuracies)))
+            print('Global accuracy: {0:.2f}% - Stdev: {1:.2f} - Variance: {2:.2f} - Time: {3:.2f}'.format(statistics.mean(classAccuracies), statistics.stdev(classAccuracies), statistics.variance(classAccuracies), benchmark['time']))
             # Bar plot
             plt.figure()
             plt.bar(gestures, classAccuracies, width=0.8, bottom=None, align='center', color=(0.24, 0.55, 0.76, 1), data=None)

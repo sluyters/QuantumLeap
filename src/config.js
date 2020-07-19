@@ -163,10 +163,11 @@ config.recognizer = {
 
 // Pose Classifier
 config.classifier = {
-    module: GPSDClassifier,
+    module: GPSDaClassifier,
     options: {
         bufferLength: 15,
         poseRatioThreshold: 0.8,
+        alpha: 0.80,
         articulations: articulationsRightHandDetailed
     }
 }

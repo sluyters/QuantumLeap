@@ -3,6 +3,7 @@ const fs = require('fs');
 
 const GestureSet = require('../../../framework/gestures/gesture-set').GestureSet;
 const GestureClass = require('../../../framework/gestures/gesture-class').GestureClass;
+const PoseData = require('../../../framework/gestures/pose-data').PoseData;
 const { Frame, Articulation } = require('../../../framework/frames/frame');
 const Point = require('../../../framework/gestures/point').Point3D;
 
@@ -23,9 +24,12 @@ function loadDataset(name, directory) {
             fs.readdirSync(userDirPath).forEach((file) => {
                 let rawGesturePath = path.join(userDirPath, file);
                 let parsedFile = JSON.parse(fs.readFileSync(rawGesturePath));
+                let id = 0;
                 for (const frame of parsedFile.data) {
                     let parsedFrame = parseFrame(frame);
-                    gestureClass.addSample(parsedFrame);
+                    let poseData = new PoseData(parseInt(user), id, parsedFrame, undefined);
+                    gestureClass.addSample(poseData);
+                    id++;
                 }
             });
         });

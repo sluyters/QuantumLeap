@@ -21,7 +21,8 @@ class Classifier extends AbstractClassifier {
         }
     }
 
-    addPose(name, frame) {
+    addPose(name, sample) {
+        let frame = sample.frame;
         let points = []
         for (const articulation of this.articulations) {
             points.push(frame.getArticulation(articulation).point);
