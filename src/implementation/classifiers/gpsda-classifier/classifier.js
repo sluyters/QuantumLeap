@@ -39,7 +39,6 @@ class Classifier extends AbstractClassifier {
         for (const articulation of this.articulations) {
             points.push(frame.getArticulation(articulation).point);
         }
-        //console.log(points)
         let { success, name, time } = this.staticRecognizer.recognize(points);
         return success ? { 'name': name, 'time': time } : { 'name': "", 'time': time };
     }

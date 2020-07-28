@@ -78,7 +78,7 @@ config.general.debug = false;                       // Show debug logs
 config.general.sendContinuousData = true;           // Send data from each frame to the client
 config.general.gesture = {
     sendIfRequested: true,                          // Send recognized gestures only if they are requested by the client
-    loadOnRequest: true                             // Load gestures based on requests from the client
+    loadOnRequest: false                            // Load gestures based on requests from the client
 }
 config.general.pose = {
     sendIfRequested: true,                          // Send recognized gestures only if they are requested by the client
@@ -124,19 +124,19 @@ config.datasets.gesture = {
     loader: LeapMotionDatasetLoader,
     name: "guinevere",
     useCustomTemplatesPerClass: true,
-    templatesPerClass: 8,
+    templatesPerClass: 16,
     aggregateClasses: [
-        { name: "rhand_uswipe", classes: ["swipe_up", "open_hand_up"] },
-        { name: "rhand_dswipe", classes: ["swipe_down", "open_hand_down"] },
-        { name: "rhand_lswipe", classes: ["swipe_left", "open_hand_left"] },
-        { name: "rhand_rswipe", classes: ["swipe_right", "open_hand_right"] },
+        { name: "rhand_uswipe", classes: ["swipe_up"] },
+        { name: "rhand_dswipe", classes: ["swipe_down"] },
+        { name: "rhand_lswipe", classes: ["swipe_left"] },
+        { name: "rhand_rswipe", classes: ["swipe_right"] },
         { name: "rindex_airtap", classes: ["tap"] },
-        { name: "rhand_crotate", classes: ["turn_clockwise"] },
-        { name: "rhand_acrotate", classes: ["turn_counter_clockwise"] },
-        { name: "rhand_close", classes: ["pinch_in"] },
-        { name: "rhand_open", classes: ["pinch_out"] },
-        { name: "thumbs_up", classes: ["thumbs_up"] },
-        { name: "thumbs_down", classes: ["thumbs_down"] }
+        //{ name: "rhand_crotate", classes: ["turn_clockwise"] },
+        //{ name: "rhand_acrotate", classes: ["turn_counter_clockwise"] },
+        //{ name: "rhand_close", classes: ["pinch_in"] },
+        //{ name: "rhand_open", classes: ["pinch_out"] },
+        //{ name: "thumbs_up", classes: ["thumbs_up"] },
+        //{ name: "thumbs_down", classes: ["thumbs_down"] }
     ]
 }
 
@@ -157,7 +157,8 @@ config.recognizer = {
         palmThreshold: 50,
         fingerThreshold: 15,
         samplingPoints: 16,                         // Number of sampling points [#points]
-        articulations: articulationsRightHandSimple
+        articulations: palms.right,
+        //pathName: "rightPalmPosition"
     }
 }
 
@@ -167,7 +168,7 @@ config.classifier = {
     options: {
         bufferLength: 15,
         poseRatioThreshold: 0.8,
-        alpha: 0.80,
+        alpha: 0.8,
         articulations: articulationsRightHandDetailed
     }
 }

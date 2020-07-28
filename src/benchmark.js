@@ -20,6 +20,7 @@ function run() {
             let datasetPath = path.join(config.datasets.path, "pose");
             let dataset = loadDataset(datasetPath, datasetConfig);
             let datasetResults = { 
+                r: config.r,
                 dataset: dataset.name,
                 gestures: Array.from(dataset.getGestureClasses().keys()),
                 data: []
@@ -47,6 +48,7 @@ function run() {
             let datasetPath = path.join(config.datasets.path, "gesture");
             let dataset = loadDataset(datasetPath, datasetConfig);
             let datasetResults = { 
+                r: config.r,
                 dataset: dataset.name,
                 gestures: Array.from(dataset.getGestureClasses().keys()),
                 data: []
@@ -73,7 +75,7 @@ function run() {
 function startUserIndependentTesting(dataset, recognizerOrClassifierType, config, type = "recognizer") {
     let results = [];
     // Perform the test for each size of training set
-    for(let trainingSetSize = MINT ; trainingSetSize <= Math.min(dataset.getMinTemplate(), MAXT); trainingSetSize = computeNextT(trainingSetSize)) {
+    for(let trainingSetSize = MINT; trainingSetSize <= Math.min(dataset.getMinTemplate(), MAXT); trainingSetSize = computeNextT(trainingSetSize)) {
         let res = {
             n: trainingSetSize,
             accuracy: 0.0,

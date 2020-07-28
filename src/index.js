@@ -84,10 +84,8 @@ function getWebSocketServer(ip, port) {
     server.listen(port, ip, function () {
         console.log("WebSocket server listening on port " + port);
     });
-
     // Create WebSocket server
     var wsServer = new WebSocket.Server({ server });
-
     return wsServer;
 }
 

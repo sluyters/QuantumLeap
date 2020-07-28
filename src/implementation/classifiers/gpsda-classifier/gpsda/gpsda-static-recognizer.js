@@ -24,7 +24,6 @@ class Recognizer {
             }
         }
         var t1 = Date.now();
-        //console.log(`${bestTemplate.name} \t \t ${bestDistance}`)
         return (bestTemplate === null) ? { success: false, name: 'No match', time: t1-t0 } : { success: true, name: bestTemplate.name, time: t1-t0 };
     }
 
@@ -48,7 +47,6 @@ class CPS {
     constructor(name, points, alpha) {
         this.name = name;
         this.cps = computeCPS(points, alpha);
-        //console.log(this.cps)
     }
 }
 
@@ -132,17 +130,3 @@ module.exports = {
     Recognizer,
     Point
 };
-
-// let rec = new Recognizer();
-// let points1 = [new Point(-50, -50, 0), new Point(50, -50, 0), new Point(50, 50, 0), new Point(-50, 50, 0)];
-// let points2 = [new Point(-50, -50, 0), new Point(50, -50, 0), new Point(0, 0, 0), new Point(-50, 50, 0)];
-// let points3 = [new Point(-20, -20, 0), new Point(20, -20, 0), new Point(0, 0, 0), new Point(-18, 18, 0)];
-// let points4 = [new Point(-50, 0, 0), new Point(50, 0, 0), new Point(0, 50, 0), new Point(0, -50, 0)];
-// rec.addGesture("square", points1);
-// rec.addGesture("triangle", points2);
-// console.log(rec.recognize(points1));
-// console.log(rec.recognize(points2));
-// console.log(rec.recognize(points3));
-// console.log(rec.recognize(points4));
-
-

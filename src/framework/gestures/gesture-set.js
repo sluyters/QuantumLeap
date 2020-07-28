@@ -1,5 +1,4 @@
 class GestureSet {
-
     constructor(name) {
         this.name = name;
         this.gestures = new Map();
@@ -17,13 +16,11 @@ class GestureSet {
 
     getMinTemplate() {
         let TperG = Infinity;
-
         for (var gestureClass of this.gestures.values()) {
             TperG = Math.min(TperG, gestureClass.TperG);
         }
         return TperG;
     }
-
 }
 
 module.exports = {

@@ -43,7 +43,6 @@ class Classifier extends AbstractClassifier {
             let { success, name, time } = this.staticRecognizer.recognize(points);
             return success ? { 'name': name, 'time': time } : { 'name': "", 'time': time };
         } catch(err) {
-            //console.log(err);
             return { 'name': "", 'time': 0.0 };
         }
     }

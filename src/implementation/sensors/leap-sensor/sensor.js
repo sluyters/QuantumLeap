@@ -3,9 +3,6 @@ const Point = require('../../../framework/gestures/point').Point3D;
 const { Frame, Articulation } = require('../../../framework/frames/frame');
 const Leap = require('leapjs');
 
-const rArticulations = ["rightPalmPosition", "rightThumbPosition", "rightIndexPosition", "rightMiddlePosition", "rightRingPosition", "rightPinkyPosition"];
-const lArticulations = ["leftPalmPosition", "leftThumbPosition", "leftIndexPosition", "leftMiddlePosition", "leftRingPosition", "leftPinkyPosition"];
-
 const fingerNames = ["Thumb", "Index", "Middle", "Ring", "Pinky"];
 const fingerArticulations = ["Mcp", "Pip", "Tip"];
 
@@ -64,10 +61,6 @@ class Sensor extends AbstractSensor {
                         let articulation = new Articulation(label, position);
                         parsedFrame.addArticulation(articulation);
                     }
-
-                    // let fingerName = getFingerName(hand.type === 'right', finger.type);
-                    // let tipPosition = finger.tipPosition;   
-                    // parsedFrame.addArticulation(new Articulation(fingerName, new Point(tipPosition[0], tipPosition[1], tipPosition[2], frame.timestamp)));
                 });
             }
             // Add points if articulation not visible

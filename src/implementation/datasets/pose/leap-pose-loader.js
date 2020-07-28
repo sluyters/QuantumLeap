@@ -14,7 +14,6 @@ function loadDataset(name, directory) {
     let gestureSet = new GestureSet(name);
     let dirPath = path.join(directory, name);
     let gestureIndex = 0;
-
     fs.readdirSync(dirPath).forEach((gesture) => {
         let gestureDirPath = path.join(dirPath, gesture);
         let gestureClass = new GestureClass(gesture, gestureIndex);

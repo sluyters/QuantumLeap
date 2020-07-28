@@ -71,129 +71,129 @@ config.r = 100; // Repetitions
 N_SAMPLING_POINTS = 16;
 config.recognizers.nSamplingPoints = N_SAMPLING_POINTS;
 config.recognizers.modules = [
-    // {
-    //     module: UVPRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         articulations: articulationsRightHandSimple
-    //     }
-    // },
-    // {
-    //     module: UVPRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         articulations: ["rightPalmPosition"]
-    //     }
-    // },
-    // {
-    //     module: JackknifeRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         articulations: articulationsRightHandSimple
-    //     }
-    // },
-    // {
-    //     module: JackknifeRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         articulations: ["rightPalmPosition"]
-    //     }
-    // },
-    // {
-    //     module: ThreeCentRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         pathName: "rightPalmPosition"
-    //     }
-    // },
-    // {
-    //     module: P3DollarRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         articulations: articulationsRightHandSimple
-    //     }
-    // },
-    // {
-    //     module: P3DollarRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         articulations: ["rightPalmPosition"]
-    //     }
-    // },
-    // {
-    //     module: P3DollarPlusRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         articulations: articulationsRightHandSimple
-    //     }
-    // },
-    // {
-    //     module: P3DollarPlusRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         articulations: ["rightPalmPosition"]
-    //     }
-    // },
-    // {
-    //     module: Q3DollarRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         articulations: articulationsRightHandSimple
-    //     }
-    // },
-    // {
-    //     module: Q3DollarRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         articulations: ["rightPalmPosition"]
-    //     }
-    // },
-    // {
-    //     module: P3DollarPlusXRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         articulations: articulationsRightHandSimple
-    //     }
-    // },
-    // {
-    //     module: P3DollarPlusXRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         articulations: ["rightPalmPosition"]
-    //     }
-    // },
-    // {
-    //     module: HybridP3DollarPlusXRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         palmThreshold: 50,
-    //         fingerThreshold: 0
-    //     }
-    // },
+    {
+        module: UVPRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: articulationsRightHandSimple
+        }
+    },
+    {
+        module: UVPRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: ["rightPalmPosition"]
+        }
+    },
+    {
+        module: JackknifeRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: articulationsRightHandSimple
+        }
+    },
+    {
+        module: JackknifeRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: ["rightPalmPosition"]
+        }
+    },
+    {
+        module: ThreeCentRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            pathName: "rightPalmPosition"
+        }
+    },
+    {
+        module: P3DollarRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: articulationsRightHandSimple
+        }
+    },
+    {
+        module: P3DollarRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: ["rightPalmPosition"]
+        }
+    },
+    {
+        module: P3DollarPlusRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: articulationsRightHandSimple
+        }
+    },
+    {
+        module: P3DollarPlusRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: ["rightPalmPosition"]
+        }
+    },
+    {
+        module: Q3DollarRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: articulationsRightHandSimple
+        }
+    },
+    {
+        module: Q3DollarRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: ["rightPalmPosition"]
+        }
+    },
+    {
+        module: P3DollarPlusXRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: articulationsRightHandSimple
+        }
+    },
+    {
+        module: P3DollarPlusXRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            articulations: ["rightPalmPosition"]
+        }
+    },
+    {
+        module: HybridP3DollarPlusXRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            palmThreshold: 50,
+            fingerThreshold: 0
+        }
+    },
 
-    // {
-    //     module: HybridP3DollarPlusXRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         palmThreshold: 50,
-    //         fingerThreshold: 5
-    //     }
-    // },
-    // {
-    //     module: HybridP3DollarPlusXRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         palmThreshold: 1000,
-    //         fingerThreshold: 0
-    //     }
-    // },
-    // {
-    //     module: PDollarPlusRecognizer,
-    //     options: {
-    //         samplingPoints: N_SAMPLING_POINTS,
-    //         pathName: "rightPalmPosition"
-    //     }
-    // }
+    {
+        module: HybridP3DollarPlusXRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            palmThreshold: 50,
+            fingerThreshold: 5
+        }
+    },
+    {
+        module: HybridP3DollarPlusXRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            palmThreshold: 1000,
+            fingerThreshold: 0
+        }
+    },
+    {
+        module: PDollarPlusRecognizer,
+        options: {
+            samplingPoints: N_SAMPLING_POINTS,
+            pathName: "rightPalmPosition"
+        }
+    }
 ];
 
 // Classifiers

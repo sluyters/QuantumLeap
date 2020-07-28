@@ -4,8 +4,8 @@ import ReconnectingWebSocket from 'reconnecting-websocket';
 class GestureHandler {
     constructor(addr = "ws://127.0.0.1:6442") {
         // Save callbacks for gestures, poses, and frames
-        this.gestureHandlers = {};
-        this.poseHandlers = {};
+        this.dynamicGestureHandlers = {};
+        this.staticGestureHandler = {};
         this.forEachHandler = (gesture) => {};
         this.frameHandler = (frame) => {};
         // True if the interface is connected to the server
@@ -57,7 +57,7 @@ class GestureHandler {
         if (this.isConnected) {
             this.client.send(JSON.stringify(getOperationMessage('addGesture', gesture)));
         }
-        this.gestureHandlers[gesture] = callback;
+        this.dynamicGestureHandlers[gesture] = callback;
     }
 
     /**
@@ -69,7 +69,7 @@ class GestureHandler {
         if (this.isConnected) {
             this.client.send(JSON.stringify(getOperationMessage('addPose', pose)));
         }
-        this.poseHandlers[pose] = callback;
+        this.staticGestureHandler[pose] = callback;
     }
 
     /**
@@ -77,8 +77,8 @@ class GestureHandler {
      * @param {string} gesture - The name of the gesture for which the callback should be removed.
      */
     removeGestureHandler(gesture) {
-        if (this.gestureHandlers.hasOwnProperty(gesture)) {
-            delete this.gestureHandlers[gesture];
+        if (this.dynamicGestureHandlers.hasOwnProperty(gesture)) {
+            delete this.dynamicGestureHandlers[gesture];
             if (this.isConnected) {
                 this.client.send(JSON.stringify(getOperationMessage('removeGesture', gesture)));
             }
@@ -90,8 +90,8 @@ class GestureHandler {
      * @param {string} pose - The name of the pose for which the callback should be removed.
      */
     removePoseHandler(pose) {
-        if (this.poseHandlers.hasOwnProperty(pose)) {
-            delete this.poseHandlers[pose];
+        if (this.staticGestureHandler.hasOwnProperty(pose)) {
+            delete this.staticGestureHandler[pose];
             if (this.isConnected) {
                 this.client.send(JSON.stringify(getOperationMessage('removePose', pose)));
             }
@@ -116,14 +116,14 @@ class GestureHandler {
                 'data': []
             };
             // Add addGestures operations to the message
-            for (const gesture of Object.keys(this.gestureHandlers)) {
+            for (const gesture of Object.keys(this.dynamicGestureHandlers)) {
                 message.data.push({
                     'type': 'addGesture',
                     'name': gesture
                 });
             }
             // Add addPose operations to the message
-            for (const pose of Object.keys(this.poseHandlers)) {
+            for (const pose of Object.keys(this.staticGestureHandler)) {
                 message.data.push({
                     'type': 'addPose',
                     'name': pose
@@ -139,13 +139,13 @@ class GestureHandler {
                 for (const dataMsg of msg.data) {
                     if (dataMsg.type === 'frame') {
                         this.frameHandler(dataMsg.data);
-                    } else if (dataMsg.type === 'pose') {
-                        if (this.poseHandlers.hasOwnProperty(dataMsg.name)) {
-                            this.poseHandlers[dataMsg.name](dataMsg.data);
+                    } else if (dataMsg.type === 'static') {
+                        if (this.staticGestureHandler.hasOwnProperty(dataMsg.name)) {
+                            this.staticGestureHandler[dataMsg.name](dataMsg.data);
                         }
-                    } else if (dataMsg.type === 'gesture') {
-                        if (this.gestureHandlers.hasOwnProperty(dataMsg.name)) {
-                            this.gestureHandlers[dataMsg.name](dataMsg.data);
+                    } else if (dataMsg.type === 'dynamic') {
+                        if (this.dynamicGestureHandlers.hasOwnProperty(dataMsg.name)) {
+                            this.dynamicGestureHandlers[dataMsg.name](dataMsg.data);
                             this.forEachHandler(dataMsg.name);
                         }
                     }

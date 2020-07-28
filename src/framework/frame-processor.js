@@ -126,7 +126,7 @@ class FrameProcessor {
             if (oldPoseRatio > this.config.classifier.options.poseRatioThreshold) {
                 // Static pose detected
                 this.segmenter.notifyRecognition();
-                return { 'type': 'pose', 'name': oldPoseInfo.pose, 'data': oldPoseInfo.data };
+                return { 'type': 'static', 'name': oldPoseInfo.pose, 'data': oldPoseInfo.data };
             }
         } else {
             // Reset analyzer
@@ -142,7 +142,7 @@ class FrameProcessor {
                 }
                 if (name && (!this.config.general.gesture.sendIfRequested || this.enabledGestures.includes(name))) {
                     this.segmenter.notifyRecognition();
-                    return { 'type': 'gesture', 'name': name, 'data': {} };
+                    return { 'type': 'dynamic', 'name': name, 'data': {} };
                 }
             }
         }

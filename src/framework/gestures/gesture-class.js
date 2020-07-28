@@ -1,5 +1,4 @@
 class GestureClass {
-
     constructor(name, index) {
         this.name = name;
         this.samples = [];
@@ -15,7 +14,6 @@ class GestureClass {
     getSamples() {
         return this.samples;
     }
-
 }
 
 module.exports = {

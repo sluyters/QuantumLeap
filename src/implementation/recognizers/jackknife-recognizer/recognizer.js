@@ -63,8 +63,6 @@ function convert(sample, articulations, name) {
     } else {
         jackknifeSample = new Sample();
     }
-
-    //let pathsLabels = Object.keys(sample.paths).sort();
     // check min distance START
     let maxMovement = 0;
     let threshold = 40;
@@ -73,7 +71,6 @@ function convert(sample, articulations, name) {
         initPoints[articulation] = sample.paths[articulation].strokes[0].points[0];
     }
     // check min distance END
-
     let nFrames = sample.paths[articulations[0]].strokes[0].points.length;
     let trajectory = [];
     for (let i = 0; i < nFrames; i++) {
@@ -91,9 +88,7 @@ function convert(sample, articulations, name) {
         trajectory.push(new Vector(vCoordinates));
     }
     jackknifeSample.add_trajectory(trajectory);
-    
     return maxMovement > threshold ? jackknifeSample : null;
-    //return jackknifeSample;
 }
 
 function distance(p1, p2) // Euclidean distance between two points
