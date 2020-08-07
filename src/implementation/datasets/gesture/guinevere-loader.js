@@ -119,8 +119,8 @@ function loadDataset(name, directory) {
 }
 
 if (require.main === module) {
-    const dirPath = path.join(__dirname, '../../datasets/gesture');
-    const convertedPath = path.join(__dirname, '../../datasets/gesture', 'guinevere_unified');
+    const dirPath = path.join(__dirname, '../../../datasets/gesture');
+    const convertedPath = path.join(__dirname, '../../../datasets/gesture', 'guinevere_unified');
     let dataset = loadDataset("guinevere", dirPath);
     UnifiedDatasetLoader.writeDataset(dataset, convertedPath);
 }

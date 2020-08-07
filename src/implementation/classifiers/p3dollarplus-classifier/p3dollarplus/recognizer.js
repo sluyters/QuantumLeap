@@ -206,7 +206,7 @@ function Scale(points)
 		minZ = Math.min(minZ, points[i].z);
 		maxX = Math.max(maxX, points[i].x);
 		maxY = Math.max(maxY, points[i].y);
-		maxZ = Math.max(maxY, points[i].z);
+		maxZ = Math.max(maxZ, points[i].z);
 	}
 	var size = Math.max(maxX - minX, maxY - minY, maxZ - minZ);
 	var newpoints = new Array();

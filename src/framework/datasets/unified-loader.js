@@ -49,7 +49,7 @@ function writeDataset(dataset, directory) {
     }
     fs.mkdirSync(directory);
 
-    dataset.getGestureClasses().forEach(gestureClass =>{
+    dataset.getGestureClasses().forEach(gestureClass => {
         fs.mkdirSync(path.join(directory, gestureClass.name));
         gestureClass.samples.forEach(sample =>{
             let userDirPath = path.join(directory, gestureClass.name, sample.user.toString().padStart(2, "0"));
