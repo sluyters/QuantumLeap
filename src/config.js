@@ -107,7 +107,7 @@ config.analyzer = {
 config.segmenter = {
     module: WindowSegmenter,
     options: {
-        motionThreshold: 70,                        // Minimum hand motion to consider that the segment may be a gesture
+        motionThreshold: 90,                        // Minimum hand motion to consider that the segment may be a gesture
         minSegmentLength: 10,                       // Minimum length of a segment (if applicable) [#frames]
         maxSegmentLength: 60,                       // Maximum length of a segment (if applicable) [#frames]
         windowWidth: 20,                            // Width of the window (if applicable) [#frames]
