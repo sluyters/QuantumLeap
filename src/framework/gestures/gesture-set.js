@@ -1,29 +1,26 @@
 class GestureSet {
-
     constructor(name) {
         this.name = name;
         this.gestures = new Map();
         this.G = 0;
     }
 
-    addGestureClass(gestureClass){
+    addGestureClass(gestureClass) {
         this.gestures.set(gestureClass.name,gestureClass);
         this.G += 1;
     }
 
-    getGestureClasses(){
+    getGestureClasses() {
         return this.gestures;
     }
 
-    getMinTemplate(){
+    getMinTemplate() {
         let TperG = Infinity;
-
         for (var gestureClass of this.gestures.values()) {
             TperG = Math.min(TperG, gestureClass.TperG);
         }
         return TperG;
     }
-
 }
 
 module.exports = {

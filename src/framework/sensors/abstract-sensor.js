@@ -1,5 +1,4 @@
 class AbstractSensor {
-
     constructor(name) {
         this.name = name;
     }

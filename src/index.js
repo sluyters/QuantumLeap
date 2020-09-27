@@ -15,39 +15,46 @@ function run() {
     var wsServer = getWebSocketServer(config.server.ip, config.server.port);
     wsServer.on('connection', async function connection(ws) {
         console.log('Connected!')
-        frameProcessor.resetContext();
         // Handle messages from the client
         ws.on('message', function(message) {
-            var data = JSON.parse(message);
-            if (data.hasOwnProperty('addPose')) {
-                let poseName = data.addPose;
-                frameProcessor.enablePose(poseName);
-            } else if (data.hasOwnProperty('addGesture')) {
-                let gestureName = data.addGesture;
-                frameProcessor.enableGesture(gestureName);
-            } else if (data.hasOwnProperty('removePose')) {
-                let poseName = data.removePose;
-                frameProcessor.disablePose(poseName);
-            } else if (data.hasOwnProperty('removeGesture')) {
-                let gestureName = data.removeGesture;
-                frameProcessor.disableGesture(gestureName);
+            if (config.general.debug) {
+                console.log(message)
+            }
+            var msg = JSON.parse(message);
+            if (msg.type === 'operation') {
+                for (const operation of msg.data) {
+                    if (operation.type === 'addPose') {
+                        frameProcessor.enablePose(operation.name);
+                    } else if (operation.type === 'addGesture') {
+                        frameProcessor.enableGesture(operation.name);
+                    } else if (operation.type === 'removePose') {
+                        frameProcessor.disablePose(operation.name);
+                    } else if (operation.type === 'removeGesture') {
+                        frameProcessor.disableGesture(operation.name);
+                    }
+                }
             }
         });
         // Process sensor frames
         sensor.loop((frame, appData) => {
+            let message = getMessage('data');
             if (appData && config.general.sendContinuousData) {
                 // If there is continuous data to send to the application
-                let message = { frame: appData };
-                ws.send(JSON.stringify(message));
+                message.data.push({
+                    'type': 'frame',
+                    'data': appData
+                })
             }
             // Gesture recognition
             var ret = frameProcessor.processFrame(frame);
             if (ret) {
                 // If there is gesture data to send to the application
-                let message = { gesture: ret };
+                message.data.push(ret);
                 if (config.general.debug) {
                     console.log(JSON.stringify(message));
                 }
+            }
+            if (message.data.length > 0) {
                 ws.send(JSON.stringify(message));
             }
         });
@@ -55,13 +62,20 @@ function run() {
         ws.on('close', function() {
             console.log("Disconnected!")
             sensor.stop();
+            frameProcessor.resetContext();
         });
-        // Stop processing frames after connection error
+        // Connection error
         ws.on('error', function(error) {
             console.log(JSON.stringify(error));
-            sensor.stop();
         });
     });
+}
+
+function getMessage(type) {
+    return { 
+        'type': type,
+        'data' : []
+    };
 }
 
 function getWebSocketServer(ip, port) {
@@ -70,10 +84,8 @@ function getWebSocketServer(ip, port) {
     server.listen(port, ip, function () {
         console.log("WebSocket server listening on port " + port);
     });
-
     // Create WebSocket server
     var wsServer = new WebSocket.Server({ server });
-
     return wsServer;
 }
 

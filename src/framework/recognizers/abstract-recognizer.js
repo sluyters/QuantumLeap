@@ -1,5 +1,4 @@
 class AbstractRecognizer {
-
     constructor(options, dataset) {
         // Empty
     }
@@ -24,6 +23,7 @@ class AbstractRecognizer {
     /**
      * Check whether the sample corresponds to a known gesture.
      * @param {Object} sample - A gesture sample from the sensor.
+     * @returns a JavaScript object with at least 2 properties: name (the name of the gesture) and time (the execution time).
      */
     recognize(sample) {
         throw new Error('You have to implement this function');
