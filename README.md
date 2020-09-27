@@ -32,3 +32,6 @@ Modify [config.js](https://github.com/sluyters/QuantumLeap/blob/master/src/confi
     * `removePoseHandler(gesture)`: remove the callback associated to the pose.
     * `disconnect()`:  disconnect from the QuantumLeap framework.
     
+## Useful repositories
+* [LUI project](https://github.com/sluyters/LUI): a QuantumLeap-enabled application for browsing multimedia contents.
+* [LeapGesturePlayback](https://github.com/sluyters/LeapGesturePlayback): a simple tool for recording and playing gestures with the Leap Motion Controller
