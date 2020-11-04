@@ -1,8 +1,8 @@
-const AbstractSegmenter = require('../../framework/segmenters/abstract-segmenter').AbstractSegmenter;
-const StrokeData = require('../../framework/gestures/stroke-data').StrokeData;
-const Stroke = require('../../framework/gestures/stroke-data').Stroke;
-const Path = require('../../framework/gestures/stroke-data').Path;
-const Point = require('../../framework/gestures/point').Point3D;
+const AbstractSegmenter = require('../../../framework/segmenters/abstract-segmenter').AbstractSegmenter;
+const StrokeData = require('../../../framework/gestures/stroke-data').StrokeData;
+const Stroke = require('../../../framework/gestures/stroke-data').Stroke;
+const Path = require('../../../framework/gestures/stroke-data').Path;
+const Point = require('../../../framework/gestures/point').Point3D;
 
 class Segmenter extends AbstractSegmenter {
     constructor(options) {

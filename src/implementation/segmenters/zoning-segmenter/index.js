@@ -1,7 +1,7 @@
-const AbstractSegmenter = require('../../framework/segmenters/abstract-segmenter').AbstractSegmenter;
-const StrokeData = require('../../framework/gestures/stroke-data').StrokeData;
-const Stroke = require('../../framework/gestures/stroke-data').Stroke;
-const Path = require('../../framework/gestures/stroke-data').Path;
+const AbstractSegmenter = require('../../../framework/segmenters/abstract-segmenter').AbstractSegmenter;
+const StrokeData = require('../../../framework/gestures/stroke-data').StrokeData;
+const Stroke = require('../../../framework/gestures/stroke-data').Stroke;
+const Path = require('../../../framework/gestures/stroke-data').Path;
 
 const xBound = 120;
 const zBound = 60;

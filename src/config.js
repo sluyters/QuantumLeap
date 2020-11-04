@@ -1,10 +1,10 @@
 // MODULES ----------------------------------------------------------------------------------------
 // Sensor Interfaces
-const LeapSensor = require('./implementation/sensors/leap-sensor/sensor').Sensor;
+const LeapSensor = require('./implementation/sensors/leap-sensor').Sensor;
 
 // Pose Analyzers
-const NoAnalyzer = require('./implementation/analyzers/placeholder-analyzer/analyzer').Analyzer;
-const BasicAnalyzer = require('./implementation/analyzers/basic-analyzer/analyzer').Analyzer;
+const NoAnalyzer = require('./implementation/analyzers/placeholder-analyzer').Analyzer;
+const BasicAnalyzer = require('./implementation/analyzers/basic-analyzer').Analyzer;
 
 // Gesture Segmenters
 const WindowSegmenter = require('./implementation/segmenters/window-segmenter').Segmenter;
@@ -13,23 +13,23 @@ const LeftHandSegmenter = require('./implementation/segmenters/lefthand-segmente
 const FrameSegmenter = require('./implementation/segmenters/frame-segmenter').Segmenter;
 
 // Gesture Recognizers
-const NoRecognizer = require('./implementation/recognizers/placeholder-recognizer/recognizer').Recognizer;
+const NoRecognizer = require('./implementation/recognizers/placeholder-recognizer').Recognizer;
 //3D
-const HybridP3DollarPlusXRecognizer = require('./implementation/recognizers/hybridp3dollarplusx-recognizer/recognizer').Recognizer;
-const JackknifeRecognizer = require('./implementation/recognizers/jackknife-recognizer/recognizer').Recognizer;
-const P3DollarPlusXRecognizer = require('./implementation/recognizers/p3dollarplusx-recognizer/recognizer').Recognizer;
-const UVPRecognizer = require('./implementation/recognizers/uvplusflexiblecloud-recognizer/recognizer').Recognizer;
-const ThreeCentRecognizer = require('./implementation/recognizers/threecent-recognizer/recognizer').Recognizer;
-const P3DollarPlusRecognizer = require('./implementation/recognizers/p3dollarplus-recognizer/recognizer').Recognizer;
+const HybridP3DollarPlusXRecognizer = require('./implementation/recognizers/hybridp3dollarplusx-recognizer').Recognizer;
+const JackknifeRecognizer = require('./implementation/recognizers/jackknife-recognizer').Recognizer;
+const P3DollarPlusXRecognizer = require('./implementation/recognizers/p3dollarplusx-recognizer').Recognizer;
+const UVPRecognizer = require('./implementation/recognizers/uvplusflexiblecloud-recognizer').Recognizer;
+const ThreeCentRecognizer = require('./implementation/recognizers/threecent-recognizer').Recognizer;
+const P3DollarPlusRecognizer = require('./implementation/recognizers/p3dollarplus-recognizer').Recognizer;
 //2D
-const PDollarPlusRecognizer = require('./implementation/recognizers/pdollarplus-recognizer/recognizer').Recognizer;
+const PDollarPlusRecognizer = require('./implementation/recognizers/pdollarplus-recognizer').Recognizer;
 
 // Pose Classifiers
-const NoClassifier = require('./implementation/classifiers/placeholder-classifier/classifier').Classifier;
-const GPSDClassifier = require('./implementation/classifiers/gpsd-classifier/classifier').Classifier;
-const GPSDaClassifier = require('./implementation/classifiers/gpsda-classifier/classifier').Classifier;
-const GPSDaDissimilarityClassifier = require('./implementation/classifiers/gpsdadissimilarity-classifier/classifier').Classifier;
-const P3DollarPlusClassifier = require('./implementation/classifiers/p3dollarplus-classifier/classifier').Classifier; 
+const NoClassifier = require('./implementation/classifiers/placeholder-classifier').Classifier;
+const GPSDClassifier = require('./implementation/classifiers/gpsd-classifier').Classifier;
+const GPSDaClassifier = require('./implementation/classifiers/gpsda-classifier').Classifier;
+const GPSDaDissimilarityClassifier = require('./implementation/classifiers/gpsdadissimilarity-classifier').Classifier;
+const P3DollarPlusClassifier = require('./implementation/classifiers/p3dollarplus-classifier').Classifier; 
 
 // Gesture Dataset Loaders
 const UnifiedDatasetLoader = require('./framework/datasets/unified-loader');

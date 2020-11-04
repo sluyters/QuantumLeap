@@ -33,6 +33,8 @@ function run() {
                         frameProcessor.disableGesture(operation.name);
                     }
                 }
+            } else if (msg.type === 'configuration') {
+                
             }
         });
         // Process sensor frames
