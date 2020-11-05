@@ -6,6 +6,7 @@ import Layout from './components/Layout'
 import { Home as HomeIcon, Settings, Gesture, Extension } from '@material-ui/icons'
 // Pages
 import Home from './pages/Home'
+import GeneralSettings from './pages/GeneralSettings'
 import Modules from './pages/Modules'
 import Module from './pages/Module'
 import NotFound from './pages/NotFound'
@@ -40,7 +41,7 @@ function App() {
         <Layout sidebarItems={pages}>
           <Switch>
             <Route exact path="/" component={Home}/>
-            <Route path="/settings" component={Modules}/>
+            <Route path="/settings" component={GeneralSettings}/>
             <Route exact path="/modules" component={Modules}/>
             <Route path="/modules/:type" component={Module}/>
             <Route path="/gestures" component={Modules}/>

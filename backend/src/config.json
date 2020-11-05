@@ -19,7 +19,7 @@
           "description": "The Sensor module.",
           "data": {
             "category": "item",
-            "dataType": "text",
+            "dataType": "string",
             "domain": {
               "type": "list",
               "values": []
@@ -35,7 +35,7 @@
           "description": "The Classifier module used for pose classification.",
           "data": {
             "category": "item",
-            "dataType": "text",
+            "dataType": "string",
             "domain": {
               "type": "list",
               "values": []
@@ -51,7 +51,7 @@
           "description": "The Analyzer module used for analyzing frames.",
           "data": {
             "category": "item",
-            "dataType": "text",
+            "dataType": "string",
             "domain": {
               "type": "list",
               "values": []
@@ -67,7 +67,7 @@
           "description": "The Segmenter module used for gesture segmentation.",
           "data": {
             "category": "item",
-            "dataType": "text",
+            "dataType": "string",
             "domain": {
               "type": "list",
               "values": []
@@ -83,7 +83,7 @@
           "description": "The Recognizer module used for gesture recognition.",
           "data": {
             "category": "item",
-            "dataType": "text",
+            "dataType": "string",
             "domain": {
               "type": "list",
               "values": []
@@ -171,7 +171,9 @@
               "data": {
                 "category": "item",
                 "dataType": "boolean",
-                "domain": { "type": "any" },
+                "domain": {
+                  "type": "any"
+                },
                 "default": true,
                 "current": true
               }
@@ -184,7 +186,9 @@
               "data": {
                 "category": "item",
                 "dataType": "boolean",
-                "domain": { "type": "any" },
+                "domain": {
+                  "type": "any"
+                },
                 "default": false,
                 "current": false
               }
@@ -206,7 +210,9 @@
           "data": {
             "category": "item",
             "dataType": "string",
-            "domain": { "type": "any" },
+            "domain": {
+              "type": "any"
+            },
             "default": "127.0.0.1",
             "current": "127.0.0.1"
           }
@@ -219,7 +225,7 @@
           "data": {
             "category": "item",
             "dataType": "integer",
-            "domain": { 
+            "domain": {
               "type": "range",
               "low": 0,
               "high": 65535

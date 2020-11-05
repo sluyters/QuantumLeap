@@ -35,6 +35,39 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.get('/settings', (req, res) => {
+  fs.readFile(CONFIG_PATH, (err, data) => {
+    if (err) {
+      return res.status(500).json({ message: String(err) });
+    } else {
+      let generalConfig = JSON.parse(data);
+      generalConfig.settings = parseImportedProperties(generalConfig.settings, exportedProperties);
+      return res.status(200).json({ config: generalConfig });
+    }
+  });
+});
+
+app.put('/settings', (req, res) => {
+  let generalConfig = req.body.config;
+  if (!generalConfig) {
+    // TODO check the data
+    return res.status(400).json({ message: 'Invalid data' });
+  }
+  fs.writeFile(CONFIG_PATH, JSON.stringify(generalConfig, null, 2), (err) => {
+    if (err) {
+      console.log(err)
+      return res.status(500).json({ message: `Error while saving the configuration ${String(err)}` });
+    } else {
+      // Re-load the configuration
+      [config, exportedProperties] = loadQLConfig(CONFIG_PATH, MODULES_PATH);
+      config['datasets'] = oldConfig.datasets; // TODO Remove eventually
+      // Restart QuantumLeap
+      process.nextTick(() => quantumLeap.restart(config));
+      return res.status(200).json({ message: 'Success' });
+    }
+  })
+});
+
 app.get('/modules/:moduleType', (req, res) => {
   let moduleType = req.params.moduleType;
   let modulesPath = path.join(MODULES_PATH, moduleType);
@@ -61,8 +94,6 @@ app.get('/modules/:moduleType', (req, res) => {
       return res.status(200).json({ modules: modules });
     }
   });
-  //res.send('TEST1');
-  //quantumLeap.restart(config);
 });
 
 app.get('/modules/:moduleType/:moduleName', (req, res) => {
@@ -78,7 +109,6 @@ app.get('/modules/:moduleType/:moduleName', (req, res) => {
       return res.status(200).json({ module: moduleConfig });
     }
   });
-  //return res.send('TEST2');
 });
 
 app.put('/modules/:moduleType/:moduleName', (req, res) => {
@@ -86,7 +116,6 @@ app.put('/modules/:moduleType/:moduleName', (req, res) => {
   let moduleName = req.params.moduleName;
   let modulePath = path.join(MODULES_PATH, moduleType + 's', moduleName, 'config.json');
   let moduleConfig = req.body.config;
-  console.log(moduleConfig)
   if (!moduleConfig) {
     // TODO check the data
     return res.status(400).json({ message: 'Invalid data' });
@@ -100,7 +129,7 @@ app.put('/modules/:moduleType/:moduleName', (req, res) => {
       [config, exportedProperties] = loadQLConfig(CONFIG_PATH, MODULES_PATH);
       config['datasets'] = oldConfig.datasets; // TODO Remove eventually
       // Restart QuantumLeap
-      quantumLeap.restart(config);
+      process.nextTick(() => quantumLeap.restart(config));
       return res.status(200).json({ message: 'Success' });
     }
   })
