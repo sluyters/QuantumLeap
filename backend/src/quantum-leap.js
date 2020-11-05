@@ -1,0 +1,94 @@
+const WSServer = require('ws').Server;
+const FrameProcessor = require('./framework/frame-processor').FrameProcessor;
+
+class QuantumLeap {
+  constructor(config, httpServer) {
+    this.server = httpServer;
+    this.wss = setupWSS(config, this.server);
+  }
+
+  restart(config) {
+    this.wss.close(() => {
+      console.log('WebSocket server restarting...');
+    });
+    this.wss = setupWSS(config, this.server);
+  }
+}
+
+function setupWSS(config, server) {
+  // Initialize sensor and frame processor
+  var sensor = new config.sensor.module(config.sensor.options);
+  var frameProcessor = new FrameProcessor(config);
+  // Initialize WebSocket server
+  let wss = new WSServer({
+    server: server,
+    perMessageDeflate: false
+  });
+  wss.on('connection', async function connection(ws) {
+    console.log('Connected!')
+    // Handle messages from the client
+    ws.on('message', function (message) {
+      if (config.general.debug) {
+        console.log(message);
+      }
+      var msg = JSON.parse(message);
+      if (msg.type === 'operation') {
+        for (const operation of msg.data) {
+          if (operation.type === 'addPose') {
+            frameProcessor.enablePose(operation.name);
+          } else if (operation.type === 'addGesture') {
+            frameProcessor.enableGesture(operation.name);
+          } else if (operation.type === 'removePose') {
+            frameProcessor.disablePose(operation.name);
+          } else if (operation.type === 'removeGesture') {
+            frameProcessor.disableGesture(operation.name);
+          }
+        }
+      }
+    });
+    // Process sensor frames
+    sensor.loop((frame, appData) => {
+      let message = getMessage('data');
+      if (appData && config.general.sendContinuousData) {
+        // If there is continuous data to send to the application
+        message.data.push({
+          'type': 'frame',
+          'data': appData
+        });
+      }
+      // Gesture recognition
+      var ret = frameProcessor.processFrame(frame);
+      if (ret) {
+        // If there is gesture data to send to the application
+        message.data.push(ret);
+        if (config.general.debug) {
+          console.log(JSON.stringify(message));
+        }
+      }
+      if (message.data.length > 0) {
+        ws.send(JSON.stringify(message));
+      }
+    });
+    // Stop processing frames after disconnection
+    ws.on('close', function () {
+      console.log("Disconnected!");
+      sensor.stop();
+      frameProcessor.resetContext();
+    });
+    // Connection error
+    ws.on('error', function (error) {
+      console.log(JSON.stringify(error));
+    });
+  });
+  return wss;
+}
+
+function getMessage(type) {
+  return {
+    'type': type,
+    'data': []
+  };
+}
+
+
+module.exports = QuantumLeap;

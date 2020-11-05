@@ -1,21 +1,12 @@
 {
-  "name": "Guinevre-framework",
-  "version": "1.0.0",
-  "main": "src/index.js",
+  "name": "QuantumLeap",
+  "version": "2.0.0",
   "scripts": {
-    "start": "nodemon src/index.js"
+    "backend": "npm start --prefix backend",
+    "frontend": "npm start --prefix frontend",
+    "start": "concurrently \"npm run backend\" \"npm run frontend\""
   },
   "dependencies": {
-    "cubic-spline": "^3.0.3",
-    "express": "^4.17.1",
-    "fs-extra": "^9.0.0",
-    "leapjs": "^0.6.4",
-    "mathjs": "^6.6.4",
-    "ringbufferjs": "^2.0.0",
-    "ws": "^7.2.3",
-    "xml2js": "0.4.23"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.4"
+    "concurrently": "^5.3.0"
   }
 }
