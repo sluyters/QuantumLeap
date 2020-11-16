@@ -1,240 +1,351 @@
 {
-  "selectedModules": {
-    "sensor": "leap-sensor",
-    "classifier": "gpsda-classifier",
-    "analyzer": "basic-analyzer",
-    "segmenter": "window-segmenter",
-    "recognizer": "jackknife-recognizer"
-  },
-  "settings": [
-    {
-      "type": "category",
-      "name": "modules",
-      "label": "Modules",
-      "settings": [
-        {
-          "type": "setting",
-          "name": "sensor",
-          "label": "Sensor",
-          "description": "The Sensor module.",
-          "data": {
-            "category": "item",
-            "dataType": "string",
-            "domain": {
-              "type": "list",
-              "values": []
-            },
-            "default": null,
-            "current": "leap-sensor"
-          }
+  "generalInstance": "default",
+  "general": {
+    "default": {
+      "selectedModules": {
+        "sensor": {
+          "module": "leap-sensor",
+          "instance": "default"
         },
-        {
-          "type": "setting",
-          "name": "classifier",
-          "label": "Classifier",
-          "description": "The Classifier module used for pose classification.",
-          "data": {
-            "category": "item",
-            "dataType": "string",
-            "domain": {
-              "type": "list",
-              "values": []
-            },
-            "default": null,
-            "current": "gpsda-classifier"
-          }
+        "classifier": {
+          "module": "gpsda-classifier",
+          "instance": "default"
         },
-        {
-          "type": "setting",
-          "name": "analyzer",
-          "label": "Analyzer",
-          "description": "The Analyzer module used for analyzing frames.",
-          "data": {
-            "category": "item",
-            "dataType": "string",
-            "domain": {
-              "type": "list",
-              "values": []
-            },
-            "default": null,
-            "current": "basic-analyzer"
-          }
+        "analyzer": {
+          "module": "basic-analyzer",
+          "instance": "default"
         },
-        {
-          "type": "setting",
-          "name": "segmenter",
-          "label": "Segmenter",
-          "description": "The Segmenter module used for gesture segmentation.",
-          "data": {
-            "category": "item",
-            "dataType": "string",
-            "domain": {
-              "type": "list",
-              "values": []
-            },
-            "default": null,
-            "current": "window-segmenter"
-          }
+        "segmenter": {
+          "module": "window-segmenter",
+          "instance": "default"
         },
-        {
-          "type": "setting",
-          "name": "recognizer",
-          "label": "Recognizer",
-          "description": "The Recognizer module used for gesture recognition.",
-          "data": {
-            "category": "item",
-            "dataType": "string",
-            "domain": {
-              "type": "list",
-              "values": []
-            },
-            "default": null,
-            "current": "jackknife-recognizer"
-          }
+        "recognizer": {
+          "module": "p3dollarplusx-recognizer",
+          "instance": "default"
+        },
+        "pose-dataset": {
+          "module": "leap-loader",
+          "instance": "default"
+        },
+        "gesture-dataset": {
+          "module": "leap-loader",
+          "instance": "default"
         }
-      ]
-    },
-    {
-      "type": "category",
-      "name": "general",
-      "label": "General",
-      "settings": [
-        {
-          "type": "setting",
-          "name": "debug",
-          "label": "Show debug logs",
-          "description": "Display the logs in the terminal for debugging.",
-          "data": {
-            "category": "item",
-            "dataType": "boolean",
-            "domain": null,
-            "default": false,
-            "current": true
-          }
+      },
+      "general": {
+        "debug": true,
+        "sendContinuousData": false,
+        "gesture": {
+          "sendIfRequested": true,
+          "loadOnRequest": false
         },
-        {
-          "type": "setting",
-          "name": "sendContinuousData",
-          "label": "Send continuous data",
-          "description": "Send the data from each frame to the client.",
-          "data": {
-            "category": "item",
-            "dataType": "boolean",
-            "domain": null,
-            "default": true,
-            "current": true
-          }
-        },
-        {
-          "type": "category",
-          "name": "gesture",
-          "label": "Gestures",
-          "settings": [
-            {
-              "type": "setting",
-              "name": "sendIfRequested",
-              "label": "Send if requested",
-              "description": "Send recognized gestures only if they are requested by the client.",
-              "data": {
-                "category": "item",
-                "dataType": "boolean",
-                "domain": null,
-                "default": true,
-                "current": true
-              }
-            },
-            {
-              "type": "setting",
-              "name": "loadOnRequest",
-              "label": "Load on request",
-              "description": "Load gestures based on requests from the client.",
-              "data": {
-                "category": "item",
-                "dataType": "boolean",
-                "domain": null,
-                "default": false,
-                "current": false
-              }
-            }
-          ]
-        },
-        {
-          "type": "category",
-          "name": "pose",
-          "label": "Poses",
-          "settings": [
-            {
-              "type": "setting",
-              "name": "sendIfRequested",
-              "label": "Send if requested",
-              "description": "Send recognized gestures only if they are requested by the client.",
-              "data": {
-                "category": "item",
-                "dataType": "boolean",
-                "domain": {
-                  "type": "any"
-                },
-                "default": true,
-                "current": true
-              }
-            },
-            {
-              "type": "setting",
-              "name": "loadOnRequest",
-              "label": "Load on request",
-              "description": "Load gestures based on requests from the client.",
-              "data": {
-                "category": "item",
-                "dataType": "boolean",
-                "domain": {
-                  "type": "any"
-                },
-                "default": false,
-                "current": false
-              }
-            }
+        "pose": {
+          "sendIfRequested": true,
+          "loadOnRequest": false
+        }
+      },
+      "server": {
+        "ip": "127.0.0.1",
+        "port": 6442
+      },
+      "sensor": {
+        "options": {
+          "framerate": "60"
+        }
+      },
+      "classifier": {
+        "options": {
+          "bufferLength": 15,
+          "poseRatioThreshold": 0.8,
+          "alpha": 0.8,
+          "articulations": [
+            "rightPalmPosition",
+            "rightThumbTipPosition",
+            "rightIndexTipPosition",
+            "rightMiddleTipPosition",
+            "rightRingTipPosition",
+            "rightPinkyTipPosition",
+            "rightThumbPipPosition",
+            "rightIndexPipPosition",
+            "rightMiddlePipPosition",
+            "rightRingPipPosition",
+            "rightPinkyPipPosition",
+            "rightThumbMcpPosition",
+            "rightIndexMcpPosition",
+            "rightMiddleMcpPosition",
+            "rightRingMcpPosition",
+            "rightPinkyMcpPosition"
           ]
         }
-      ]
-    },
-    {
-      "type": "category",
-      "name": "server",
-      "label": "Server",
-      "settings": [
-        {
-          "type": "setting",
-          "name": "ip",
-          "label": "Server IP",
-          "description": "IP address of the server (for app interface).",
-          "data": {
-            "category": "item",
-            "dataType": "string",
-            "domain": {
-              "type": "any"
-            },
-            "default": "127.0.0.1",
-            "current": "127.0.0.1"
-          }
-        },
-        {
-          "type": "setting",
-          "name": "port",
-          "label": "Server port",
-          "description": "Port of the server (for app interface).",
-          "data": {
-            "category": "item",
-            "dataType": "integer",
-            "domain": {
-              "type": "range",
-              "low": 0,
-              "high": 65535
-            },
-            "default": 6442,
-            "current": 6442
-          }
+      },
+      "analyzer": {
+        "options": {}
+      },
+      "segmenter": {
+        "options": {
+          "windowWidth": 20,
+          "intervalLength": 3,
+          "pauseLength": 60,
+          "motionThreshold": 70
         }
-      ]
+      },
+      "recognizer": {
+        "options": {
+          "samplingPoints": 16,
+          "articulations": [
+            "rightPalmPosition"
+          ]
+        }
+      },
+      "pose-dataset": {
+        "module": {},
+        "options": {
+          "name": "guinevre-pose",
+          "path": "C:\\Users\\sluyt\\Documents\\Doctorat\\QuantumLeap\\backend\\src\\datasets\\pose"
+        }
+      },
+      "gesture-dataset": {
+        "module": {},
+        "options": {
+          "name": "guinevere",
+          "path": "C:\\Users\\sluyt\\Documents\\Doctorat\\QuantumLeap\\backend\\src\\datasets\\gesture"
+        }
+      }
     }
-  ]
+  },
+  "modules": {
+    "analyzers": {
+      "basic-analyzer": {
+        "default": {},
+        "test": {}
+      },
+      "placeholder-analyzer": {
+        "default": {}
+      }
+    },
+    "classifiers": {
+      "gpsd-classifier": {
+        "default": {
+          "bufferLength": 15,
+          "poseRatioThreshold": 0.8,
+          "articulations": [
+            "rightPalmPosition",
+            "rightThumbTipPosition",
+            "rightIndexTipPosition",
+            "rightMiddleTipPosition",
+            "rightRingTipPosition",
+            "rightPinkyTipPosition",
+            "rightThumbPipPosition",
+            "rightIndexPipPosition",
+            "rightMiddlePipPosition",
+            "rightRingPipPosition",
+            "rightPinkyPipPosition",
+            "rightThumbMcpPosition",
+            "rightIndexMcpPosition",
+            "rightMiddleMcpPosition",
+            "rightRingMcpPosition",
+            "rightPinkyMcpPosition"
+          ]
+        }
+      },
+      "gpsda-classifier": {
+        "default": {
+          "bufferLength": 15,
+          "poseRatioThreshold": 0.8,
+          "alpha": 0.8,
+          "articulations": [
+            "rightPalmPosition",
+            "rightThumbTipPosition",
+            "rightIndexTipPosition",
+            "rightMiddleTipPosition",
+            "rightRingTipPosition",
+            "rightPinkyTipPosition",
+            "rightThumbPipPosition",
+            "rightIndexPipPosition",
+            "rightMiddlePipPosition",
+            "rightRingPipPosition",
+            "rightPinkyPipPosition",
+            "rightThumbMcpPosition",
+            "rightIndexMcpPosition",
+            "rightMiddleMcpPosition",
+            "rightRingMcpPosition",
+            "rightPinkyMcpPosition"
+          ]
+        }
+      },
+      "gpsdadissimilarity-classifier": {
+        "default": {
+          "bufferLength": 15,
+          "poseRatioThreshold": 0.8,
+          "alpha": 0.8,
+          "articulations": []
+        }
+      },
+      "p3dollarplus-classifier": {
+        "default": {
+          "bufferLength": 15,
+          "poseRatioThreshold": 0.8,
+          "articulations": []
+        }
+      },
+      "placeholder-classifier": {
+        "default": {}
+      }
+    },
+    "gesture-datasets": {
+      "handgesturecsv-loader": {
+        "default": {
+          "name": "",
+          "path": ""
+        }
+      },
+      "leap-loader": {
+        "default": {
+          "name": "guinevere",
+          "path": "C:\\Users\\sluyt\\Documents\\Doctorat\\QuantumLeap\\backend\\src\\datasets\\gesture"
+        }
+      },
+      "smartphone-loader": {
+        "default": {
+          "name": "",
+          "path": ""
+        }
+      },
+      "uwave-loader": {
+        "default": {
+          "name": "",
+          "path": ""
+        }
+      }
+    },
+    "pose-datasets": {
+      "leap-loader": {
+        "default": {
+          "name": "guinevre-pose",
+          "path": "C:\\Users\\sluyt\\Documents\\Doctorat\\QuantumLeap\\backend\\src\\datasets\\pose"
+        }
+      },
+      "mmhgr-loader": {
+        "default": {
+          "name": "",
+          "path": ""
+        }
+      }
+    },
+    "recognizers": {
+      "fake-recognizer": {
+        "default": {}
+      },
+      "hybridp3dollarplusx-recognizer": {
+        "default": {
+          "samplingPoints": 16,
+          "palmThreshold": 50,
+          "fingerThreshold": 15
+        }
+      },
+      "jackknife-recognizer": {
+        "default": {
+          "samplingPoints": 16,
+          "articulations": [
+            "rightPalmPosition",
+            "rightThumbTipPosition",
+            "rightIndexTipPosition",
+            "rightMiddleTipPosition",
+            "rightRingTipPosition",
+            "rightPinkyTipPosition",
+            "rightThumbPipPosition",
+            "rightIndexPipPosition",
+            "rightMiddlePipPosition",
+            "rightRingPipPosition",
+            "rightPinkyPipPosition",
+            "rightIndexMcpPosition",
+            "rightThumbMcpPosition",
+            "rightMiddleMcpPosition",
+            "rightRingMcpPosition",
+            "rightPinkyMcpPosition"
+          ]
+        }
+      },
+      "p3dollar-recognizer": {
+        "default": {
+          "samplingPoints": 16,
+          "articulations": []
+        }
+      },
+      "p3dollarplus-recognizer": {
+        "default": {
+          "samplingPoints": 16,
+          "articulations": []
+        }
+      },
+      "p3dollarplusx-recognizer": {
+        "default": {
+          "samplingPoints": 16,
+          "articulations": [
+            "rightPalmPosition"
+          ]
+        }
+      },
+      "pdollarplus-recognizer": {
+        "default": {
+          "samplingPoints": 16,
+          "pathName": ""
+        }
+      },
+      "placeholder-recognizer": {
+        "default": {}
+      },
+      "q3dollar-recognizer": {
+        "default": {
+          "samplingPoints": 16,
+          "articulations": []
+        }
+      },
+      "threecent-recognizer": {
+        "default": {
+          "samplingPoints": 16,
+          "pathName": "rightPalmPosition"
+        }
+      },
+      "uvplusflexiblecloud-recognizer": {
+        "default": {
+          "samplingPoints": 16,
+          "articulations": []
+        }
+      }
+    },
+    "segmenters": {
+      "frame-segmenter": {
+        "default": {}
+      },
+      "lefthand-segmenter": {
+        "default": {
+          "minSegmentLength": 10,
+          "maxSegmentLength": 60
+        }
+      },
+      "window-segmenter": {
+        "default": {
+          "windowWidth": 20,
+          "intervalLength": 3,
+          "pauseLength": 60,
+          "motionThreshold": 70
+        }
+      },
+      "zoning-segmenter": {
+        "default": {
+          "minSegmentLength": 10,
+          "maxSegmentLength": 60,
+          "pauseLength": 60
+        }
+      }
+    },
+    "sensors": {
+      "leap-sensor": {
+        "default": {
+          "framerate": "60"
+        }
+      }
+    }
+  }
 }

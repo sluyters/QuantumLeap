@@ -1,0 +1,37 @@
+{
+  "label": "Hand Gesture CSV Dataset Loader",
+  "name": "handgesturecsv-loader",
+  "type": "dataset/gesture",
+  "description": "TODO.",
+  "properties": {},
+  "settings": [
+    {
+      "type": "setting",
+      "name": "name",
+      "label": "Name",
+      "description": "The name of the dataset.",
+      "data": {
+        "category": "item",
+        "dataType": "string",
+        "domain": {
+          "type": "any"
+        },
+        "default": ""
+      }
+    },
+    {
+      "type": "setting",
+      "name": "path",
+      "label": "Path",
+      "description": "The path to the dataset.",
+      "data": {
+        "category": "item",
+        "dataType": "string",
+        "domain": {
+          "type": "any"
+        },
+        "default": ""
+      }
+    }
+  ]
+}

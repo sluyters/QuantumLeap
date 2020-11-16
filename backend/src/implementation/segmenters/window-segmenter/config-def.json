@@ -1,0 +1,73 @@
+{
+  "label": "Sliding window",
+  "name": "window-segmenter",
+  "type": "segmenter",
+  "description": "TODO.",
+  "properties": {},
+  "settings": [
+    {
+      "type": "setting",
+      "name": "windowWidth",
+      "label": "Width of the window",
+      "description": "The width of the window (in frames).",
+      "data": {
+        "category": "item",
+        "dataType": "integer",
+        "domain": {
+          "type": "range",
+          "low": 1,
+          "high": null
+        },
+        "default": 20
+      }
+    },
+    {
+      "type": "setting",
+      "name": "intervalLength",
+      "label": "Interval Length",
+      "description": "The number of frames between each segment.",
+      "data": {
+        "category": "item",
+        "dataType": "integer",
+        "domain": {
+          "type": "range",
+          "low": 0,
+          "high": null
+        },
+        "default": 3
+      }
+    },
+    {
+      "type": "setting",
+      "name": "pauseLength",
+      "label": "Pause length",
+      "description": "The length of the pause after a gesture is recognized (in frames).",
+      "data": {
+        "category": "item",
+        "dataType": "integer",
+        "domain": {
+          "type": "range",
+          "low": 0,
+          "high": null
+        },
+        "default": 60
+      }
+    },
+    {
+      "type": "setting",
+      "name": "motionThreshold",
+      "label": "Motion threshold",
+      "description": "The minimum hand motion to consider that the segment may be a gesture.",
+      "data": {
+        "category": "item",
+        "dataType": "integer",
+        "domain": {
+          "type": "range",
+          "low": 0,
+          "high": null
+        },
+        "default": 70
+      }
+    }
+  ]
+}

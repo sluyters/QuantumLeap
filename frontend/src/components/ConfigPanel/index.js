@@ -23,7 +23,7 @@ const styles = (theme) => ({
 
 class ConfigPanel extends React.Component {
   render() {
-    const { classes, settings, handleSave, depthStep, depth, handleChange, theme } = this.props
+    const { classes, settings, settingsValues, handleSave, depthStep, depth, handleChange, theme } = this.props;
     return (
       <React.Fragment>
         <div>
@@ -31,6 +31,7 @@ class ConfigPanel extends React.Component {
             <ConfigItem 
               classes={classes}
               setting={setting}
+              settingValue={settingsValues[setting.name]}
               depthStep={depthStep}
               depth={depth}
               handleChange={handleChange}
@@ -52,7 +53,7 @@ class ConfigPanel extends React.Component {
 }
 
 function ConfigItem(props) {
-  const { classes, setting, depthStep, depth, path, handleChange, theme } = props;
+  const { classes, setting, settingValue, depthStep, depth, path, handleChange, theme } = props;
   let newPath = path.slice();
   newPath.push(setting.name);
   if (setting.type === 'category') {
@@ -63,10 +64,11 @@ function ConfigItem(props) {
           style={{ paddingLeft: theme.spacing(depth * depthStep)}}>
             {setting.label}
         </Typography>
-        {setting.settings.map(setting => (
+        {setting.settings.map(subSetting => (
             <ConfigItem 
               classes={classes}
-              setting={setting}
+              setting={subSetting}
+              settingValue={settingValue[subSetting.name]}
               depthStep={depthStep}
               depth={depth + 1}
               path={newPath}
@@ -91,7 +93,8 @@ function ConfigItem(props) {
           </Typography>
           <Setting
             classes={classes}
-            data={setting.data}
+            description={setting.data}
+            settingValue={settingValue}
             path={newPath}
             handleChange={handleChange}
           />
@@ -102,38 +105,42 @@ function ConfigItem(props) {
 }
 
 function Setting(props) {
-  const { classes, data, path, handleChange } = props;
-  switch (data.dataType) {
+  const { classes, description, settingValue, path, handleChange } = props;
+  switch (description.dataType) {
     case 'boolean':
       return (<BooleanSetting
         classes={classes}
-        data={data}
+        description={description}
+        settingValue={settingValue}
         handleChange={handleChange}
         path={path}
       />);
     case 'integer':
       return (<NonBooleanSetting
         classes={classes}
-        data={data}
+        description={description}
+        settingValue={settingValue}
         handleChange={handleChange}
         path={path}
       />);
     case 'float':
       return (<NonBooleanSetting
         classes={classes}
-        data={data}
+        description={description}
+        settingValue={settingValue}
         handleChange={handleChange}
         path={path}
       />);
     case 'string':
       return (<NonBooleanSetting
         classes={classes}
-        data={data}
+        description={description}
+        settingValue={settingValue}
         handleChange={handleChange}
         path={path}
       />);
     default:
-      console.log(`Invalid data type: ${data.dataType}`);
+      console.log(`Invalid data type: ${description.dataType}`);
       return <span>Error.</span>
   }
 }
@@ -141,12 +148,12 @@ function Setting(props) {
 // Add index of setting in checkbox
 class BooleanSetting extends React.Component {
   render() {
-    const { classes, data, handleChange, path } = this.props;
+    const { classes, description, settingValue, handleChange, path } = this.props;
     return (
       <Checkbox 
-        checked={data.current}
+        checked={settingValue}
         onClick={(event) => handleChange(path, event.target.checked)}
-        name={data.name}
+        name={description.name}
         color='primary'
       />
     );
@@ -155,18 +162,18 @@ class BooleanSetting extends React.Component {
 
 // Add index of setting in checkbox
 function NonBooleanSetting(props) {
-  const { classes, data, handleChange, path } = props;
-  if (data.category === 'item') {
-    if (data.domain.type === 'list') {
+  const { classes, description, settingValue, handleChange, path } = props;
+  if (description.category === 'item') {
+    if (description.domain.type === 'list') {
       // Item output / List domain
       return (
         <FormControl variant="outlined">
           <Select
             native
-            value={data.current}
+            value={settingValue}
             onChange={(event) => handleChange(path, event.target.value)}
           >
-            {data.domain.values.map((value) => (
+            {description.domain.values.map((value) => (
               <option value={value}>
                 {value}
               </option>
@@ -174,40 +181,41 @@ function NonBooleanSetting(props) {
           </Select>
         </FormControl>
       );
-    } else if (data.domain.type === 'any' || data.domain.type === 'range') {
+    } else if (description.domain.type === 'any' || description.domain.type === 'range') {
       // Item output / Any or range domain
       return (
         <TextField
-          type={data.dataType === 'string' ? 'text' : 'number'}
+          type={description.dataType === 'string' ? 'text' : 'number'}
           variant='outlined'
-          value={data.current}
+          value={settingValue}
           onChange={(event) => handleChange(path, event.target.value)}
         />
       );
     } else {
-      console.log(`Invalid domain type: ${data.domain.type}`);
+      console.log(`Invalid domain type: ${description.domain.type}`);
       return <span>Error.</span>
     }
-  } else if (data.category === 'list') {
-    if (data.domain.type === 'list') {
+  } else if (description.category === 'list') {
+    if (description.domain.type === 'list') {
       // List output / List domain
       return (
         <TransferList 
           classes={classes}
-          data={data}
+          description={description}
+          settingValue={settingValue}
           handleChange={handleChange}
           path={path}
         />
       )
-    } else if (data.domain.type === 'any' || data.domain.type === 'range') {
+    } else if (description.domain.type === 'any' || description.domain.type === 'range') {
       // List output / Any or range domain
       return <span>Not implemented.</span>
     } else {
-      console.log(`Invalid domain type: ${data.domain.type}`);
+      console.log(`Invalid domain type: ${description.domain.type}`);
       return <span>Error.</span>
     }
   } else {
-    console.log(`Invalid data category: ${data.category}`);
+    console.log(`Invalid data category: ${description.category}`);
     return <span>Error.</span>
   }
 }
@@ -225,12 +233,13 @@ class TransferList extends React.Component {
   }
 
   render() {
-    const { classes, data, handleChange, path } = this.props;
+    const { classes, description, settingValue, handleChange, path } = this.props;
     const { checked } = this.state;
     // Values chosen
-    const right = data.current;
+    const right = settingValue;
     // Values to choose from
-    const left = data.domain.values.filter((value) => right.indexOf(value) === -1);
+    console.log(description.domain.values)
+    const left = description.domain.values.filter((value) => right.indexOf(value) === -1);
     // Checked items
     const leftChecked = this.intersection(checked, left);
     const rightChecked = this.intersection(checked, right);

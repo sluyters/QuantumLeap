@@ -15,23 +15,27 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 const theme = createMuiTheme();
 
 const pages = [
-  { name: 'home', route: '/', label: 'Home', icon: HomeIcon },
+  //{ name: 'home', route: '/', label: 'Home', icon: HomeIcon },
   { name: 'settings', route: '/settings', label: 'Settings', icon: Settings },
   { 
     name: 'modules', 
     label: 'Modules', 
     icon: Extension,
     items: [
-      { name: 'overview', route: '/modules', label: 'Overview', icon: null },
-      { name: 'sensors', route: '/modules/sensors', label: 'Sensors', icon: null },
-      { name: 'classifiers', route: '/modules/classifiers', label: 'Classifiers', icon: null },
-      { name: 'datasets', route: '/modules/datasets', label: 'Datasets', icon: null },
-      { name: 'analyzers', route: '/modules/analyzers', label: 'Analyzers', icon: null },
-      { name: 'segmenters', route: '/modules/segmenters', label: 'Segmenters', icon: null },
-      { name: 'recognizers', route: '/modules/recognizers', label: 'Recognizers', icon: null },
+      //{ name: 'overview', route: '/modules', label: 'Overview', icon: null },
+      { name: 'sensors', route: '/modules/sensor', label: 'Sensors', icon: null },
+      { name: 'classifiers', route: '/modules/classifier', label: 'Classifiers', icon: null },
+      { name: 'datasets', label: 'Datasets', icon: null, items: [
+          { name: 'gestures', route: '/modules/gesture-dataset', label: 'Gestures', icon: null },
+          { name: 'poses', route: '/modules/pose-dataset', label: 'Poses', icon: null },
+        ] 
+      },
+      { name: 'analyzers', route: '/modules/analyzer', label: 'Analyzers', icon: null },
+      { name: 'segmenters', route: '/modules/segmenter', label: 'Segmenters', icon: null },
+      { name: 'recognizers', route: '/modules/recognizer', label: 'Recognizers', icon: null },
     ], 
   },
-  { name: 'gestures', route: '/gestures', label: 'Gestures', icon: Gesture },
+  //{ name: 'gestures', route: '/gestures', label: 'Gestures', icon: Gesture },
 ]
 
 function App() {
@@ -40,7 +44,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <Layout sidebarItems={pages}>
           <Switch>
-            <Route exact path="/" component={Home}/>
+            <Route exact path="/" component={GeneralSettings}/>
             <Route path="/settings" component={GeneralSettings}/>
             <Route exact path="/modules" component={Modules}/>
             <Route path="/modules/:type" component={Module}/>

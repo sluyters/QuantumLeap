@@ -7,8 +7,8 @@ class FrameProcessor {
         // Initialize analyzer, segmenter, datasets, recognizer and classifier
         this.analyzer = new config.analyzer.module(config.analyzer.options);
         this.segmenter = new config.segmenter.module(config.segmenter.options);
-        this.gestureDataset = initDataset(config.datasets.gesture);
-        this.poseDataset = initDataset(config.datasets.pose); 
+        this.gestureDataset = initDataset(config['gesture-dataset']);
+        this.poseDataset = initDataset(config['pose-dataset']); 
         if (config.general.gesture.loadOnRequest) {
             this.recognizer =  new config.recognizer.module(config.recognizer.options);
         } else {
@@ -153,9 +153,9 @@ class FrameProcessor {
 
 function initDataset(config) {
     // Load the dataset
-    let dataset = config.loader.loadDataset(config.name, config.directory);
+    let dataset = config.module.loadDataset(config.options);
     // Select/aggregate/rename classes of the dataset if required
-    if (config.aggregateClasses.length != 0) {
+    if (config.aggregateClasses && config.aggregateClasses.length != 0) {
         let newDataset = new GestureSet(dataset.name);
         config.aggregateClasses.forEach((aggregate, index) => {
             // Aggregate gesture class

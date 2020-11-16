@@ -29,25 +29,31 @@ class GeneralSettings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      config: '',
+      generalDescription: '',
+      parsedGeneralDescription: '',
+      generalValues: '',
+      currentGeneralInstance: 'default' // TODO change
     };
     this.handleSettingChange = this.handleSettingChange.bind(this);
+    this.fetchGeneralData = this.fetchGeneralData.bind(this);
+    this.sendConfig = this.sendConfig.bind(this);
   }
 
   render() {
     const { classes, theme } = this.props;
-    const { config } = this.state;
+    const { generalDescription, parsedGeneralDescription, generalValues } = this.state;
     return (
       <React.Fragment>
         <Paper style={{ marginTop: theme.spacing(4), padding: theme.spacing(2), backgroundColor: theme.palette.grey[100] }}>
           <Typography variant='h4'> General settings </Typography>
         </Paper>
         <Paper style={{ marginTop: theme.spacing(2), padding: theme.spacing(2), backgroundColor: theme.palette.grey[20] }}>
-          {config ? (
+          {generalDescription && parsedGeneralDescription && generalValues ? (
             <ConfigPanel 
               classes={classes}
-              settings={config.settings}
-              handleSave={() => {this.saveConfig(config)}}
+              settings={parsedGeneralDescription.settings}
+              settingsValues={generalValues}
+              handleSave={this.sendConfig}
               handleChange={this.handleSettingChange}
               theme={theme}
             />
@@ -60,71 +66,155 @@ class GeneralSettings extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchData();
+    this.fetchGeneralData();
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.match.params.type !== prevProps.match.params.type) {
-      this.fetchData();
-    }
+  fetchGeneralData() {
+    let { currentGeneralInstance } = this.state; // TODO update instance
+    fetchGeneralSettings(currentGeneralInstance,
+      (description, parsedDescription, values) => { 
+        this.setState({ 
+          generalDescription: description, 
+          parsedGeneralDescription: parsedDescription,
+          generalValues: values 
+        }); 
+      },
+      (err) => { 
+        this.setState({ 
+          generalDescription: '', 
+          parsedGeneralDescription: '',
+          generalValues: '' 
+        }); 
+      }
+    );
   }
 
-  saveConfig(config) {
-    return axios.put(`${URL}/settings`, { config: config })
-      .then((res) => {
-        console.log(res)
-        console.log('data saved');
-      })
-      .catch((err) => {
-        console.error(err.message);
-      })
-  }
-
-  fetchData() {
-    return axios.get(`${URL}/settings`)
-      .then((res) => {
-        console.log('data fetched');
-        this.setState({
-          config: res.data.config,
-        });
-      })
-      .catch((err) => {
-        this.setState({
-          config: '',
-        });
-        console.error(err.message);
-      })
+  sendConfig() {
+    let { currentGeneralInstance, generalValues } = this.state;
+    axios.put(`${URL}/configurations/all/general/${currentGeneralInstance}/values`, { data: generalValues })
+      // .then((res) => {
+      //   console.log(res)
+      //   console.log('data saved');
+      // })
+      // .catch((err) => {
+      //   console.error(err.message);
+      // })
   }
 
   handleSettingChange(settingPath, value) {
-    // Recursive function to update the setting
-    const updateSettings = (settingsList, path, value) => {
-      if (path.length !== 0) {
-        for (let i = 0; i < settingsList.length; i++) {
-          if (settingsList[i].name === path[0]) {
-            // The path matches
-            if (path.length === 1) {
-              // End of the path
-              settingsList[i].data.current = value;
-            } else {
-              // Not at the end of the path
-              settingsList[i].settings = updateSettings(settingsList[i].settings, path.slice(1), value);
-            }
-            return settingsList;
-          }
-        }
+    this.setState(
+      (prevState) => {
+        let generalValues = prevState.generalValues;
+        setObjectProperty(generalValues, value, settingPath);
+        return ({ generalValues: generalValues });
+      }, 
+      () => {
+        let { generalDescription, generalValues } = this.state;
+        parseExternalProperties(generalDescription, generalValues)
+          .then(res => {
+            let parsedGeneralDescription = res;
+            this.setState({ parsedGeneralDescription: parsedGeneralDescription });
+          });
       }
-      console.log(`Unable to find setting (path=${JSON.stringify(path)})`)
-      return settingsList;
-    };
-    // Update the state
-    this.setState(prevState => {
-      let config = prevState.config;
-      config.settings = updateSettings(config.settings, settingPath, value);
-      return ({
-        config: config
-      });
+    );
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// HELPERS
+const defaultOnErr = (err) => { console.error(err.message); };
+
+function fetchGeneralSettings(generalInstance, onSuccess, onErr = defaultOnErr) {
+  let promise1 = axios.get(`${URL}/configurations/all/general/description`)
+  let promise2 = axios.get(`${URL}/configurations/all/general/${generalInstance}/values`);
+  Promise.all([promise1, promise2])
+    .then(results => {
+      let generalDescription = results[0].data;
+      let generalValues = results[1].data;
+      onSuccess(generalDescription, generalValues);
+      parseExternalProperties(generalDescription, generalValues)
+        .then(res => {
+          let parsedGeneralDescription = res;
+          onSuccess(generalDescription, parsedGeneralDescription, generalValues);
+        });
+    })
+    .catch(err => {
+      console.error(err.stack)
+      onErr(err);
     });
+}
+
+// Maybe update in the future (properties that have to be fetched depending on a choice)
+function parseExternalProperties(object, settingsValues) {
+  let parsedObject;
+  // Quick hack because arrays are also objects
+  if (Array.isArray(object)) {
+    parsedObject = [];
+  } else {
+    parsedObject = {};
+  }
+  let promises = [];
+  Object.keys(object).forEach(key => {
+    parsedObject[key] = object[key];
+    if (object[key] && typeof object[key] === 'object') {
+      let newPromise;
+      if (object[key].hasOwnProperty('uri')) {
+        let uri = parseURI(object[key], settingsValues);
+        newPromise = axios.get(`${URL}${uri}`)
+          .then(res => {
+            parsedObject[key] = res.data;
+          })
+          .catch(err => {
+            console.error(err);
+            parsedObject[key] = [];
+          });
+      } else {
+        newPromise = parseExternalProperties(object[key], settingsValues)
+          .then(res => {
+            parsedObject[key] = res;
+          });
+      }
+      promises.push(newPromise);
+    }
+  });
+  return Promise.all(promises).then(() => {
+    return parsedObject;
+  });
+}
+
+// function getExternalProperty(settingDescription, settingValues) {
+
+// }
+
+function parseURI(uriObject, settingsValues) {
+  const uriParameterRegex = /\$\{[^\{\}]*\}/g;
+  let rawURI = uriObject.uri;
+  return rawURI.replace(uriParameterRegex, (match) => {
+    let parameterName = match.slice(2,-1);
+    let parameterValue = uriObject.parameters[parameterName];
+    let setting = getObjectPropertyFromString(settingsValues, parameterValue.settingPath);
+    return setting;
+  });
+}
+
+function getObjectPropertyFromString(object, inputString) {
+  const keys = inputString.split('.');
+  return getObjectProperty(object, keys);
+}
+
+function getObjectProperty(object, keys, index = 0) {
+  if (index === keys.length - 1) {
+    return object[keys[index]];
+  } else {
+    return getObjectProperty(object[keys[index]], keys, index + 1);
+  }
+}
+
+function setObjectProperty(object, value, keys, index = 0) {
+  if (index === keys.length - 1) {
+    object[keys[index]] = value;
+  } else {
+    setObjectProperty(object[keys[index]], value, keys, index + 1);
   }
 }
 

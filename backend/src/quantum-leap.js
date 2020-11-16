@@ -2,16 +2,25 @@ const WSServer = require('ws').Server;
 const FrameProcessor = require('./framework/frame-processor').FrameProcessor;
 
 class QuantumLeap {
-  constructor(config, httpServer) {
+  constructor(httpServer) {
     this.server = httpServer;
+  }
+
+  start(config) {
     this.wss = setupWSS(config, this.server);
   }
 
   restart(config) {
-    this.wss.close(() => {
-      console.log('WebSocket server restarting...');
-    });
-    this.wss = setupWSS(config, this.server);
+    console.log('WebSocket server restarting...');
+    if (this.wss) {
+      this.wss.close(() => {
+        this.wss = setupWSS(config, this.server);
+        console.log('WebSocket server started!');
+      });
+    } else {
+      this.wss = setupWSS(config, this.server);
+      console.log('WebSocket server started!');
+    }
   }
 }
 
