@@ -6,43 +6,42 @@ class Recognizer extends AbstractRecognizer {
 
 	static name = "P3DollarPlusRecognizer";
 
-    constructor(options, dataset) {
+	constructor(options, dataset) {
 		super();
 		this.samplingPoints = options.samplingPoints;
-        this.articulations = options.articulations;
-        this.recognizer = new P3DollarPlusRecognizer(this.samplingPoints);
-		if (dataset !== undefined){
+		this.articulations = options.articulations;
+		this.recognizer = new P3DollarPlusRecognizer(this.samplingPoints);
+		if (dataset !== undefined) {
 			dataset.getGestureClasses().forEach((gesture) => {
 				gesture.getSamples().forEach(sample => {
-						this.addGesture(gesture.name, sample);
-					}
+					this.addGesture(gesture.name, sample);
+				}
 				);
 			});
 		}
 	}
-	
+
 	addGesture(name, sample) {
 		let points = convert(sample, this.articulations);
 		this.recognizer.AddGesture(name, points);
 	}
 
-    removeGesture(name) {
+	removeGesture(name) {
 		this.recognizer.RemoveGesture(name);
 	}
 
-    recognize(sample) {
+	recognize(sample) {
 		let points = convert(sample, this.articulations);
-		if(points.length === 0) {
-            return { name: "", time: 0, score: 0.0 };
-        }
-        let result = this.recognizer.Recognize(points);
+		if (points.length === 0) {
+			return { name: "", time: 0, score: 0.0 };
+		}
+		let result = this.recognizer.Recognize(points);
 		return (result.Name === "No match.") ? { name: "", time: result.Time, score: result.Score } : { name: result.Name, time: result.Time, score: result.Score };
 	}
 
 	toString() {
-        return `${Recognizer.name} [ samplingPoints = ${this.samplingPoints}, articulations = ${this.articulations} ]`;
-    }
-
+		return `${Recognizer.name} [ samplingPoints = ${this.samplingPoints}, articulations = ${this.articulations} ]`;
+	}
 }
 
 function convert(sample, articulations) {

@@ -1,0 +1,53 @@
+{
+  "label": "Leap Motion Controller",
+  "name": "leap-sensor",
+  "type": "sensor",
+  "description": "An adaptation layer for the Leap Motion Controller.",
+  "properties": {
+    "points": [
+      "leftPalmPosition",
+      "rightPalmPosition",
+      "leftThumbTipPosition",
+      "leftIndexTipPosition",
+      "leftMiddleTipPosition",
+      "leftRingTipPosition",
+      "leftPinkyTipPosition",
+      "rightThumbTipPosition",
+      "rightIndexTipPosition",
+      "rightMiddleTipPosition",
+      "rightRingTipPosition",
+      "rightPinkyTipPosition",
+      "leftThumbPipPosition",
+      "leftIndexPipPosition",
+      "leftMiddlePipPosition",
+      "leftRingPipPosition",
+      "leftPinkyPipPosition",
+      "rightThumbPipPosition",
+      "rightIndexPipPosition",
+      "rightMiddlePipPosition",
+      "rightRingPipPosition",
+      "rightPinkyPipPosition",
+      "leftThumbMcpPosition",
+      "leftIndexMcpPosition",
+      "leftMiddleMcpPosition",
+      "leftRingMcpPosition",
+      "leftPinkyMcpPosition",
+      "rightThumbMcpPosition",
+      "rightIndexMcpPosition",
+      "rightMiddleMcpPosition",
+      "rightRingMcpPosition",
+      "rightPinkyMcpPosition"
+    ]
+  },
+  "settings": [
+    {
+      "name": "framerate",
+      "type": "IntegerInput",
+      "label": "Framerate",
+      "description": "The number of frames captured per second.",
+      "minValue": 1,
+      "maxValue": null,
+      "default": 60
+    }
+  ]
+}

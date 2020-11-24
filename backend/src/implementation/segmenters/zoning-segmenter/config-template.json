@@ -1,0 +1,36 @@
+{
+  "label": "Left hand",
+  "name": "lefthand-segmenter",
+  "type": "segmenter",
+  "description": "A segmenter that uses the presence of the left hand in the field of view of the sensor to trigger gesture recognition.",
+  "properties": {},
+  "settings": [
+    {
+      "type": "IntegerInput",
+      "name": "minSegmentLength",
+      "label": "Minimum length of a segment",
+      "description": "The minimum number of frames of a segment.",
+      "minValue": 1,
+      "maxValue": null,
+      "default": 10
+    },
+    {
+      "type": "IntegerInput",
+      "name": "maxSegmentLength",
+      "label": "Maximum length of a segment",
+      "description": "The maximum number of frames of a segment.",
+      "minValue": 1,
+      "maxValue": null,
+      "default": 60
+    },
+    {
+      "type": "IntegerInput",
+      "name": "pauseLength",
+      "label": "Pause length",
+      "description": "The length of the pause after a gesture is recognized (in frames).",
+      "minValue": 0,
+      "maxValue": null,
+      "default": 60
+    }
+  ]
+}

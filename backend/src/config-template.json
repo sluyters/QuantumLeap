@@ -1,0 +1,170 @@
+{
+  "label": "General configuration",
+  "name": "quantumleap",
+  "description": "The general configuration of the QuantumLeap framework.",
+  "properties": {},
+  "generalSettings": [
+    {
+      "type": "Category",
+      "name": "general",
+      "label": "General",
+      "settings": [
+        {
+          "type": "BooleanInput",
+          "name": "debug",
+          "label": "Show debug logs",
+          "description": "Display the logs in the terminal for debugging.",
+          "default": false
+        },
+        {
+          "type": "BooleanInput",
+          "name": "sendContinuousData",
+          "label": "Send continuous data",
+          "description": "Send the data from each frame to the client.",
+          "default": true
+        },
+        {
+          "type": "Category",
+          "name": "gesture",
+          "label": "Gestures",
+          "settings": [
+            {
+              "type": "BooleanInput",
+              "name": "sendIfRequested",
+              "label": "Send if requested",
+              "description": "Send recognized gestures only if they are requested by the client.",
+              "default": true
+            },
+            {
+              "type": "BooleanInput",
+              "name": "loadOnRequest",
+              "label": "Load on request",
+              "description": "Load gestures based on requests from the client.",
+              "default": false
+            }
+          ]
+        },
+        {
+          "type": "Category",
+          "name": "pose",
+          "label": "Poses",
+          "settings": [
+            {
+              "type": "BooleanInput",
+              "name": "sendIfRequested",
+              "label": "Send if requested",
+              "description": "Send recognized gestures only if they are requested by the client.",
+              "default": true
+            },
+            {
+              "type": "BooleanInput",
+              "name": "loadOnRequest",
+              "label": "Load on request",
+              "description": "Load gestures based on requests from the client.",
+              "default": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Category",
+      "name": "server",
+      "label": "Server",
+      "settings": [
+        {
+          "type": "TextInput",
+          "name": "ip",
+          "label": "Server IP",
+          "description": "IP address of the server (for app interface).",
+          "minLength": 1,
+          "maxLength": null,
+          "default": "127.0.0.1"
+        },
+        {
+          "type": "IntegerInput",
+          "name": "port",
+          "label": "Server port",
+          "description": "Port of the server (for app interface).",
+          "minValue": 0,
+          "maxValue": 65535,
+          "default": 6442
+        }
+      ]
+    }
+  ],
+  "sensorsSettings": [
+    {
+      "name": "sensors",
+      "type": "ModuleSelector",
+      "label": "Sensor(s)",
+      "description": "The sensor(s) to use in the pipeline.",
+      "moduleType": "sensors",
+      "minModules": 1,
+      "maxModules": null,
+      "settings": [],
+      "default": []
+    },
+    {
+      "name": "framerate",
+      "type": "IntegerInput",
+      "label": "Framerate",
+      "description": "The number of frames captured per second.",
+      "minValue": 1,
+      "maxValue": null,
+      "default": 60
+    }
+  ],
+  "classifiersSettings": [
+    {
+      "name": "classifiers",
+      "type": "ModuleSelector",
+      "label": "Classifier",
+      "description": "The classifier to use in the pipeline.",
+      "moduleType": "classifiers",
+      "minModules": 1,
+      "maxModules": 1,
+      "settings": [],
+      "default": []
+    }
+  ],
+  "analyzersSettings": [
+    {
+      "name": "analyzers",
+      "type": "ModuleSelector",
+      "label": "Analyzer",
+      "description": "The analyzer to use in the pipeline.",
+      "moduleType": "analyzers",
+      "minModules": 1,
+      "maxModules": 1,
+      "settings": [],
+      "default": []
+    }
+  ],
+  "segmentersSettings": [
+    {
+      "name": "segmenters",
+      "type": "ModuleSelector",
+      "label": "Segmenter",
+      "description": "The segmenter to use in the pipeline.",
+      "moduleType": "segmenters",
+      "minModules": 1,
+      "maxModules": 1,
+      "settings": [],
+      "default": []
+    }
+  ],
+  "recognizersSettings": [
+    {
+      "name": "recognizers",
+      "type": "ModuleSelector",
+      "label": "Recognizer",
+      "description": "The recognizers to use in the pipeline.",
+      "moduleType": "recognizers",
+      "minModules": 1,
+      "maxModules": 1,
+      "settings": [],
+      "default": []
+    }
+  ]
+}

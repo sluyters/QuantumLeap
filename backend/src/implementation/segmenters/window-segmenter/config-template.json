@@ -1,0 +1,45 @@
+{
+  "label": "Sliding window",
+  "name": "window-segmenter",
+  "type": "segmenter",
+  "description": "TODO.",
+  "properties": {},
+  "settings": [
+    {
+      "type": "IntegerInput",
+      "name": "windowWidth",
+      "label": "Width of the window",
+      "description": "The width of the window (in frames).",
+      "minValue": 1,
+      "maxValue": null,
+      "default": 20
+    },
+    {
+      "type": "IntegerInput",
+      "name": "intervalLength",
+      "label": "Interval Length",
+      "description": "The number of frames between each segment.",
+      "minValue": 0,
+      "maxValue": null,
+      "default": 3
+    },
+    {
+      "type": "IntegerInput",
+      "name": "pauseLength",
+      "label": "Pause length",
+      "description": "The length of the pause after a gesture is recognized (in frames).",
+      "minValue": 0,
+      "maxValue": null,
+      "default": 60
+    },
+    {
+      "type": "FloatInput",
+      "name": "motionThreshold",
+      "label": "Motion threshold",
+      "description": "The minimum hand motion to consider that the segment may be a gesture.",
+      "minValue": 0,
+      "maxValue": null,
+      "default": 70
+    }
+  ]
+}

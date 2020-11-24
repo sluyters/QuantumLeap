@@ -238,7 +238,6 @@ class TransferList extends React.Component {
     // Values chosen
     const right = settingValue;
     // Values to choose from
-    console.log(description.domain.values)
     const left = description.domain.values.filter((value) => right.indexOf(value) === -1);
     // Checked items
     const leftChecked = this.intersection(checked, left);

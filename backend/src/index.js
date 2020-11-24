@@ -9,8 +9,8 @@ const Configuration = require('./config-helper')
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants
-const CONFIG_DEF_NAME = 'config-def.json';
-const CONFIG_NAME = 'config.json';
+const TEMPLATES_NAME = 'config-template.json';
+const VALUES_NAME = 'config.json';
 const MAIN_DIRECTORY = __dirname;
 const MODULES_DIRECTORY = path.join(__dirname, 'implementation');
 const SERVER_IP = '127.0.0.1';
@@ -22,7 +22,7 @@ let server = http.createServer();
 
 ////////////////////////////////////////////////////////////////////////////////
 // Initialize QuantumLeap and its configuration
-let configuration = new Configuration(MAIN_DIRECTORY, MODULES_DIRECTORY, CONFIG_NAME, CONFIG_DEF_NAME);
+let configuration = new Configuration(MAIN_DIRECTORY, MODULES_DIRECTORY, VALUES_NAME, TEMPLATES_NAME);
 configuration.load();
 qlConfig = configuration.toQLConfig();
 let quantumLeap = new QuantumLeap(server);
@@ -43,255 +43,27 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/configurations', (req, res) => {
-  // TODO
-  return res.status(501);
+app.get('/templates', (req, res) => {
+  let templates = configuration.getTemplates();
+  console.log(templates)
+  return res.status(200).json(templates);
 });
 
-app.get('/configurations/current', (req, res) => {
-  // TODO
-  return res.status(501);
-});
-
-// Responds with the general description
-app.get('/configurations/current/general/description', (req, res) => {
-  let descriptions = configuration.getDescriptions();
-  let description = getComponentDescription(descriptions, 'general');
-  return res.status(200).json(description);
-});
-
-// Responds with the description of the module
-app.get('/configurations/current/modules/:moduleType/description', (req, res) => {
-  let moduleType = req.params.moduleType;
-  let moduleName = req.params.moduleName;
-  let descriptions = configuration.getDescriptions();
-  let moduleDescription = getComponentDescription(descriptions, moduleType, moduleName);
-  return res.status(200).json(moduleDescription);
-});
-
-// "/configurations/current/general/values?setting='example1.example2'"
-// Responds with the values for each general setting
-app.get('/configurations/current/general/values', (req, res) => {
-  let setting = req.query.setting;
-  let values = configuration.getValues();
-  let generalValues = getCurrentComponentValues(values, 'general');
-  if (setting) {
-    // Send just the value of this setting
-    let value = getObjectPropertyFromString(generalValues, setting);
-    return res.status(200).json(value);
-  } else {
-    // Send the value of each setting
-    return res.status(200).json(generalValues);
-  }
-});
-
-// Responds with the name of the current selected module
-app.get('/configurations/current/modules/:moduleType', (req, res) => {
-  let moduleType = req.params.moduleType;
-  let values = configuration.getValues();
-  let moduleName = getCurrentComponent(values, moduleType).module;
-  // Send the name of the selected module
-  return res.status(200).json(moduleName);
-});
-
-// "/configurations/current/modules/:moduleType/values?setting='example1.example2'"
-// Responds with the values for each setting of the module
-app.get('/configurations/current/modules/:moduleType/values', (req, res) => {
-  let moduleType = req.params.moduleType;
-  let setting = req.query.setting;
-  let values = configuration.getValues();
-  let moduleValues = getCurrentComponentValues(values, moduleType);
-  if (setting) {
-    // Send just the value of this setting
-    let value = getObjectPropertyFromString(moduleValues, setting);
-    return res.status(200).json(value);
-  } else {
-    // Send the value of each setting
-    return res.status(200).json(moduleValues);
-  }
-});
-
-// "/configurations/current/general/properties?property='example1.example2'"
-// Responds with the properties of the module
-app.get('/configurations/current/general/properties', (req, res) => {
-  let propertyName = req.query.property;
-  let values = configuration.getValues();
-  let descriptions = configuration.getDescriptions();
-  let generalDescription = getCurrentComponentDescription(values, descriptions, 'general');
-  let generalProperties = generalDescription.properties;
-  if (propertyName) {
-    // Send just the value of this property
-    let property = getObjectPropertyFromString(generalProperties, propertyName);
-    return res.status(200).json(property);
-  } else {
-    // Send the value of each property
-    return res.status(200).json(generalProperties);
-  }
-});
-
-// "/configurations/current/modules/:moduleType/properties?property='example1.example2'"
-// Responds with the properties of the module
-app.get('/configurations/current/modules/:moduleType/properties', (req, res) => {
-  let moduleType = req.params.moduleType;
-  let propertyName = req.query.property;
-  let values = configuration.getValues();
-  let descriptions = configuration.getDescriptions();
-  let moduleDescription = getCurrentComponentDescription(values, descriptions, moduleType);
-  let moduleProperties = moduleDescription.properties;
-  if (propertyName) {
-    // Send just the value of this property
-    let property = getObjectPropertyFromString(moduleProperties, propertyName);
-    return res.status(200).json(property);
-  } else {
-    // Send the value of each property
-    return res.status(200).json(moduleProperties);
-  }
-});
-
-app.get('/configurations/all', (req, res) => {
-  // TODO
-  return res.status(501);
-});
-
-// Responds with the the list of modules of this type
-app.get('/configurations/all/modules/:moduleType', (req, res) => {
-  let moduleType = req.params.moduleType;
-  let descriptions = configuration.getDescriptions();
-  let modules = Object.keys(descriptions.modules[moduleType + 's']);
-  return res.status(200).json(modules);
-});
-
-// Responds with the description of the general configuration
-app.get('/configurations/all/general/description', (req, res) => {
-  let descriptions = configuration.getDescriptions();
-  let description = getComponentDescription(descriptions, 'general');
-  return res.status(200).json(description);
-});
-
-// Responds with the list of instances of the module
-app.get('/configurations/all/modules/:moduleType/:moduleName/instances', (req, res) => {
-  let moduleType = req.params.moduleType;
-  let moduleName = req.params.moduleName;
-  let values = configuration.getValues();
-  let instances = Object.keys(values.modules[moduleType + 's'][moduleName]);
-  return res.status(200).json(instances);
-});
-
-// Responds with the description of the module
-app.get('/configurations/all/modules/:moduleType/:moduleName/description', (req, res) => {
-  let moduleType = req.params.moduleType;
-  let moduleName = req.params.moduleName;
-  let descriptions = configuration.getDescriptions();
-  let moduleDescription = getComponentDescription(descriptions, moduleType, moduleName);
-  return res.status(200).json(moduleDescription);
-});
-
-// "/configurations/all/general/properties?property='example1.example2'"
-// Responds with the general properties
-app.get('/configurations/all/general/properties', (req, res) => {
-  let propertyName = req.query.property;
-  let descriptions = configuration.getDescriptions();
-  let properties = getComponentDescription(descriptions, 'general').properties;
-  if (propertyName) {
-    // Send just the value of this property
-    let property = getObjectPropertyFromString(properties, propertyName);
-    return res.status(200).json(property);
-  } else {
-    // Send the value of each property
-    return res.status(200).json(properties);
-  }
-});
-
-// "/configurations/all/modules/:moduleType/:moduleName/properties?property='example1.example2'"
-// Responds with the properties of the module
-app.get('/configurations/all/modules/:moduleType/:moduleName/properties', (req, res) => {
-  let moduleType = req.params.moduleType;
-  let moduleName = req.params.moduleName;
-  let propertyName = req.query.property;
-  let descriptions = configuration.getDescriptions();
-  let moduleProperties = getComponentDescription(descriptions, moduleType, moduleName).properties;
-  if (propertyName) {
-    // Send just the value of this property
-    let property = getObjectPropertyFromString(moduleProperties, propertyName);
-    return res.status(200).json(property);
-  } else {
-    // Send the value of each property
-    return res.status(200).json(moduleProperties);
-  }
-});
-
-// "/configurations/all/general/values?setting='example1.example2'"
-// Responds with the values for each general setting
-app.get('/configurations/all/general/:instance/values', (req, res) => {
-  let instance = req.params.instance;
-  let setting = req.query.setting;
-  let values = configuration.getValues();
-  let generalValues = getComponentInstances(values, 'general')[instance];
-  if (setting) {
-    // Send just the value of this setting
-    let value = getObjectPropertyFromString(generalValues, setting);
-    return res.status(200).json(value);
-  } else {
-    // Send the value of each setting
-    return res.status(200).json(generalValues);
-  }
-});
-
-// "/configurations/all/general/values?setting='example1.example2'"
-app.put('/configurations/all/general/:instance/values', (req, res) => {
-  let instance = req.params.instance;
-  let setting = req.query.setting;
-  if (setting) {
-    // Set just the value of this setting
-    //let value = getObjectPropertyFromString(generalValues, setting);
-  } else {
-    // Set the value of each setting
-    let newValues = req.body.data;
-    configuration.setGeneralValues(newValues, instance);
-  }
+app.put('/templates', (req, res) => {
+  let templates = req.body.data;
+  configuration.setTemplates(templates);
   res.status(204).send();
-  try {
-    configuration.saveValues();
-    quantumLeap.restart(configuration.toQLConfig());
-  } catch (err) {
-    console.error(`Unable to restart QuantumLeap. Details: ${err.stack}`);
-  }
 });
 
-// "/configurations/all/modules/:moduleType/:moduleName/:moduleInstance/values?setting='example1.example2'"
-// Responds with the values for each setting of the module
-app.get('/configurations/all/modules/:moduleType/:moduleName/:moduleInstance/values', (req, res) => {
-  let moduleType = req.params.moduleType;
-  let moduleName = req.params.moduleName;
-  let moduleInstance = req.params.moduleInstance;
-  let setting = req.query.setting;
+app.get('/values', (req, res) => {
   let values = configuration.getValues();
-  let moduleValues = getComponentInstances(values, moduleType, moduleName)[moduleInstance];
-  if (setting) {
-    // Send just the value of this setting
-    let value = getObjectPropertyFromString(moduleValues, setting);
-    return res.status(200).json(value);
-  } else {
-    // Send the value of each setting
-    return res.status(200).json(moduleValues);
-  }
+  console.log(values)
+  return res.status(200).json(values);
 });
 
-// "/configurations/all/modules/:moduleType/:moduleName/:moduleInstance/values?setting='example1.example2'"
-app.put('/configurations/all/modules/:moduleType/:moduleName/:moduleInstance/values', (req, res) => {
-  let moduleType = req.params.moduleType;
-  let moduleName = req.params.moduleName;
-  let moduleInstance = req.params.moduleInstance;
-  let setting = req.query.setting;
-  if (setting) {
-    // Set just the value of this setting
-    let newValue = req.body.data;
-    //configuration.setModuleValue(newValue, moduleType, moduleName, moduleInstance, setting);
-  } else {
-    // Set the value of each setting
-    let newValues = req.body.data;
-    configuration.setModuleValues(newValues, moduleType + 's', moduleName, moduleInstance);
-  }
+app.put('/values', (req, res) => {
+  let values = req.body.data;
+  configuration.setValues(values);
   res.status(204).send();
   try {
     configuration.saveValues();

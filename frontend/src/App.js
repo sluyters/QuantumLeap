@@ -7,8 +7,7 @@ import { Home as HomeIcon, Settings, Gesture, Extension } from '@material-ui/ico
 // Pages
 import Home from './pages/Home'
 import GeneralSettings from './pages/GeneralSettings'
-import Modules from './pages/Modules'
-import Module from './pages/Module'
+import Pipeline from './pages/Pipeline'
 import NotFound from './pages/NotFound'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 
@@ -17,24 +16,25 @@ const theme = createMuiTheme();
 const pages = [
   //{ name: 'home', route: '/', label: 'Home', icon: HomeIcon },
   { name: 'settings', route: '/settings', label: 'Settings', icon: Settings },
-  { 
-    name: 'modules', 
-    label: 'Modules', 
-    icon: Extension,
-    items: [
-      //{ name: 'overview', route: '/modules', label: 'Overview', icon: null },
-      { name: 'sensors', route: '/modules/sensor', label: 'Sensors', icon: null },
-      { name: 'classifiers', route: '/modules/classifier', label: 'Classifiers', icon: null },
-      { name: 'datasets', label: 'Datasets', icon: null, items: [
-          { name: 'gestures', route: '/modules/gesture-dataset', label: 'Gestures', icon: null },
-          { name: 'poses', route: '/modules/pose-dataset', label: 'Poses', icon: null },
-        ] 
-      },
-      { name: 'analyzers', route: '/modules/analyzer', label: 'Analyzers', icon: null },
-      { name: 'segmenters', route: '/modules/segmenter', label: 'Segmenters', icon: null },
-      { name: 'recognizers', route: '/modules/recognizer', label: 'Recognizers', icon: null },
-    ], 
-  },
+  { name: 'pipeline', route: '/pipeline', label: 'Pipeline', icon: Settings },
+  // { 
+  //   name: 'modules', 
+  //   label: 'Modules', 
+  //   icon: Extension,
+  //   items: [
+  //     //{ name: 'overview', route: '/modules', label: 'Overview', icon: null },
+  //     { name: 'sensors', route: '/modules/sensor', label: 'Sensors', icon: null },
+  //     { name: 'classifiers', route: '/modules/classifier', label: 'Classifiers', icon: null },
+  //     { name: 'datasets', label: 'Datasets', icon: null, items: [
+  //         { name: 'gestures', route: '/modules/gesture-dataset', label: 'Gestures', icon: null },
+  //         { name: 'poses', route: '/modules/pose-dataset', label: 'Poses', icon: null },
+  //       ] 
+  //     },
+  //     { name: 'analyzers', route: '/modules/analyzer', label: 'Analyzers', icon: null },
+  //     { name: 'segmenters', route: '/modules/segmenter', label: 'Segmenters', icon: null },
+  //     { name: 'recognizers', route: '/modules/recognizer', label: 'Recognizers', icon: null },
+  //   ], 
+  // },
   //{ name: 'gestures', route: '/gestures', label: 'Gestures', icon: Gesture },
 ]
 
@@ -45,10 +45,7 @@ function App() {
         <Layout sidebarItems={pages}>
           <Switch>
             <Route exact path="/" component={GeneralSettings}/>
-            <Route path="/settings" component={GeneralSettings}/>
-            <Route exact path="/modules" component={Modules}/>
-            <Route path="/modules/:type" component={Module}/>
-            <Route path="/gestures" component={Modules}/>
+            <Route path="/pipeline" component={Pipeline}/>
             <Route component={NotFound}/>
           </Switch>
         </Layout>

@@ -9,7 +9,7 @@ import Collapse from "@material-ui/core/Collapse"
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import { withRouter } from 'react-router'
-import { Typography } from "@material-ui/core"
+import { Button, ButtonGroup, Typography } from "@material-ui/core"
 
 // TODO, make styling consistent
 const styles = (theme) => ({
@@ -24,11 +24,31 @@ const styles = (theme) => ({
   nested: {
     paddingLeft: theme.spacing(4),
   },
+  sidebarContainer: {
+    height: "100%",
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+    boxSizing: 'border-box',
+  },
+  sidebarTitle: {
+    width: '100%',
+    textAlign: 'center',
+  },
+  sidebarNav: {
+    width: '100%',
+  },
+  sidebarItemContainer: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
+  sidebarButtons: {
+    width: '100%',
+  },
 });
 
 class Sidebar extends React.Component { 
   render() {
-    let { items, depthStep, depth, history, theme } = this.props;
+    let { classes, items, depthStep, depth, history, theme } = this.props;
     // Go through each of the items
     let renderedItems = [];
     items.forEach(item => {
@@ -44,13 +64,26 @@ class Sidebar extends React.Component {
     });
     // Render the item
     return (
-      <div class='sidebar'>
-        <Typography variant='h4'>
+      <div className={classes.sidebarContainer}>
+        <Typography variant='h4' className={classes.sidebarTitle} >
           QuantumLeap
         </Typography>
-        <List disablePadding>
+        <List disablePadding className={classes.sidebarNav} >
           {renderedItems}
-        </List>             
+        </List> 
+        <div className={classes.sidebarItemContainer}>
+          <ButtonGroup
+            orientation="vertical"
+            color="primary"
+            disableElevation 
+            className={classes.sidebarButtons}
+          >
+            <Button>Restart QuantumLeap</Button>
+            <Button>Save config</Button>
+            <Button>Reset config</Button>
+            <Button>Download config</Button>
+          </ButtonGroup>
+        </div>            
       </div>
     ); 
   }
