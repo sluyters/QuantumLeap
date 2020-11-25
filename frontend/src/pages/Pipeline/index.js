@@ -45,12 +45,13 @@ class Pipeline extends React.Component {
     const { templates, values } = this.state;
     let path = ['quantumLeap', name];
     let level = 0;    
+    console.log(templates)
     return (
       <Paper style={{ marginTop: theme.spacing(2), marginBottom: theme.spacing(2), padding: theme.spacing(2), backgroundColor: theme.palette.grey[50] }}>
         <Typography variant='h4'>
           {label}
         </Typography>
-        {(templates && values) ? (
+        {(templates && values && templates.quantumLeap && values.quantumLeap && templates.quantumLeap[name] && values.quantumLeap[name]) ? (
           templates.quantumLeap[name].map(setting => {
             return <Setting
               templates={templates}
@@ -78,6 +79,10 @@ class Pipeline extends React.Component {
         {this.renderComponentSettings('generalSettings', 'General Settings')}
         {/* Sensor settings */}
         {this.renderComponentSettings('sensorsSettings', "Sensor(s)")}
+        {/* Pose dataset settings */}
+        {this.renderComponentSettings('poseDatasetsSettings', "Pose dataset(s)")}
+        {/* Gesture dataset settings */}
+        {this.renderComponentSettings('gestureDatasetsSettings', "Gesture dataset(s)")}
         {/* Classifier settings */}
         {this.renderComponentSettings('classifiersSettings', "Classifier")}
         {/* Analyzer settings */}

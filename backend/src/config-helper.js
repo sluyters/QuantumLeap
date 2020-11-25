@@ -14,11 +14,13 @@ class QLConfiguration {
    * @param {string} configFilename - The name of the configuration files.
    * @param {string} templateFilename - The name of the templates files.
    */
-  constructor(mainDirectory, modulesDirectory, configFilename, templateFilename) {
+  constructor(mainDirectory, modulesDirectory, datasetsDirectory, configFilename, templateFilename, datasetInfoFilename) {
     this.mainDirectory = mainDirectory;
     this.modulesDirectory = modulesDirectory;
+    this.datasetsDirectory = datasetsDirectory;
     this.configFilename = configFilename;
     this.templateFilename = templateFilename;
+    this.datasetInfoFilename = datasetInfoFilename;
     this.configPath = path.join(mainDirectory, configFilename);
     this.mainConfigDefPath = path.join(mainDirectory, templateFilename);
     this.templates = {};
@@ -57,9 +59,11 @@ class QLConfiguration {
       // Load main config definition
       newConfigDefs['quantumLeap'] = JSON.parse(fs.readFileSync(this.mainConfigDefPath));
       // Load config templates of the modules
-      newConfigDefs['modules'] = initTemplates(this.modulesDirectory, this.templateFilename);
+      newConfigDefs['modules'] = initData(this.modulesDirectory, this.templateFilename);
+      // Load datasets
+      newConfigDefs['datasets'] = initData(this.datasetsDirectory, this.datasetInfoFilename);
     } catch (err) {
-      console.error(`Failed to save the config templates. Details: ${err.stack}`);
+      console.error(`Failed to load the config templates. Details: ${err.stack}`);
       return false;
     }
     this.templates = newConfigDefs;
@@ -74,7 +78,7 @@ class QLConfiguration {
     try {
       this.values = JSON.parse(fs.readFileSync(this.configPath));
     } catch (err) {
-      console.error(`Failed to load the configuration. Details: ${err.stack}`);
+      console.error(`Failed to load the config values. Details: ${err.stack}`);
       this.values = {};
       return false;
     }
@@ -195,6 +199,8 @@ function buildValuesHelper(templates) {
   let keys = [
     'generalSettings', 
     'sensorsSettings', 
+    'poseDatasetsSettings',
+    'gestureDatasetsSettings',
     'classifiersSettings', 
     'analyzersSettings', 
     'segmentersSettings', 
@@ -239,22 +245,27 @@ function fuseObjects(object1, object2) {
   return { modified, fusedObject };
 } 
 
-function initTemplates(directory, templateFilename) {
-  let templates = {};
+function initData(directory, filename) {
+  let data = {};
   let items = fs.readdirSync(directory, { withFileTypes: true });
   for (let i = 0; i < items.length; i++) {
     let item = items[i];
     const itemPath = path.join(directory, item.name);
     if (item.isDirectory()) {
-      let subTemplates = initTemplates(itemPath, templateFilename);
-      if (Object.keys(subTemplates).length !== 0) {
-        templates[item.name] = subTemplates;
+      let subData = initData(itemPath, filename);
+      if (Object.keys(subData).length !== 0) {
+        data[item.name] = subData;
       }
-    } else if (item.name === templateFilename) {
-      return JSON.parse(fs.readFileSync(itemPath));
+    } else if (item.name === filename) {
+      try {
+        let parsedData = JSON.parse(fs.readFileSync(itemPath));
+        return parsedData;
+      } catch (err) {
+        console.error(`Failed to load data at ${itemPath}). Details: ${err.stack}`);
+      }
     }
   }
-  return templates;
+  return data;
 }
 
 function getValuesFromSettings(settings) {

@@ -19,20 +19,28 @@
       }
     },
     "sensorsSettings": {
-      "sensors": [],
+      "modules": [],
       "framerate": 60
     },
+    "poseDatasetsSettings": {
+      "modules": [],
+      "poses": []
+    },
+    "gestureDatasetsSettings": {
+      "modules": [],
+      "gestures": []
+    },
     "classifiersSettings": {
-      "classifiers": []
+      "modules": []
     },
     "analyzersSettings": {
-      "analyzers": []
+      "modules": []
     },
     "segmentersSettings": {
-      "segmenters": []
+      "modules": []
     },
     "recognizersSettings": {
-      "recognizers": []
+      "modules": []
     }
   }
 }

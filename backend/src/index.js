@@ -11,8 +11,10 @@ const Configuration = require('./config-helper')
 // Constants
 const TEMPLATES_NAME = 'config-template.json';
 const VALUES_NAME = 'config.json';
+const DATASET_INFO_NAME = 'info.json';
 const MAIN_DIRECTORY = __dirname;
 const MODULES_DIRECTORY = path.join(__dirname, 'implementation');
+const DATASETS_DIRECTORY = path.join(__dirname, 'datasets');
 const SERVER_IP = '127.0.0.1';
 const SERVER_PORT = 6442;
 
@@ -22,7 +24,7 @@ let server = http.createServer();
 
 ////////////////////////////////////////////////////////////////////////////////
 // Initialize QuantumLeap and its configuration
-let configuration = new Configuration(MAIN_DIRECTORY, MODULES_DIRECTORY, VALUES_NAME, TEMPLATES_NAME);
+let configuration = new Configuration(MAIN_DIRECTORY, MODULES_DIRECTORY, DATASETS_DIRECTORY, VALUES_NAME, TEMPLATES_NAME, DATASET_INFO_NAME);
 configuration.load();
 qlConfig = configuration.toQLConfig();
 let quantumLeap = new QuantumLeap(server);

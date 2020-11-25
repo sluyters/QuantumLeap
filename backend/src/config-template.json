@@ -95,9 +95,9 @@
   ],
   "sensorsSettings": [
     {
-      "name": "sensors",
+      "name": "modules",
       "type": "ModuleSelector",
-      "label": "Sensor(s)",
+      "label": "Module(s)",
       "description": "The sensor(s) to use in the pipeline.",
       "moduleType": "sensors",
       "minModules": 1,
@@ -115,11 +115,77 @@
       "default": 60
     }
   ],
+  "poseDatasetsSettings": [
+    {
+      "name": "modules",
+      "type": "ModuleSelector",
+      "label": "Module(s)",
+      "description": "The pose dataset loader(s) to use in the pipeline.",
+      "moduleType": "pose-datasets",
+      "minModules": 1,
+      "maxModules": null,
+      "settings": [
+        {
+          "name": "datasets",
+          "type": "DatasetSelector",
+          "label": "Dataset",
+          "description": "The pose dataset to load.",
+          "datasetType": "pose",
+          "minDatasets": 1,
+          "maxDatasets": 1,
+          "default": []
+        }
+      ],
+      "default": []
+    },
+    {
+      "name": "poses",
+      "type": "GesturesSelector",
+      "label": "Gestures",
+      "description": "The gestures that are used to train the classifier(s). All the gestures are used if none is selected.",
+      "datasetType": "pose",
+      "settings": [],
+      "default": []
+    }
+  ],
+  "gestureDatasetsSettings": [
+    {
+      "name": "modules",
+      "type": "ModuleSelector",
+      "label": "Module(s)",
+      "description": "The gesture dataset loader(s) to use in the pipeline.",
+      "moduleType": "gesture-datasets",
+      "minModules": 1,
+      "maxModules": null,
+      "settings": [
+        {
+          "name": "datasets",
+          "type": "DatasetSelector",
+          "label": "Dataset",
+          "description": "The gesture dataset to load.",
+          "datasetType": "gesture",
+          "minDatasets": 1,
+          "maxDatasets": 1,
+          "default": []
+        }
+      ],
+      "default": []
+    },
+    {
+      "name": "gestures",
+      "type": "GesturesSelector",
+      "label": "Gestures",
+      "description": "The gestures that are used to train the recognizer(s). All the gestures are used if none is selected.",
+      "datasetType": "gesture",
+      "settings": [],
+      "default": []
+    }
+  ],
   "classifiersSettings": [
     {
-      "name": "classifiers",
+      "name": "modules",
       "type": "ModuleSelector",
-      "label": "Classifier",
+      "label": "Module",
       "description": "The classifier to use in the pipeline.",
       "moduleType": "classifiers",
       "minModules": 1,
@@ -130,9 +196,9 @@
   ],
   "analyzersSettings": [
     {
-      "name": "analyzers",
+      "name": "modules",
       "type": "ModuleSelector",
-      "label": "Analyzer",
+      "label": "Module",
       "description": "The analyzer to use in the pipeline.",
       "moduleType": "analyzers",
       "minModules": 1,
@@ -143,9 +209,9 @@
   ],
   "segmentersSettings": [
     {
-      "name": "segmenters",
+      "name": "modules",
       "type": "ModuleSelector",
-      "label": "Segmenter",
+      "label": "Module",
       "description": "The segmenter to use in the pipeline.",
       "moduleType": "segmenters",
       "minModules": 1,
@@ -156,9 +222,9 @@
   ],
   "recognizersSettings": [
     {
-      "name": "recognizers",
+      "name": "modules",
       "type": "ModuleSelector",
-      "label": "Recognizer",
+      "label": "Module",
       "description": "The recognizers to use in the pipeline.",
       "moduleType": "recognizers",
       "minModules": 1,

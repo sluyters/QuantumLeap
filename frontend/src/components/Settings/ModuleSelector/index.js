@@ -21,6 +21,11 @@ class ModuleSelector extends React.Component {
     // Unique to each module
     const { moduleType, minModules, maxModules, settings } = this.props;
 
+    // Get the available modules
+    const modules = templates.modules[moduleType];
+    const modulesNames = Object.keys(modules);
+    // Get selected module(s)
+    let selectedModules = value;
     // Module selection handler
     const handleModuleSelection = function(index, event) {
       // Get module template
@@ -36,12 +41,6 @@ class ModuleSelector extends React.Component {
       newValue[index] = moduleConfig;
       handleChange(path, newValue);
     }
-
-    // Get the available modules
-    const modules = templates.modules[moduleType];
-    const modulesNames = Object.keys(modules);
-    // Get selected module(s)
-    let selectedModules = value;
     // Render selected modules
     let renderedSelected = [];
     selectedModules.forEach((module, moduleIndex) => {
@@ -72,7 +71,7 @@ class ModuleSelector extends React.Component {
           ) : (
             ''
           )}
-          {/* Render the dropdown list TODO */}
+          {/* Render the dropdown list */}
           <FormControl variant="outlined">
             <Select native value={modulesNames.indexOf(module.name)} onChange={(event) => handleModuleSelection(moduleIndex, event)}>
               {modulesNames.map((moduleName, optionIndex) => (
@@ -83,7 +82,7 @@ class ModuleSelector extends React.Component {
             </Select>
           </FormControl>
           {/* Render the "delete" button */}
-          <IconButton aria-label="delete" onClick={handleModuleDeletion}>
+          <IconButton onClick={handleModuleDeletion}>
             <DeleteIcon/>
           </IconButton>
           {/* Render the description of the module */}
