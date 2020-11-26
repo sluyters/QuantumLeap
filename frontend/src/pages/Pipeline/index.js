@@ -1,8 +1,7 @@
 import React from 'react'
 import axios from 'axios'
-import { Typography, Paper } from '@material-ui/core'
+import { Typography, Paper, Button, ButtonGroup } from '@material-ui/core'
 import { withStyles, withTheme } from '@material-ui/core/styles'
-import ConfigPanel from '../../components/ConfigPanel'
 import { Setting } from '../../components/Settings'
 
 // Change
@@ -24,6 +23,9 @@ const styles = (theme) => ({
   button: {
     margin: theme.spacing(0.5, 0),
   },
+  actionButtons: {
+    width: '100%',
+  },
 });
 
 class Pipeline extends React.Component {
@@ -36,8 +38,58 @@ class Pipeline extends React.Component {
     this.renderComponentSettings = this.renderComponentSettings.bind(this);
     this.handleValueChange = this.handleValueChange.bind(this);
     this.fetchData = this.fetchData.bind(this);
-    this.resetValues = this.resetValues.bind(this);
+    this.restartQuantumLeap = this.restartQuantumLeap.bind(this);
     this.sendValues = this.sendValues.bind(this);
+    this.resetValues = this.resetValues.bind(this);
+    this.downloadValues = this.downloadValues.bind(this);
+    this.loadValues = this.loadValues.bind(this);
+  }
+
+  componentDidMount() {
+    const { setActions, classes } = this.props;
+    this.fetchData();
+    setActions(
+      <ButtonGroup
+        orientation="vertical"
+        color="primary"
+        disableElevation 
+        className={classes.actionButtons}
+      >
+        <Button onClick={this.restartQuantumLeap}>Restart QuantumLeap</Button>
+        <Button onClick={this.sendValues}>Save config</Button>
+        <Button onClick={this.resetValues}>Reset config</Button>
+        <Button onClick={this.downloadValues}>Download config</Button>
+        <Button component="label">
+          Load config 
+          <input type="file" accept=".json" hidden onChange={this.loadValues}/>
+        </Button>
+      </ButtonGroup>
+    );
+  }
+
+  render() {
+    const { classes, theme } = this.props;
+    const { templates, values } = this.state;
+    return (
+      <React.Fragment>
+        {/* General settings */}
+        {this.renderComponentSettings('generalSettings', 'General Settings')}
+        {/* Sensor settings */}
+        {this.renderComponentSettings('sensorsSettings', "Sensor(s)")}
+        {/* Pose dataset settings */}
+        {this.renderComponentSettings('poseDatasetsSettings', "Pose dataset(s)")}
+        {/* Gesture dataset settings */}
+        {this.renderComponentSettings('gestureDatasetsSettings', "Gesture dataset(s)")}
+        {/* Classifier settings */}
+        {this.renderComponentSettings('classifiersSettings', "Classifier")}
+        {/* Analyzer settings */}
+        {this.renderComponentSettings('analyzersSettings', "Analyzer")}
+        {/* Segmenter settings */}
+        {this.renderComponentSettings('segmentersSettings', "Segmenter")}
+        {/* Recognizer settings */}
+        {this.renderComponentSettings('recognizersSettings', "Recognizer")}
+      </React.Fragment>
+    );
   }
 
   renderComponentSettings(name, label) {
@@ -70,35 +122,6 @@ class Pipeline extends React.Component {
     );
   }
 
-  render() {
-    const { classes, theme } = this.props;
-    const { templates, values } = this.state;
-    return (
-      <React.Fragment>
-        {/* General settings */}
-        {this.renderComponentSettings('generalSettings', 'General Settings')}
-        {/* Sensor settings */}
-        {this.renderComponentSettings('sensorsSettings', "Sensor(s)")}
-        {/* Pose dataset settings */}
-        {this.renderComponentSettings('poseDatasetsSettings', "Pose dataset(s)")}
-        {/* Gesture dataset settings */}
-        {this.renderComponentSettings('gestureDatasetsSettings', "Gesture dataset(s)")}
-        {/* Classifier settings */}
-        {this.renderComponentSettings('classifiersSettings', "Classifier")}
-        {/* Analyzer settings */}
-        {this.renderComponentSettings('analyzersSettings', "Analyzer")}
-        {/* Segmenter settings */}
-        {this.renderComponentSettings('segmentersSettings', "Segmenter")}
-        {/* Recognizer settings */}
-        {this.renderComponentSettings('recognizersSettings', "Recognizer")}
-      </React.Fragment>
-    );
-  }
-
-  componentDidMount() {
-    this.fetchData();
-  }
-
   handleValueChange(valuePath, value) {
     this.setState(prevState => {
       let values = prevState.values;
@@ -128,8 +151,55 @@ class Pipeline extends React.Component {
       });
   }
 
-  resetValues(path = '') {
+  restartQuantumLeap() {
+    return axios.post(`${URL}/actions/restart`)
+    .then((res) => {
+      console.log('QuantumLeap restarting');
+    })
+    .catch((err) => {
+      console.error(err.message);
+    });
+  }
+
+  resetValues() {
     // TODO
+  }
+  
+  downloadValues() {
+    const { values } = this.state;
+    const fileData = JSON.stringify(values, null, 2);
+    const blob = new Blob([fileData], {type: "text/plain"});
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.download = 'config.json';
+    link.href = url;
+    link.click();
+  }
+
+  loadValues(event) {
+    if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+      alert('The File APIs are not fully supported in this browser.');
+      return;
+    } else if (!event.target.files) {
+      alert("This browser doesn't seem to support the `files` property of file inputs.");
+    } else if (!event.target.files[0]) {
+      alert("Please select a file before clicking 'Load'");               
+    } else {
+      var file = event.target.files[0];
+      var fileReader = new FileReader();
+      fileReader.onload = (event) => {
+        try {
+          let values = JSON.parse(event.target.result)
+          this.setState({
+            values: values,
+          });
+        } catch (err) {
+          alert('Invalid file.');
+        }
+      };
+      fileReader.readAsText(file);
+    }
+    console.log(event.target.files[0])
   }
 
   sendValues() {
@@ -141,7 +211,6 @@ class Pipeline extends React.Component {
       .catch((err) => {
         console.error(err.message);
       });
-
   }
 }
 

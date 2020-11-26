@@ -4,13 +4,6 @@ import { withTheme } from '@material-ui/core/styles'
 import React from 'react';
 
 class PointsSelector extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedPoints: props.value
-    }
-  }
-
   render() {
     console.log(this.props)
     const { theme } = this.props;
@@ -18,6 +11,16 @@ class PointsSelector extends React.Component {
     const { templates, values } = this.props;
     // Each module has the props, but their value can change
     const { handleChange, level, path, value } = this.props;
+
+    const selectPoints = (points) => {
+      let newValue = union(value, points);
+      handleChange(path, newValue);
+    }
+
+    const deselectPoints = (points) => {
+      let newValue = not(value, points);
+      handleChange(path, newValue);
+    }
 
     // Get the selected sensors
     const sensors = values.quantumLeap.sensorsSettings.modules;
@@ -34,6 +37,9 @@ class PointsSelector extends React.Component {
             {points.map(item => (
               <PointsItem
                 item={item}
+                onSelect={selectPoints}
+                onDeselect={deselectPoints}
+                selectedPoints={value}
                 depth={0}
                 depthStep={2}
                 theme={theme}
@@ -54,27 +60,18 @@ class PointsSelector extends React.Component {
 class PointsItem extends React.Component {
   constructor(props) {
     super(props);
+    let availablePoints = getAvailablePoints(props.item);
     this.state = {
-      collapsed: true
+      availablePoints: availablePoints,
+      collapsed: true,
     };
     this.renderCategory = this.renderCategory.bind(this);
     this.renderPoint = this.renderPoint.bind(this);
   }
 
-  renderCategory() {
-    const { item, depth, depthStep, theme } = this.props;
-    let { collapsed } = this.state;
-
-    const onClick = (event) => {
-      this.setState(prevState => ({
-        ...prevState,
-        collapsed: !prevState.collapsed
-      }));
-    };
-
-    const handleToggle = () => {
-      
-    };
+  renderCategory(selectedPoints, onClick, handleToggle) {
+    const { item, onSelect, onDeselect, depth, depthStep, theme } = this.props;
+    let { collapsed, availablePoints } = this.state;
 
     return (
       <React.Fragment>
@@ -83,8 +80,8 @@ class PointsItem extends React.Component {
             <Checkbox
               edge="start"
               onClick={handleToggle}
-              checked={false}
-              indeterminate={false}
+              checked={selectedPoints.length === availablePoints.length}
+              indeterminate={selectedPoints.length !== availablePoints.length && selectedPoints.length > 0}
               tabIndex={-1}
               disableRipple
             />
@@ -102,6 +99,9 @@ class PointsItem extends React.Component {
           {item.points.map((subItem) => (
             <PointsItem
               item={subItem}
+              onSelect={onSelect}
+              onDeselect={onDeselect}
+              selectedPoints={selectedPoints}
               depth={depth + 1}
               depthStep={4}
               theme={theme}
@@ -113,13 +113,9 @@ class PointsItem extends React.Component {
     );
   }
 
-  renderPoint() {
+  renderPoint(selectedPoints, handleToggle) {
     const { item, depth, depthStep, theme } = this.props;
-    let { collapsed } = this.state;
-
-    const handleToggle = () => {
-      
-    };
+    let { availablePoints } = this.state;
 
     return (
       <React.Fragment>
@@ -127,7 +123,7 @@ class PointsItem extends React.Component {
           <ListItemIcon>
             <Checkbox
               edge="start"
-              checked={false}
+              checked={selectedPoints.length === availablePoints.length}
               tabIndex={-1}
               disableRipple
             />
@@ -139,27 +135,59 @@ class PointsItem extends React.Component {
   }
 
   render() {
-    const { item, depth, depthStep, theme } = this.props;
-    let { collapsed } = this.state;
+    const { item, onSelect, onDeselect } = this.props;
+    let { availablePoints } = this.state;
+
+    // Get only points that belong to this item
+    let selectedPoints = intersection(availablePoints, this.props.selectedPoints);
+
+    const onClick = (event) => {
+      this.setState(prevState => ({
+        collapsed: !prevState.collapsed
+      }));
+    };
+
+    const handleToggle = (event) => {
+      event.stopPropagation()
+      if (selectedPoints.length === availablePoints.length) {
+        onDeselect(selectedPoints);
+      } else {
+        onSelect(availablePoints);
+      }
+    };
 
     if (item.type === 'category') {
-      return this.renderCategory();
+      return this.renderCategory(selectedPoints, onClick, handleToggle);
     } else {
-      return this.renderPoint();
+      return this.renderPoint(selectedPoints, handleToggle);
     }
   }
 }
 
 
+function getAvailablePoints(pointItem) {
+  if (pointItem.type === 'category') {
+    let points = [];
+    pointItem.points.forEach(subItem => {
+      points.push(...getAvailablePoints(subItem));
+    });
+    return points;
+  } else {
+    return [ pointItem.name ];
+  }
+}
 
+function intersection(a, b) {
+  return a.filter((value) => b.indexOf(value) !== -1);
+}
 
+function not(a, b) {
+  return a.filter((value) => b.indexOf(value) === -1);
+}
 
-
-
-
-
-
-
+function union(a, b) {
+  return [...a, ...not(b, a)];
+}
 
 
 

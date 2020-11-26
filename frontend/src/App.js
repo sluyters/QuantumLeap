@@ -1,3 +1,4 @@
+import React from 'react'
 // Style
 import './App.css';
 // Components
@@ -38,20 +39,43 @@ const pages = [
   //{ name: 'gestures', route: '/gestures', label: 'Gestures', icon: Gesture },
 ]
 
-function App() {
-  return (
-    <div className="App">
-      <ThemeProvider theme={theme}>
-        <Layout sidebarItems={pages}>
-          <Switch>
-            <Route exact path="/" component={GeneralSettings}/>
-            <Route path="/pipeline" component={Pipeline}/>
-            <Route component={NotFound}/>
-          </Switch>
-        </Layout>
-      </ThemeProvider>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentActions: '',
+    };
+    this.setCurrentActions = this.setCurrentActions.bind(this);
+  }
+
+  setCurrentActions(actions) {
+    this.setState({
+      currentActions: actions,
+    });
+  }
+
+  render() {
+    let { currentActions } = this.state;
+    return (
+      <div className="App">
+        <ThemeProvider theme={theme}>
+          <Layout sidebarItems={pages} actions={currentActions}>
+            <Switch>
+              <Route 
+                path="/" 
+                render={(props) => (<Pipeline {...props} setActions={this.setCurrentActions} />)}
+              />
+              <Route 
+                path="/pipeline" 
+                render={(props) => (<Pipeline {...props} setActions={this.setCurrentActions} />)}
+              />
+              <Route component={NotFound}/>
+            </Switch>
+          </Layout>
+        </ThemeProvider>
+      </div>
+    );
+  }
 }
 
 export default App;

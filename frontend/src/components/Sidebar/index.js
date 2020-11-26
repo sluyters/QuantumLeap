@@ -9,7 +9,7 @@ import Collapse from "@material-ui/core/Collapse"
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import { withRouter } from 'react-router'
-import { Button, ButtonGroup, Typography } from "@material-ui/core"
+import { Typography } from "@material-ui/core"
 
 // TODO, make styling consistent
 const styles = (theme) => ({
@@ -48,7 +48,7 @@ const styles = (theme) => ({
 
 class Sidebar extends React.Component { 
   render() {
-    let { classes, items, depthStep, depth, history, theme } = this.props;
+    let { classes, children, items, depthStep, depth, history, theme } = this.props;
     // Go through each of the items
     let renderedItems = [];
     items.forEach(item => {
@@ -72,17 +72,7 @@ class Sidebar extends React.Component {
           {renderedItems}
         </List> 
         <div className={classes.sidebarItemContainer}>
-          <ButtonGroup
-            orientation="vertical"
-            color="primary"
-            disableElevation 
-            className={classes.sidebarButtons}
-          >
-            <Button>Restart QuantumLeap</Button>
-            <Button>Save config</Button>
-            <Button>Reset config</Button>
-            <Button>Download config</Button>
-          </ButtonGroup>
+          {children}
         </div>            
       </div>
     ); 

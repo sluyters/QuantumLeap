@@ -47,7 +47,6 @@ app.use(function(req, res, next) {
 
 app.get('/templates', (req, res) => {
   let templates = configuration.getTemplates();
-  console.log(templates)
   return res.status(200).json(templates);
 });
 
@@ -59,7 +58,6 @@ app.put('/templates', (req, res) => {
 
 app.get('/values', (req, res) => {
   let values = configuration.getValues();
-  console.log(values)
   return res.status(200).json(values);
 });
 
@@ -69,10 +67,18 @@ app.put('/values', (req, res) => {
   res.status(204).send();
   try {
     configuration.saveValues();
-    quantumLeap.restart(configuration.toQLConfig());
   } catch (err) {
     console.error(`Unable to restart QuantumLeap. Details: ${err.stack}`);
   }
+});
+
+app.post('/actions/restart', (req, res) => {
+  try {
+    quantumLeap.restart(configuration.toQLConfig());
+    return res.status(200).send();
+  } catch (err) {
+    res.status(500).send();
+  } 
 });
 
 ////////////////////////////////////////////////////////////////////////////////

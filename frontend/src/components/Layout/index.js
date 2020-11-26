@@ -5,13 +5,16 @@ import Container from '@material-ui/core/Container'
 
 class Layout extends React.Component {
   render() {
+    let { actions, sidebarItems, children } = this.props;
     return (
       <React.Fragment>
         <div id='sidebar'>
-          <Sidebar items={this.props.sidebarItems}/>
+          <Sidebar items={sidebarItems}>
+            {actions}
+          </Sidebar>
         </div>
         <Container id='content'>
-          {this.props.children}
+          {children}
         </Container>
       </React.Fragment>
     );
