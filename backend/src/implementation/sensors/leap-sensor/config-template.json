@@ -181,15 +181,5 @@
       }
     ]
   },
-  "settings": [
-    {
-      "name": "framerate",
-      "type": "IntegerInput",
-      "label": "Framerate",
-      "description": "The number of frames captured per second.",
-      "minValue": 1,
-      "maxValue": null,
-      "default": 60
-    }
-  ]
+  "settings": []
 }

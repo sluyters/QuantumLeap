@@ -12,8 +12,7 @@ const fingers = ["Thumb", "Index", "Middle", "Ring", "Pinky"];
 //const classNames = ["C", "down", "fist_moved", "five", "four", "hang", "heavy", "index", "L", "ok", "palm", "palm_m", "palm_u", "three", "two", "up"];
 const classNames = ["C", "down"];
 
-function loadDataset(options) {
-    let datasetPath = path.join(options.path, options.name);
+function loadDataset(name, datasetPath) {
     console.log("Loading dataset (this might take some time)...");
     let dataset = parseGestureSet(datasetPath, "MultiModHandGestRecog");
     console.log("Data set loaded!");
@@ -62,7 +61,7 @@ function parseGestureSet(datasetPath, name) {
         console.log(className)
         let gestureClass = new GestureClass(className, classIndex);
         classIndex += 1;
-        fs.readdirSync(datasetPath).forEach((userDir) => {
+        fs.readdirSync(datasetPath, { withFileTypes: true }).filter(dirent => !dirent.isFile()).map(dirent => dirent.name).forEach((userDir) => {
             for (const type of ["train_pose", "test_pose"]) {
                 let classPath = path.join(datasetPath, userDir, type, className);
                 let id = 0;

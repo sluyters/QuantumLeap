@@ -34,7 +34,8 @@ class ModuleSelector extends React.Component {
       // Build default values
       let newValue = value.slice();
       let moduleConfig = {
-        name: moduleName,
+        moduleName: moduleName,
+        moduleType: moduleType,
         moduleSettings: getValuesFromSettings(moduleTemplate.settings),
         additionalSettings: getValuesFromSettings(settings)
       };
@@ -45,7 +46,7 @@ class ModuleSelector extends React.Component {
     let renderedSelected = [];
     selectedModules.forEach((module, moduleIndex) => {
       // Get the name of the module
-      let moduleName = module.name;
+      let moduleName = module.moduleName;
       // Get the template of the module
       const template = modules[moduleName];
       // Rename variables for to avoid conflicts in the handlers
@@ -73,7 +74,7 @@ class ModuleSelector extends React.Component {
           )}
           {/* Render the dropdown list */}
           <FormControl variant="outlined">
-            <Select native value={modulesNames.indexOf(module.name)} onChange={(event) => handleModuleSelection(moduleIndex, event)}>
+            <Select native value={modulesNames.indexOf(module.moduleName)} onChange={(event) => handleModuleSelection(moduleIndex, event)}>
               {modulesNames.map((moduleName, optionIndex) => (
                 <option value={optionIndex}>
                   {modules[moduleName].label}

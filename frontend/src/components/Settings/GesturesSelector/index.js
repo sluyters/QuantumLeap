@@ -33,16 +33,16 @@ class GesturesSelector extends React.Component {
       let newValue = value.slice();
       newValue.push({
         name: '',
-        aggregateGestures: []
+        classes: []
       });
       handleChange(path, newValue)
     }
 
-    const changeGesture = (index) => (name, aggregateGestures) => {
+    const changeGesture = (index) => (name, classes) => {
       let newValue = value.slice();
       let gesture = newValue[index];
       gesture.name = name;
-      gesture.aggregateGestures = aggregateGestures;
+      gesture.classes = classes;
       handleChange(path, newValue)
     }
 
@@ -58,7 +58,7 @@ class GesturesSelector extends React.Component {
         {value.map((gesture, index) => (
           <Gesture
             name={gesture.name}
-            aggregateGestures={gesture.aggregateGestures}
+            classes={gesture.classes}
             availableGestures={availableGestures}
             onChange={changeGesture(index)}
             onDelete={deleteGesture(index)}
@@ -75,7 +75,7 @@ class GesturesSelector extends React.Component {
 
 class Gesture extends React.Component {
   render() {
-    const { name, aggregateGestures, availableGestures, onChange, onDelete } = this.props;
+    const { name, classes, availableGestures, onChange, onDelete } = this.props;
     return (
       <React.Fragment>
         <Grid
@@ -89,7 +89,7 @@ class Gesture extends React.Component {
               type='text'
               variant='outlined'
               value={name}
-              onChange={(event) => {onChange(event.target.value, aggregateGestures)}}
+              onChange={(event) => {onChange(event.target.value, classes)}}
               placeholder="Name"
             />
           </Grid>
@@ -97,7 +97,7 @@ class Gesture extends React.Component {
           <Grid item xs={9}>
             <Autocomplete
               multiple
-              value={aggregateGestures}
+              value={classes}
               options={availableGestures}
               onChange={(event, value, reason) => {
                 switch (reason) {

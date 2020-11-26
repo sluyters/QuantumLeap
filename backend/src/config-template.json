@@ -22,48 +22,6 @@
           "label": "Send continuous data",
           "description": "Send the data from each frame to the client.",
           "default": true
-        },
-        {
-          "type": "Category",
-          "name": "gesture",
-          "label": "Gestures",
-          "settings": [
-            {
-              "type": "BooleanInput",
-              "name": "sendIfRequested",
-              "label": "Send if requested",
-              "description": "Send recognized gestures only if they are requested by the client.",
-              "default": true
-            },
-            {
-              "type": "BooleanInput",
-              "name": "loadOnRequest",
-              "label": "Load on request",
-              "description": "Load gestures based on requests from the client.",
-              "default": false
-            }
-          ]
-        },
-        {
-          "type": "Category",
-          "name": "pose",
-          "label": "Poses",
-          "settings": [
-            {
-              "type": "BooleanInput",
-              "name": "sendIfRequested",
-              "label": "Send if requested",
-              "description": "Send recognized gestures only if they are requested by the client.",
-              "default": true
-            },
-            {
-              "type": "BooleanInput",
-              "name": "loadOnRequest",
-              "label": "Load on request",
-              "description": "Load gestures based on requests from the client.",
-              "default": false
-            }
-          ]
         }
       ]
     },
@@ -102,7 +60,17 @@
       "moduleType": "sensors",
       "minModules": 1,
       "maxModules": null,
-      "settings": [],
+      "settings": [
+        {
+          "type": "TextInput",
+          "name": "id",
+          "label": "Identifier",
+          "description": "Unique identifier for the sensor (strongly recommended if multiple sensors are selected).",
+          "minLength": 1,
+          "maxLength": null,
+          "default": ""
+        }
+      ],
       "default": []
     },
     {
@@ -134,12 +102,30 @@
           "minDatasets": 1,
           "maxDatasets": 1,
           "default": []
+        },
+        {
+          "type": "TextInput",
+          "name": "id",
+          "label": "Identifier",
+          "description": "Unique identifier for the dataset (strongly recommended if multiple datasets are selected).",
+          "minLength": 1,
+          "maxLength": null,
+          "default": ""
         }
       ],
       "default": []
     },
     {
-      "name": "poses",
+      "type": "IntegerInput",
+      "name": "templatesPerClass",
+      "label": "Templates per class",
+      "description": "Number of templates used per class to train the recognizer(s).",
+      "minValue": 0,
+      "maxValue": null,
+      "default": 0
+    },
+    {
+      "name": "aggregateClasses",
       "type": "GesturesSelector",
       "label": "Gestures",
       "description": "The gestures that are used to train the classifier(s). All the gestures are used if none is selected.",
@@ -167,12 +153,30 @@
           "minDatasets": 1,
           "maxDatasets": 1,
           "default": []
+        },
+        {
+          "type": "TextInput",
+          "name": "id",
+          "label": "Identifier",
+          "description": "Unique identifier for the dataset (strongly recommended if multiple datasets are selected).",
+          "minLength": 1,
+          "maxLength": null,
+          "default": ""
         }
       ],
       "default": []
     },
     {
-      "name": "gestures",
+      "type": "IntegerInput",
+      "name": "templatesPerClass",
+      "label": "Templates per class",
+      "description": "Number of templates used per class to train the recognizer(s).",
+      "minValue": 0,
+      "maxValue": null,
+      "default": 0
+    },
+    {
+      "name": "aggregateClasses",
       "type": "GesturesSelector",
       "label": "Gestures",
       "description": "The gestures that are used to train the recognizer(s). All the gestures are used if none is selected.",
@@ -192,6 +196,38 @@
       "maxModules": 1,
       "settings": [],
       "default": []
+    },
+    {
+      "name": "bufferLength",
+      "type": "IntegerInput",
+      "label": "Buffer length",
+      "description": "TODO.",
+      "minValue": 0,
+      "maxValue": null,
+      "default": 15
+    },
+    {
+      "name": "poseRatioThreshold",
+      "type": "FloatInput",
+      "label": "Pose ratio threshold",
+      "description": "TODO.",
+      "minValue": null,
+      "maxValue": null,
+      "default": 0.8
+    },
+    {
+      "type": "BooleanInput",
+      "name": "sendIfRequested",
+      "label": "Send if requested",
+      "description": "Send recognized gestures only if they are requested by the client.",
+      "default": true
+    },
+    {
+      "type": "BooleanInput",
+      "name": "loadOnRequest",
+      "label": "Load on request",
+      "description": "Load gestures based on requests from the client.",
+      "default": false
     }
   ],
   "analyzersSettings": [
@@ -231,6 +267,20 @@
       "maxModules": 1,
       "settings": [],
       "default": []
+    },
+    {
+      "type": "BooleanInput",
+      "name": "sendIfRequested",
+      "label": "Send if requested",
+      "description": "Send recognized gestures only if they are requested by the client.",
+      "default": true
+    },
+    {
+      "type": "BooleanInput",
+      "name": "loadOnRequest",
+      "label": "Load on request",
+      "description": "Load gestures based on requests from the client.",
+      "default": false
     }
   ]
 }

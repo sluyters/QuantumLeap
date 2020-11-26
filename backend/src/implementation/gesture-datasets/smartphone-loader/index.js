@@ -8,12 +8,12 @@ const Stroke = require('../../../framework/gestures/stroke-data').Stroke;
 const Path = require('../../../framework/gestures/stroke-data').Path;
 const Point = require('../../../framework/gestures/point').Point2D;
 
-function loadDataset(options) {
-    let gestureSet = new GestureSet(options.name);
-    let dirPath = path.join(options.path, options.name);
+function loadDataset(name, datasetPath) {
+    let gestureSet = new GestureSet(name);
+    let dirPath = datasetPath;
     let gestureIndex = 0;
 
-    fs.readdirSync(dirPath).forEach((dir) => {
+    fs.readdirSync(dirPath, { withFileTypes: true }).filter(dirent => !dirent.isFile()).map(dirent => dirent.name).forEach((dir) => {
         let gestureClassDirPath = path.join(dirPath, dir);
         let gestureClass = new GestureClass(dir, gestureIndex);
         gestureIndex+=1;

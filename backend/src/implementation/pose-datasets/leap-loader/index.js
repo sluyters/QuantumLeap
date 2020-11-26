@@ -10,11 +10,11 @@ const Point = require('../../../framework/gestures/point').Point3D;
 const fingerNames = ["Thumb", "Index", "Middle", "Ring", "Pinky"];
 const fingerArticulations = ["Mcp", "Pip", "Tip"];
 
-function loadDataset(options) {
-    let gestureSet = new GestureSet(options.name);
-    let dirPath = path.join(options.path, options.name);
+function loadDataset(name, datasetPath) {
+    let gestureSet = new GestureSet(name);
+    let dirPath = datasetPath;
     let gestureIndex = 0;
-    fs.readdirSync(dirPath).forEach((gesture) => {
+    fs.readdirSync(dirPath, { withFileTypes: true }).filter(dirent => !dirent.isFile()).map(dirent => dirent.name).forEach((gesture) => {
         let gestureDirPath = path.join(dirPath, gesture);
         let gestureClass = new GestureClass(gesture, gestureIndex);
         gestureSet.addGestureClass(gestureClass);

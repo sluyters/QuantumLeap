@@ -9,9 +9,11 @@ class Recognizer extends AbstractRecognizer {
     constructor(options, dataset) {
 		super();
 		this.samplingPoints = options.samplingPoints;
-        this.articulations = options.articulations;
-        this.recognizer = new P3DollarRecognizer(this.samplingPoints);
+		this.articulations = options.articulations;
+		this.recognizer = new P3DollarRecognizer(this.samplingPoints);
+		console.log(this.articulations)
 		if (dataset !== undefined){
+			console.log(dataset)
 			dataset.getGestureClasses().forEach((gesture) => {
 				gesture.getSamples().forEach(sample => {
 						this.addGesture(gesture.name, sample);

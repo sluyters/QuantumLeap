@@ -8,14 +8,14 @@ const Stroke = require('../../../framework/gestures/stroke-data').Stroke;
 const Path = require('../../../framework/gestures/stroke-data').Path;
 const Point = require('../../../framework/gestures/point').Point3D;
 
-function loadDataset(options) {
-    let gestureSet = new GestureSet(options.name);
-    let dirPath = path.join(options.path, options.name);
+function loadDataset(name, datasetPath) {
+    let gestureSet = new GestureSet(name);
+    let dirPath = datasetPath;
 
     let gestureClasses = {};
 
     // Browse main directory
-    fs.readdirSync(dirPath).forEach((dir) => {
+    fs.readdirSync(dirPath, { withFileTypes: true }).filter(dirent => !dirent.isFile()).map(dirent => dirent.name).forEach((dir) => {
         let gestureClassDirPath = path.join(dirPath, dir);
         // Subdirectories
         fs.readdirSync(gestureClassDirPath).forEach((file) => {

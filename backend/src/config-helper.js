@@ -141,21 +141,24 @@ class QLConfiguration {
    * Convert config into an object usable by QuantumLeap
    */
   toQLConfig() {
-    // let generalInstance = this.values.generalInstance;
-    // let QLConfig = this.values.general[generalInstance];
-    // let selectedModules = this.values.general[generalInstance].selectedModules
-    // Object.keys(selectedModules).forEach(moduleType => {
-    //   let selectedModule = selectedModules[moduleType];
-    //   let pathToModule = path.join(this.modulesDirectory, moduleType + 's', selectedModule.module);
-    //   let moduleConfig = this.values.modules[moduleType + 's'][selectedModule.module][selectedModule.instance];
-    //   // Add the config of the module
-    //   QLConfig[moduleType] = {
-    //     module: require(pathToModule),
-    //     options: moduleConfig
-    //   };
-    // });
-    // return QLConfig;
-    return {};
+    // Helper
+    const parseValues = (values) => {
+      if (typeof values === 'object' && values !== null) {
+        let config = Array.isArray(values) ? [] : {};
+        Object.keys(values).forEach(key => {
+          config[key] = parseValues(values[key]);
+        });
+        if (values.hasOwnProperty('moduleName') && values.hasOwnProperty('moduleType')) {
+          let pathToModule = path.join(this.modulesDirectory, values.moduleType, values.moduleName);
+          config['module'] = require(pathToModule);
+        }
+        return config;
+      } else {
+        return values;
+      }
+    };
+    let qlConfig = parseValues(this.values);
+    return qlConfig;
   }
 
   // Getters and setters. Eventually, add getters/setters for specific values/templates

@@ -6,24 +6,6 @@
   "properties": {},
   "settings": [
     {
-      "name": "bufferLength",
-      "type": "IntegerInput",
-      "label": "Buffer length",
-      "description": "TODO.",
-      "minValue": 0,
-      "maxValue": null,
-      "default": 15
-    },
-    {
-      "name": "poseRatioThreshold",
-      "type": "FloatInput",
-      "label": "Pose ratio threshold",
-      "description": "TODO.",
-      "minValue": null,
-      "maxValue": null,
-      "default": 0.8
-    },
-    {
       "name": "alpha",
       "type": "FloatInput",
       "label": "Alpha",

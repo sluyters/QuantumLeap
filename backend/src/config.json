@@ -2,16 +2,8 @@
   "quantumLeap": {
     "generalSettings": {
       "general": {
-        "debug": false,
-        "sendContinuousData": true,
-        "gesture": {
-          "sendIfRequested": true,
-          "loadOnRequest": false
-        },
-        "pose": {
-          "sendIfRequested": true,
-          "loadOnRequest": false
-        }
+        "debug": true,
+        "sendContinuousData": true
       },
       "server": {
         "ip": "127.0.0.1",
@@ -21,11 +13,12 @@
     "sensorsSettings": {
       "modules": [
         {
-          "name": "leap-sensor",
-          "moduleSettings": {
-            "framerate": 60
-          },
-          "additionalSettings": {}
+          "moduleName": "leap-sensor",
+          "moduleType": "sensors",
+          "moduleSettings": {},
+          "additionalSettings": {
+            "id": ""
+          }
         }
       ],
       "framerate": 60
@@ -33,47 +26,64 @@
     "poseDatasetsSettings": {
       "modules": [
         {
-          "name": "leap-loader",
+          "moduleName": "leap-loader",
+          "moduleType": "pose-datasets",
           "moduleSettings": {},
           "additionalSettings": {
             "datasets": [
               "guinevre-pose"
-            ]
+            ],
+            "id": ""
           }
         }
       ],
-      "poses": []
+      "templatesPerClass": 100,
+      "aggregateClasses": []
     },
     "gestureDatasetsSettings": {
       "modules": [
         {
-          "name": "leap-loader",
+          "moduleName": "leap-loader",
+          "moduleType": "gesture-datasets",
           "moduleSettings": {},
           "additionalSettings": {
             "datasets": [
               "guinevere"
-            ]
+            ],
+            "id": "D"
           }
         }
       ],
-      "gestures": [
+      "templatesPerClass": 17,
+      "aggregateClasses": [
         {
-          "name": "pinch_in",
-          "aggregateGestures": [
-            "pinch_in"
+          "name": "rhand_uswipe",
+          "classes": [
+            "swipe_up"
           ]
         },
         {
-          "name": "pinch_out",
-          "aggregateGestures": [
-            "pinch_out"
+          "name": "rhand_dswipe",
+          "classes": [
+            "swipe_down"
           ]
         },
         {
-          "name": "thumb",
-          "aggregateGestures": [
-            "thumbs_up",
-            "thumbs_down"
+          "name": "rhand_lswipe",
+          "classes": [
+            "swipe_left"
+          ]
+        },
+        {
+          "name": "rhand_rswipe",
+          "classes": [
+            "swipe_right"
+          ]
+        },
+        {
+          "name": "rindex_airtap",
+          "classes": [
+            "tap"
           ]
         }
       ]
@@ -81,10 +91,9 @@
     "classifiersSettings": {
       "modules": [
         {
-          "name": "gpsda-classifier",
+          "moduleName": "gpsda-classifier",
+          "moduleType": "classifiers",
           "moduleSettings": {
-            "bufferLength": 15,
-            "poseRatioThreshold": 0.8,
             "alpha": 0.8,
             "articulations": [
               "rightPalmPosition",
@@ -107,12 +116,17 @@
           },
           "additionalSettings": {}
         }
-      ]
+      ],
+      "bufferLength": 15,
+      "poseRatioThreshold": 0.8,
+      "sendIfRequested": true,
+      "loadOnRequest": false
     },
     "analyzersSettings": {
       "modules": [
         {
-          "name": "basic-analyzer",
+          "moduleName": "basic-analyzer",
+          "moduleType": "analyzers",
           "moduleSettings": {},
           "additionalSettings": {}
         }
@@ -121,7 +135,8 @@
     "segmentersSettings": {
       "modules": [
         {
-          "name": "window-segmenter",
+          "moduleName": "window-segmenter",
+          "moduleType": "segmenters",
           "moduleSettings": {
             "windowWidth": 20,
             "intervalLength": 3,
@@ -135,21 +150,23 @@
     "recognizersSettings": {
       "modules": [
         {
-          "name": "jackknife-recognizer",
+          "moduleName": "jackknife-recognizer",
+          "moduleType": "recognizers",
           "moduleSettings": {
             "samplingPoints": 16,
             "articulations": [
               "rightPalmPosition",
               "rightThumbTipPosition",
-              "rightMiddleTipPosition",
               "rightIndexTipPosition",
-              "rightRingTipPosition",
-              "rightPinkyTipPosition"
+              "rightMiddleTipPosition",
+              "rightRingTipPosition"
             ]
           },
           "additionalSettings": {}
         }
-      ]
+      ],
+      "sendIfRequested": true,
+      "loadOnRequest": false
     }
   }
 }

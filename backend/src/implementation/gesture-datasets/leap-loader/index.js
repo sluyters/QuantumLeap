@@ -18,11 +18,11 @@ const device = {
     'acceleration': false, 'webcam': true
 };
 
-function loadDataset(options) {
-    let gestureSet = new GestureSet(options.name);
-    let dirPath = path.join(options.path, options.name);
+function loadDataset(name, datasetPath) {
+    let gestureSet = new GestureSet(name);
+    let dirPath = datasetPath;
     let gestureIndex = 0;
-    fs.readdirSync(dirPath).forEach((user_dir) => {
+    fs.readdirSync(dirPath, { withFileTypes: true }).filter(dirent => !dirent.isFile()).map(dirent => dirent.name).forEach((user_dir) => {
         let gestureSampleDirPath = path.join(dirPath, user_dir);
         fs.readdirSync(gestureSampleDirPath).forEach((sample) => {
             let rawGesturePath = path.join(gestureSampleDirPath, sample);

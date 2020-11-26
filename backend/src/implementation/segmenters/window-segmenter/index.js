@@ -37,7 +37,7 @@ class Segmenter extends AbstractSegmenter {
         if (this.bufferLength < this.windowWidth) {
             // Buffer not full
             this.bufferLength++;
-        } else if (this.pauseCount == 0 && this.intervalCount == 0 && (frame.hasLeftHand || frame.hasRightHand)) {
+        } else if (this.pauseCount == 0 && this.intervalCount == 0 && frame.hasData) {
             // Buffer full & ready
             if (isMotion(this.frameBuffer, this.motionThreshold, ["rightPalmPosition", "rightThumbTipPosition", "rightIndexTipPosition"])) {
                 // Create the StrokeData object from the frames in the buffer

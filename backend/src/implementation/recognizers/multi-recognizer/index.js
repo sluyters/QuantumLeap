@@ -1,12 +1,7 @@
 const AbstractRecognizer = require('../../../framework/recognizers/abstract-recognizer').AbstractRecognizer;
 
 class Recognizer extends AbstractRecognizer {
-
-	static label = "Multi";
-	static name = "multi-recognizer";
-	static description = "A module that allows the combination of multiple recognizers.";
-	static configuration = new Configuration(label, name, description);
-	configuration.addSetting();
+	static name = "MultiRecognizer";
 
   constructor(options, dataset) {
     super();

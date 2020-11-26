@@ -2,10 +2,8 @@ const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const QuantumLeap = require('./quantum-leap');
-const Configuration = require('./config-helper')
-
-// TODO clarify '+ s' for module type
+const QuantumLeap = require('./framework/quantum-leap');
+const Configuration = require('./config-helper');
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants
@@ -74,9 +72,11 @@ app.put('/values', (req, res) => {
 
 app.post('/actions/restart', (req, res) => {
   try {
-    quantumLeap.restart(configuration.toQLConfig());
+    let qlConfig = configuration.toQLConfig();
+    quantumLeap.restart(qlConfig);
     return res.status(200).send();
   } catch (err) {
+    console.log(err.stack)
     res.status(500).send();
   } 
 });
@@ -90,107 +90,3 @@ server.on('request', app);
 server.listen(SERVER_PORT, SERVER_IP, () => {
   console.log(`QuantumLeap listening @ ${SERVER_IP}:${SERVER_PORT}.`);
 });
-
-////////////////////////////////////////////////////////////////////////////////
-// Helpers
-
-/**
- * Return the value of the property represented in inputString and undefined if 
- * the property does not exist. 
- * inputString must be in the form "key1.key2. ... .keyN", where each key is 
- * separated by a dot.
- */
-function getObjectPropertyFromString(object, inputString) {
-  const keys = inputString.split('.');
-  return getObjectProperty(object, keys, 0);
-}
-
-function getObjectProperty(object, keys, index) {
-  if (index === keys.length - 1) {
-    return object[keys[index]];
-  } else {
-    return getObjectProperty(object[keys[index]], keys, index + 1);
-  }
-}
-
-/**
- * Set the value of the property represented in inputString. Add the key if it
- * does not exist.
- * inputString must be in the form "key1.key2. ... .keyN", where each key is 
- * separated by a dot.
- */
-function setObjectPropertyFromString(object, inputString, value) {
-  const keys = inputString.split('.');
-  setObjectProperty(object, value, keys, 0);
-}
-
-function setObjectProperty(object, value, keys, index) {
-  if (index === keys.length - 1) {
-    object[keys[index]] = value;
-  } else {
-    setObjectProperty(object[keys[index]], value, keys, index + 1);
-  }
-}
-
-
-// function getCurrentModuleConfig(config, moduleType) {
-//   let configInstance = config.generalInstance;
-//   let current = config.general[configInstance].selectedModules[moduleType];
-//   return config.modules[moduleType + 's'][current.module][current.instance];
-// }
-
-function getComponentInstances(values, componentType, componentName) {
-  if (componentType === 'general') {
-    // QuantumLeap
-    return values.general;
-  } else {
-    // Module
-    return values.modules[componentType + 's'][componentName];
-  }
-}
-
-function getComponentDescription(descriptions, componentType, componentName) {
-  if (componentType === 'general') {
-    // QuantumLeap
-    return descriptions.general;
-  } else {
-    // Module
-    return descriptions.modules[componentType + 's'][componentName];
-  }
-}
-
-function getCurrentComponent(values, componentType) {
-  let currentGeneralInstance = values.general[values.generalInstance];
-  if (componentType === 'general') {
-    // QuantumLeap
-    return { module: undefined, instance: values.generalInstance };
-  } else {
-    // Module
-    let currentModule = currentGeneralInstance.selectedModules[componentType];
-    return { module: currentModule.module, instance: currentModule.instance };
-  }
-}
-
-function getCurrentComponentValues(values, componentType) {
-  let currentGeneralInstance = values.general[values.generalInstance];
-  if (componentType === 'general') {
-    // QuantumLeap
-    return currentGeneralInstance;
-  } else {
-    // Module
-    let currentModule = currentGeneralInstance.selectedModules[componentType];
-    return values.modules[componentType + 's'][currentModule.module][currentModule.instance];
-  }
-}
-
-function getCurrentComponentDescription(values, descriptions, componentType) {
-  if (componentType === 'general') {
-    // QuantumLeap
-    return descriptions.general;
-  } else {
-    // Module
-    let currentGeneralInstance = values.general[values.generalInstance];
-    let currentModule = currentGeneralInstance.selectedModules[componentType];
-    return descriptions.modules[componentType + 's'][currentModule.module];
-  }
-}

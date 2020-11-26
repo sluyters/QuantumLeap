@@ -12,6 +12,7 @@ class PointsSelector extends React.Component {
     // Each module has the props, but their value can change
     const { handleChange, level, path, value } = this.props;
 
+    // TODO point selection based on sensor
     const selectPoints = (points) => {
       let newValue = union(value, points);
       handleChange(path, newValue);
@@ -26,17 +27,20 @@ class PointsSelector extends React.Component {
     const sensors = values.quantumLeap.sensorsSettings.modules;
     let renderedSensors = [];
     sensors.forEach(sensor => {
-      let template = templates.modules.sensors[sensor.name];
+      let template = templates.modules.sensors[sensor.moduleName];
+      let name = template.label;
+      let identifier = sensor.additionalSettings.id;
       let points = template.properties.points;
       renderedSensors.push(
         <React.Fragment>
           <Typography variant='subtitle1' >
-            {sensor.name}
+            {identifier ? `${name} (${identifier})` : name}
           </Typography>
           <List dense>
             {points.map(item => (
               <PointsItem
                 item={item}
+                sensorId={identifier}
                 onSelect={selectPoints}
                 onDeselect={deselectPoints}
                 selectedPoints={value}
@@ -60,78 +64,13 @@ class PointsSelector extends React.Component {
 class PointsItem extends React.Component {
   constructor(props) {
     super(props);
-    let availablePoints = getAvailablePoints(props.item);
+    let availablePoints = getAvailablePoints(props.sensorId, props.item);
     this.state = {
       availablePoints: availablePoints,
       collapsed: true,
     };
     this.renderCategory = this.renderCategory.bind(this);
     this.renderPoint = this.renderPoint.bind(this);
-  }
-
-  renderCategory(selectedPoints, onClick, handleToggle) {
-    const { item, onSelect, onDeselect, depth, depthStep, theme } = this.props;
-    let { collapsed, availablePoints } = this.state;
-
-    return (
-      <React.Fragment>
-        <ListItem className='sidebar-item' onClick={onClick} style={{ paddingLeft: theme.spacing(2 + depth * depthStep)}} button>
-          <ListItemIcon>
-            <Checkbox
-              edge="start"
-              onClick={handleToggle}
-              checked={selectedPoints.length === availablePoints.length}
-              indeterminate={selectedPoints.length !== availablePoints.length && selectedPoints.length > 0}
-              tabIndex={-1}
-              disableRipple
-            />
-          </ListItemIcon>
-          <ListItemText primary={item.label}/>
-          <ListItemSecondaryAction>
-            <IconButton edge="end">
-              {collapsed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem> 
-        {/* Render a list of items */}
-        <Collapse in={!collapsed} timeout='auto' unmountOnExit>
-          <List dense> 
-          {item.points.map((subItem) => (
-            <PointsItem
-              item={subItem}
-              onSelect={onSelect}
-              onDeselect={onDeselect}
-              selectedPoints={selectedPoints}
-              depth={depth + 1}
-              depthStep={4}
-              theme={theme}
-            />
-          ))}
-          </List>
-        </Collapse>
-      </React.Fragment>
-    );
-  }
-
-  renderPoint(selectedPoints, handleToggle) {
-    const { item, depth, depthStep, theme } = this.props;
-    let { availablePoints } = this.state;
-
-    return (
-      <React.Fragment>
-        <ListItem className='sidebar-item' onClick={handleToggle} style={{ paddingLeft: theme.spacing(2 + depth * depthStep)}} button>
-          <ListItemIcon>
-            <Checkbox
-              edge="start"
-              checked={selectedPoints.length === availablePoints.length}
-              tabIndex={-1}
-              disableRipple
-            />
-          </ListItemIcon>
-          <ListItemText primary={item.label}/>
-        </ListItem> 
-      </React.Fragment>
-    );
   }
 
   render() {
@@ -162,18 +101,85 @@ class PointsItem extends React.Component {
       return this.renderPoint(selectedPoints, handleToggle);
     }
   }
+
+  renderCategory(selectedPoints, onClick, handleToggle) {
+    const { item, sensorId, onSelect, onDeselect, depth, depthStep, theme } = this.props;
+    let { collapsed, availablePoints } = this.state;
+
+    return (
+      <React.Fragment>
+        <ListItem className='sidebar-item' onClick={onClick} style={{ paddingLeft: theme.spacing(2 + depth * depthStep)}} button>
+          <ListItemIcon>
+            <Checkbox
+              edge="start"
+              onClick={handleToggle}
+              checked={selectedPoints.length === availablePoints.length}
+              indeterminate={selectedPoints.length !== availablePoints.length && selectedPoints.length > 0}
+              tabIndex={-1}
+              disableRipple
+            />
+          </ListItemIcon>
+          <ListItemText primary={item.label}/>
+          <ListItemSecondaryAction>
+            <IconButton edge="end">
+              {collapsed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem> 
+        {/* Render a list of items */}
+        <Collapse in={!collapsed} timeout='auto' unmountOnExit>
+          <List dense> 
+          {item.points.map((subItem) => (
+            <PointsItem
+              item={subItem}
+              sensorId={sensorId}
+              onSelect={onSelect}
+              onDeselect={onDeselect}
+              selectedPoints={selectedPoints}
+              depth={depth + 1}
+              depthStep={4}
+              theme={theme}
+            />
+          ))}
+          </List>
+        </Collapse>
+      </React.Fragment>
+    );
+  }
+
+  renderPoint(selectedPoints, handleToggle) {
+    const { item, depth, depthStep, theme } = this.props;
+    let { availablePoints } = this.state;
+
+    return (
+      <React.Fragment>
+        <ListItem className='sidebar-item' onClick={handleToggle} style={{ paddingLeft: theme.spacing(2 + depth * depthStep)}} button>
+          <ListItemIcon>
+            <Checkbox
+              edge="start"
+              checked={selectedPoints.length === availablePoints.length}
+              tabIndex={-1}
+              disableRipple
+            />
+          </ListItemIcon>
+          <ListItemText primary={`${item.label} (${availablePoints[0]})`}/>
+        </ListItem> 
+      </React.Fragment>
+    );
+  }
 }
 
 
-function getAvailablePoints(pointItem) {
+function getAvailablePoints(sensorId, pointItem) {
   if (pointItem.type === 'category') {
     let points = [];
     pointItem.points.forEach(subItem => {
-      points.push(...getAvailablePoints(subItem));
+      points.push(...getAvailablePoints(sensorId, subItem));
     });
     return points;
   } else {
-    return [ pointItem.name ];
+    let name = sensorId ? `${pointItem.name}_${sensorId}` : pointItem.name;
+    return [ name ];
   }
 }
 
