@@ -19,7 +19,7 @@ class Setting extends React.Component {
     const SettingType = AllSettings[setting.type];
     if (SettingType) {
       return (
-        <Box width={1} m={1}>
+        <Box width={1} mt={1}>
           {(setting.type === 'Category') ? (
             '' 
           ) : ( 
