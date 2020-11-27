@@ -1,12 +1,18 @@
 import { Typography, Collapse, List, ListItem, ListItemText, ListItemIcon, ListItemSecondaryAction, IconButton, Checkbox, FormControlLabel } from '@material-ui/core';
 import { ExpandMore as ExpandMoreIcon, ExpandLess as ExpandLessIcon } from '@material-ui/icons';
-import { withTheme } from '@material-ui/core/styles'
+import { withTheme, withStyles } from '@material-ui/core/styles'
 import React from 'react';
+
+const styles = (theme) => ({
+  pointsList: {
+    backgroundColor: 'rgb(220, 220, 220)',
+  }
+});
 
 class PointsSelector extends React.Component {
   render() {
     console.log(this.props)
-    const { theme } = this.props;
+    const { classes, theme } = this.props;
     // Unchanged for each setting
     const { templates, values } = this.props;
     // Each module has the props, but their value can change
@@ -36,9 +42,10 @@ class PointsSelector extends React.Component {
           <Typography variant='subtitle1' >
             {identifier ? `${name} (${identifier})` : name}
           </Typography>
-          <List dense>
+          <List dense className={classes.pointsList} >
             {points.map(item => (
               <PointsItem
+                classes={classes}
                 item={item}
                 sensorId={identifier}
                 onSelect={selectPoints}
@@ -103,7 +110,7 @@ class PointsItem extends React.Component {
   }
 
   renderCategory(selectedPoints, onClick, handleToggle) {
-    const { item, sensorId, onSelect, onDeselect, depth, depthStep, theme } = this.props;
+    const { classes, item, sensorId, onSelect, onDeselect, depth, depthStep, theme } = this.props;
     let { collapsed, availablePoints } = this.state;
 
     return (
@@ -112,6 +119,7 @@ class PointsItem extends React.Component {
           <ListItemIcon>
             <Checkbox
               edge="start"
+              color='primary'
               onClick={handleToggle}
               checked={selectedPoints.length === availablePoints.length}
               indeterminate={selectedPoints.length !== availablePoints.length && selectedPoints.length > 0}
@@ -121,7 +129,7 @@ class PointsItem extends React.Component {
           </ListItemIcon>
           <ListItemText primary={item.label}/>
           <ListItemSecondaryAction>
-            <IconButton edge="end">
+            <IconButton edge="end" onClick={onClick}>
               {collapsed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
             </IconButton>
           </ListItemSecondaryAction>
@@ -156,6 +164,7 @@ class PointsItem extends React.Component {
         <ListItem className='sidebar-item' onClick={handleToggle} style={{ paddingLeft: theme.spacing(2 + depth * depthStep)}} button>
           <ListItemIcon>
             <Checkbox
+              color='primary'
               edge="start"
               checked={selectedPoints.length === availablePoints.length}
               tabIndex={-1}
@@ -195,79 +204,4 @@ function union(a, b) {
   return [...a, ...not(b, a)];
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const TEST = {
-  points: [
-    {
-      type: 'category',
-      name: 'left',
-      label: 'Left',
-      points: [
-        {
-          type: 'category',
-          name: 'hand',
-          label: 'Hand',
-          points: [
-            {
-              type: 'joint',
-              name: 'leftPalmPosition',
-              label: 'Left palm'
-            },
-            {
-              type: 'joint',
-              name: 'leftIndexPosition',
-              label: 'Left index'
-            },
-            {
-              type: 'joint',
-              name: 'leftPinkyPosition',
-              label: 'Left pinky'
-            }
-          ]
-        },
-        {
-          type: 'category',
-          name: 'foot',
-          label: 'Foot',
-          points: [
-            {
-              type: 'joint',
-              name: 'test1',
-              label: 'Left foot 1'
-            },
-            {
-              type: 'joint',
-              name: 'test2',
-              label: 'Left foot 2'
-            },
-            {
-              type: 'joint',
-              name: 'test3',
-              label: 'Left foot 3'
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-
-
-export default withTheme(PointsSelector);
+export default withTheme(withStyles(styles)(PointsSelector));

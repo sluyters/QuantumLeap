@@ -26,6 +26,9 @@ const styles = (theme) => ({
   actionButtons: {
     width: '100%',
   },
+  componentName: {
+    marginBottom: theme.spacing(2),
+  }
 });
 
 class Pipeline extends React.Component {
@@ -57,7 +60,7 @@ class Pipeline extends React.Component {
       >
         <Button onClick={this.restartQuantumLeap}>Restart QuantumLeap</Button>
         <Button onClick={this.sendValues}>Save config</Button>
-        <Button onClick={this.resetValues}>Reset config</Button>
+        <Button onClick={this.resetValues} disabled>Reset config</Button>
         <Button onClick={this.downloadValues}>Download config</Button>
         <Button component="label">
           Load config 
@@ -93,14 +96,14 @@ class Pipeline extends React.Component {
   }
 
   renderComponentSettings(name, label) {
-    const { theme } = this.props;
+    const { classes, theme } = this.props;
     const { templates, values } = this.state;
     let path = ['quantumLeap', name];
     let level = 0;    
     console.log(templates)
     return (
-      <Paper style={{ marginTop: theme.spacing(2), marginBottom: theme.spacing(2), padding: theme.spacing(2), backgroundColor: theme.palette.grey[50] }}>
-        <Typography variant='h4'>
+      <Paper style={{ marginTop: theme.spacing(3), marginBottom: theme.spacing(3), padding: theme.spacing(2), backgroundColor: theme.palette.grey[50] }}>
+        <Typography className={classes.componentName} variant='h2'>
           {label}
         </Typography>
         {(templates && values && templates.quantumLeap && values.quantumLeap && templates.quantumLeap[name] && values.quantumLeap[name]) ? (

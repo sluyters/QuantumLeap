@@ -25,7 +25,7 @@ class Setting extends React.Component {
           ) : ( 
             <Typography variant='subtitle1' style={{display:'flex', alignItems:'center'}}>
               {setting.label}
-              <Tooltip title={setting.description} style={{ marginLeft: theme.spacing(1)}}> 
+          <Tooltip title={<Typography variant='subtitle1'>{setting.description}</Typography>} style={{ marginLeft: theme.spacing(1)}} arrow> 
                 <InfoOutlinedIcon fontSize='small'/>
               </Tooltip>
             </Typography>

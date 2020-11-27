@@ -1,5 +1,6 @@
 :root {
   --sidebar-width: 240px;
+  --content-padding: 20px;
 }
 
 #sidebar {
@@ -18,7 +19,7 @@
 #content {
   width: 100%;
   position: relative;
-  padding-left: var(--sidebar-width);
-  padding-right: 0;
+  padding-left: calc(var(--sidebar-width) + var(--content-padding));
+  padding-right: var(--content-padding);
   box-sizing: border-box;
 }

@@ -14,7 +14,7 @@ class Category extends React.Component {
     // The level will impact the size, boldness, of the setting
     return (
       <React.Fragment>
-        <Typography variant={`h${level + 1}`}>
+        <Typography variant={level < 3 ? `h${level + 4}` : 'h6'}>
           {label}
         </Typography>
         {

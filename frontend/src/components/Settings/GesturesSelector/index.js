@@ -81,10 +81,11 @@ class Gesture extends React.Component {
         <Grid
           container
           spacing={1}
-          alignItems="center"
+          alignItems='center'
+          wrap='nowrap'
         >
           {/* The input for the name of the gesture */}
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <TextField 
               type='text'
               variant='outlined'
@@ -94,7 +95,7 @@ class Gesture extends React.Component {
             />
           </Grid>
           {/* The input for the names of the gestures that it groups */}
-          <Grid item xs={9}>
+          <Grid item xs={8}>
             <Autocomplete
               multiple
               value={classes}
@@ -120,7 +121,7 @@ class Gesture extends React.Component {
             />     
           </Grid>
           {/* The "delete" button */}
-          <Grid item xs>
+          <Grid item xs={1}>
             <IconButton onClick={onDelete}>
               <DeleteIcon/>
             </IconButton>

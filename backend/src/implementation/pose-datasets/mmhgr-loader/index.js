@@ -32,12 +32,13 @@ function parseFrame(path) {
         parsedFrame = new Frame(frame.ID);
         for (const hand of ["Left", "Right"]) {
             if (frame.Images.LeftImage.Hands.hasOwnProperty(hand)) {
-                // Set hasXHand property
-                if (hand === "Right") {
-                    parsedFrame.hasRightHand = true;
-                } else {
-                    parsedFrame.hasLeftHand = true;
-                }
+                parsedFrame.hasData = true;
+                // // Set hasXHand property
+                // if (hand === "Right") {
+                //     parsedFrame.hasRightHand = true;
+                // } else {
+                //     parsedFrame.hasLeftHand = true;
+                // }
                 // Extract the position of the palm [x, y, z]
                 let palmPosition = frame.Images.LeftImage.Hands[hand].Center.data.split(/\s+/g).slice(1).map(str => parseFloat(str));
                 parsedFrame.addArticulation(new Articulation(getArticulationLabel(hand === "Right", "Palm"), new Point(...palmPosition)));

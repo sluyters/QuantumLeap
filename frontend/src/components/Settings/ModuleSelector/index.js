@@ -1,14 +1,15 @@
 import React from 'react';
 import { withTheme } from '@material-ui/core/styles'
-import { Typography, Select, FormControl, Divider, IconButton } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Typography, Select, FormControl, Divider, IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Setting from '../Setting';
 
 class ModuleSelector extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      expanded: '',
     };
   }
 
@@ -20,6 +21,8 @@ class ModuleSelector extends React.Component {
     const { handleChange, level, path, value } = this.props;
     // Unique to each module
     const { moduleType, minModules, maxModules, settings } = this.props;
+
+    const { expanded } = this.state;
 
     // Get the available modules
     const modules = templates.modules[moduleType];
@@ -65,97 +68,106 @@ class ModuleSelector extends React.Component {
       }
       // Render the module
       renderedSelected.push(
-        <React.Fragment>
-          {/* Divider */}
-          {moduleIndex > 0 ? (
-            <Divider light={true} style={{ marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}/>
-          ) : (
-            ''
-          )}
-          {/* Render the dropdown list */}
-          <FormControl variant="outlined">
-            <Select native value={modulesNames.indexOf(module.moduleName)} onChange={(event) => handleModuleSelection(moduleIndex, event)}>
-              {modulesNames.map((moduleName, optionIndex) => (
-                <option value={optionIndex}>
-                  {modules[moduleName].label}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-          {/* Render the "delete" button */}
-          <IconButton onClick={handleModuleDeletion}>
-            <DeleteIcon/>
-          </IconButton>
-          {/* Render the description of the module */}
-          <Typography variant='body1'>
-            {template.description}
-          </Typography>
-          {/* Render the settings of the module */}
-          {(template.settings.length > 0) ? (
-            template.settings.map(setting => (
-              <Setting 
-                templates={templates}
-                values={values}
-                handleChange={handleSettingChange}
-                level={level + 1}
-                path={['moduleSettings']}
-                value={module.moduleSettings[setting.name]}
-                setting={setting}
-              />
-            ))
-          ) : (
-            ''
-          )}
-          {/* Render the additional settings of the ModuleSelector */}
-          {(settings.length > 0) ? (
-            settings.map(setting => (
-              <Setting 
-                templates={templates}
-                values={values}
-                handleChange={handleSettingChange}
-                level={level + 1}
-                path={['additionalSettings']}
-                value={module.additionalSettings[setting.name]}
-                setting={setting}
-              />
-            ))
-          ) : (
-            ''
-          )}
-        </React.Fragment>
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <div>
+              {/* Render the dropdown list */}
+              <FormControl variant="outlined">
+                <Select native value={modulesNames.indexOf(module.moduleName)} onClick={(event) => event.stopPropagation()} onChange={(event) => handleModuleSelection(moduleIndex, event)}>
+                  {modulesNames.map((moduleName, optionIndex) => (
+                    <option value={optionIndex}>
+                      {modules[moduleName].label}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+              {/* Render the "delete" button */}
+              <IconButton onClick={handleModuleDeletion}>
+                <DeleteIcon/>
+              </IconButton>
+              {/* Render the description of the module */}
+              <Typography variant='body1'>
+                {template.description}
+              </Typography>
+            </div>
+          </AccordionSummary>
+          <AccordionDetails>
+            <div>
+            {(template.settings.length === 0 && settings.length === 0) ? (
+                <Typography variant='body1'>
+                  No setting available.
+                </Typography>
+              ) : (
+                ''
+              )}
+              {/* Render the settings of the module */}
+              {(template.settings.length > 0) ? (
+                template.settings.map(setting => (
+                  <Setting 
+                    templates={templates}
+                    values={values}
+                    handleChange={handleSettingChange}
+                    level={level + 1}
+                    path={['moduleSettings']}
+                    value={module.moduleSettings[setting.name]}
+                    setting={setting}
+                  />
+                ))
+              ) : (
+                ''
+              )}
+            </div>
+            <div>
+              {/* Render the additional settings of the ModuleSelector */}
+              {(settings.length > 0) ? (
+                settings.map(setting => (
+                  <Setting 
+                    templates={templates}
+                    values={values}
+                    handleChange={handleSettingChange}
+                    level={level + 1}
+                    path={['additionalSettings']}
+                    value={module.additionalSettings[setting.name]}
+                    setting={setting}
+                  />
+                ))
+              ) : (
+                ''
+              )}
+            </div>
+          </AccordionDetails>
+        </Accordion>
       );
     })
 
     // Render
     return (
-      <React.Fragment>
+      <div>
         {renderedSelected}
         {/* If less modules selected than the maximum amount, just render the dropdown list */}
         {(!maxModules || selectedModules.length < maxModules) ? (
-          <React.Fragment>
-            {/* Divider */}
-            {selectedModules.length > 0 ? (
-              <Divider light={true} style={{ marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}/>
-            ) : (
-              ''
-            )}
-            <FormControl variant="outlined">
-            <Select native value={''} onChange={(event) => handleModuleSelection(selectedModules.length, event)}>
-              <option value={''}>
-                {'Select a module...'}
-              </option>
-              {modulesNames.map((moduleName, index) => (
-                <option value={index}>
-                  {modules[moduleName].label}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-          </React.Fragment>
+          <Accordion expanded={false}>
+            <AccordionSummary>
+              <div>
+                <FormControl variant="outlined">
+                  <Select native value={''} onClick={(event) => event.stopPropagation()} onChange={(event) => handleModuleSelection(selectedModules.length, event)}>
+                    <option value={''}>
+                      {'Select a module...'}
+                    </option>
+                    {modulesNames.map((moduleName, index) => (
+                      <option value={index}>
+                        {modules[moduleName].label}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            </AccordionSummary>
+          </Accordion>
         ) : (
           ''
         )}
-      </React.Fragment>
+      </div>
     );
   }
 }
