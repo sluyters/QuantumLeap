@@ -20,23 +20,25 @@ class Sensor extends AbstractSensor {
     let points = [];
     // Get points
     for (const hand of frame.hands) {
-      // Check if a hand is visible
-      hasRightHand = hasRightHand || hand.type === 'right';
-      hasLeftHand = hasLeftHand || hand.type === 'left';
-      // Palm positions
-      points.push({
-        name: hand.type === 'right' ? 'rightPalmPosition' : 'leftPalmPosition',
-        point: new Point(...hand.palmPosition, timestamp)
-      });
-      // Finger positions
-      hand.fingers.forEach((finger) => {
-        for (const fingerArticulation of fingerArticulations) {
-          points.push({
-            name: `${hand.type}${fingerNames[finger.type]}${fingerArticulation}Position`,
-            point: new Point(...finger[`${fingerArticulation.toLowerCase()}Position`], timestamp)
-          })
-        }
-      });
+      if (hand.valid) {
+        // Check if a hand is visible
+        hasRightHand = hasRightHand || hand.type === 'right';
+        hasLeftHand = hasLeftHand || hand.type === 'left';
+        // Palm positions
+        points.push({
+          name: hand.type === 'right' ? 'rightPalmPosition' : 'leftPalmPosition',
+          point: new Point(...hand.palmPosition, timestamp)
+        });
+        // Finger positions
+        hand.fingers.forEach((finger) => {
+          for (const fingerArticulation of fingerArticulations) {
+            points.push({
+              name: `${hand.type}${fingerNames[finger.type]}${fingerArticulation}Position`,
+              point: new Point(...finger[`${fingerArticulation.toLowerCase()}Position`], timestamp)
+            })
+          }
+        });
+      }
     }
     // Add missing points
     const addMissingPoints = (type) => {
@@ -57,7 +59,7 @@ class Sensor extends AbstractSensor {
     if (!hasRightHand) {
       addMissingPoints('right');
     }
-    if (!hasRightHand) {
+    if (!hasLeftHand) {
       addMissingPoints('left');
     }
     return { 

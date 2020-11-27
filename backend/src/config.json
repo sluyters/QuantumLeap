@@ -50,11 +50,11 @@
             "datasets": [
               "guinevere"
             ],
-            "id": "D"
+            "id": ""
           }
         }
       ],
-      "templatesPerClass": 17,
+      "templatesPerClass": 16,
       "aggregateClasses": [
         {
           "name": "rhand_uswipe",
@@ -135,13 +135,15 @@
     "segmentersSettings": {
       "modules": [
         {
-          "moduleName": "window-segmenter",
+          "moduleName": "zoning-segmenter",
           "moduleType": "segmenters",
           "moduleSettings": {
-            "windowWidth": 20,
-            "intervalLength": 3,
+            "minSegmentLength": 10,
+            "maxSegmentLength": 60,
             "pauseLength": 60,
-            "motionThreshold": 70
+            "monitoredArticulations": [
+              "rightPalmPosition"
+            ]
           },
           "additionalSettings": {}
         }
@@ -159,7 +161,8 @@
               "rightThumbTipPosition",
               "rightIndexTipPosition",
               "rightMiddleTipPosition",
-              "rightRingTipPosition"
+              "rightRingTipPosition",
+              "rightPinkyTipPosition"
             ]
           },
           "additionalSettings": {}

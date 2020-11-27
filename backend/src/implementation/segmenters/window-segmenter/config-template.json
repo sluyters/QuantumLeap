@@ -40,6 +40,15 @@
       "minValue": 0,
       "maxValue": null,
       "default": 70
+    },
+    {
+      "type": "PointsSelector",
+      "label": "Articulations",
+      "name": "motionArticulations",
+      "description": "The articulations that are used to determine whether the user moved his hand.",
+      "minNumber": 1,
+      "maxNumber": null,
+      "default": []
     }
   ]
 }

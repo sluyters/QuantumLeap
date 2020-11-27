@@ -1,8 +1,8 @@
 {
-  "label": "Left hand",
-  "name": "lefthand-segmenter",
+  "label": "Zoning",
+  "name": "zoning-segmenter",
   "type": "segmenter",
-  "description": "A segmenter that uses the presence of the left hand in the field of view of the sensor to trigger gesture recognition.",
+  "description": "A segmenter that relies on the presence of a series of articulations within a specific zone to trigger gesture recognition.",
   "properties": {},
   "settings": [
     {
@@ -31,6 +31,15 @@
       "minValue": 0,
       "maxValue": null,
       "default": 60
+    },
+    {
+      "type": "PointsSelector",
+      "label": "Articulations",
+      "name": "monitoredArticulations",
+      "description": "If any of the selected articulations is in the zone of the segmenter, segmentation is triggered.",
+      "minNumber": 1,
+      "maxNumber": null,
+      "default": []
     }
   ]
 }
