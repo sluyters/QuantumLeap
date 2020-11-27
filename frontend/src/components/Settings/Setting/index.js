@@ -1,12 +1,18 @@
 import React from 'react';
 import * as AllSettings from '../index';
-import { Typography, Tooltip } from '@material-ui/core';
-import { withTheme } from '@material-ui/core/styles'
+import { Box, Typography, Tooltip } from '@material-ui/core';
+import { withStyles, withTheme } from '@material-ui/core/styles'
 import { InfoOutlined as InfoOutlinedIcon } from '@material-ui/icons'
+
+const styles = (theme) => ({
+  settingBox: {
+    width: '100%',
+  }
+});
 
 class Setting extends React.Component {
   render() {
-    const { theme } = this.props;
+    const { theme, classes } = this.props;
     // Unchanged for each setting
     const { templates, values } = this.props;
     // Each module has the props, but their value can change
@@ -19,7 +25,7 @@ class Setting extends React.Component {
     const SettingType = AllSettings[setting.type];
     if (SettingType) {
       return (
-        <React.Fragment>
+        <Box className={classes.settingBox}>
           {(setting.type === 'Category') ? (
             '' 
           ) : ( 
@@ -39,7 +45,7 @@ class Setting extends React.Component {
             value={value}
             {...setting}
           />
-        </React.Fragment>
+        </Box>
       );
     } else {
       console.error(`'${setting.type}' is not a valid type of setting.`);
@@ -48,4 +54,4 @@ class Setting extends React.Component {
   }
 }
 
-export default withTheme(Setting);
+export default withTheme(withStyles(styles)(Setting));

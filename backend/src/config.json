@@ -135,14 +135,20 @@
     "segmentersSettings": {
       "modules": [
         {
-          "moduleName": "zoning-segmenter",
+          "moduleName": "window-segmenter",
           "moduleType": "segmenters",
           "moduleSettings": {
-            "minSegmentLength": 10,
-            "maxSegmentLength": 60,
+            "windowWidth": 20,
+            "intervalLength": 3,
             "pauseLength": 60,
-            "monitoredArticulations": [
-              "rightPalmPosition"
+            "motionThreshold": 70,
+            "motionArticulations": [
+              "rightPalmPosition",
+              "rightThumbTipPosition",
+              "rightIndexTipPosition",
+              "rightMiddleTipPosition",
+              "rightRingTipPosition",
+              "rightPinkyTipPosition"
             ]
           },
           "additionalSettings": {}
@@ -159,10 +165,10 @@
             "articulations": [
               "rightPalmPosition",
               "rightThumbTipPosition",
-              "rightIndexTipPosition",
-              "rightMiddleTipPosition",
               "rightRingTipPosition",
-              "rightPinkyTipPosition"
+              "rightPinkyTipPosition",
+              "rightMiddleTipPosition",
+              "rightIndexTipPosition"
             ]
           },
           "additionalSettings": {}

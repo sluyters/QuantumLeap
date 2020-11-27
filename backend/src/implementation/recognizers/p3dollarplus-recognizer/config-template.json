@@ -2,7 +2,7 @@
   "label": "$P3+",
   "name": "p3dollarplus-recognizer",
   "type": "recognizer",
-  "description": "TODO.",
+  "description": "A more accurate version of $P3, adapted from Vatavu's $P+. It brings three key improvements to $P3: (1) each point from the template can now be matched to more than one point of the gesture; (2) the distance between a gesture and a template takes into account the connections between consecutive points (in the form of their turning angles); (3) early abandonment of templates.",
   "properties": {},
   "settings": [
     {

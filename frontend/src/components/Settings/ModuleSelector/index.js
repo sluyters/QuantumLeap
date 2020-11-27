@@ -1,6 +1,6 @@
 import React from 'react';
 import { withTheme } from '@material-ui/core/styles'
-import { Accordion, AccordionDetails, AccordionSummary, Typography, Select, FormControl, Divider, IconButton } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Typography, Select, FormControl, Divider, Box, IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Setting from '../Setting';
@@ -70,7 +70,7 @@ class ModuleSelector extends React.Component {
       renderedSelected.push(
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <div>
+            <Box width={1}>
               {/* Render the dropdown list */}
               <FormControl variant="outlined">
                 <Select native value={modulesNames.indexOf(module.moduleName)} onClick={(event) => event.stopPropagation()} onChange={(event) => handleModuleSelection(moduleIndex, event)}>
@@ -89,10 +89,10 @@ class ModuleSelector extends React.Component {
               <Typography variant='body1'>
                 {template.description}
               </Typography>
-            </div>
+            </Box>
           </AccordionSummary>
           <AccordionDetails>
-            <div>
+            <Box width={1}>
             {(template.settings.length === 0 && settings.length === 0) ? (
                 <Typography variant='body1'>
                   No setting available.
@@ -116,8 +116,6 @@ class ModuleSelector extends React.Component {
               ) : (
                 ''
               )}
-            </div>
-            <div>
               {/* Render the additional settings of the ModuleSelector */}
               {(settings.length > 0) ? (
                 settings.map(setting => (
@@ -134,7 +132,7 @@ class ModuleSelector extends React.Component {
               ) : (
                 ''
               )}
-            </div>
+            </Box>
           </AccordionDetails>
         </Accordion>
       );
@@ -148,7 +146,7 @@ class ModuleSelector extends React.Component {
         {(!maxModules || selectedModules.length < maxModules) ? (
           <Accordion expanded={false}>
             <AccordionSummary>
-              <div>
+              <Box width={1}>
                 <FormControl variant="outlined">
                   <Select native value={''} onClick={(event) => event.stopPropagation()} onChange={(event) => handleModuleSelection(selectedModules.length, event)}>
                     <option value={''}>
@@ -161,7 +159,7 @@ class ModuleSelector extends React.Component {
                     ))}
                   </Select>
                 </FormControl>
-              </div>
+              </Box>
             </AccordionSummary>
           </Accordion>
         ) : (

@@ -2,7 +2,7 @@
   "label": "$P3",
   "name": "p3dollar-recognizer",
   "type": "recognizer",
-  "description": "TODO.",
+  "description": "A generalization of the $P 2D recognizer that supports 3D multi-stroke gestures. To keep memory usage and execution time low, gestures are represented as unordered sets of points, called point clouds.",
   "properties": {},
   "settings": [
     {
