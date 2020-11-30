@@ -18,6 +18,7 @@ class Sensor extends AbstractSensor {
     let hasLeftHand, hasRightHand = false;
     let frame = this.controller.frame();
     let points = [];
+    let fingers = [];
     // Get points
     for (const hand of frame.hands) {
       if (hand.valid) {
@@ -31,6 +32,16 @@ class Sensor extends AbstractSensor {
         });
         // Finger positions
         hand.fingers.forEach((finger) => {
+          // Get data usable by the application
+          let position = finger.stabilizedTipPosition;
+          let normalized = frame.interactionBox.normalizePoint(position);
+          fingers.push({
+            'type': finger.type,
+            'normalizedPosition': normalized,
+            'touchDistance': finger.touchDistance,
+            'tipVelocity': finger.tipVelocity
+          });
+          // Get data for each articulation of each finger
           for (const fingerArticulation of fingerArticulations) {
             points.push({
               name: `${hand.type}${fingerNames[finger.type]}${fingerArticulation}Position`,
@@ -62,9 +73,14 @@ class Sensor extends AbstractSensor {
     if (!hasLeftHand) {
       addMissingPoints('left');
     }
+    // TODO find better method to send app data
+    let appData = {
+      fingers: fingers
+    };
     return { 
       hasData: hasLeftHand || hasRightHand,
-      points: points
+      points: points,
+      appData: appData
     };
   }
 

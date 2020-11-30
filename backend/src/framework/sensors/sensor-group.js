@@ -37,8 +37,9 @@ class SensorGroup {
     let processFrame = function () {
       let hasData = false;
       let timestamp = Date.now();
-      // Initialize the frame
+      // Initialize the frame and appData
       let frame = new Frame(timestamp);
+      let appData = {};
       // Get points from each sensor
       this.sensors.forEach(({sensor, id}) => {
         let sensorData = sensor.getPoints(timestamp);
@@ -46,11 +47,15 @@ class SensorGroup {
         sensorData.points.forEach(({name, point}) => {
           let pointName = id ? `${name}_${id}` : name;
           frame.addArticulation(new Articulation(pointName, point));
-        })
+        });
+        // TODO change
+        appData = {
+          ...appData,
+          ...sensorData.appData
+        };
       })
       frame.hasData = hasData;
       // Callback only if data was sensed by a sensor
-      let appData = { 'fingers': [] }; // TODO remove in the future
       if (hasData) {
         callback(frame, appData);
       }

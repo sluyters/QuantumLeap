@@ -1,12 +1,17 @@
-import { Typography, Collapse, List, ListItem, ListItemText, ListItemIcon, ListItemSecondaryAction, IconButton, Checkbox, FormControlLabel } from '@material-ui/core';
-import { ExpandMore as ExpandMoreIcon, ExpandLess as ExpandLessIcon } from '@material-ui/icons';
-import { withTheme, withStyles } from '@material-ui/core/styles'
 import React from 'react';
+import { Typography, Collapse, List, ListItem, ListItemText, ListItemIcon, ListItemSecondaryAction, IconButton, Checkbox, FormControlLabel, Grid, Paper } from '@material-ui/core';
+import { ExpandMore as ExpandMoreIcon, ExpandLess as ExpandLessIcon } from '@material-ui/icons';
+import { withTheme, withStyles } from '@material-ui/core/styles';
+import LeapMotionPoints from './LeapMotionPoints';
 
 const styles = (theme) => ({
   pointsList: {
-    backgroundColor: 'rgb(220, 220, 220)',
-  }
+    backgroundColor: 'rgb(240, 240, 240)',
+  },
+  pointsVisualization: {
+    backgroundColor: 'rgb(240, 240, 240)',
+    overflow: 'hidden',
+  },
 });
 
 class PointsSelector extends React.Component {
@@ -37,26 +42,57 @@ class PointsSelector extends React.Component {
       let name = template.label;
       let identifier = sensor.additionalSettings.id;
       let points = template.properties.points;
+      let pointsVisualization;
+      switch (sensor.moduleName) {
+        case 'leap-sensor':
+          pointsVisualization = (
+            <LeapMotionPoints
+              selectedJoints={value}
+              onSelect={selectPoints}
+              onDeselect={deselectPoints}
+            />
+          );
+          break;
+        default:
+          pointsVisualization = (
+            <Typography variant='subtitle1' align='center'>
+              No visualization available.
+            </Typography>
+          );
+      }
       renderedSensors.push(
         <React.Fragment>
           <Typography variant='subtitle1' >
             {identifier ? `${name} (${identifier})` : name}
           </Typography>
-          <List dense className={classes.pointsList} >
-            {points.map(item => (
-              <PointsItem
-                classes={classes}
-                item={item}
-                sensorId={identifier}
-                onSelect={selectPoints}
-                onDeselect={deselectPoints}
-                selectedPoints={value}
-                depth={0}
-                depthStep={2}
-                theme={theme}
-              />
-            ))}
-          </List>
+          <Grid container spacing={2}>
+            {/* The list of points */}
+            <Grid item xs={12} md={12} lg={5}>
+              <Paper className={classes.pointsList}>
+                <List dense style={{width: '100%'}}>
+                  {points.map(item => (
+                    <PointsItem
+                      classes={classes}
+                      item={item}
+                      sensorId={identifier}
+                      onSelect={selectPoints}
+                      onDeselect={deselectPoints}
+                      selectedPoints={value}
+                      depth={0}
+                      depthStep={2}
+                      theme={theme}
+                    />
+                  ))}
+                </List>
+              </Paper>
+            </Grid>
+            {/* A visual representation of the points */}
+            <Grid item xs={12} md={12} lg={7}>
+              <Paper className={classes.pointsVisualization} >
+                {pointsVisualization}
+              </Paper>
+            </Grid>
+          </Grid>
         </React.Fragment>
       );
     });
@@ -87,7 +123,7 @@ class PointsItem extends React.Component {
     // Get only points that belong to this item
     let selectedPoints = intersection(availablePoints, this.props.selectedPoints);
 
-    const onClick = (event) => {
+    const onClick = () => {
       this.setState(prevState => ({
         collapsed: !prevState.collapsed
       }));
