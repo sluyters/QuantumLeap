@@ -4,7 +4,7 @@ import './App.css';
 // Components
 import { Switch, Route, Redirect } from "react-router-dom";
 import Layout from './components/Layout'
-import { Home as HomeIcon, Settings, Gesture, Extension } from '@material-ui/icons'
+import { Home as HomeIcon, Settings as PipelineIcon, Gesture as GestureSetsIcon, Extension, Speed as TestingIcon } from '@material-ui/icons'
 // Pages
 import Home from './pages/Home'
 import GeneralSettings from './pages/GeneralSettings'
@@ -16,8 +16,9 @@ const theme = createMuiTheme();
 
 const pages = [
   //{ name: 'home', route: '/', label: 'Home', icon: HomeIcon },
-  { name: 'pipeline', route: '/pipeline', label: 'Pipeline', icon: Settings },
-  { name: 'datasets', route: '/datasets', label: 'Gesture sets', icon: Gesture },
+  { name: 'pipeline', route: '/pipeline', label: 'Recognition pipeline', icon: PipelineIcon },
+  { name: 'datasets', route: '/datasets', label: 'Gesture sets', icon: GestureSetsIcon },
+  { name: 'testing', route: '/testing', label: 'Testing', icon: TestingIcon },
   // { 
   //   name: 'modules', 
   //   label: 'Modules', 
@@ -74,7 +75,7 @@ class App extends React.Component {
               <Route 
                 exact
                 path="/not-found"
-                component={NotFound}
+                render={(props) => (<NotFound {...props} setActions={this.setCurrentActions} />)}
               />
               <Redirect to="not-found" />
             </Switch>

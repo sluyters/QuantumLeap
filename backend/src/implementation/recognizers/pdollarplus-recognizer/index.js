@@ -1,6 +1,6 @@
 const AbstractRecognizer = require('../../../framework/recognizers/abstract-recognizer').AbstractRecognizer;
 const PDollarPlusRecognizer = require('./pdollarplus/pdollarplus').PDollarPlusRecognizer;
-const Point = require('./pdollar/pdollar').Point;
+const Point = require('./pdollarplus/pdollarplus').Point;
 
 class Recognizer extends AbstractRecognizer {
 

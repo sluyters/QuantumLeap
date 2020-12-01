@@ -39,7 +39,7 @@ const styles = (theme) => ({
 
 class LeapMotionPoints extends React.Component {
   render() {
-    const { classes, selectedJoints, onSelect, onDeselect } = this.props;
+    const { classes, selectedJoints, sensorId, onSelect, onDeselect } = this.props;
     const clickHandler = function(selected, jointName) {
       if (selected) {
         onSelect([jointName]);
@@ -52,47 +52,47 @@ class LeapMotionPoints extends React.Component {
         <div className={classes.container}>
           {/* Left hand */}
           {/* Palm */}
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='leftPalmPosition' x={24} y={44} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='leftPalmPosition' x={24} y={44} onToggle={clickHandler}/>
           {/* Tips */}
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='leftPinkyTipPosition' x={9} y={17.6} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='leftRingTipPosition' x={20} y={6.6} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='leftMiddleTipPosition' x={28.5} y={2} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='leftIndexTipPosition' x={36.1} y={8.8} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='leftThumbTipPosition' x={45} y={43.5} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='leftPinkyTipPosition' x={9} y={17.6} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='leftRingTipPosition' x={20} y={6.6} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='leftMiddleTipPosition' x={28.5} y={2} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='leftIndexTipPosition' x={36.1} y={8.8} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='leftThumbTipPosition' x={45} y={43.5} onToggle={clickHandler}/>
           {/* Pips */}
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='leftPinkyPipPosition' x={12.7} y={28.5} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='leftRingPipPosition' x={20.2} y={21} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='leftMiddlePipPosition' x={27.2} y={16.8} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='leftIndexPipPosition' x={33.7} y={21.7} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='leftThumbPipPosition' x={36.5} y={51} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='leftPinkyPipPosition' x={12.7} y={28.5} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='leftRingPipPosition' x={20.2} y={21} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='leftMiddlePipPosition' x={27.2} y={16.8} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='leftIndexPipPosition' x={33.7} y={21.7} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='leftThumbPipPosition' x={36.5} y={51} onToggle={clickHandler}/>
           {/* Mcps */}
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='leftPinkyMcpPosition' x={16.5} y={37.8} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='leftRingMcpPosition' x={21} y={35.1} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='leftMiddleMcpPosition' x={25.6} y={31.7} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='leftIndexMcpPosition' x={30.3} y={33.9} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='leftThumbMcpPosition' x={30} y={58.5} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='leftPinkyMcpPosition' x={16.5} y={37.8} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='leftRingMcpPosition' x={21} y={35.1} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='leftMiddleMcpPosition' x={25.6} y={31.7} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='leftIndexMcpPosition' x={30.3} y={33.9} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='leftThumbMcpPosition' x={30} y={58.5} onToggle={clickHandler}/>
 
           {/* Right hand */}
           {/* Palm */}
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='rightPalmPosition' x={76} y={44} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='rightPalmPosition' x={76} y={44} onToggle={clickHandler}/>
           {/* Tips */}
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='rightPinkyTipPosition' x={91} y={17.6} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='rightRingTipPosition' x={80} y={6.6} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='rightMiddleTipPosition' x={71.5} y={2} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='rightIndexTipPosition' x={63.9} y={8.8} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='rightThumbTipPosition' x={55} y={43.5} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='rightPinkyTipPosition' x={91} y={17.6} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='rightRingTipPosition' x={80} y={6.6} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='rightMiddleTipPosition' x={71.5} y={2} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='rightIndexTipPosition' x={63.9} y={8.8} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='rightThumbTipPosition' x={55} y={43.5} onToggle={clickHandler}/>
           {/* Pips */}
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='rightPinkyPipPosition' x={87.3} y={28.5} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='rightRingPipPosition' x={79.8} y={21} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='rightMiddlePipPosition' x={72.8} y={16.8} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='rightIndexPipPosition' x={66.3} y={21.7} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='rightThumbPipPosition' x={63.5} y={51} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='rightPinkyPipPosition' x={87.3} y={28.5} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='rightRingPipPosition' x={79.8} y={21} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='rightMiddlePipPosition' x={72.8} y={16.8} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='rightIndexPipPosition' x={66.3} y={21.7} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='rightThumbPipPosition' x={63.5} y={51} onToggle={clickHandler}/>
           {/* Mcps */}
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='rightPinkyMcpPosition' x={83.5} y={37.8} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='rightRingMcpPosition' x={79} y={35.1} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='rightMiddleMcpPosition' x={74.4} y={31.7} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='rightIndexMcpPosition' x={69.7} y={33.9} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} joint='rightThumbMcpPosition' x={70} y={58.5} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='rightPinkyMcpPosition' x={83.5} y={37.8} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='rightRingMcpPosition' x={79} y={35.1} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='rightMiddleMcpPosition' x={74.4} y={31.7} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='rightIndexMcpPosition' x={69.7} y={33.9} onToggle={clickHandler}/>
+          <CustomCheckbox classes={classes} selectedJoints={selectedJoints} sensorId={sensorId} joint='rightThumbMcpPosition' x={70} y={58.5} onToggle={clickHandler}/>
           
           <LeapBones fill='currentColor' className={classes.imageBones}/>
           <LeapHands fill='currentColor' className={classes.image}/>
@@ -102,12 +102,13 @@ class LeapMotionPoints extends React.Component {
   }
 }
 
-function CustomCheckbox({classes, selectedJoints, joint, x, y, onToggle}) {
+function CustomCheckbox({classes, selectedJoints, sensorId, joint, x, y, onToggle}) {
+  let jointName = sensorId ? `${joint}_${sensorId}` : joint;
   return (
     <Checkbox 
       className={classes.checkboxes} 
-      onClick={(event) => onToggle(event.target.checked, joint)}
-      checked={selectedJoints.indexOf(joint) !== -1}
+      onClick={(event) => onToggle(event.target.checked, jointName)}
+      checked={selectedJoints.indexOf(jointName) !== -1}
       disableRipple
       size='small'
       color='primary' 

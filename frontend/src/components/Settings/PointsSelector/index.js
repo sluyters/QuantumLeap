@@ -48,6 +48,7 @@ class PointsSelector extends React.Component {
           pointsVisualization = (
             <LeapMotionPoints
               selectedJoints={value}
+              sensorId={identifier}
               onSelect={selectPoints}
               onDeselect={deselectPoints}
             />
@@ -122,6 +123,7 @@ class PointsItem extends React.Component {
 
     // Get only points that belong to this item
     let selectedPoints = intersection(availablePoints, this.props.selectedPoints);
+    //console.log(availablePoints, selectedPoints)
 
     const onClick = () => {
       this.setState(prevState => ({

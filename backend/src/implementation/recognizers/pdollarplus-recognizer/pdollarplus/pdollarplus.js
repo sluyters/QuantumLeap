@@ -273,5 +273,5 @@ function Distance(p1, p2) // Euclidean distance between two points
 
 module.exports = {
 	Point,
-	PDollarRecognizer
+	PDollarPlusRecognizer
 };

@@ -33,11 +33,14 @@ class TextInput extends React.Component {
     // const { templates, values } = this.props;
     // // Each module has the props, but their value can change
     // const { handleChange, level, path, value } = this.props;
-    // // Unique to each module
-    // const { minLength, maxLength } = this.props;
+    // Unique to each module
+    const { minLength, maxLength } = this.props;
     const value = this.state.value;
+    let valid = !(minLength && value.length < minLength) && !(maxLength && value.length > maxLength)
     return (
       <TextField 
+        error={!valid}
+        helperText={valid ? '' : 'Please enter a valid value.'}
         type='text'
         variant='outlined'
         value={value}

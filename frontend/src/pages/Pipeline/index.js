@@ -191,6 +191,7 @@ class Pipeline extends React.Component {
       var file = event.target.files[0];
       var fileReader = new FileReader();
       fileReader.onload = (event) => {
+        let previousValues = this.state.values;
         try {
           let values = JSON.parse(event.target.result)
           this.setState({
@@ -198,6 +199,9 @@ class Pipeline extends React.Component {
           });
         } catch (err) {
           alert('Invalid file.');
+          this.setState({
+            values: previousValues,
+          });
         }
       };
       fileReader.readAsText(file);

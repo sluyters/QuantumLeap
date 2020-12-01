@@ -13,6 +13,11 @@ class NotFound extends React.Component {
       </Paper>
     );
   }
+
+  componentDidMount() {
+    const { setActions } = this.props;
+    setActions('');
+  }
 }
 
 export default withTheme(NotFound);
