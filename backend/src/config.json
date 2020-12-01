@@ -139,7 +139,7 @@
           "moduleType": "segmenters",
           "moduleSettings": {
             "windowWidth": 20,
-            "intervalLength": 3,
+            "intervalLength": 6,
             "pauseLength": 60,
             "motionThreshold": 70,
             "motionArticulations": [
@@ -163,12 +163,12 @@
           "moduleSettings": {
             "samplingPoints": 16,
             "articulations": [
-              "rightPalmPosition",
-              "rightThumbTipPosition",
+              "rightIndexTipPosition",
+              "rightMiddleTipPosition",
               "rightRingTipPosition",
               "rightPinkyTipPosition",
-              "rightMiddleTipPosition",
-              "rightIndexTipPosition"
+              "rightThumbTipPosition",
+              "rightPalmPosition"
             ]
           },
           "additionalSettings": {}
