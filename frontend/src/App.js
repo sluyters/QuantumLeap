@@ -2,7 +2,7 @@ import React from 'react'
 // Style
 import './App.css';
 // Components
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Layout from './components/Layout'
 import { Home as HomeIcon, Settings, Gesture, Extension } from '@material-ui/icons'
 // Pages
@@ -16,8 +16,8 @@ const theme = createMuiTheme();
 
 const pages = [
   //{ name: 'home', route: '/', label: 'Home', icon: HomeIcon },
-  { name: 'settings', route: '/settings', label: 'Settings', icon: Settings },
   { name: 'pipeline', route: '/pipeline', label: 'Pipeline', icon: Settings },
+  { name: 'datasets', route: '/datasets', label: 'Gesture sets', icon: Gesture },
   // { 
   //   name: 'modules', 
   //   label: 'Modules', 
@@ -62,14 +62,21 @@ class App extends React.Component {
           <Layout sidebarItems={pages} actions={currentActions}>
             <Switch>
               <Route 
+                exact
                 path="/" 
                 render={(props) => (<Pipeline {...props} setActions={this.setCurrentActions} />)}
               />
               <Route 
+                exact
                 path="/pipeline" 
                 render={(props) => (<Pipeline {...props} setActions={this.setCurrentActions} />)}
               />
-              <Route component={NotFound}/>
+              <Route 
+                exact
+                path="/not-found"
+                component={NotFound}
+              />
+              <Redirect to="not-found" />
             </Switch>
           </Layout>
         </ThemeProvider>

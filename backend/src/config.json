@@ -158,17 +158,17 @@
     "recognizersSettings": {
       "modules": [
         {
-          "moduleName": "jackknife-recognizer",
+          "moduleName": "pdollarplus-recognizer",
           "moduleType": "recognizers",
           "moduleSettings": {
             "samplingPoints": 16,
             "articulations": [
+              "rightPalmPosition",
+              "rightThumbTipPosition",
               "rightIndexTipPosition",
               "rightMiddleTipPosition",
               "rightRingTipPosition",
-              "rightPinkyTipPosition",
-              "rightThumbTipPosition",
-              "rightPalmPosition"
+              "rightPinkyTipPosition"
             ]
           },
           "additionalSettings": {}

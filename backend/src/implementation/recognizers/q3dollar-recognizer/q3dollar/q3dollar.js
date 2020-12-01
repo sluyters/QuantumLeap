@@ -113,7 +113,7 @@ const LUTScaleFactor = MaxIntCoord / LUTSize; // used to scale from (IntX, IntY,
 //
 function Q3DollarRecognizer(numPoints) // constructor
 {
-    this.PointClouds = new Array();
+  this.PointClouds = new Array();
 	NumPoints = numPoints;
 	//
 	// The $Q3 Point-Cloud Recognizer API begins here -- 4 methods: Recognize(), AddGesture(), RemoveGesture(), DeleteUserGestures()
