@@ -1,6 +1,7 @@
 const AbstractClassifier = require('../../../framework/classifiers/abstract-classifier').AbstractClassifier;
 const GPSDAlphaDissimilarityRecognizer = require('./gpsda-dissimilarity/gpsda-dissimilarity-static-recognizer').Recognizer;
 const Point = require('./gpsda-dissimilarity/gpsda-dissimilarity-static-recognizer').Point;
+const { parsePointsNames } = require('../../../framework/utils');
 
 class Classifier extends AbstractClassifier {
 
@@ -8,9 +9,9 @@ class Classifier extends AbstractClassifier {
     
     constructor(options, dataset) {
         super(options);
-        this.articulations = options.articulations;
+        this.articulations = parsePointsNames(options.articulations);
         this.alpha = options.alpha;
-        this.staticRecognizer = new GPSDAlphaDissimilarityRecognizer(options.articulations.length, options.alpha);
+        this.staticRecognizer = new GPSDAlphaDissimilarityRecognizer(this.articulations.length, options.alpha);
         // Load gestures from the dataset
         if (dataset !== undefined) {
 			dataset.getGestureClasses().forEach((gesture) => {

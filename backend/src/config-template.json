@@ -68,7 +68,7 @@
           "description": "Unique identifier for the sensor (strongly recommended if multiple sensors are selected).",
           "minLength": 1,
           "maxLength": null,
-          "default": ""
+          "default": "sensor"
         }
       ],
       "default": []

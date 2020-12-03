@@ -18,7 +18,7 @@ const device = {
     'acceleration': false, 'webcam': true
 };
 
-function loadDataset(name, datasetPath) {
+function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
     let gestureSet = new GestureSet(name);
     let dirPath = datasetPath;
     let gestureIndex = 0;
@@ -47,14 +47,14 @@ function loadDataset(name, datasetPath) {
             }
             // Init stroke paths
             for (const side of ["left", "right"]) {
-                let label = `${side}PalmPosition`
+                let label = addIdentifier(`${side}PalmPosition`, identifier);
                 let strokePath = new Path(label);
                 gestureData.addPath(label, strokePath);
                 let stroke = new Stroke(0);
                 strokePath.addStroke(stroke);
                 for (const fingerName of fingerNames) {
                     for (const fingerArticulation of fingerArticulations) {
-                        let label = `${side}${fingerName}${fingerArticulation}Position`;
+                        let label = addIdentifier(`${side}${fingerName}${fingerArticulation}Position`, identifier);
                         let strokePath = new Path(label);
                         gestureData.addPath(label, strokePath);
                         let stroke = new Stroke(0);
@@ -102,7 +102,8 @@ function loadDataset(name, datasetPath) {
                 }
                 // Add points to paths (with default point w/ coordinates (x=0, y=0, z=0))
                 Object.keys(points).forEach((articulation) => {
-                    let stroke = gestureData.paths[articulation].strokes[0];
+                    let pathName = addIdentifier(articulation, identifier);
+                    let stroke = gestureData.paths[pathName].strokes[0];
                     if (points[articulation] === null) {
                         // Default coordinates
                         stroke.addPoint(new Point(0, 0, 0, frame['timestamp']));
@@ -115,6 +116,10 @@ function loadDataset(name, datasetPath) {
         });
     });
     return gestureSet;
+}
+
+function addIdentifier(name, identifier) {
+    return identifier ? `${name}_${identifier}` : name;
 }
 
 module.exports = {

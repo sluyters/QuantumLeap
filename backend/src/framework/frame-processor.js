@@ -1,7 +1,5 @@
-const GestureSet = require('./gestures/gesture-set').GestureSet;
-const GestureClass = require('./gestures/gesture-class').GestureClass;
 const RingBuffer = require('ringbufferjs');
-const path = require('path'); // TODO improve
+const { initDataset } = require('./datasets/init-datasets');
 
 class FrameProcessor {
   constructor(config) {
@@ -13,8 +11,8 @@ class FrameProcessor {
     // Initialize analyzer, segmenter, datasets, recognizer and classifier
     this.analyzer = new this.analyzerModule.module(this.analyzerModule.moduleSettings);
     this.segmenter = new this.segmenterModule.module(this.segmenterModule.moduleSettings);
-    this.gestureDataset = initDataset('gesture', config.gestureDatasetsSettings);
-    this.poseDataset = initDataset('pose', config.poseDatasetsSettings);
+    this.gestureDataset = initDataset('gesture', config.sensorsSettings, config.gestureDatasetsSettings);
+    this.poseDataset = initDataset('pose', config.sensorsSettings, config.poseDatasetsSettings);
     if (config.recognizersSettings.loadOnRequest) {
       this.recognizer = new this.recognizerModule.module(this.recognizerModule.moduleSettings);
     } else {
@@ -155,83 +153,6 @@ class FrameProcessor {
     // Nothing detected
     return null;
   }
-}
-
-function initDataset(type, datasetConfig) {
-  let datasets = [];
-  // Load the datasets
-  datasetConfig.modules.forEach(datasetLoaderModule => {
-    let datasetLoader = datasetLoaderModule.module;
-    let datasetName = datasetLoaderModule.additionalSettings.datasets[0];
-    let datasetPath = path.resolve(__dirname, '../datasets', type, datasetName);
-    datasets.push(datasetLoader.loadDataset(datasetName, datasetPath));
-  });
-  let newDataset = new GestureSet('GestureSet');
-  // Select/aggregate/rename classes of the dataset if required
-  if (datasetConfig.aggregateClasses && datasetConfig.aggregateClasses.length != 0) {
-    datasetConfig.aggregateClasses.forEach((aggregate, index) => {
-      // Aggregate gesture class
-      let newGestureClass = new GestureClass(aggregate.name, index);
-      let templates = [];
-      // Fuse the classes into a new aggregate class
-      for (const className of aggregate.classes) {
-        datasets.forEach(dataset => {
-          let oldClass = dataset.getGestureClasses().get(className);
-          if (oldClass) {
-            templates = templates.concat(templates, oldClass.getSamples());
-          }
-        });
-      }
-      // Select a number of templates from the dataset if required
-      if (datasetConfig.templatesPerClass > 0) {
-        templates = getRandomSubarray(templates, datasetConfig.templatesPerClass);
-      }
-      // Add the templates to the new gesture class
-      for (template of templates) {
-        newGestureClass.addSample(template);
-      }
-      // Add the aggregate class to the new dataset
-      newDataset.addGestureClass(newGestureClass);
-    });
-    return newDataset
-  } else {
-    // Get names of all gesture classes
-    datasets.forEach(dataset => {
-      dataset.getGestureClasses().forEach(gestureClass => {
-        let newGestureClass = newDataset.getGestureClasses().get(gestureClass.name);
-        if (!newGestureClass) {
-          newGestureClass = new GestureClass(gestureClass.name, gestureClass.index);;
-        }
-        let templates = gestureClass.getSamples();
-        // Select a number of templates from the dataset if required
-        if (datasetConfig.templatesPerClass > 0) {
-          templates = getRandomSubarray(templates, datasetConfig.templatesPerClass);
-        }
-        // Add the templates to the new gesture class
-        for (template of templates) {
-          newGestureClass.addSample(template);
-        }
-        newDataset.addGestureClass(newGestureClass);
-      });
-    });
-    return newDataset;
-  }
-}
-
-// https://stackoverflow.com/questions/11935175/sampling-a-random-subset-from-an-array
-function getRandomSubarray(arr, size) {
-  if (size > arr.length) {
-    console.log("Not enough templates!")
-    return arr;
-  }
-  var shuffled = arr.slice(0), i = arr.length, min = i - size, temp, index;
-  while (i-- > min) {
-    index = Math.floor((i + 1) * Math.random());
-    temp = shuffled[index];
-    shuffled[index] = shuffled[i];
-    shuffled[i] = temp;
-  }
-  return shuffled.slice(min);
 }
 
 module.exports = {

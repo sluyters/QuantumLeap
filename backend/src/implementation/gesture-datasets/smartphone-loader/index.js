@@ -8,7 +8,7 @@ const Stroke = require('../../../framework/gestures/stroke-data').Stroke;
 const Path = require('../../../framework/gestures/stroke-data').Path;
 const Point = require('../../../framework/gestures/point').Point2D;
 
-function loadDataset(name, datasetPath) {
+function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
     let gestureSet = new GestureSet(name);
     let dirPath = datasetPath;
     let gestureIndex = 0;

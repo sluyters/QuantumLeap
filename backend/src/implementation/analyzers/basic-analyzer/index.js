@@ -29,21 +29,21 @@ class Analyzer extends AbstractAnalyzer {
 }
 
 function computePinch(fromFrame, toFrame) {
-    let dFrom = getDistance(fromFrame.getArticulation("rightThumbTipPosition").point, fromFrame.getArticulation("rightIndexTipPosition").point);
-    let dTo = getDistance(toFrame.getArticulation("rightThumbTipPosition").point, toFrame.getArticulation("rightIndexTipPosition").point);
+    let dFrom = getDistance(fromFrame.getArticulation("rightThumbTipPosition_lmc").point, fromFrame.getArticulation("rightIndexTipPosition_lmc").point);
+    let dTo = getDistance(toFrame.getArticulation("rightThumbTipPosition_lmc").point, toFrame.getArticulation("rightIndexTipPosition_lmc").point);
     return (dTo / dFrom);
 }
 
 function computeRotation(fromFrame, toFrame) {
-    let vectorFrom = translateTo(fromFrame.getArticulation("rightIndexTipPosition").point, fromFrame.getArticulation("rightThumbTipPosition").point);
-    let vectorTo = translateTo(toFrame.getArticulation("rightIndexTipPosition").point, toFrame.getArticulation("rightThumbTipPosition").point);
+    let vectorFrom = translateTo(fromFrame.getArticulation("rightIndexTipPosition_lmc").point, fromFrame.getArticulation("rightThumbTipPosition_lmc").point);
+    let vectorTo = translateTo(toFrame.getArticulation("rightIndexTipPosition_lmc").point, toFrame.getArticulation("rightThumbTipPosition_lmc").point);
     let a = computeAngle(vectorTo, vectorFrom);
     return a
 }
 
 function computeTranslation(fromFrame, toFrame) {
-    let pFrom = fromFrame.getArticulation("rightPalmPosition").point;
-    let pTo = toFrame.getArticulation("rightPalmPosition").point;
+    let pFrom = fromFrame.getArticulation("rightPalmPosition_lmc").point;
+    let pTo = toFrame.getArticulation("rightPalmPosition_lmc").point;
     let dx = pTo.x - pFrom.x;
     let dy = pTo.y - pFrom.y;
     let dz = pTo.z - pFrom.z;
@@ -51,7 +51,7 @@ function computeTranslation(fromFrame, toFrame) {
 }
 
 function computeThumbVector(frame) {
-    let tVector = translateTo(frame.getArticulation("rightThumbTipPosition").point, frame.getArticulation("rightPalmPosition").point);
+    let tVector = translateTo(frame.getArticulation("rightThumbTipPosition_lmc").point, frame.getArticulation("rightPalmPosition_lmc").point);
     return [tVector.x, tVector.y, tVector.z];
 }
 

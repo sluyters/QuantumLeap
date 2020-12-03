@@ -1,6 +1,7 @@
 const AbstractRecognizer = require('../../../framework/recognizers/abstract-recognizer').AbstractRecognizer;
 const P3DollarRecognizer = require('./p3dollar/p3dollar').P3DollarRecognizer;
 const Point = require('./p3dollar/p3dollar').Point;
+const { parsePointsNames } = require('../../../framework/utils');
 
 class Recognizer extends AbstractRecognizer {
 
@@ -9,7 +10,7 @@ class Recognizer extends AbstractRecognizer {
     constructor(options, dataset) {
 		super();
 		this.samplingPoints = options.samplingPoints;
-		this.articulations = options.articulations;
+		this.articulations = parsePointsNames(options.articulations);
 		this.recognizer = new P3DollarRecognizer(this.samplingPoints);
 		console.log(this.articulations)
 		if (dataset !== undefined){

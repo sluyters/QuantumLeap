@@ -16,39 +16,51 @@ const styles = (theme) => ({
 
 class PointsSelector extends React.Component {
   render() {
-    console.log(this.props)
     const { classes, theme } = this.props;
     // Unchanged for each setting
     const { templates, values } = this.props;
     // Each module has the props, but their value can change
     const { handleChange, level, path, value } = this.props;
 
-    // TODO point selection based on sensor
-    const selectPoints = (points) => {
-      let newValue = union(value, points);
-      handleChange(path, newValue);
-    }
-
-    const deselectPoints = (points) => {
-      let newValue = not(value, points);
-      handleChange(path, newValue);
-    }
-
     // Get the selected sensors
     const sensors = values.quantumLeap.sensorsSettings.modules;
+    // Remove points from sensors that do not exist anymore
+    let sensorsIds = sensors.map(sensor => sensor.additionalSettings.id);
+    Object.keys(value).forEach(sensorId => {
+      if (sensorsIds.indexOf(sensorId) === -1) {
+        // Remove points
+        delete value[sensorId];
+      }
+    })
     let renderedSensors = [];
     sensors.forEach(sensor => {
       let template = templates.modules.sensors[sensor.moduleName];
       let name = template.label;
-      let identifier = sensor.additionalSettings.id;
-      let points = template.properties.points;
+      let sensorId = sensor.additionalSettings.id;
+      let availablePoints = template.properties.points;
+      let selectedPoints = value[sensorId] ? value[sensorId] : [];
       let pointsVisualization;
+      // Handlers
+      const selectPoints = (points) => {
+        let newPoints = union(selectedPoints, points);
+        value[sensorId] = newPoints;
+        handleChange(path, value);
+      }
+      const deselectPoints = (points) => {
+        let newPoints = not(selectedPoints, points);
+        if (newPoints.length === 0) {
+          delete value[sensorId];
+        } else {
+          value[sensorId] = newPoints;
+        }
+        handleChange(path, value);
+      }
       switch (sensor.moduleName) {
         case 'leap-sensor':
           pointsVisualization = (
             <LeapMotionPoints
-              selectedJoints={value}
-              sensorId={identifier}
+              selectedPoints={selectedPoints}
+              sensorId={sensorId}
               onSelect={selectPoints}
               onDeselect={deselectPoints}
             />
@@ -64,21 +76,21 @@ class PointsSelector extends React.Component {
       renderedSensors.push(
         <React.Fragment>
           <Typography variant='subtitle1' >
-            {identifier ? `${name} (${identifier})` : name}
+            {`${name} (${sensorId})`}
           </Typography>
           <Grid container spacing={2}>
             {/* The list of points */}
             <Grid item xs={12} md={12} lg={5}>
               <Paper className={classes.pointsList}>
                 <List dense style={{width: '100%'}}>
-                  {points.map(item => (
+                  {availablePoints.map(item => (
                     <PointsItem
                       classes={classes}
                       item={item}
-                      sensorId={identifier}
+                      sensorId={sensorId}
                       onSelect={selectPoints}
                       onDeselect={deselectPoints}
-                      selectedPoints={value}
+                      selectedPoints={selectedPoints}
                       depth={0}
                       depthStep={2}
                       theme={theme}
@@ -225,8 +237,7 @@ function getAvailablePoints(sensorId, pointItem) {
     });
     return points;
   } else {
-    let name = sensorId ? `${pointItem.name}_${sensorId}` : pointItem.name;
-    return [ name ];
+    return [ pointItem.name ];
   }
 }
 

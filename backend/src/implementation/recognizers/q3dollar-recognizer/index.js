@@ -1,6 +1,7 @@
 const AbstractRecognizer = require('../../../framework/recognizers/abstract-recognizer').AbstractRecognizer;
 const Q3DollarRecognizer = require('./q3dollar/q3dollar').Q3DollarRecognizer;
 const Point = require('./q3dollar/q3dollar').Point;
+const { parsePointsNames } = require('../../../framework/utils');
 
 class Recognizer extends AbstractRecognizer {
 
@@ -9,7 +10,7 @@ class Recognizer extends AbstractRecognizer {
     constructor(options, dataset) {
 		super();
 		this.samplingPoints = options.samplingPoints;
-        this.articulations = options.articulations;
+        this.articulations = parsePointsNames(options.articulations);
         this.recognizer = new Q3DollarRecognizer(this.samplingPoints);
 		if (dataset !== undefined){
 			dataset.getGestureClasses().forEach((gesture) => {

@@ -1,6 +1,7 @@
 const AbstractClassifier = require('../../../framework/classifiers/abstract-classifier').AbstractClassifier;
 const GPSDRecognizer = require('./gpsd/gpsd-static-recognizer').Recognizer;
 const Point = require('./gpsd/gpsd-static-recognizer').Point;
+const { parsePointsNames } = require('../../../framework/utils');
 
 class Classifier extends AbstractClassifier {
 
@@ -8,8 +9,8 @@ class Classifier extends AbstractClassifier {
 
     constructor(options, dataset) {
         super(options);
-        this.articulations = options.articulations;
-        this.staticRecognizer = new GPSDRecognizer(options.articulations.length);
+        this.articulations = parsePointsNames(options.articulations);
+        this.staticRecognizer = new GPSDRecognizer(this.articulations.length);
         // Load gestures from the dataset
         if (dataset !== undefined) {
 			dataset.getGestureClasses().forEach((gesture) => {

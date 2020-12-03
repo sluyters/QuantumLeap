@@ -29,6 +29,7 @@ class Recognizer {
 
     addGesture(name, points) {
         if (points.length != this.numPoints) {
+            console.log('wat')
             return false;
         }
         this.templates.push(new CPS(name, points, this.alpha));

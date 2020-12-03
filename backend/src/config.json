@@ -17,7 +17,7 @@
           "moduleType": "sensors",
           "moduleSettings": {},
           "additionalSettings": {
-            "id": ""
+            "id": "lmc"
           }
         }
       ],
@@ -33,7 +33,7 @@
             "datasets": [
               "guinevre-pose"
             ],
-            "id": ""
+            "id": "lmc"
           }
         }
       ],
@@ -50,7 +50,7 @@
             "datasets": [
               "guinevere"
             ],
-            "id": ""
+            "id": "lmc"
           }
         }
       ],
@@ -95,24 +95,26 @@
           "moduleType": "classifiers",
           "moduleSettings": {
             "alpha": 0.8,
-            "articulations": [
-              "rightPalmPosition",
-              "rightThumbTipPosition",
-              "rightIndexTipPosition",
-              "rightMiddleTipPosition",
-              "rightRingTipPosition",
-              "rightPinkyTipPosition",
-              "rightThumbPipPosition",
-              "rightIndexPipPosition",
-              "rightMiddlePipPosition",
-              "rightRingPipPosition",
-              "rightPinkyPipPosition",
-              "rightThumbMcpPosition",
-              "rightIndexMcpPosition",
-              "rightMiddleMcpPosition",
-              "rightRingMcpPosition",
-              "rightPinkyMcpPosition"
-            ]
+            "articulations": {
+              "lmc": [
+                "rightPalmPosition",
+                "rightThumbTipPosition",
+                "rightIndexTipPosition",
+                "rightMiddleTipPosition",
+                "rightRingTipPosition",
+                "rightPinkyTipPosition",
+                "rightThumbPipPosition",
+                "rightIndexPipPosition",
+                "rightMiddlePipPosition",
+                "rightRingPipPosition",
+                "rightPinkyPipPosition",
+                "rightThumbMcpPosition",
+                "rightIndexMcpPosition",
+                "rightMiddleMcpPosition",
+                "rightRingMcpPosition",
+                "rightPinkyMcpPosition"
+              ]
+            }
           },
           "additionalSettings": {}
         }
@@ -142,14 +144,16 @@
             "intervalLength": 6,
             "pauseLength": 60,
             "motionThreshold": 70,
-            "motionArticulations": [
-              "rightPalmPosition",
-              "rightThumbTipPosition",
-              "rightIndexTipPosition",
-              "rightMiddleTipPosition",
-              "rightRingTipPosition",
-              "rightPinkyTipPosition"
-            ]
+            "motionArticulations": {
+              "lmc": [
+                "rightIndexTipPosition",
+                "rightMiddleTipPosition",
+                "rightRingTipPosition",
+                "rightPinkyTipPosition",
+                "rightPalmPosition",
+                "rightThumbTipPosition"
+              ]
+            }
           },
           "additionalSettings": {}
         }
@@ -158,18 +162,20 @@
     "recognizersSettings": {
       "modules": [
         {
-          "moduleName": "pdollarplus-recognizer",
+          "moduleName": "jackknife-recognizer",
           "moduleType": "recognizers",
           "moduleSettings": {
             "samplingPoints": 16,
-            "articulations": [
-              "rightPalmPosition",
-              "rightThumbTipPosition",
-              "rightIndexTipPosition",
-              "rightMiddleTipPosition",
-              "rightRingTipPosition",
-              "rightPinkyTipPosition"
-            ]
+            "articulations": {
+              "lmc": [
+                "rightIndexTipPosition",
+                "rightMiddleTipPosition",
+                "rightRingTipPosition",
+                "rightPinkyTipPosition",
+                "rightPalmPosition",
+                "rightThumbTipPosition"
+              ]
+            }
           },
           "additionalSettings": {}
         }

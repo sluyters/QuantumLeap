@@ -10,7 +10,7 @@ const Point = require('../../../framework/gestures/point').Point3D;
 const fingerNames = ["Thumb", "Index", "Middle", "Ring", "Pinky"];
 const fingerArticulations = ["Mcp", "Pip", "Tip"];
 
-function loadDataset(name, datasetPath) {
+function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
     let gestureSet = new GestureSet(name);
     let dirPath = datasetPath;
     let gestureIndex = 0;
@@ -25,7 +25,7 @@ function loadDataset(name, datasetPath) {
                 let parsedFile = JSON.parse(fs.readFileSync(rawGesturePath));
                 let id = 0;
                 for (const frame of parsedFile.data) {
-                    let parsedFrame = parseFrame(frame);
+                    let parsedFrame = parseFrame(frame, identifier);
                     let poseData = new PoseData(parseInt(user), id, parsedFrame, undefined);
                     gestureClass.addSample(poseData);
                     id++;
@@ -37,7 +37,7 @@ function loadDataset(name, datasetPath) {
     return gestureSet;
 }
 
-function parseFrame(frame) {
+function parseFrame(frame, identifier) {
     let parsedFrame = new Frame(frame.id);
     let rightHandId = -1;
     // Add palms
@@ -46,7 +46,7 @@ function parseFrame(frame) {
         if (hand.type === "right") {
             rightHandId = hand.id;
         }
-        let label = `${hand.type}PalmPosition`;
+        let label = addIdentifier(`${hand.type}PalmPosition`, identifier);
         let position = new Point(...hand.palmPosition);
         let articulation = new Articulation(label, position);
         parsedFrame.addArticulation(articulation);
@@ -57,7 +57,7 @@ function parseFrame(frame) {
             for (const fingerArticulation of fingerArticulations) {
                 // Get label (e.g., rightIndexPipPosition)
                 let side = pointable.handId == rightHandId ? "right" : "left";
-                let label = `${side}${fingerNames[pointable.type]}${fingerArticulation}Position`;
+                let label = addIdentifier(`${side}${fingerNames[pointable.type]}${fingerArticulation}Position`, identifier);
                 let position = new Point(...pointable[`${fingerArticulation.toLowerCase()}Position`]);
                 let articulation = new Articulation(label, position);
                 parsedFrame.addArticulation(articulation);
@@ -65,6 +65,10 @@ function parseFrame(frame) {
         }
     }
     return parsedFrame;
+}
+
+function addIdentifier(name, identifier) {
+    return identifier ? `${name}_${identifier}` : name;
 }
 
 module.exports = {

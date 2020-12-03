@@ -3,6 +3,7 @@ const jackknife_blades = require('./jackknife/jackknife').jackknife_blades;
 const Jackknife = require('./jackknife/jackknife_recognizer').Jackknife;
 const Vector = require('./jackknife/vector').Vector;
 const Sample = require('./jackknife/sample').Sample;
+const { parsePointsNames } = require('../../../framework/utils');
 
 class Recognizer extends AbstractRecognizer {
 
@@ -11,7 +12,7 @@ class Recognizer extends AbstractRecognizer {
   constructor(options, dataset) {
     super();
     this.N = options.samplingPoints;
-    this.articulations = options.articulations;
+    this.articulations = parsePointsNames(options.articulations);
     let blades = new jackknife_blades();
     blades.set_ip_defaults();
     this.jackknifeRecognizer = new Jackknife(blades)

@@ -2,6 +2,7 @@ const AbstractSegmenter = require('../../../framework/segmenters/abstract-segmen
 const StrokeData = require('../../../framework/gestures/stroke-data').StrokeData;
 const Stroke = require('../../../framework/gestures/stroke-data').Stroke;
 const Path = require('../../../framework/gestures/stroke-data').Path;
+const { parsePointsNames } = require('../../../framework/utils');
 
 const xBound = 120;
 const yBound = 1000;
@@ -13,7 +14,7 @@ class Segmenter extends AbstractSegmenter {
     this.minFrames = options.minSegmentLength;
     this.maxFrames = options.maxSegmentLength;
     this.numberPauseFrames = options.pauseLength;
-    this.monitoredArticulations = options.monitoredArticulations;
+    this.monitoredArticulations = parsePointsNames(options.monitoredArticulations);
     this.strokeData = null;
     this.pauseCount = 0;
   }

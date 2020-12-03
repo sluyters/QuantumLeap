@@ -12,7 +12,7 @@ const fingers = ["Thumb", "Index", "Middle", "Ring", "Pinky"];
 //const classNames = ["C", "down", "fist_moved", "five", "four", "hang", "heavy", "index", "L", "ok", "palm", "palm_m", "palm_u", "three", "two", "up"];
 const classNames = ["C", "down"];
 
-function loadDataset(name, datasetPath) {
+function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
     console.log("Loading dataset (this might take some time)...");
     let dataset = parseGestureSet(datasetPath, "MultiModHandGestRecog");
     console.log("Data set loaded!");

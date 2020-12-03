@@ -1,6 +1,7 @@
 const AbstractClassifier = require('../../../framework/classifiers/abstract-classifier').AbstractClassifier;
 const P3DollarPlusRecognizer = require('./p3dollarplus/recognizer').Recognizer;
 const Point = require('./p3dollarplus/recognizer').Point;
+const { parsePointsNames } = require('../../../framework/utils');
 
 class Classifier extends AbstractClassifier {
 
@@ -8,7 +9,7 @@ class Classifier extends AbstractClassifier {
 
     constructor(options, dataset) {
         super(options);
-        this.articulations = options.articulations;
+        this.articulations = parsePointsNames(options.articulations);
         this.staticRecognizer = new P3DollarPlusRecognizer(this.articulations.length);
         // Load gestures from the dataset
         if (dataset !== undefined) {

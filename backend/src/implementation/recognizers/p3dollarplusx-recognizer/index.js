@@ -1,6 +1,7 @@
 const AbstractRecognizer = require('../../../framework/recognizers/abstract-recognizer').AbstractRecognizer;
 const P3DollarPlusXRecognizer = require('./p3dollarplusx/p3dollarplusx').P3DollarPlusXRecognizer;
 const Point = require('./p3dollarplusx/p3dollarplusx').Point;
+const { parsePointsNames } = require('../../../framework/utils');
 
 class Recognizer extends AbstractRecognizer {
 
@@ -9,7 +10,7 @@ class Recognizer extends AbstractRecognizer {
     constructor(options, dataset) {
 		super();
 		this.samplingPoints = options.samplingPoints;
-		this.articulations = options.articulations;
+		this.articulations = parsePointsNames(options.articulations);
         this.recognizer = new P3DollarPlusXRecognizer(this.samplingPoints);
 		if (dataset !== undefined){
 			dataset.getGestureClasses().forEach((gesture) => {
