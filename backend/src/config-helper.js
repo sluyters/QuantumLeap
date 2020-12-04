@@ -91,7 +91,11 @@ class QLConfiguration {
    */
   buildValues() {
     try {
-      this.values = buildValuesHelper(this.templates);
+      this.values = {
+        quantumLeap: {
+          settings: buildModuleValues(this.templates.quantumLeap.settings)
+        }
+      }
     } catch (err) {
       console.error(`Failed to build the configuration. Details: ${err.stack}`);
       this.values = {};
@@ -100,28 +104,28 @@ class QLConfiguration {
     return true;
   }
 
-  /**
-   * Rebuild the config with new modules and settings (if any). Previous 
-   * settings are not overwritten. Return false if the configuration was not
-   * updated, true otherwise.
-   */
-  rebuildValues() {
-    try {
-      // Build new config
-      let newConfig = buildValuesHelper(this.templates);
-      // For each key of new config, check if there is an equivalent key in the old one
-      let ret = fuseObjects(this.values, newConfig);
-      if (ret.modified) {
-        this.values = ret.fusedObject;
-        return true;
-      } else {
-        return false;
-      }
-    } catch (err) {
-      console.error(`Failed to update the configuration. Details: ${err.stack}`);
-      return false;
-    }
-  }
+  // /**
+  //  * Rebuild the config with new modules and settings (if any). Previous 
+  //  * settings are not overwritten. Return false if the configuration was not
+  //  * updated, true otherwise.
+  //  */
+  // rebuildValues() {
+  //   try {
+  //     // Build new config
+  //     let newConfig = buildValuesHelper(this.templates);
+  //     // For each key of new config, check if there is an equivalent key in the old one
+  //     let ret = fuseObjects(this.values, newConfig);
+  //     if (ret.modified) {
+  //       this.values = ret.fusedObject;
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   } catch (err) {
+  //     console.error(`Failed to update the configuration. Details: ${err.stack}`);
+  //     return false;
+  //   }
+  // }
 
   /**
    * Save the configuration in a config.json file. Return false if the 
@@ -198,55 +202,58 @@ class QLConfiguration {
 ////////////////////////////////////////////////////////////////////////////////
 // Helpers
 
-function buildValuesHelper(templates) {
-  let keys = [
-    'generalSettings', 
-    'sensorsSettings', 
-    'poseDatasetsSettings',
-    'gestureDatasetsSettings',
-    'classifiersSettings', 
-    'analyzersSettings', 
-    'segmentersSettings', 
-    'recognizersSettings'
-  ];
+// function buildValuesHelper(templates) {
+//   let values = {
+//     quantumLeap: {
+//       settings: buildModuleValues(templates.quantumLeap.settings)
+//     }
+//   }
+//   return values;
+// }
+
+function buildModuleValues(modules) {
   let values = {};
-  values['quantumLeap'] = {};
-  keys.forEach(key => {
-    console.log(templates.quantumLeap[key])
-    values.quantumLeap[key] = getValuesFromSettings(templates.quantumLeap[key]);
+  Object.keys(modules).forEach(key => {
+    if (Array.isArray(modules[key])) {
+      // Get the settings of the module
+      values[key] = getValuesFromSettings(modules[key]);
+    } else {
+      // There are other sub-modules
+      values[key] = buildModuleValues(modules[key]);
+    }
   });
   return values;
 }
 
-/**
- * Add to object1 all the keys of object2 that are not in object1.
- */
-function fuseObjects(object1, object2) {
-  let modified = false;
-  let fusedObject = {};
-  Object.keys(object2).forEach(key => {
-    if(!object1.hasOwnProperty(key)) {
-      // Add the missing property
-      fusedObject[key] = object2[key];
-      modified = true;
-    } else if (typeof object1[key] === 'object' && object1[key] !== null && typeof object2[key] === 'object' && object2[key] !== null) {
-      // Check sub-properties
-      let ret = fuseObjects(object1[key], object2[key]);
-      fusedObject[key] = ret.fusedObject;
-      modified = ret.modified;
-    } else {
-      // Keep value from object1
-      fusedObject[key] = object1[key];
-    }
-  });
-  // Add the missing properties from object1
-  Object.keys(object1).forEach(key => {
-    if(!fusedObject.hasOwnProperty(key)) {
-      fusedObject[key] = object1[key];
-    }
-  });
-  return { modified, fusedObject };
-} 
+// /**
+//  * Add to object1 all the keys of object2 that are not in object1.
+//  */
+// function fuseObjects(object1, object2) {
+//   let modified = false;
+//   let fusedObject = {};
+//   Object.keys(object2).forEach(key => {
+//     if(!object1.hasOwnProperty(key)) {
+//       // Add the missing property
+//       fusedObject[key] = object2[key];
+//       modified = true;
+//     } else if (typeof object1[key] === 'object' && object1[key] !== null && typeof object2[key] === 'object' && object2[key] !== null) {
+//       // Check sub-properties
+//       let ret = fuseObjects(object1[key], object2[key]);
+//       fusedObject[key] = ret.fusedObject;
+//       modified = ret.modified;
+//     } else {
+//       // Keep value from object1
+//       fusedObject[key] = object1[key];
+//     }
+//   });
+//   // Add the missing properties from object1
+//   Object.keys(object1).forEach(key => {
+//     if(!fusedObject.hasOwnProperty(key)) {
+//       fusedObject[key] = object1[key];
+//     }
+//   });
+//   return { modified, fusedObject };
+// } 
 
 function initData(directory, filename) {
   let data = {};

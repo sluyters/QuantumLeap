@@ -23,7 +23,7 @@ class PointsSelector extends React.Component {
     const { handleChange, level, path, value } = this.props;
 
     // Get the selected sensors
-    const sensors = values.quantumLeap.sensorsSettings.modules;
+    const sensors = values.quantumLeap.settings.sensors.modules;
     // Remove points from sensors that do not exist anymore
     let sensorsIds = sensors.map(sensor => sensor.additionalSettings.id);
     Object.keys(value).forEach(sensorId => {

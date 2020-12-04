@@ -8,18 +8,18 @@ class QuantumLeap {
   }
 
   start(config) {
-    this.wss = setupWSS(config.quantumLeap, this.server);
+    this.wss = setupWSS(config.quantumLeap.settings, this.server);
   }
 
   restart(config) {
     console.log('WebSocket server restarting...');
     if (this.wss) {
       this.wss.close(() => {
-        this.wss = setupWSS(config.quantumLeap, this.server);
+        this.wss = setupWSS(config.quantumLeap.settings, this.server);
         console.log('WebSocket server started!');
       });
     } else {
-      this.wss = setupWSS(config.quantumLeap, this.server);
+      this.wss = setupWSS(config.quantumLeap.settings, this.server);
       console.log('WebSocket server started!');
     }
   }
@@ -27,7 +27,7 @@ class QuantumLeap {
 
 function setupWSS(config, server) {
   // Initialize sensor and frame processor
-  var sensor = new SensorGroup(config.sensorsSettings)
+  var sensor = new SensorGroup(config.sensors)
   var frameProcessor = new FrameProcessor(config);
   // Initialize WebSocket server
   let wss = new WSServer({
@@ -38,20 +38,20 @@ function setupWSS(config, server) {
     console.log('Connected!')
     // Handle messages from the client
     ws.on('message', function (message) {
-      if (config.generalSettings.general.debug) {
+      if (config.general.general.debug) {
         console.log(message);
       }
       var msg = JSON.parse(message);
       if (msg.type === 'operation') {
         for (const operation of msg.data) {
           if (operation.type === 'addPose') {
-            frameProcessor.enablePose(operation.name);
+            frameProcessor.enableGesture('static', operation.name);
           } else if (operation.type === 'addGesture') {
-            frameProcessor.enableGesture(operation.name);
+            frameProcessor.enableGesture('dynamic', operation.name);
           } else if (operation.type === 'removePose') {
-            frameProcessor.disablePose(operation.name);
+            frameProcessor.disableGesture('static', operation.name);
           } else if (operation.type === 'removeGesture') {
-            frameProcessor.disableGesture(operation.name);
+            frameProcessor.disableGesture('dynamic', operation.name);
           }
         }
       }
@@ -59,7 +59,7 @@ function setupWSS(config, server) {
     // Process sensor frames
     sensor.loop((frame, appData) => {
       let message = getMessage('data');
-      if (appData && config.generalSettings.general.sendContinuousData) {
+      if (appData && config.general.general.sendContinuousData) {
         // If there is continuous data to send to the application
         message.data.push({
           'type': 'frame',
@@ -71,7 +71,7 @@ function setupWSS(config, server) {
       if (ret) {
         // If there is gesture data to send to the application
         message.data.push(ret);
-        if (config.generalSettings.general.debug) {
+        if (config.general.general.debug) {
           console.log(JSON.stringify(message));
         }
       }

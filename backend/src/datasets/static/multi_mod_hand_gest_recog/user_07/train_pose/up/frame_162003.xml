@@ -1,0 +1,511 @@
+<?xml version="1.0"?>
+<opencv_storage>
+<Frame>
+  <ID>162003</ID>
+  <Images>
+    <nImages>2</nImages>
+    <RigthImage>
+      <Hands>
+        <nHands>1</nHands>
+        <Right>
+          <Center type_id="opencv-matrix">
+            <rows>1</rows>
+            <cols>3</cols>
+            <dt>f</dt>
+            <data>
+              3.46653519e+001 9.61606140e+001 3.38176384e+001</data></Center>
+          <Normal type_id="opencv-matrix">
+            <rows>1</rows>
+            <cols>3</cols>
+            <dt>f</dt>
+            <data>
+              -2.76395708e-001 8.22904110e-001 -4.96421456e-001</data></Normal>
+          <Direction type_id="opencv-matrix">
+            <rows>1</rows>
+            <cols>3</cols>
+            <dt>f</dt>
+            <data>
+              -1.98620364e-001 -5.54304302e-001 -8.08267713e-001</data></Direction>
+          <Velocity type_id="opencv-matrix">
+            <rows>1</rows>
+            <cols>3</cols>
+            <dt>f</dt>
+            <data>
+              2.45551414e+001 2.46987324e+001 6.77230988e+001</data></Velocity>
+          <SphereCenter type_id="opencv-matrix">
+            <rows>1</rows>
+            <cols>3</cols>
+            <dt>f</dt>
+            <data>
+              2.22085304e+001 1.34593918e+002 -5.77790833e+000</data></SphereCenter>
+          <WristPosition type_id="opencv-matrix">
+            <rows>1</rows>
+            <cols>3</cols>
+            <dt>f</dt>
+            <data>
+              3.87893143e+001 1.18226860e+002 7.56524506e+001</data></WristPosition>
+          <Confidence>7.2012835741043091e-001</Confidence>
+          <PinchStrength>2.5402653217315674e-001</PinchStrength>
+          <GrabStrength>3.1877225637435913e-001</GrabStrength>
+          <SphereRadius>5.1977218627929688e+001</SphereRadius>
+          <Fingers>
+            <nFingers>5</nFingers>
+            <Thumb>
+              <Type>0</Type>
+              <isExtended>1</isExtended>
+              <TipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  6.59338760e+001 1.09329643e+002 -1.26359148e+001</data></TipPosition>
+              <TipDirection type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -4.67839092e-002 -2.50695646e-001 -9.66934800e-001</data></TipDirection>
+              <TipVelocity type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  4.36871490e+001 1.16606684e+001 6.25160751e+001</data></TipVelocity>
+              <TipLength>4.5229522705078125e+001</TipLength>
+              <dipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  7.61510620e+001 1.10941490e+002 -7.21478403e-001</data></dipPosition>
+              <pipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  7.75354004e+001 1.18359589e+002 2.78902016e+001</data></pipPosition>
+              <mcpPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  6.00523186e+001 1.30673691e+002 6.55656586e+001</data></mcpPosition></Thumb>
+            <Index>
+              <Type>1</Type>
+              <isExtended>0</isExtended>
+              <TipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  3.10359859e+001 1.14483711e+002 -4.44208755e+001</data></TipPosition>
+              <TipDirection type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -3.05545658e-001 6.61500573e-001 -6.84878707e-001</data></TipDirection>
+              <TipVelocity type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  2.35505505e+001 5.32178802e+001 8.36355057e+001</data></TipVelocity>
+              <TipLength>5.1036468505859375e+001</TipLength>
+              <dipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  3.44965706e+001 1.05967056e+002 -3.91920357e+001</data></dipPosition>
+              <pipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  4.09058266e+001 9.20911331e+001 -2.48257198e+001</data></pipPosition>
+              <mcpPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  5.13041420e+001 8.53026276e+001 1.03307400e+001</data></mcpPosition></Index>
+            <Middle>
+              <Type>2</Type>
+              <isExtended>0</isExtended>
+              <TipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  1.47234392e+001 1.18584412e+002 -4.34230614e+001</data></TipPosition>
+              <TipDirection type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -1.98190093e-001 7.19359219e-001 -6.65764928e-001</data></TipDirection>
+              <TipVelocity type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  1.86060524e+001 5.02755814e+001 8.70469513e+001</data></TipVelocity>
+              <TipLength>5.8151962280273438e+001</TipLength>
+              <dipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  1.61192665e+001 1.08507813e+002 -3.78787079e+001</data></dipPosition>
+              <pipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  2.10103416e+001 9.07549591e+001 -2.14484863e+001</data></pipPosition>
+              <mcpPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  3.38307152e+001 8.13212280e+001 1.72358398e+001</data></mcpPosition></Middle>
+            <Ring>
+              <Type>3</Type>
+              <isExtended>0</isExtended>
+              <TipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -8.49474370e-001 1.12968224e+002 -3.23892555e+001</data></TipPosition>
+              <TipDirection type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -1.82423502e-001 6.59021020e-001 -7.29666293e-001</data></TipDirection>
+              <TipVelocity type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  1.11290960e+001 4.51607094e+001 9.46289444e+001</data></TipVelocity>
+              <TipLength>5.5914661407470703e+001</TipLength>
+              <dipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -4.41336036e-001 1.03226738e+002 -2.58571224e+001</data></dipPosition>
+              <pipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  3.94437194e+000 8.73829803e+001 -8.31495476e+000</data></pipPosition>
+              <mcpPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  1.71082287e+001 8.20573273e+001 2.77667236e+001</data></mcpPosition></Ring>
+            <Pinky>
+              <Type>4</Type>
+              <isExtended>0</isExtended>
+              <TipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -8.54534435e+000 1.07247131e+002 -1.28136568e+001</data></TipPosition>
+              <TipDirection type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -9.43877250e-002 5.85496187e-001 -8.05161595e-001</data></TipDirection>
+              <TipVelocity type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  8.39651394e+000 3.48805618e+001 8.71746826e+001</data></TipVelocity>
+              <TipLength>4.3836059570312500e+001</TipLength>
+              <dipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -9.93949604e+000 9.90219955e+001 -5.64980841e+000</data></dipPosition>
+              <pipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -8.33733749e+000 8.90836487e+001 8.01718807e+000</data></pipPosition>
+              <mcpPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  1.71046507e+000 8.69725418e+001 3.69353256e+001</data></mcpPosition></Pinky></Fingers></Right></Hands>
+      <x_min>277</x_min>
+      <x_max>353</x_max>
+      <y_min>230</y_min>
+      <y_max>385</y_max>
+      <x_palm>321</x_palm>
+      <y_palm>287</y_palm></RigthImage>
+    <LeftImage>
+      <Hands>
+        <nHands>1</nHands>
+        <Right>
+          <Center type_id="opencv-matrix">
+            <rows>1</rows>
+            <cols>3</cols>
+            <dt>f</dt>
+            <data>
+              3.46653519e+001 9.61606140e+001 3.38176384e+001</data></Center>
+          <Normal type_id="opencv-matrix">
+            <rows>1</rows>
+            <cols>3</cols>
+            <dt>f</dt>
+            <data>
+              -2.76395708e-001 8.22904110e-001 -4.96421456e-001</data></Normal>
+          <Direction type_id="opencv-matrix">
+            <rows>1</rows>
+            <cols>3</cols>
+            <dt>f</dt>
+            <data>
+              -1.98620364e-001 -5.54304302e-001 -8.08267713e-001</data></Direction>
+          <Velocity type_id="opencv-matrix">
+            <rows>1</rows>
+            <cols>3</cols>
+            <dt>f</dt>
+            <data>
+              2.45551414e+001 2.46987324e+001 6.77230988e+001</data></Velocity>
+          <SphereCenter type_id="opencv-matrix">
+            <rows>1</rows>
+            <cols>3</cols>
+            <dt>f</dt>
+            <data>
+              2.22085304e+001 1.34593918e+002 -5.77790833e+000</data></SphereCenter>
+          <WristPosition type_id="opencv-matrix">
+            <rows>1</rows>
+            <cols>3</cols>
+            <dt>f</dt>
+            <data>
+              3.87893143e+001 1.18226860e+002 7.56524506e+001</data></WristPosition>
+          <Confidence>7.2012835741043091e-001</Confidence>
+          <PinchStrength>2.5402653217315674e-001</PinchStrength>
+          <GrabStrength>3.1877225637435913e-001</GrabStrength>
+          <SphereRadius>5.1977218627929688e+001</SphereRadius>
+          <Fingers>
+            <nFingers>5</nFingers>
+            <Thumb>
+              <Type>0</Type>
+              <isExtended>1</isExtended>
+              <TipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  6.59338760e+001 1.09329643e+002 -1.26359148e+001</data></TipPosition>
+              <TipDirection type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -4.67839092e-002 -2.50695646e-001 -9.66934800e-001</data></TipDirection>
+              <TipVelocity type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  4.36871490e+001 1.16606684e+001 6.25160751e+001</data></TipVelocity>
+              <TipLength>4.5229522705078125e+001</TipLength>
+              <dipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  7.61510620e+001 1.10941490e+002 -7.21478403e-001</data></dipPosition>
+              <pipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  7.75354004e+001 1.18359589e+002 2.78902016e+001</data></pipPosition>
+              <mcpPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  6.00523186e+001 1.30673691e+002 6.55656586e+001</data></mcpPosition></Thumb>
+            <Index>
+              <Type>1</Type>
+              <isExtended>0</isExtended>
+              <TipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  3.10359859e+001 1.14483711e+002 -4.44208755e+001</data></TipPosition>
+              <TipDirection type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -3.05545658e-001 6.61500573e-001 -6.84878707e-001</data></TipDirection>
+              <TipVelocity type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  2.35505505e+001 5.32178802e+001 8.36355057e+001</data></TipVelocity>
+              <TipLength>5.1036468505859375e+001</TipLength>
+              <dipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  3.44965706e+001 1.05967056e+002 -3.91920357e+001</data></dipPosition>
+              <pipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  4.09058266e+001 9.20911331e+001 -2.48257198e+001</data></pipPosition>
+              <mcpPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  5.13041420e+001 8.53026276e+001 1.03307400e+001</data></mcpPosition></Index>
+            <Middle>
+              <Type>2</Type>
+              <isExtended>0</isExtended>
+              <TipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  1.47234392e+001 1.18584412e+002 -4.34230614e+001</data></TipPosition>
+              <TipDirection type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -1.98190093e-001 7.19359219e-001 -6.65764928e-001</data></TipDirection>
+              <TipVelocity type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  1.86060524e+001 5.02755814e+001 8.70469513e+001</data></TipVelocity>
+              <TipLength>5.8151962280273438e+001</TipLength>
+              <dipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  1.61192665e+001 1.08507813e+002 -3.78787079e+001</data></dipPosition>
+              <pipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  2.10103416e+001 9.07549591e+001 -2.14484863e+001</data></pipPosition>
+              <mcpPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  3.38307152e+001 8.13212280e+001 1.72358398e+001</data></mcpPosition></Middle>
+            <Ring>
+              <Type>3</Type>
+              <isExtended>0</isExtended>
+              <TipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -8.49474370e-001 1.12968224e+002 -3.23892555e+001</data></TipPosition>
+              <TipDirection type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -1.82423502e-001 6.59021020e-001 -7.29666293e-001</data></TipDirection>
+              <TipVelocity type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  1.11290960e+001 4.51607094e+001 9.46289444e+001</data></TipVelocity>
+              <TipLength>5.5914661407470703e+001</TipLength>
+              <dipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -4.41336036e-001 1.03226738e+002 -2.58571224e+001</data></dipPosition>
+              <pipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  3.94437194e+000 8.73829803e+001 -8.31495476e+000</data></pipPosition>
+              <mcpPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  1.71082287e+001 8.20573273e+001 2.77667236e+001</data></mcpPosition></Ring>
+            <Pinky>
+              <Type>4</Type>
+              <isExtended>0</isExtended>
+              <TipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -8.54534435e+000 1.07247131e+002 -1.28136568e+001</data></TipPosition>
+              <TipDirection type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -9.43877250e-002 5.85496187e-001 -8.05161595e-001</data></TipDirection>
+              <TipVelocity type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  8.39651394e+000 3.48805618e+001 8.71746826e+001</data></TipVelocity>
+              <TipLength>4.3836059570312500e+001</TipLength>
+              <dipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -9.93949604e+000 9.90219955e+001 -5.64980841e+000</data></dipPosition>
+              <pipPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  -8.33733749e+000 8.90836487e+001 8.01718807e+000</data></pipPosition>
+              <mcpPosition type_id="opencv-matrix">
+                <rows>1</rows>
+                <cols>3</cols>
+                <dt>f</dt>
+                <data>
+                  1.71046507e+000 8.69725418e+001 3.69353256e+001</data></mcpPosition></Pinky></Fingers></Right></Hands>
+      <x_min>246</x_min>
+      <x_max>324</x_max>
+      <y_min>225</y_min>
+      <y_max>387</y_max>
+      <x_palm>320</x_palm>
+      <y_palm>286</y_palm></LeftImage></Images></Frame>
+</opencv_storage>

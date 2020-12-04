@@ -2,7 +2,6 @@ import React from 'react';
 import { withTheme } from '@material-ui/core/styles'
 import { Typography, Select, FormControl, Divider, IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Setting from '../Setting';
 
 class DatasetSelector extends React.Component {
   constructor(props) {
@@ -22,6 +21,7 @@ class DatasetSelector extends React.Component {
     const { datasetType, minDatasets, maxDatasets } = this.props;
 
     // Get the available datasets
+    console.log(datasetType)
     const datasets = templates.datasets[datasetType];
     const datasetsNames = Object.keys(datasets);
     // Get selected dataset(s)

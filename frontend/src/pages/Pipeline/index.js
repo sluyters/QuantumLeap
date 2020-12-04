@@ -76,50 +76,58 @@ class Pipeline extends React.Component {
     return (
       <React.Fragment>
         {/* General settings */}
-        {this.renderComponentSettings('generalSettings', 'General Settings')}
+        {this.renderComponentSettings(['quantumLeap', 'settings', 'general'], 'General Settings')}
         {/* Sensor settings */}
-        {this.renderComponentSettings('sensorsSettings', "Sensor(s)")}
-        {/* Pose dataset settings */}
-        {this.renderComponentSettings('poseDatasetsSettings', "Pose dataset(s)")}
-        {/* Gesture dataset settings */}
-        {this.renderComponentSettings('gestureDatasetsSettings', "Gesture dataset(s)")}
-        {/* Classifier settings */}
-        {this.renderComponentSettings('classifiersSettings', "Classifier")}
+        {this.renderComponentSettings(['quantumLeap', 'settings', 'sensors'], "Sensor(s)")}
+        {/* Static gesture dataset settings */}
+        {this.renderComponentSettings(['quantumLeap', 'settings', 'datasets', 'static'], "Static dataset(s)")}
+        {/* Static gesture recognizer settings */}
+        {this.renderComponentSettings(['quantumLeap', 'settings', 'recognizers', 'static'], "Static recognizer")}
         {/* Analyzer settings */}
-        {this.renderComponentSettings('analyzersSettings', "Analyzer")}
+        {this.renderComponentSettings(['quantumLeap', 'settings', 'analyzers'], "Analyzer")}
         {/* Segmenter settings */}
-        {this.renderComponentSettings('segmentersSettings', "Segmenter")}
-        {/* Recognizer settings */}
-        {this.renderComponentSettings('recognizersSettings', "Recognizer")}
+        {this.renderComponentSettings(['quantumLeap', 'settings', 'segmenters'], "Segmenter")}
+        {/* Dynamic gesture dataset settings */}
+        {this.renderComponentSettings(['quantumLeap', 'settings', 'datasets', 'dynamic'], "Dynamic dataset(s)")}
+        {/* Dynamic gesture recognizer settings */}
+        {this.renderComponentSettings(['quantumLeap', 'settings', 'recognizers', 'dynamic'], "Dynamic recognizer")}
       </React.Fragment>
     );
   }
 
-  renderComponentSettings(name, label) {
+  renderComponentSettings(path, label) {
     const { classes, theme } = this.props;
     const { templates, values } = this.state;
-    let path = ['quantumLeap', name];
-    let level = 0;    
-    console.log(templates)
+    let componentTemplate = templates;
+    let componentValue = values;
+    for (let key of path) {
+      componentTemplate = componentTemplate[key];
+      componentValue = componentValue[key];
+      if (!componentValue || !componentTemplate) {
+        break;
+      }
+    }
     return (
       <Paper style={{ marginTop: theme.spacing(3), marginBottom: theme.spacing(3), padding: theme.spacing(2), backgroundColor: theme.palette.grey[50] }}>
         <Typography className={classes.componentName} variant='h2'>
           {label}
         </Typography>
-        {(templates && values && templates.quantumLeap && values.quantumLeap && templates.quantumLeap[name] && values.quantumLeap[name]) ? (
-          templates.quantumLeap[name].map(setting => {
+        {(componentValue && componentTemplate) ? (
+          componentTemplate.map(setting => {
             return <Setting
               templates={templates}
               values={values}
               handleChange={this.handleValueChange}
-              level={level}
+              level={0}
               path={path}
-              value={values.quantumLeap[name][setting.name]}
+              value={componentValue[setting.name]}
               setting={setting}
             />
           })
         ) : (
-          ''
+          <Typography variant='body1'>
+            No settings available.
+          </Typography>
         )}
       </Paper>
     );

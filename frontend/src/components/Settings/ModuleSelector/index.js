@@ -6,13 +6,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Setting from '../Setting';
 
 class ModuleSelector extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      expanded: '',
-    };
-  }
-
   render() {
     const { theme } = this.props;
     // Unchanged for each setting
@@ -22,10 +15,12 @@ class ModuleSelector extends React.Component {
     // Unique to each module
     const { moduleType, minModules, maxModules, settings } = this.props;
 
-    const { expanded } = this.state;
-
     // Get the available modules
-    const modules = templates.modules[moduleType];
+    let modulePath = moduleType.split('/');
+    let modules = templates.modules;
+    for (let key of modulePath) {
+      modules = modules[key];
+    }
     const modulesNames = Object.keys(modules);
     // Get selected module(s)
     let selectedModules = value;
@@ -95,7 +90,7 @@ class ModuleSelector extends React.Component {
             <Box width={1}>
             {(template.settings.length === 0 && settings.length === 0) ? (
                 <Typography variant='body1'>
-                  No setting available.
+                  No settings available.
                 </Typography>
               ) : (
                 ''

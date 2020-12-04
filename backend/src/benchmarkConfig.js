@@ -3,34 +3,34 @@ const path = require('path');
 
 // Gesture datasets loaders
 const UnifiedDatasetLoader = require('./framework/datasets/unified-loader');
-const GuinevereDatasetLoader = require('./implementation/datasets/gesture/guinevere-loader');
-const LeapMotionDatasetLoader = require('./implementation/datasets/gesture/leap-gesture-loader');
-const SmartphoneDatasetLoader = require('./implementation/datasets/gesture/smartphone-loader');
-const HandGestureDatasetLoader = require('./implementation/datasets/gesture/hand-gesture-csv-loader');
-const UWaveDatasetLoader = require('./implementation/datasets/gesture/uwave-loader');
+const GuinevereDatasetLoader = require('./implementation/datasets/dynamic/guinevere-loader');
+const LeapMotionDatasetLoader = require('./implementation/datasets/dynamic/leap-gesture-loader');
+const SmartphoneDatasetLoader = require('./implementation/datasets/dynamic/smartphone-loader');
+const HandGestureDatasetLoader = require('./implementation/datasets/dynamic/hand-gesture-csv-loader');
+const UWaveDatasetLoader = require('./implementation/datasets/dynamic/uwave-loader');
 
 // Pose datasets loaders
-const MMHGRDatasetLoader = require('./implementation/datasets/pose/mmhgr-loader');
-const LeapPoseDatasetLoader = require('./implementation/datasets/pose/leap-pose-loader');
+const MMHGRDatasetLoader = require('./implementation/datasets/static/mmhgr-loader');
+const LeapPoseDatasetLoader = require('./implementation/datasets/static/leap-pose-loader');
 
 // Gesture recognizers
 //3D
-const HybridP3DollarPlusXRecognizer = require('./implementation/recognizers/hybridp3dollarplusx-recognizer/recognizer').Recognizer;
-const JackknifeRecognizer = require('./implementation/recognizers/jackknife-recognizer/recognizer').Recognizer;
-const P3DollarPlusXRecognizer = require('./implementation/recognizers/p3dollarplusx-recognizer/recognizer').Recognizer;
-const UVPRecognizer = require('./implementation/recognizers/uvplusflexiblecloud-recognizer/recognizer').Recognizer;
-const ThreeCentRecognizer = require('./implementation/recognizers/threecent-recognizer/recognizer').Recognizer;
-const P3DollarRecognizer = require('./implementation/recognizers/p3dollar-recognizer/recognizer').Recognizer;
-const P3DollarPlusRecognizer = require('./implementation/recognizers/p3dollarplus-recognizer/recognizer').Recognizer;
-const Q3DollarRecognizer = require('./implementation/recognizers/q3dollar-recognizer/recognizer').Recognizer;
+const HybridP3DollarPlusXRecognizer = require('./implementation/recognizers/dynamic/hybridp3dollarplusx-recognizer/recognizer');
+const JackknifeRecognizer = require('./implementation/recognizers/dynamic/jackknife-recognizer/recognizer');
+const P3DollarPlusXRecognizer = require('./implementation/recognizers/dynamic/p3dollarplusx-recognizer/recognizer');
+const UVPRecognizer = require('./implementation/recognizers/dynamic/uvplusflexiblecloud-recognizer/recognizer');
+const ThreeCentRecognizer = require('./implementation/recognizers/dynamic/threecent-recognizer/recognizer');
+const P3DollarRecognizer = require('./implementation/recognizers/dynamic/p3dollar-recognizer/recognizer');
+const P3DollarPlusRecognizer = require('./implementation/recognizers/dynamic/p3dollarplus-recognizer/recognizer');
+const Q3DollarRecognizer = require('./implementation/recognizers/dynamic/q3dollar-recognizer/recognizer');
 //2D
-const PDollarPlusRecognizer = require('./implementation/recognizers/pdollarplus-recognizer/recognizer').Recognizer;
+const PDollarPlusRecognizer = require('./implementation/recognizers/dynamic/pdollarplus-recognizer/recognizer');
 
 // Pose classifiers
-const GPSDClassifier = require('./implementation/classifiers/gpsd-classifier/classifier').Classifier;
-const GPSDaClassifier = require('./implementation/classifiers/gpsda-classifier/classifier').Classifier;
-const GPSDaDissimilarityClassifier = require('./implementation/classifiers/gpsdadissimilarity-classifier/classifier').Classifier;
-const P3DollarPlusClassifier = require('./implementation/classifiers/p3dollarplus-classifier/classifier').Classifier; 
+const GPSDClassifier = require('./implementation/recognizers/static/gpsd-classifier/classifier');
+const GPSDaClassifier = require('./implementation/recognizers/static/gpsda-classifier/classifier');
+const GPSDaDissimilarityClassifier = require('./implementation/recognizers/static/gpsdadissimilarity-classifier/classifier');
+const P3DollarPlusClassifier = require('./implementation/recognizers/static/p3dollarplus-classifier/classifier'); 
 
 // Articulations
 const fingerMcps = {
@@ -363,7 +363,7 @@ config.datasets.gesture = [
 config.datasets.pose = [
     {
         loader: LeapPoseDatasetLoader,
-        name: "guinevre-pose",
+        name: "guinevre-static",
         aggregateClasses: [
             { name: "flat", classes: ["flat"] },
             { name: "point", classes: ["point-index"] },

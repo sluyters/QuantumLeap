@@ -1,0 +1,27 @@
+{
+  "label": "GPSDa w/ dissimilarity",
+  "name": "gpsdadissimilarity",
+  "type": "recognizer-static",
+  "description": "TODO.",
+  "properties": {},
+  "settings": [
+    {
+      "name": "alpha",
+      "type": "FloatInput",
+      "label": "Alpha",
+      "description": "TODO.",
+      "minValue": null,
+      "maxValue": null,
+      "default": 0.8
+    },
+    {
+      "name": "articulations",
+      "type": "PointsSelector",
+      "label": "Articulations",
+      "description": "The articulations that are used by the recognizer.",
+      "minNumber": 1,
+      "maxNumber": null,
+      "default": {}
+    }
+  ]
+}

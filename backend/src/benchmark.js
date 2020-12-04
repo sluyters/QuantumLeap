@@ -111,7 +111,7 @@ function startUserIndependentTesting(dataset, recognizerOrClassifierType, config
                     if (type === "recognizer") {
                         recognizerOrClassifier.addGesture(gestureClass.name, gestureClass.getSamples()[training]);
                     } else {
-                        recognizerOrClassifier.addPose(gestureClass.name, gestureClass.getSamples()[training]);
+                        recognizerOrClassifier.addGesture(gestureClass.name, gestureClass.getSamples()[training]);
                     }
                     index++;
                 });
@@ -125,7 +125,7 @@ function startUserIndependentTesting(dataset, recognizerOrClassifierType, config
                 if (type === "recognizer") {
                     var result = recognizerOrClassifier.recognize(toBeTested);
                 } else {
-                    var result = recognizerOrClassifier.classify(toBeTested.frame);
+                    var result = recognizerOrClassifier.recognize(toBeTested.frame);
                 }
                 // Update the confusion matrix
                 if (dataset.getGestureClasses().has(result.name)) {

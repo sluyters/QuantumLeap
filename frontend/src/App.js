@@ -7,7 +7,6 @@ import Layout from './components/Layout'
 import { Home as HomeIcon, Settings as PipelineIcon, Gesture as GestureSetsIcon, Extension, Speed as TestingIcon } from '@material-ui/icons'
 // Pages
 import Home from './pages/Home'
-import GeneralSettings from './pages/GeneralSettings'
 import Pipeline from './pages/Pipeline'
 import NotFound from './pages/NotFound'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
