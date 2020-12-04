@@ -3,9 +3,15 @@ import { Grid, Button, IconButton, TextField, Typography } from '@material-ui/co
 import DeleteIcon from '@material-ui/icons/Delete';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
+const TIMEOUT_VALUE = 500;
+
 class GesturesSelector extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      value: props.value,
+      typingTimeout: ''
+    };
   }
   render() {
     // Unchanged for each setting
@@ -30,32 +36,50 @@ class GesturesSelector extends React.Component {
     });
 
     const addGesture = () => {
-      let newValue = value.slice();
+      let newValue = this.state.value.slice();
       newValue.push({
         name: '',
         classes: []
       });
-      handleChange(path, newValue)
+      if (this.state.typingTimeout) {
+        clearTimeout(this.state.typingTimeout);
+      }
+      this.setState({
+        value: newValue,
+        typingTimeout: setTimeout(() => handleChange(path, newValue), TIMEOUT_VALUE)
+      });
     }
 
     const changeGesture = (index) => (name, classes) => {
-      let newValue = value.slice();
+      let newValue = this.state.value.slice();
       let gesture = newValue[index];
       gesture.name = name;
       gesture.classes = classes;
-      handleChange(path, newValue)
+      if (this.state.typingTimeout) {
+        clearTimeout(this.state.typingTimeout);
+      }
+      this.setState({
+        value: newValue,
+        typingTimeout: setTimeout(() => handleChange(path, newValue), TIMEOUT_VALUE)
+      });
     }
 
     const deleteGesture = (index) => () => {
-      let newValue = value.slice();
+      let newValue = this.state.value.slice();
       newValue.splice(index, 1);
-      handleChange(path, newValue)
+      if (this.state.typingTimeout) {
+        clearTimeout(this.state.typingTimeout);
+      }
+      this.setState({
+        value: newValue,
+        typingTimeout: setTimeout(() => handleChange(path, newValue), TIMEOUT_VALUE)
+      });
     }
     // The level will impact the size, boldness, of the setting
     return (
       <React.Fragment>
         {/* For each element in value, display it */}
-        {value.map((gesture, index) => (
+        {this.state.value.map((gesture, index) => (
           <Gesture
             name={gesture.name}
             classes={gesture.classes}
