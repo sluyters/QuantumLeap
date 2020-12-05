@@ -16,79 +16,100 @@
             "label": "Left palm"
           },
           {
-            "type": "joint",
-            "name": "leftThumbTipPosition",
-            "label": "Left thumb tip"
+            "type": "category",
+            "name": "tips",
+            "label": "Tips",
+            "points": [
+              {
+                "type": "joint",
+                "name": "leftThumbTipPosition",
+                "label": "Left thumb tip"
+              },
+              {
+                "type": "joint",
+                "name": "leftIndexTipPosition",
+                "label": "Left index tip"
+              },
+              {
+                "type": "joint",
+                "name": "leftMiddleTipPosition",
+                "label": "Left middle tip"
+              },
+              {
+                "type": "joint",
+                "name": "leftRingTipPosition",
+                "label": "Left ring tip"
+              },
+              {
+                "type": "joint",
+                "name": "leftPinkyTipPosition",
+                "label": "Left pinky tip"
+              }
+            ]
           },
           {
-            "type": "joint",
-            "name": "leftIndexTipPosition",
-            "label": "Left index tip"
+            "type": "category",
+            "name": "pips",
+            "label": "Pips",
+            "points": [
+              {
+                "type": "joint",
+                "name": "leftThumbPipPosition",
+                "label": "Left thumb pip"
+              },
+              {
+                "type": "joint",
+                "name": "leftIndexPipPosition",
+                "label": "Left index pip"
+              },
+              {
+                "type": "joint",
+                "name": "leftMiddlePipPosition",
+                "label": "Left middle pip"
+              },
+              {
+                "type": "joint",
+                "name": "leftRingPipPosition",
+                "label": "Left ring pip"
+              },
+              {
+                "type": "joint",
+                "name": "leftPinkyPipPosition",
+                "label": "Left pinky pip"
+              }
+            ]
           },
           {
-            "type": "joint",
-            "name": "leftMiddleTipPosition",
-            "label": "Left middle tip"
-          },
-          {
-            "type": "joint",
-            "name": "leftRingTipPosition",
-            "label": "Left ring tip"
-          },
-          {
-            "type": "joint",
-            "name": "leftPinkyTipPosition",
-            "label": "Left pinky tip"
-          },
-          {
-            "type": "joint",
-            "name": "leftThumbPipPosition",
-            "label": "Left thumb pip"
-          },
-          {
-            "type": "joint",
-            "name": "leftIndexPipPosition",
-            "label": "Left index pip"
-          },
-          {
-            "type": "joint",
-            "name": "leftMiddlePipPosition",
-            "label": "Left middle pip"
-          },
-          {
-            "type": "joint",
-            "name": "leftRingPipPosition",
-            "label": "Left ring pip"
-          },
-          {
-            "type": "joint",
-            "name": "leftPinkyPipPosition",
-            "label": "Left pinky pip"
-          },
-          {
-            "type": "joint",
-            "name": "leftThumbMcpPosition",
-            "label": "Left thumb mcp"
-          },
-          {
-            "type": "joint",
-            "name": "leftIndexMcpPosition",
-            "label": "Left index mcp"
-          },
-          {
-            "type": "joint",
-            "name": "leftMiddleMcpPosition",
-            "label": "Left middle mcp"
-          },
-          {
-            "type": "joint",
-            "name": "leftRingMcpPosition",
-            "label": "Left ring mcp"
-          },
-          {
-            "type": "joint",
-            "name": "leftPinkyMcpPosition",
-            "label": "Left pinky mcp"
+            "type": "category",
+            "name": "mcps",
+            "label": "Mcps",
+            "points": [
+              {
+                "type": "joint",
+                "name": "leftThumbMcpPosition",
+                "label": "Left thumb mcp"
+              },
+              {
+                "type": "joint",
+                "name": "leftIndexMcpPosition",
+                "label": "Left index mcp"
+              },
+              {
+                "type": "joint",
+                "name": "leftMiddleMcpPosition",
+                "label": "Left middle mcp"
+              },
+              {
+                "type": "joint",
+                "name": "leftRingMcpPosition",
+                "label": "Left ring mcp"
+              },
+              {
+                "type": "joint",
+                "name": "leftPinkyMcpPosition",
+                "label": "Left pinky mcp"
+              }
+            ]
           }
         ]
       },
@@ -103,79 +124,100 @@
             "label": "Right palm"
           },
           {
-            "type": "joint",
-            "name": "rightThumbTipPosition",
-            "label": "Right thumb tip"
+            "type": "category",
+            "name": "tips",
+            "label": "Tips",
+            "points": [
+              {
+                "type": "joint",
+                "name": "rightThumbTipPosition",
+                "label": "Right thumb tip"
+              },
+              {
+                "type": "joint",
+                "name": "rightIndexTipPosition",
+                "label": "Right index tip"
+              },
+              {
+                "type": "joint",
+                "name": "rightMiddleTipPosition",
+                "label": "Right middle tip"
+              },
+              {
+                "type": "joint",
+                "name": "rightRingTipPosition",
+                "label": "Right ring tip"
+              },
+              {
+                "type": "joint",
+                "name": "rightPinkyTipPosition",
+                "label": "Right pinky tip"
+              }
+            ]
           },
           {
-            "type": "joint",
-            "name": "rightIndexTipPosition",
-            "label": "Right index tip"
+            "type": "category",
+            "name": "pips",
+            "label": "Pips",
+            "points": [
+              {
+                "type": "joint",
+                "name": "rightThumbPipPosition",
+                "label": "Right thumb pip"
+              },
+              {
+                "type": "joint",
+                "name": "rightIndexPipPosition",
+                "label": "Right index pip"
+              },
+              {
+                "type": "joint",
+                "name": "rightMiddlePipPosition",
+                "label": "Right middle pip"
+              },
+              {
+                "type": "joint",
+                "name": "rightRingPipPosition",
+                "label": "Right ring pip"
+              },
+              {
+                "type": "joint",
+                "name": "rightPinkyPipPosition",
+                "label": "Right pinky pip"
+              }
+            ]
           },
           {
-            "type": "joint",
-            "name": "rightMiddleTipPosition",
-            "label": "Right middle tip"
-          },
-          {
-            "type": "joint",
-            "name": "rightRingTipPosition",
-            "label": "Right ring tip"
-          },
-          {
-            "type": "joint",
-            "name": "rightPinkyTipPosition",
-            "label": "Right pinky tip"
-          },
-          {
-            "type": "joint",
-            "name": "rightThumbPipPosition",
-            "label": "Right thumb pip"
-          },
-          {
-            "type": "joint",
-            "name": "rightIndexPipPosition",
-            "label": "Right index pip"
-          },
-          {
-            "type": "joint",
-            "name": "rightMiddlePipPosition",
-            "label": "Right middle pip"
-          },
-          {
-            "type": "joint",
-            "name": "rightRingPipPosition",
-            "label": "Right ring pip"
-          },
-          {
-            "type": "joint",
-            "name": "rightPinkyPipPosition",
-            "label": "Right pinky pip"
-          },
-          {
-            "type": "joint",
-            "name": "rightThumbMcpPosition",
-            "label": "Right thumb mcp"
-          },
-          {
-            "type": "joint",
-            "name": "rightIndexMcpPosition",
-            "label": "Right index mcp"
-          },
-          {
-            "type": "joint",
-            "name": "rightMiddleMcpPosition",
-            "label": "Right middle mcp"
-          },
-          {
-            "type": "joint",
-            "name": "rightRingMcpPosition",
-            "label": "Right ring mcp"
-          },
-          {
-            "type": "joint",
-            "name": "rightPinkyMcpPosition",
-            "label": "Right pinky mcp"
+            "type": "category",
+            "name": "mcps",
+            "label": "Mcps",
+            "points": [
+              {
+                "type": "joint",
+                "name": "rightThumbMcpPosition",
+                "label": "Right thumb mcp"
+              },
+              {
+                "type": "joint",
+                "name": "rightIndexMcpPosition",
+                "label": "Right index mcp"
+              },
+              {
+                "type": "joint",
+                "name": "rightMiddleMcpPosition",
+                "label": "Right middle mcp"
+              },
+              {
+                "type": "joint",
+                "name": "rightRingMcpPosition",
+                "label": "Right ring mcp"
+              },
+              {
+                "type": "joint",
+                "name": "rightPinkyMcpPosition",
+                "label": "Right pinky mcp"
+              }
+            ]
           }
         ]
       }
