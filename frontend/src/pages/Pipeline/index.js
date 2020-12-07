@@ -43,7 +43,7 @@ class Pipeline extends React.Component {
     this.fetchData = this.fetchData.bind(this);
     this.restartQuantumLeap = this.restartQuantumLeap.bind(this);
     this.sendValues = this.sendValues.bind(this);
-    this.resetValues = this.resetValues.bind(this);
+    this.discardValues = this.discardValues.bind(this);
     this.downloadValues = this.downloadValues.bind(this);
     this.loadValues = this.loadValues.bind(this);
   }
@@ -60,7 +60,7 @@ class Pipeline extends React.Component {
       >
         <Button onClick={this.restartQuantumLeap}>Restart QuantumLeap</Button>
         <Button onClick={this.sendValues}>Save config</Button>
-        <Button onClick={this.resetValues} disabled>Reset config</Button>
+        <Button onClick={this.discardValues}>Discard changes</Button>
         <Button onClick={this.downloadValues}>Download config</Button>
         <Button component="label">
           Load config 
@@ -172,8 +172,16 @@ class Pipeline extends React.Component {
     });
   }
 
-  resetValues() {
-    // TODO
+  discardValues() {
+    return axios.get(`${URL}/values`)
+    .then((res) => {
+      this.setState({
+        values: res.data
+      });
+    })
+    .catch((err) => {
+      console.error(err.message);
+    });
   }
   
   downloadValues() {
