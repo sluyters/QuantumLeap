@@ -114,17 +114,28 @@ class FrameProcessor {
       // Reset analyzer
       this.analyzer.reset();
       // Try to segment and recognize dynamic gesture
-      let segment = this.segmenter.segment(frame);
-      if (segment) {
-        let name = '';
-        try {
-          name = this.recognizers.dynamic.recognize(segment).name;
-        } catch (error) {
-          console.error(`Dynamic gesture recognizer error: ${error}`);
-        }
-        if (name && (!this.config.recognizers.dynamic.sendIfRequested || this.enabledGestures.dynamic.includes(name))) {
+      let segments = this.segmenter.segment(frame);
+      if (segments.length > 0) {
+        let bestName = '';
+        let bestScore = 0;
+        // For each segment, attempt to recognize the gesture
+        segments.forEach(segment => {
+          try {
+            let { name, time, score } = this.recognizers.dynamic.recognize(segment);
+            // TODO remove
+            score = 0.5;
+            // Keep the gesture with the highest score
+            if (score && score > bestScore) {
+              bestName = name;
+              bestScore = score;
+            }
+          } catch (error) {
+            console.error(`Dynamic gesture recognizer error: ${error}`);
+          }
+        });
+        if (bestName && (!this.config.recognizers.dynamic.sendIfRequested || this.enabledGestures.dynamic.includes(bestName))) {
           this.segmenter.notifyRecognition();
-          return { 'type': 'dynamic', 'name': name, 'data': {} };
+          return { 'type': 'dynamic', 'name': bestName, 'data': {} };
         }
       }
     }

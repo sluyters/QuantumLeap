@@ -23,7 +23,7 @@ class Segmenter extends AbstractSegmenter {
     // Increment pause count
     this.pauseCount = Math.max(this.pauseCount - 1, 0);
     if (this.pauseCount != 0) {
-      return null;
+      return [];
     }
     if (isWithinBounds(frame, this.monitoredArticulations)) {
       // At least one articulation is in the zone
@@ -32,7 +32,7 @@ class Segmenter extends AbstractSegmenter {
         let oldStrokeData = this.strokeData;
         this.strokeData = null;
         this.frameCount = 0;
-        return oldStrokeData;
+        return [ oldStrokeData ];
       }
       if (this.strokeData === null) {
         // Initialize strokeData
@@ -57,13 +57,13 @@ class Segmenter extends AbstractSegmenter {
       let oldStrokeData = this.strokeData;
       this.strokeData = null;
       this.frameCount = 0;
-      return oldStrokeData;
+      return [ oldStrokeData ];
     } else {
       // Hands outside of the zone and not enough frames
       this.strokeData = null;
       this.frameCount = 0;
     }
-    return null;
+    return [];
   }
 
   notifyRecognition() {

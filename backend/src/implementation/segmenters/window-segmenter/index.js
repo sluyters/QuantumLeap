@@ -51,10 +51,10 @@ class Segmenter extends AbstractSegmenter {
           path.addStroke(stroke);
           stroke.points = this.frameBuffer[articulation.label].slice();
         }
-        return strokeData;
+        return [ strokeData ];
       }
     }
-    return null;
+    return [];
   }
 
   notifyRecognition() {

@@ -20,7 +20,7 @@ class Segmenter extends AbstractSegmenter {
                 let oldStrokeData = this.strokeData;
                 this.strokeData = null;
                 this.frameCount = 0;
-                return oldStrokeData;
+                return [ oldStrokeData ];
             } 
             if (this.strokeData === null) {
                 // Initialize strokeData
@@ -55,13 +55,13 @@ class Segmenter extends AbstractSegmenter {
             let oldStrokeData = this.strokeData;
             this.strokeData = null;
             this.frameCount = 0;
-            return oldStrokeData;
+            return [ oldStrokeData ];
         } else {
             // Left hand removed and not enough frames
             this.strokeData = null;
             this.frameCount = 0;
         }
-        return null;
+        return [];
     }
 
     notifyRecognition() {
