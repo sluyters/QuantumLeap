@@ -3,6 +3,9 @@ const { initDataset } = require('./datasets/init-datasets');
 
 class FrameProcessor {
   constructor(config) {
+    // Initialize filter
+    let filterModule = config.filters.modules[0];
+    this.filter = new filterModule.module(filterModule.moduleSettings);
     // Initialize analyzer
     let analyzerModule = config.analyzers.modules[0];
     this.analyzer = new analyzerModule.module(analyzerModule.moduleSettings);
@@ -73,6 +76,7 @@ class FrameProcessor {
 
   processFrame(frame) {
     // Get static gesture and data from the static gesture buffer
+    frame = this.filter.filter(frame);
     let prevSgInfo = '';
     let prevSgRatio = 0;
     if (this.sgBuffer.isFull()) {
