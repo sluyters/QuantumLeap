@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const QuantumLeap = require('./framework/quantum-leap');
-const Configuration = require('./config-helper');
+const Configuration = require('./framework/config-helper');
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants
