@@ -1,0 +1,27 @@
+{
+  "label": "1€",
+  "name": "one-euro",
+  "type": "filter",
+  "description": "TODO",
+  "properties": {},
+  "settings": [
+    {
+      "type": "FloatInput",
+      "name": "minCutoff",
+      "label": "Minimum cutoff frequency",
+      "description": "Decrease this value if slow speed jitter is a problem.",
+      "minValue": 0,
+      "maxValue": null,
+      "default": 1.0
+    },
+    {
+      "type": "FloatInput",
+      "name": "beta",
+      "label": "Beta",
+      "description": "Increase this value if high speed lag is a problem.",
+      "minValue": null,
+      "maxValue": null,
+      "default": 0.0
+    }
+  ]
+}

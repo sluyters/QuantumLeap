@@ -24,6 +24,16 @@
         ],
         "framerate": 60
       },
+      "filters": {
+        "modules": [
+          {
+            "moduleName": "placeholder",
+            "moduleType": "filters",
+            "moduleSettings": {},
+            "additionalSettings": {}
+          }
+        ]
+      },
       "datasets": {
         "static": {
           "modules": [

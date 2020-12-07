@@ -79,6 +79,8 @@ class Pipeline extends React.Component {
         {this.renderComponentSettings(['quantumLeap', 'settings', 'general'], 'General Settings')}
         {/* Sensor settings */}
         {this.renderComponentSettings(['quantumLeap', 'settings', 'sensors'], "Sensor(s)")}
+        {/* Filter settings */}
+        {this.renderComponentSettings(['quantumLeap', 'settings', 'filters'], "Filter")}
         {/* Static gesture dataset settings */}
         {this.renderComponentSettings(['quantumLeap', 'settings', 'datasets', 'static'], "Static dataset(s)")}
         {/* Static gesture recognizer settings */}

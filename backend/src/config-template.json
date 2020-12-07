@@ -84,6 +84,19 @@
         "default": 60
       }
     ],
+    "filters": [
+      {
+        "name": "modules",
+        "type": "ModuleSelector",
+        "label": "Module",
+        "description": "The filter to use in the pipeline.",
+        "moduleType": "filters",
+        "minModules": 1,
+        "maxModules": 1,
+        "settings": [],
+        "default": []
+      }
+    ],
     "datasets": {
       "static": [
         {
