@@ -1,6 +1,7 @@
 const AbstractDynamicRecognizer = require('../../../../framework/recognizers/dynamic/abstract-dynamic-recognizer').AbstractDynamicRecognizer;
 const math = require('mathjs');
 const Spline = require('cubic-spline');
+const { parsePointsNames } = require('../../../../framework/utils');
 
 
 class Point {
@@ -22,7 +23,7 @@ class Recognizer extends AbstractDynamicRecognizer {
     constructor(options, dataset) {
 		super();
         NumPoints = options.samplingPoints;
-        pathName = options.pathName;
+        pathName = parsePointsNames(options.pathName)[0];
         this.templates = {};
         this.threshold = Infinity;
 		if (dataset!==undefined){

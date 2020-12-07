@@ -1,0 +1,149 @@
+{
+  "label": "Benchmark configuration",
+  "name": "quantumLeap-benchmark",
+  "description": "The benchmarking configuration of the QuantumLeap framework.",
+  "properties": {},
+  "settings": {
+    "general": [
+      {
+        "type": "BooleanInput",
+        "name": "debug",
+        "label": "Show debug logs",
+        "description": "Display the logs in the terminal for debugging.",
+        "default": false
+      }
+    ],
+    "datasets": {
+      "static": [
+        {
+          "name": "modules",
+          "type": "ModuleSelector",
+          "label": "Module(s)",
+          "description": "The static dataset loader(s) to use in the pipeline.",
+          "moduleType": "datasets/static",
+          "minModules": 1,
+          "maxModules": null,
+          "settings": [
+            {
+              "name": "datasets",
+              "type": "DatasetSelector",
+              "label": "Dataset",
+              "description": "The static dataset to load.",
+              "datasetType": "static",
+              "minDatasets": 1,
+              "maxDatasets": 1,
+              "default": []
+            },
+            {
+              "type": "TextInput",
+              "name": "id",
+              "label": "Identifier",
+              "description": "Unique identifier for the dataset (strongly recommended if multiple datasets are selected).",
+              "minLength": 1,
+              "maxLength": null,
+              "default": ""
+            }
+          ],
+          "default": []
+        },
+        {
+          "type": "IntegerInput",
+          "name": "templatesPerClass",
+          "label": "Templates per class",
+          "description": "Number of templates used per class to train the recognizer(s).",
+          "minValue": 0,
+          "maxValue": null,
+          "default": 0
+        },
+        {
+          "name": "aggregateClasses",
+          "type": "GesturesSelector",
+          "label": "Gestures",
+          "description": "The gestures that are used to train the classifier(s). All the gestures are used if none is selected.",
+          "datasetType": "static",
+          "settings": [],
+          "default": []
+        }
+      ],
+      "dynamic": [
+        {
+          "name": "modules",
+          "type": "ModuleSelector",
+          "label": "Module(s)",
+          "description": "The dynamic gesture dataset loader(s) to use in the pipeline.",
+          "moduleType": "datasets/dynamic",
+          "minModules": 1,
+          "maxModules": null,
+          "settings": [
+            {
+              "name": "datasets",
+              "type": "DatasetSelector",
+              "label": "Dataset",
+              "description": "The dynamic gesture dataset to load.",
+              "datasetType": "dynamic",
+              "minDatasets": 1,
+              "maxDatasets": 1,
+              "default": []
+            },
+            {
+              "type": "TextInput",
+              "name": "id",
+              "label": "Identifier",
+              "description": "Unique identifier for the dataset (strongly recommended if multiple datasets are selected).",
+              "minLength": 1,
+              "maxLength": null,
+              "default": ""
+            }
+          ],
+          "default": []
+        },
+        {
+          "type": "IntegerInput",
+          "name": "templatesPerClass",
+          "label": "Templates per class",
+          "description": "Number of templates used per class to train the recognizer(s).",
+          "minValue": 0,
+          "maxValue": null,
+          "default": 0
+        },
+        {
+          "name": "aggregateClasses",
+          "type": "GesturesSelector",
+          "label": "Gestures",
+          "description": "The gestures that are used to train the recognizer(s). All the gestures are used if none is selected.",
+          "datasetType": "dynamic",
+          "settings": [],
+          "default": []
+        }
+      ]
+    },
+    "recognizers": {
+      "static": [
+        {
+          "name": "modules",
+          "type": "ModuleSelector",
+          "label": "Module",
+          "description": "The classifier to use in the pipeline.",
+          "moduleType": "recognizers/static",
+          "minModules": 1,
+          "maxModules": null,
+          "settings": [],
+          "default": []
+        }
+      ],
+      "dynamic": [
+        {
+          "name": "modules",
+          "type": "ModuleSelector",
+          "label": "Module",
+          "description": "The recognizers to use in the pipeline.",
+          "moduleType": "recognizers/dynamic",
+          "minModules": 1,
+          "maxModules": 1,
+          "settings": [],
+          "default": []
+        }
+      ]
+    }
+  }
+}

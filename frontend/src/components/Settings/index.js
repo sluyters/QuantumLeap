@@ -1,5 +1,4 @@
 import { BooleanInput, TextInput, FloatInput, IntegerInput } from './SimpleInput';
-import ValueSelection from './ValueSelection';
 import PointsSelector from './PointsSelector';
 import GesturesSelector from './GesturesSelector';
 import DatasetSelector from './DatasetSelector';
@@ -12,7 +11,6 @@ export {
   TextInput,
   FloatInput,
   IntegerInput,
-  ValueSelection,
   Category,
   PointsSelector,
   GesturesSelector,

@@ -21,6 +21,8 @@ class PointsSelector extends React.Component {
     const { templates, values } = this.props;
     // Each module has the props, but their value can change
     const { handleChange, level, path, value } = this.props;
+    // Unique to each module
+    const { minNumber, maxNumber } = this.props;
 
     // Get the selected sensors
     const sensors = values.quantumLeap.settings.sensors.modules;
@@ -43,6 +45,9 @@ class PointsSelector extends React.Component {
       // Handlers
       const selectPoints = (points) => {
         let newPoints = union(selectedPoints, points);
+        if (maxNumber && newPoints.length > maxNumber) {
+          newPoints.splice(0, newPoints.length - maxNumber);
+        }
         value[sensorId] = newPoints;
         handleChange(path, value);
       }
