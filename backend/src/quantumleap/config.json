@@ -237,6 +237,51 @@
                     "additionalSettings": {
                       "weight": 1
                     }
+                  },
+                  {
+                    "moduleName": "pdollarplus",
+                    "moduleType": "recognizers/dynamic",
+                    "moduleSettings": {
+                      "samplingPoints": 16,
+                      "points": {
+                        "lmc": [
+                          "rightPalmPosition"
+                        ]
+                      }
+                    },
+                    "additionalSettings": {
+                      "weight": 1
+                    }
+                  },
+                  {
+                    "moduleName": "p3dollar",
+                    "moduleType": "recognizers/dynamic",
+                    "moduleSettings": {
+                      "samplingPoints": 16,
+                      "points": {
+                        "lmc": [
+                          "rightPalmPosition"
+                        ]
+                      }
+                    },
+                    "additionalSettings": {
+                      "weight": 1
+                    }
+                  },
+                  {
+                    "moduleName": "q3dollar",
+                    "moduleType": "recognizers/dynamic",
+                    "moduleSettings": {
+                      "samplingPoints": 16,
+                      "points": {
+                        "lmc": [
+                          "rightPalmPosition"
+                        ]
+                      }
+                    },
+                    "additionalSettings": {
+                      "weight": 1
+                    }
                   }
                 ]
               },

@@ -10,7 +10,7 @@ class Recognizer extends AbstractDynamicRecognizer {
 	constructor(options, dataset) {
 		super();
 		this.samplingPoints = options.samplingPoints;
-		this.points = parsePointsNames(options.points);
+		this.selectedPoints = parsePointsNames(options.points);
 		this.recognizer = new P3DollarPlusXRecognizer(this.samplingPoints);
 		if (dataset !== undefined) {
 			dataset.getGestureClasses().forEach((gesture) => {
@@ -23,7 +23,7 @@ class Recognizer extends AbstractDynamicRecognizer {
 	}
 
 	addGesture(name, sample) {
-		let points = convert(sample, this.points);
+		let points = convert(sample, this.selectedPoints);
 		this.recognizer.AddGesture(name, points);
 	}
 
@@ -32,7 +32,7 @@ class Recognizer extends AbstractDynamicRecognizer {
 	}
 
 	recognize(sample) {
-		let points = convert(sample, this.points);
+		let points = convert(sample, this.selectedPoints);
 		if (points.length < 2) {
 			return { name: "", score: 0.0, time: 0 };
 		}
@@ -41,18 +41,18 @@ class Recognizer extends AbstractDynamicRecognizer {
 	}
 
 	toString() {
-		return `${Recognizer.name} [ samplingPoints = ${this.samplingPoints}, points = ${this.points} ]`;
+		return `${Recognizer.name} [ samplingPoints = ${this.samplingPoints}, points = ${this.selectedPoints} ]`;
 	}
 
 }
 
-function convert(sample, points) {
+function convert(sample, selectedPoints) {
 	let points = [];
-	points.forEach((articulation, articulationID) => {
+	selectedPoints.forEach((articulation, articulationID) => {
 		sample.paths[articulation].strokes.forEach((stroke, strokeId) => {
 			stroke.points.forEach((point) => {
 				// If multipoint, one stroke per articulation, otherwise, keep original strokes
-				let index = points.length > 1 ? articulationID : strokeId;
+				let index = selectedPoints.length > 1 ? articulationID : strokeId;
 				points.push(new Point(point.x, point.y, point.z, index));
 			});
 		});
