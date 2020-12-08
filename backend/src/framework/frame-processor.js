@@ -3,9 +3,10 @@ const { initDataset } = require('./datasets/init-datasets');
 
 class FrameProcessor {
   constructor(config) {
+    let framerate =  config.sensors.framerate;
     // Initialize filter
     let filterModule = config.filters.modules[0];
-    this.filter = new filterModule.module(filterModule.moduleSettings);
+    this.filter = new filterModule.module(framerate, filterModule.moduleSettings);
     // Initialize analyzer
     let analyzerModule = config.analyzers.modules[0];
     this.analyzer = new analyzerModule.module(analyzerModule.moduleSettings);

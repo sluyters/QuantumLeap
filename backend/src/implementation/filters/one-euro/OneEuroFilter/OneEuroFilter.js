@@ -134,4 +134,4 @@ class OneEuroFilter {
   }
 } 
 
-module.exports = OneEuroFilter;
+module.exports = { OneEuroFilter };

@@ -27,9 +27,12 @@
       "filters": {
         "modules": [
           {
-            "moduleName": "placeholder",
+            "moduleName": "one-euro",
             "moduleType": "filters",
-            "moduleSettings": {},
+            "moduleSettings": {
+              "minCutoff": 1,
+              "beta": 0.001
+            },
             "additionalSettings": {}
           }
         ]
