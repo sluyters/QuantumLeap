@@ -53,13 +53,13 @@ class Recognizer extends AbstractDynamicRecognizer {
         const { scale, gestureData } = parseData(sample, this.palmThreshold, this.fingerThreshold);
         if (scale === "small") {
             let result = this.smallScaleRecognizer.Recognize(gestureData);
-            return (result.Name === "No match.") ? { name: "", time: result.Time, score: result.Score } : { name: result.Name, time: result.Time, score: result.Score };
+            return (result.Name === "No match.") ? { name: "", score: result.Score, time: result.Time } : { name: result.Name, score: result.Score, time: result.Time };
         } else if (scale === "large") {
             let result = this.largeScaleRecognizer.Recognize(gestureData);
-            return (result.Name === "No match.") ? { name: "", time: result.Time, score: result.Score } : { name: result.Name, time: result.Time, score: result.Score };
+            return (result.Name === "No match.") ? { name: "", score: result.Score, time: result.Time } : { name: result.Name, score: result.Score, time: result.Time };
         } else {
             //console.log("static gesture ?")
-            return { name: "", time: 0.0, score: 0.0 };
+            return { name: "", score: 0.0, time: 0.0 };
         }
     }
     

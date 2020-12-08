@@ -7,42 +7,42 @@ class Recognizer extends AbstractDynamicRecognizer {
 
 	static name = "Q3DollarRecognizer";
 
-    constructor(options, dataset) {
+	constructor(options, dataset) {
 		super();
 		this.samplingPoints = options.samplingPoints;
-        this.articulations = parsePointsNames(options.articulations);
-        this.recognizer = new Q3DollarRecognizer(this.samplingPoints);
-		if (dataset !== undefined){
+		this.articulations = parsePointsNames(options.articulations);
+		this.recognizer = new Q3DollarRecognizer(this.samplingPoints);
+		if (dataset !== undefined) {
 			dataset.getGestureClasses().forEach((gesture) => {
 				gesture.getSamples().forEach(sample => {
-						this.addGesture(gesture.name, sample);
-					}
+					this.addGesture(gesture.name, sample);
+				}
 				);
 			});
 		}
 	}
-	
+
 	addGesture(name, sample) {
 		let points = convert(sample, this.articulations);
 		this.recognizer.AddGesture(name, points);
 	}
 
-    removeGesture(name) {
+	removeGesture(name) {
 		this.recognizer.RemoveGesture(name);
 	}
 
-    recognize(sample) {
+	recognize(sample) {
 		let points = convert(sample, this.articulations);
-		if(points.length === 0) {
-            return { name: "", time: 0, score: 0.0 };
-        }
-        let result = this.recognizer.Recognize(points);
-		return (result.Name === "No match.") ? { name: "", time: result.Time, score: result.Score } : { name: result.Name, time: result.Time, score: result.Score };
+		if (points.length === 0) {
+			return { name: "", score: 0.0, time: 0 };
+		}
+		let result = this.recognizer.Recognize(points);
+		return (result.Name === "No match.") ? { name: "", score: result.Score, time: result.Time } : { name: result.Name, score: result.Score, time: result.Time };
 	}
 
 	toString() {
-        return `${Recognizer.name} [ samplingPoints = ${this.samplingPoints}, articulations = ${this.articulations} ]`;
-    }
+		return `${Recognizer.name} [ samplingPoints = ${this.samplingPoints}, articulations = ${this.articulations} ]`;
+	}
 
 }
 

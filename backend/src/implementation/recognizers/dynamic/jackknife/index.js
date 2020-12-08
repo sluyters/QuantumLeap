@@ -44,12 +44,12 @@ class Recognizer extends AbstractDynamicRecognizer {
   recognize(sample) {
     let jackknifeSample = convert(sample, this.articulations);
     if (!jackknifeSample) {
-      return { name: "", time: 0.0 };
+      return { name: "", score: 0.0, time: 0.0 };
     }
     let t0 = Date.now();
     let ret = this.jackknifeRecognizer.classify(jackknifeSample);
     let t1 = Date.now();
-    return (ret == -1) ? { name: "", time: t1 - t0 } : { name: ret, time: t1 - t0 };
+    return (ret.name == -1) ? { name: "", score: 0.0, time: t1 - t0 } : { name: ret.name, score: ret.score, time: t1 - t0 };
   }
 
   toString() {

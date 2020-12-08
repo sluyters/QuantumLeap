@@ -28,8 +28,7 @@ class Recognizer extends AbstractDynamicRecognizer{
 
     recognize(sample){
         //console.log('recognize');
-
-        return {Name:this.gestureset[0], Time: 5};
+        return { name: this.gestureset[0], score: 0, time: 5 };
     }
 
 }

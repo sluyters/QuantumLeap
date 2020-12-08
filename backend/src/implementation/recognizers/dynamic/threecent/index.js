@@ -90,7 +90,8 @@ class Recognizer extends AbstractDynamicRecognizer {
             }
         }); 
         let t1 = Date.now();
-		return (bestFitClass === "") ? { name: "", time: t1-t0, 'Score': 0.0 } : { name: bestFitClass, time: t1-t0, 'Score': minDist };
+        let bestScore = 1/minDist;
+		return (bestFitClass === "") ? { name: "", score: 0.0, time: t1-t0 } : { name: bestFitClass, score: bestScore > 1.0 ? 1.0 : bestScore, time: t1-t0 };
 	}
     
     toString() {

@@ -17,7 +17,7 @@ class Recognizer extends AbstractDynamicRecognizer {
     }
 
     recognize(sample) {
-        return { name: "", time: 0.0 };
+        return { name: "", score: 0.0, time: 0.0 };
     }
 
     toString() {

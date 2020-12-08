@@ -23,7 +23,7 @@ class AbstractDynamicRecognizer {
   /**
    * Check whether the sample corresponds to a known dynamic gesture .
    * @param {Object} sample - A dynamic gesture  sample from the sensor.
-   * @returns a JavaScript object with at least 2 properties: name (the name of the dynamic gesture ) and time (the execution time).
+   * @returns a JavaScript object with at least 3 properties: name (the name of the dynamic gesture), score (how confident the recognizer is of the result, between 0 and 1), and time (the execution time).
    */
   recognize(sample) {
     throw new Error('You have to implement this function');

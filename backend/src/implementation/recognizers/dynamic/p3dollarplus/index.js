@@ -34,10 +34,10 @@ class Recognizer extends AbstractDynamicRecognizer {
 	recognize(sample) {
 		let points = convert(sample, this.articulations);
 		if (points.length === 0) {
-			return { name: "", time: 0, score: 0.0 };
+			return { name: "", score: 0.0, time: 0 };
 		}
 		let result = this.recognizer.Recognize(points);
-		return (result.Name === "No match.") ? { name: "", time: result.Time, score: result.Score } : { name: result.Name, time: result.Time, score: result.Score };
+		return (result.Name === "No match.") ? { name: "", score: result.Score, time: result.Time } : { name: result.Name, score: result.Score, time: result.Time };
 	}
 
 	toString() {

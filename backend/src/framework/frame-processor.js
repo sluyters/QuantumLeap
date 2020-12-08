@@ -117,13 +117,12 @@ class FrameProcessor {
       let segments = this.segmenter.segment(frame);
       if (segments.length > 0) {
         let bestName = '';
-        let bestScore = 0;
+        let bestScore = -1;
         // For each segment, attempt to recognize the gesture
         segments.forEach(segment => {
           try {
-            let { name, time, score } = this.recognizers.dynamic.recognize(segment);
-            // TODO remove
-            score = 0.5;
+            let { name, score, time } = this.recognizers.dynamic.recognize(segment);
+            console.log(name, score, time)
             // Keep the gesture with the highest score
             if (score && score > bestScore) {
               bestName = name;

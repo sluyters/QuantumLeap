@@ -134,7 +134,9 @@ Jackknife.prototype.classify = function(trajectory) {
         }
     }
 
-    return ret;
+    // Added
+    let bestScore = 1/best;
+    return { name: ret, score: bestScore > 1.0 ? 1.0 : bestScore };
 }
 
 
