@@ -57,7 +57,7 @@ class QLConfiguration {
     let newConfigDefs = {}
     try {
       // Load main config definition
-      newConfigDefs['quantumLeap'] = JSON.parse(fs.readFileSync(this.mainConfigDefPath));
+      newConfigDefs['main'] = JSON.parse(fs.readFileSync(this.mainConfigDefPath));
       // Load config templates of the modules
       newConfigDefs['modules'] = initData(this.modulesDirectory, this.templateFilename);
       // Load datasets
@@ -92,8 +92,8 @@ class QLConfiguration {
   buildValues() {
     try {
       this.values = {
-        quantumLeap: {
-          settings: buildModuleValues(this.templates.quantumLeap.settings)
+        main: {
+          settings: buildModuleValues(this.templates.main.settings)
         }
       }
     } catch (err) {
@@ -204,8 +204,8 @@ class QLConfiguration {
 
 // function buildValuesHelper(templates) {
 //   let values = {
-//     quantumLeap: {
-//       settings: buildModuleValues(templates.quantumLeap.settings)
+//     main: {
+//       settings: buildModuleValues(templates.main.settings)
 //     }
 //   }
 //   return values;

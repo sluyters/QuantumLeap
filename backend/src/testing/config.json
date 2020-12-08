@@ -1,41 +1,10 @@
 {
-  "quantumLeap": {
+  "main": {
     "settings": {
       "general": {
         "general": {
-          "debug": true,
-          "sendContinuousData": true
-        },
-        "server": {
-          "ip": "127.0.0.1",
-          "port": 6442
+          "debug": true
         }
-      },
-      "sensors": {
-        "modules": [
-          {
-            "moduleName": "leap-sensor",
-            "moduleType": "sensors",
-            "moduleSettings": {},
-            "additionalSettings": {
-              "id": "lmc"
-            }
-          }
-        ],
-        "framerate": 60
-      },
-      "filters": {
-        "modules": [
-          {
-            "moduleName": "one-euro",
-            "moduleType": "filters",
-            "moduleSettings": {
-              "minCutoff": 1,
-              "beta": 0.001
-            },
-            "additionalSettings": {}
-          }
-        ]
       },
       "datasets": {
         "static": {
@@ -104,41 +73,6 @@
           ]
         }
       },
-      "analyzers": {
-        "modules": [
-          {
-            "moduleName": "basic-analyzer",
-            "moduleType": "analyzers",
-            "moduleSettings": {},
-            "additionalSettings": {}
-          }
-        ]
-      },
-      "segmenters": {
-        "modules": [
-          {
-            "moduleName": "window-segmenter",
-            "moduleType": "segmenters",
-            "moduleSettings": {
-              "windowWidth": 20,
-              "intervalLength": 6,
-              "pauseLength": 60,
-              "motionThreshold": 70,
-              "motionArticulations": {
-                "lmc": [
-                  "rightIndexTipPosition",
-                  "rightMiddleTipPosition",
-                  "rightRingTipPosition",
-                  "rightPinkyTipPosition",
-                  "rightPalmPosition",
-                  "rightThumbTipPosition"
-                ]
-              }
-            },
-            "additionalSettings": {}
-          }
-        ]
-      },
       "recognizers": {
         "static": {
           "modules": [
@@ -170,11 +104,7 @@
               },
               "additionalSettings": {}
             }
-          ],
-          "bufferLength": 15,
-          "poseRatioThreshold": 0.8,
-          "sendIfRequested": true,
-          "loadOnRequest": false
+          ]
         },
         "dynamic": {
           "modules": [
@@ -242,9 +172,7 @@
               },
               "additionalSettings": {}
             }
-          ],
-          "sendIfRequested": true,
-          "loadOnRequest": false
+          ]
         }
       }
     }

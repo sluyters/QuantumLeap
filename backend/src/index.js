@@ -10,7 +10,8 @@ const Configuration = require('./framework/config-helper');
 const TEMPLATES_NAME = 'config-template.json';
 const VALUES_NAME = 'config.json';
 const DATASET_INFO_NAME = 'info.json';
-const MAIN_DIRECTORY = __dirname;
+const TESTING_DIRECTORY = path.join(__dirname, 'testing');
+const QUANTUMLEAP_DIRECTORY = path.join(__dirname, 'quantumleap');
 const MODULES_DIRECTORY = path.join(__dirname, 'implementation');
 const DATASETS_DIRECTORY = path.join(__dirname, 'datasets');
 const SERVER_IP = '127.0.0.1';
@@ -21,8 +22,12 @@ const SERVER_PORT = 6442;
 let server = http.createServer();
 
 ////////////////////////////////////////////////////////////////////////////////
+// Initialize Benchmarking tool and its configuration
+let testingConfig = new Configuration(TESTING_DIRECTORY, MODULES_DIRECTORY, DATASETS_DIRECTORY, VALUES_NAME, TEMPLATES_NAME, DATASET_INFO_NAME);
+testingConfig.load();
+
 // Initialize QuantumLeap and its configuration
-let configuration = new Configuration(MAIN_DIRECTORY, MODULES_DIRECTORY, DATASETS_DIRECTORY, VALUES_NAME, TEMPLATES_NAME, DATASET_INFO_NAME);
+let configuration = new Configuration(QUANTUMLEAP_DIRECTORY, MODULES_DIRECTORY, DATASETS_DIRECTORY, VALUES_NAME, TEMPLATES_NAME, DATASET_INFO_NAME);
 configuration.load();
 qlConfig = configuration.toQLConfig();
 let quantumLeap = new QuantumLeap(server);
@@ -43,42 +48,64 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/templates', (req, res) => {
+app.get('/quantumleap/templates', (req, res) => {
   let templates = configuration.getTemplates();
   return res.status(200).json(templates);
 });
 
-app.put('/templates', (req, res) => {
-  let templates = req.body.data;
-  configuration.setTemplates(templates);
-  res.status(204).send();
-});
+// app.put('/templates', (req, res) => {
+//   let templates = req.body.data;
+//   configuration.setTemplates(templates);
+//   res.status(204).send();
+// });
 
-app.get('/values', (req, res) => {
+app.get('/quantumleap/values', (req, res) => {
   let values = configuration.getValues();
   return res.status(200).json(values);
 });
 
-app.put('/values', (req, res) => {
+app.put('/quantumleap/values', (req, res) => {
   let values = req.body.data;
   configuration.setValues(values);
   res.status(204).send();
   try {
     configuration.saveValues();
   } catch (err) {
-    console.error(`Unable to restart QuantumLeap. Details: ${err.stack}`);
+    console.error(`Unable to save the values. Details: ${err.stack}`);
   }
 });
 
-app.post('/actions/restart', (req, res) => {
+app.post('/quantumleap/actions/restart', (req, res) => {
   try {
     let qlConfig = configuration.toQLConfig();
     quantumLeap.restart(qlConfig);
     return res.status(200).send();
   } catch (err) {
-    console.log(err.stack)
+    console.log(`Unable to restart QuantumLeap. Details: ${err.stack}`)
     res.status(500).send();
   } 
+});
+
+app.get('/testing/templates', (req, res) => {
+  let templates = testingConfig.getTemplates();
+  return res.status(200).json(templates);
+});
+
+
+app.get('/testing/values', (req, res) => {
+  let values = testingConfig.getValues();
+  return res.status(200).json(values);
+});
+
+app.put('/testing/values', (req, res) => {
+  let values = req.body.data;
+  testingConfig.setValues(values);
+  res.status(204).send();
+  try {
+    testingConfig.saveValues();
+  } catch (err) {
+    console.error(`Unable to save the values. Details: ${err.stack}`);
+  }
 });
 
 ////////////////////////////////////////////////////////////////////////////////

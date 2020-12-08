@@ -8,6 +8,7 @@ import { Home as HomeIcon, Settings as PipelineIcon, Gesture as GestureSetsIcon,
 // Pages
 import Home from './pages/Home'
 import Pipeline from './pages/Pipeline'
+import Testing from './pages/Testing'
 import NotFound from './pages/NotFound'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 
@@ -70,6 +71,11 @@ class App extends React.Component {
                 exact
                 path="/pipeline" 
                 render={(props) => (<Pipeline {...props} setActions={this.setCurrentActions} />)}
+              />
+              <Route 
+                exact
+                path="/testing" 
+                render={(props) => (<Testing {...props} setActions={this.setCurrentActions} />)}
               />
               <Route 
                 exact

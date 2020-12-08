@@ -8,18 +8,18 @@ class QuantumLeap {
   }
 
   start(config) {
-    this.wss = setupWSS(config.quantumLeap.settings, this.server);
+    this.wss = setupWSS(config.main.settings, this.server);
   }
 
   restart(config) {
     console.log('WebSocket server restarting...');
     if (this.wss) {
       this.wss.close(() => {
-        this.wss = setupWSS(config.quantumLeap.settings, this.server);
+        this.wss = setupWSS(config.main.settings, this.server);
         console.log('WebSocket server started!');
       });
     } else {
-      this.wss = setupWSS(config.quantumLeap.settings, this.server);
+      this.wss = setupWSS(config.main.settings, this.server);
       console.log('WebSocket server started!');
     }
   }

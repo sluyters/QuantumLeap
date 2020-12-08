@@ -31,7 +31,7 @@ const styles = (theme) => ({
   }
 });
 
-class Pipeline extends React.Component {
+class Testing extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,7 +41,7 @@ class Pipeline extends React.Component {
     this.renderComponentSettings = this.renderComponentSettings.bind(this);
     this.handleValueChange = this.handleValueChange.bind(this);
     this.fetchData = this.fetchData.bind(this);
-    this.restartQuantumLeap = this.restartQuantumLeap.bind(this);
+    this.startBenchmarking = this.startBenchmarking.bind(this);
     this.sendValues = this.sendValues.bind(this);
     this.discardValues = this.discardValues.bind(this);
     this.downloadValues = this.downloadValues.bind(this);
@@ -58,7 +58,8 @@ class Pipeline extends React.Component {
         disableElevation 
         className={classes.actionButtons}
       >
-        <Button onClick={this.restartQuantumLeap}>Restart QuantumLeap</Button>
+        <Button onClick={this.startBenchmarking}>Start testing</Button>
+        <Button onClick={() => {}}>Stop testing</Button>
         <Button onClick={this.sendValues}>Save config</Button>
         <Button onClick={this.discardValues}>Discard changes</Button>
         <Button onClick={this.downloadValues}>Download config</Button>
@@ -76,19 +77,11 @@ class Pipeline extends React.Component {
     return (
       <React.Fragment>
         {/* General settings */}
-        {this.renderComponentSettings(['main', 'settings', 'general'], 'Recognition pipeline')}
-        {/* Sensor settings */}
-        {this.renderComponentSettings(['main', 'settings', 'sensors'], "Sensor(s)")}
-        {/* Filter settings */}
-        {this.renderComponentSettings(['main', 'settings', 'filters'], "Filter")}
+        {this.renderComponentSettings(['main', 'settings', 'general'], 'Testing')}
         {/* Static gesture dataset settings */}
         {this.renderComponentSettings(['main', 'settings', 'datasets', 'static'], "Static dataset(s)")}
         {/* Static gesture recognizer settings */}
         {this.renderComponentSettings(['main', 'settings', 'recognizers', 'static'], "Static recognizer")}
-        {/* Analyzer settings */}
-        {this.renderComponentSettings(['main', 'settings', 'analyzers'], "Analyzer")}
-        {/* Segmenter settings */}
-        {this.renderComponentSettings(['main', 'settings', 'segmenters'], "Segmenter")}
         {/* Dynamic gesture dataset settings */}
         {this.renderComponentSettings(['main', 'settings', 'datasets', 'dynamic'], "Dynamic dataset(s)")}
         {/* Dynamic gesture recognizer settings */}
@@ -146,8 +139,8 @@ class Pipeline extends React.Component {
   }
 
   fetchData() {
-    let promise1 = axios.get(`${URL}/quantumleap/templates`);
-    let promise2 = axios.get(`${URL}/quantumleap/values`);
+    let promise1 = axios.get(`${URL}/testing/templates`);
+    let promise2 = axios.get(`${URL}/testing/values`);
     return Promise.all([promise1, promise2])
       .then(res => {
         this.setState({
@@ -164,10 +157,10 @@ class Pipeline extends React.Component {
       });
   }
 
-  restartQuantumLeap() {
-    return axios.post(`${URL}/quantumleap/actions/restart`)
+  startBenchmarking() {
+    return axios.post(`${URL}/testing/actions/start`)
     .then((res) => {
-      console.log('QuantumLeap restarting');
+      console.log('Testing starting');
     })
     .catch((err) => {
       console.error(err.message);
@@ -175,7 +168,7 @@ class Pipeline extends React.Component {
   }
 
   discardValues() {
-    return axios.get(`${URL}/quantumleap/values`)
+    return axios.get(`${URL}/testing/values`)
     .then((res) => {
       this.setState({
         values: res.data
@@ -228,7 +221,7 @@ class Pipeline extends React.Component {
   }
 
   sendValues() {
-    return axios.put(`${URL}/quantumleap/values`, { data: this.state.values })
+    return axios.put(`${URL}/testing/values`, { data: this.state.values })
     .then((res) => {
         console.log(res);
         console.log('Data saved');
@@ -247,4 +240,4 @@ function setObjectProperty(object, value, keys, index = 0) {
   }
 }
 
-export default withTheme(withStyles(styles)(Pipeline))
+export default withTheme(withStyles(styles)(Testing))

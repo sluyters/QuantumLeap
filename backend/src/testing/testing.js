@@ -1,8 +1,8 @@
 const path = require('path');
 const fs = require('fs');
 const config = require('./benchmarkConfig');
-const GestureSet = require('./framework/gestures/gesture-set').GestureSet;
-const GestureClass = require('./framework/gestures/gesture-class').GestureClass;
+const GestureSet = require('../framework/gestures/gesture-set').GestureSet;
+const GestureClass = require('../framework/gestures/gesture-class').GestureClass;
 
 // Important values
 const MINT = config.minT; // Maximum Training Templates

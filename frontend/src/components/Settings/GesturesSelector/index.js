@@ -22,7 +22,7 @@ class GesturesSelector extends React.Component {
     const { datasetType } = this.props;
 
     // Retrieve dataset-loaders & datasets infos
-    const datasetLoaders = values.quantumLeap.settings.datasets[datasetType].modules;
+    const datasetLoaders = values.main.settings.datasets[datasetType].modules;
     const datasets = templates.datasets[datasetType];
     // Retrieve the datasets names
     let datasetsNames = [];

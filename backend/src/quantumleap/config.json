@@ -1,0 +1,252 @@
+{
+  "main": {
+    "settings": {
+      "general": {
+        "general": {
+          "debug": true,
+          "sendContinuousData": true
+        },
+        "server": {
+          "ip": "127.0.0.1",
+          "port": 6442
+        }
+      },
+      "sensors": {
+        "modules": [
+          {
+            "moduleName": "leap-sensor",
+            "moduleType": "sensors",
+            "moduleSettings": {},
+            "additionalSettings": {
+              "id": "lmc"
+            }
+          }
+        ],
+        "framerate": 60
+      },
+      "filters": {
+        "modules": [
+          {
+            "moduleName": "one-euro",
+            "moduleType": "filters",
+            "moduleSettings": {
+              "minCutoff": 1,
+              "beta": 0.001
+            },
+            "additionalSettings": {}
+          }
+        ]
+      },
+      "datasets": {
+        "static": {
+          "modules": [
+            {
+              "moduleName": "leap-loader",
+              "moduleType": "datasets/static",
+              "moduleSettings": {},
+              "additionalSettings": {
+                "datasets": [
+                  "guinevre-static"
+                ],
+                "id": "lmc"
+              }
+            }
+          ],
+          "templatesPerClass": 100,
+          "aggregateClasses": []
+        },
+        "dynamic": {
+          "modules": [
+            {
+              "moduleName": "leap-loader",
+              "moduleType": "datasets/dynamic",
+              "moduleSettings": {},
+              "additionalSettings": {
+                "datasets": [
+                  "guinevere"
+                ],
+                "id": "lmc"
+              }
+            }
+          ],
+          "templatesPerClass": 16,
+          "aggregateClasses": [
+            {
+              "name": "rhand_uswipe",
+              "classes": [
+                "swipe_up"
+              ]
+            },
+            {
+              "name": "rhand_dswipe",
+              "classes": [
+                "swipe_down"
+              ]
+            },
+            {
+              "name": "rhand_lswipe",
+              "classes": [
+                "swipe_left"
+              ]
+            },
+            {
+              "name": "rhand_rswipe",
+              "classes": [
+                "swipe_right"
+              ]
+            },
+            {
+              "name": "rindex_airtap",
+              "classes": [
+                "tap"
+              ]
+            }
+          ]
+        }
+      },
+      "analyzers": {
+        "modules": [
+          {
+            "moduleName": "basic-analyzer",
+            "moduleType": "analyzers",
+            "moduleSettings": {},
+            "additionalSettings": {}
+          }
+        ]
+      },
+      "segmenters": {
+        "modules": [
+          {
+            "moduleName": "window-segmenter",
+            "moduleType": "segmenters",
+            "moduleSettings": {
+              "windowWidth": 20,
+              "intervalLength": 6,
+              "pauseLength": 60,
+              "motionThreshold": 70,
+              "motionArticulations": {
+                "lmc": [
+                  "rightIndexTipPosition",
+                  "rightMiddleTipPosition",
+                  "rightRingTipPosition",
+                  "rightPinkyTipPosition",
+                  "rightPalmPosition",
+                  "rightThumbTipPosition"
+                ]
+              }
+            },
+            "additionalSettings": {}
+          }
+        ]
+      },
+      "recognizers": {
+        "static": {
+          "modules": [
+            {
+              "moduleName": "gpsda",
+              "moduleType": "recognizers/static",
+              "moduleSettings": {
+                "alpha": 0.8,
+                "articulations": {
+                  "lmc": [
+                    "rightPalmPosition",
+                    "rightThumbTipPosition",
+                    "rightIndexTipPosition",
+                    "rightMiddleTipPosition",
+                    "rightRingTipPosition",
+                    "rightPinkyTipPosition",
+                    "rightThumbPipPosition",
+                    "rightIndexPipPosition",
+                    "rightMiddlePipPosition",
+                    "rightRingPipPosition",
+                    "rightPinkyPipPosition",
+                    "rightThumbMcpPosition",
+                    "rightIndexMcpPosition",
+                    "rightMiddleMcpPosition",
+                    "rightRingMcpPosition",
+                    "rightPinkyMcpPosition"
+                  ]
+                }
+              },
+              "additionalSettings": {}
+            }
+          ],
+          "bufferLength": 15,
+          "poseRatioThreshold": 0.8,
+          "sendIfRequested": true,
+          "loadOnRequest": false
+        },
+        "dynamic": {
+          "modules": [
+            {
+              "moduleName": "multi-recognizer",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "recognizers": [
+                  {
+                    "moduleName": "jackknife",
+                    "moduleType": "recognizers/dynamic",
+                    "moduleSettings": {
+                      "samplingPoints": 16,
+                      "articulations": {
+                        "lmc": [
+                          "rightPalmPosition",
+                          "rightThumbTipPosition",
+                          "rightIndexTipPosition",
+                          "rightMiddleTipPosition",
+                          "rightRingTipPosition",
+                          "rightPinkyTipPosition"
+                        ]
+                      }
+                    },
+                    "additionalSettings": {
+                      "weight": 1
+                    }
+                  },
+                  {
+                    "moduleName": "p3dollarplus",
+                    "moduleType": "recognizers/dynamic",
+                    "moduleSettings": {
+                      "samplingPoints": 16,
+                      "articulations": {
+                        "lmc": [
+                          "rightPalmPosition",
+                          "rightThumbTipPosition",
+                          "rightIndexTipPosition",
+                          "rightMiddleTipPosition",
+                          "rightRingTipPosition",
+                          "rightPinkyTipPosition"
+                        ]
+                      }
+                    },
+                    "additionalSettings": {
+                      "weight": 1
+                    }
+                  },
+                  {
+                    "moduleName": "threecent",
+                    "moduleType": "recognizers/dynamic",
+                    "moduleSettings": {
+                      "samplingPoints": 16,
+                      "pathName": {
+                        "lmc": [
+                          "rightPalmPosition"
+                        ]
+                      }
+                    },
+                    "additionalSettings": {
+                      "weight": 1
+                    }
+                  }
+                ]
+              },
+              "additionalSettings": {}
+            }
+          ],
+          "sendIfRequested": true,
+          "loadOnRequest": false
+        }
+      }
+    }
+  }
+}

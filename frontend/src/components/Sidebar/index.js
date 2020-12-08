@@ -2,7 +2,7 @@ import "./style.css"
 import React from 'react'
 import { withStyles, withTheme } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
+import MenuItem from '@material-ui/core/MenuItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import Collapse from "@material-ui/core/Collapse"
@@ -10,6 +10,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import { withRouter } from 'react-router'
 import { Typography } from "@material-ui/core"
+import { useLocation } from 'react-router-dom';
 
 // TODO, make styling consistent
 const styles = (theme) => ({
@@ -32,9 +33,11 @@ const styles = (theme) => ({
   sidebarTitle: {
     width: '100%',
     textAlign: 'center',
+    paddingBottom: theme.spacing(2),
   },
   sidebarNav: {
     width: '100%',
+    paddingBottom: theme.spacing(2),
   },
   sidebarItemContainer: {
     marginLeft: theme.spacing(1),
@@ -42,6 +45,7 @@ const styles = (theme) => ({
   },
   sidebarButtons: {
     width: '100%',
+    paddingBottom: theme.spacing(2),
   },
 });
 
@@ -107,33 +111,40 @@ class SidebarItem extends React.Component {
       });
       expandIcon = collapsed ? (<ExpandMore/>) : (<ExpandLess/>);
     }
+    // Handler
+    let onClick = () => {
+      if (Array.isArray(this.props.item.items)) {
+        // Toggle collapse
+        this.setState(prevState => ({
+          ...prevState,
+          collapsed: !prevState.collapsed
+        }));
+      } else {
+        // Open corresponding page
+        this.props.history.push(this.props.item.route);
+      }
+    }
     // Render the item and its subitems
     const ItemIcon = item.icon;
     return (  
       <>
-        <ListItem key={item.name} className='sidebar-item' style={{ paddingLeft: theme.spacing(2 + depth * depthStep)}} onClick={this.onClick.bind(this)} button>
+        <MenuItem 
+          key={item.name} 
+          className='sidebar-item' 
+          style={{ paddingLeft: theme.spacing(2 + depth * depthStep)}} 
+          onClick={onClick} 
+          button
+          selected={this.props.item.route === this.props.history.location.pathname}
+        >
           {ItemIcon && <ListItemIcon><ItemIcon/></ListItemIcon>}
           <ListItemText primary={item.label}/>
           {expandIcon}
-        </ListItem> 
+        </MenuItem> 
         <Collapse in={!collapsed} timeout='auto' unmountOnExit>
           {renderedSubItems.length > 0 ? (<List disablePadding>{renderedSubItems}</List>) : ''} 
         </Collapse>
       </>
     );
-  }
-
-  onClick(e) {
-    if (Array.isArray(this.props.item.items)) {
-      // Toggle collapse
-      this.setState(prevState => ({
-        ...prevState,
-        collapsed: !prevState.collapsed
-      }));
-    } else {
-      // Open corresponding page
-      this.props.history.push(this.props.item.route);
-    }
   }
 }
 
