@@ -10,7 +10,7 @@ class Recognizer extends AbstractDynamicRecognizer {
 	constructor(options, dataset) {
 		super();
 		this.samplingPoints = options.samplingPoints;
-		this.paths = parsePointsNames(options.articulations);
+		this.paths = parsePointsNames(options.points);
 		this.recognizer = new QDollarRecognizer(this.samplingPoints);
 		if (dataset !== undefined) {
 			dataset.getGestureClasses().forEach((gesture) => {

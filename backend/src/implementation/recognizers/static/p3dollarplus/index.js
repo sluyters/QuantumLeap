@@ -9,8 +9,8 @@ class Classifier extends AbstractStaticRecognizer {
 
     constructor(options, dataset) {
         super(options);
-        this.articulations = parsePointsNames(options.articulations);
-        this.staticRecognizer = new P3DollarPlusRecognizer(this.articulations.length);
+        this.points = parsePointsNames(options.points);
+        this.staticRecognizer = new P3DollarPlusRecognizer(this.points.length);
         // Load gestures from the dataset
         if (dataset !== undefined) {
 			dataset.getGestureClasses().forEach((gesture) => {
@@ -24,7 +24,7 @@ class Classifier extends AbstractStaticRecognizer {
     addGesture(name, sample) {
         let frame = sample.frame;
         let points = []
-        for (const articulation of this.articulations) {
+        for (const articulation of this.points) {
             points.push(frame.getArticulation(articulation).point);
         }
         this.staticRecognizer.addGesture(name, points);
@@ -36,7 +36,7 @@ class Classifier extends AbstractStaticRecognizer {
 
     recognize(frame) {
         let points = []
-        for (const articulation of this.articulations) {
+        for (const articulation of this.points) {
             let point = frame.getArticulation(articulation).point;
             points.push(new Point(point.x, point.y, point.z, 0));
         }

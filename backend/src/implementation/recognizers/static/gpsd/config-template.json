@@ -6,10 +6,10 @@
   "properties": {},
   "settings": [
     {
-      "name": "articulations",
+      "name": "points",
       "type": "PointsSelector",
       "label": "Articulations",
-      "description": "The articulations that are used by the recognizer.",
+      "description": "The points that are used by the recognizer.",
       "minNumber": 1,
       "maxNumber": null,
       "default": {}

@@ -6,11 +6,43 @@
   "settings": {
     "general": [
       {
-        "type": "BooleanInput",
-        "name": "debug",
-        "label": "Show debug logs",
-        "description": "Display the logs in the terminal for debugging.",
-        "default": false
+        "type": "Category",
+        "name": "general",
+        "label": "General",
+        "settings": [
+          {
+            "type": "BooleanInput",
+            "name": "debug",
+            "label": "Show debug logs",
+            "description": "Display the logs in the terminal for debugging.",
+            "default": false
+          }
+        ]
+      },
+      {
+        "type": "Category",
+        "name": "globalParams",
+        "label": "Global parameters",
+        "settings": [
+          {
+            "type": "IntegerInput",
+            "label": "Number of sampling points",
+            "name": "samplingPoints",
+            "description": "The number of points of the gesture after resampling.",
+            "minValue": 2,
+            "maxValue": null,
+            "default": 16
+          },
+          {
+            "type": "PointsSelector",
+            "label": "Points",
+            "name": "points",
+            "description": "The points that are used by the recognizers.",
+            "minNumber": 1,
+            "maxNumber": null,
+            "default": {}
+          }
+        ]
       }
     ],
     "datasets": {
@@ -122,12 +154,20 @@
         {
           "name": "modules",
           "type": "ModuleSelector",
-          "label": "Module",
-          "description": "The classifier to use in the pipeline.",
+          "label": "Module(s)",
+          "description": "The static recognizers to use in the pipeline.",
           "moduleType": "recognizers/static",
           "minModules": 1,
           "maxModules": null,
-          "settings": [],
+          "settings": [
+            {
+              "type": "BooleanInput",
+              "name": "useCustomParams",
+              "label": "Use custom parameters",
+              "description": "Override the global parameters and use the parameters of the recognizer instead.",
+              "default": false
+            }
+          ],
           "default": []
         }
       ],
@@ -135,12 +175,20 @@
         {
           "name": "modules",
           "type": "ModuleSelector",
-          "label": "Module",
-          "description": "The recognizers to use in the pipeline.",
+          "label": "Module(s)",
+          "description": "The dynamic recognizers to use in the pipeline.",
           "moduleType": "recognizers/dynamic",
           "minModules": 1,
-          "maxModules": 1,
-          "settings": [],
+          "maxModules": null,
+          "settings": [
+            {
+              "type": "BooleanInput",
+              "name": "useCustomParams",
+              "label": "Use custom parameters",
+              "description": "Override the global parameters and use the parameters of the recognizer instead.",
+              "default": false
+            }
+          ],
           "default": []
         }
       ]

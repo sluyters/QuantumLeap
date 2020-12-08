@@ -4,6 +4,10 @@
       "general": {
         "general": {
           "debug": true
+        },
+        "globalParams": {
+          "samplingPoints": 16,
+          "points": []
         }
       },
       "datasets": {
@@ -81,28 +85,16 @@
               "moduleType": "recognizers/static",
               "moduleSettings": {
                 "alpha": 0.8,
-                "articulations": {
-                  "lmc": [
-                    "rightPalmPosition",
-                    "rightThumbTipPosition",
-                    "rightIndexTipPosition",
-                    "rightMiddleTipPosition",
-                    "rightRingTipPosition",
-                    "rightPinkyTipPosition",
-                    "rightThumbPipPosition",
-                    "rightIndexPipPosition",
-                    "rightMiddlePipPosition",
-                    "rightRingPipPosition",
-                    "rightPinkyPipPosition",
-                    "rightThumbMcpPosition",
-                    "rightIndexMcpPosition",
-                    "rightMiddleMcpPosition",
-                    "rightRingMcpPosition",
-                    "rightPinkyMcpPosition"
+                "points": {
+                  "datasetJ": [
+                    "test",
+                    "hh"
                   ]
                 }
               },
-              "additionalSettings": {}
+              "additionalSettings": {
+                "useCustomParams": false
+              }
             }
           ]
         },
@@ -118,16 +110,7 @@
                     "moduleType": "recognizers/dynamic",
                     "moduleSettings": {
                       "samplingPoints": 16,
-                      "articulations": {
-                        "lmc": [
-                          "rightPalmPosition",
-                          "rightThumbTipPosition",
-                          "rightIndexTipPosition",
-                          "rightMiddleTipPosition",
-                          "rightRingTipPosition",
-                          "rightPinkyTipPosition"
-                        ]
-                      }
+                      "points": {}
                     },
                     "additionalSettings": {
                       "weight": 1
@@ -138,16 +121,7 @@
                     "moduleType": "recognizers/dynamic",
                     "moduleSettings": {
                       "samplingPoints": 16,
-                      "articulations": {
-                        "lmc": [
-                          "rightPalmPosition",
-                          "rightThumbTipPosition",
-                          "rightIndexTipPosition",
-                          "rightMiddleTipPosition",
-                          "rightRingTipPosition",
-                          "rightPinkyTipPosition"
-                        ]
-                      }
+                      "points": {}
                     },
                     "additionalSettings": {
                       "weight": 1
@@ -158,11 +132,7 @@
                     "moduleType": "recognizers/dynamic",
                     "moduleSettings": {
                       "samplingPoints": 16,
-                      "pathName": {
-                        "lmc": [
-                          "rightPalmPosition"
-                        ]
-                      }
+                      "pathName": {}
                     },
                     "additionalSettings": {
                       "weight": 1
@@ -170,7 +140,9 @@
                   }
                 ]
               },
-              "additionalSettings": {}
+              "additionalSettings": {
+                "useCustomParams": false
+              }
             }
           ]
         }

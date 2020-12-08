@@ -59,7 +59,6 @@ class Recognizer extends AbstractDynamicRecognizer {
 	}
 
 	toString() {
-		//return `${Recognizer.name} [ samplingPoints = ${this.samplingPoints}, articulations = ${this.articulations} ]`;
     return `${Recognizer.name}`;
   }
 }

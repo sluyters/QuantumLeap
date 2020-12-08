@@ -147,7 +147,7 @@
               "moduleType": "recognizers/static",
               "moduleSettings": {
                 "alpha": 0.8,
-                "articulations": {
+                "points": {
                   "lmc": [
                     "rightPalmPosition",
                     "rightThumbTipPosition",
@@ -188,7 +188,7 @@
                     "moduleType": "recognizers/dynamic",
                     "moduleSettings": {
                       "samplingPoints": 16,
-                      "articulations": {
+                      "points": {
                         "lmc": [
                           "rightPalmPosition",
                           "rightThumbTipPosition",
@@ -208,7 +208,7 @@
                     "moduleType": "recognizers/dynamic",
                     "moduleSettings": {
                       "samplingPoints": 16,
-                      "articulations": {
+                      "points": {
                         "lmc": [
                           "rightPalmPosition",
                           "rightThumbTipPosition",
