@@ -30,11 +30,6 @@ const styles = (theme) => ({
     paddingBottom: theme.spacing(2),
     boxSizing: 'border-box',
   },
-  sidebarTitle: {
-    width: '100%',
-    textAlign: 'center',
-    paddingBottom: theme.spacing(2),
-  },
   sidebarNav: {
     width: '100%',
     paddingBottom: theme.spacing(2),
@@ -68,9 +63,6 @@ class Sidebar extends React.Component {
     // Render the item
     return (
       <div className={classes.sidebarContainer}>
-        <Typography variant='h4' className={classes.sidebarTitle} >
-          QuantumLeap
-        </Typography>
         <List disablePadding className={classes.sidebarNav} >
           {renderedItems}
         </List> 

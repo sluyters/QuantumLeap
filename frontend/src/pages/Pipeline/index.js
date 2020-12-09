@@ -76,7 +76,7 @@ class Pipeline extends React.Component {
     return (
       <React.Fragment>
         {/* General settings */}
-        {this.renderComponentSettings(['main', 'settings', 'general'], 'Recognition pipeline')}
+        {this.renderComponentSettings(['main', 'settings', 'general'], 'Miscellaneous', true)}
         {/* Sensor settings */}
         {this.renderComponentSettings(['main', 'settings', 'sensors'], "Sensor(s)")}
         {/* Filter settings */}
@@ -97,7 +97,7 @@ class Pipeline extends React.Component {
     );
   }
 
-  renderComponentSettings(path, label) {
+  renderComponentSettings(path, label, disableMargin=false) {
     const { classes, theme } = this.props;
     const { templates, values } = this.state;
     let componentTemplate = templates;
@@ -110,7 +110,7 @@ class Pipeline extends React.Component {
       }
     }
     return (
-      <Paper style={{ marginTop: theme.spacing(3), marginBottom: theme.spacing(3), padding: theme.spacing(2), backgroundColor: theme.palette.grey[50] }}>
+      <Paper style={{ padding: theme.spacing(2), marginTop: disableMargin ? 0 : theme.spacing(3), backgroundColor: theme.palette.background.paper }}>
         <Typography className={classes.componentName} variant='h2'>
           {label}
         </Typography>

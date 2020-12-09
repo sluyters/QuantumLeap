@@ -1,18 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 // Style
 import './App.css';
 // Components
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Layout from './components/Layout'
 import { Home as HomeIcon, Settings as PipelineIcon, Gesture as GestureSetsIcon, Extension, Speed as TestingIcon } from '@material-ui/icons'
 // Pages
 import Home from './pages/Home'
-import Pipeline from './pages/Pipeline'
-import Testing from './pages/Testing'
-import NotFound from './pages/NotFound'
+import Pipeline from './pages/Pipeline';
+import Testing from './pages/Testing';
+import NotFound from './pages/NotFound';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
-
-const theme = createMuiTheme();
 
 const pages = [
   //{ name: 'home', route: '/', label: 'Home', icon: HomeIcon },
@@ -44,55 +43,49 @@ const pages = [
   //{ name: 'gestures', route: '/gestures', label: 'Gestures', icon: Gesture },
 ]
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentActions: '',
-    };
-    this.setCurrentActions = this.setCurrentActions.bind(this);
-  }
-
-  setCurrentActions(actions) {
-    this.setState({
-      currentActions: actions,
-    });
-  }
-
-  render() {
-    let { currentActions } = this.state;
-    return (
-      <div className="App">
-        <ThemeProvider theme={theme}>
-          <Layout sidebarItems={pages} actions={currentActions}>
-            <Switch>
-              <Route 
-                exact
-                path="/" 
-                render={(props) => (<Pipeline {...props} setActions={this.setCurrentActions} />)}
-              />
-              <Route 
-                exact
-                path="/pipeline" 
-                render={(props) => (<Pipeline {...props} setActions={this.setCurrentActions} />)}
-              />
-              <Route 
-                exact
-                path="/testing" 
-                render={(props) => (<Testing {...props} setActions={this.setCurrentActions} />)}
-              />
-              <Route 
-                exact
-                path="/not-found"
-                render={(props) => (<NotFound {...props} setActions={this.setCurrentActions} />)}
-              />
-              <Redirect to="not-found" />
-            </Switch>
-          </Layout>
-        </ThemeProvider>
-      </div>
-    );
-  }
+function App() {
+  const [currentActions, setCurrentActions] = useState('');
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: light)');
+  const theme = React.useMemo(
+    () =>
+      createMuiTheme({
+        palette: {
+          type: prefersDarkMode ? 'dark' : 'light',
+        },
+      }),
+    [prefersDarkMode],
+  );
+  return (
+    <div className='App'>
+      <ThemeProvider theme={theme}>
+        <Layout sidebarItems={pages} actions={currentActions}>
+          <Switch>
+            <Route 
+              exact
+              path='/' 
+              render={(props) => (<Pipeline {...props} setActions={setCurrentActions} />)}
+            />
+            <Route 
+              exact
+              path='/pipeline' 
+              render={(props) => (<Pipeline {...props} setActions={setCurrentActions} />)}
+            />
+            <Route 
+              exact
+              path='/testing' 
+              render={(props) => (<Testing {...props} setActions={setCurrentActions} />)}
+            />
+            <Route 
+              exact
+              path='/not-found'
+              render={(props) => (<NotFound {...props} setActions={setCurrentActions} />)}
+            />
+            <Redirect to='not-found' />
+          </Switch>
+        </Layout>
+      </ThemeProvider>
+    </div>
+  );
 }
 
 export default App;
