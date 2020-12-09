@@ -1,7 +1,7 @@
 {
-  "label": "Benchmark configuration",
-  "name": "quantumLeap-benchmark",
-  "description": "The benchmarking configuration of the QuantumLeap framework.",
+  "label": "Testing configuration",
+  "name": "quantumLeap-testing",
+  "description": "The testing configuration of the QuantumLeap framework.",
   "properties": {},
   "settings": {
     "general": [
@@ -21,8 +21,42 @@
       },
       {
         "type": "Category",
+        "name": "testingParams",
+        "label": "Testing parameters",
+        "settings": [
+          {
+            "type": "IntegerInput",
+            "label": "Number of repetitions",
+            "name": "r",
+            "description": "The number of repetitions for each combination of parameters.",
+            "minValue": 1,
+            "maxValue": null,
+            "default": 100
+          },
+          {
+            "type": "IntegerInput",
+            "label": "Minimum number of templates",
+            "name": "minT",
+            "description": "The minimum number of training templates used for the training of the recognizers.",
+            "minValue": 1,
+            "maxValue": null,
+            "default": 1
+          },
+          {
+            "type": "IntegerInput",
+            "label": "Maximum number of templates",
+            "name": "maxT",
+            "description": "The maximum number of training templates used for the training of the recognizers.",
+            "minValue": 1,
+            "maxValue": null,
+            "default": 1
+          }
+        ]
+      },
+      {
+        "type": "Category",
         "name": "globalParams",
-        "label": "Global parameters",
+        "label": "Global recognizers parameters",
         "settings": [
           {
             "type": "IntegerInput",
@@ -54,7 +88,7 @@
           "description": "The static dataset loader(s) to use in the pipeline.",
           "moduleType": "datasets/static",
           "minModules": 1,
-          "maxModules": null,
+          "maxModules": 1,
           "settings": [
             {
               "name": "datasets",
@@ -79,19 +113,10 @@
           "default": []
         },
         {
-          "type": "IntegerInput",
-          "name": "templatesPerClass",
-          "label": "Templates per class",
-          "description": "Number of templates used per class to train the recognizer(s).",
-          "minValue": 0,
-          "maxValue": null,
-          "default": 0
-        },
-        {
           "name": "aggregateClasses",
           "type": "GesturesSelector",
           "label": "Gestures",
-          "description": "The gestures that are used to train the classifier(s). All the gestures are used if none is selected.",
+          "description": "The gestures that are used to train the recognizers(s). All the gestures are used if none is selected.",
           "datasetType": "static",
           "settings": [],
           "default": []
@@ -105,7 +130,7 @@
           "description": "The dynamic gesture dataset loader(s) to use in the pipeline.",
           "moduleType": "datasets/dynamic",
           "minModules": 1,
-          "maxModules": null,
+          "maxModules": 1,
           "settings": [
             {
               "name": "datasets",
@@ -128,15 +153,6 @@
             }
           ],
           "default": []
-        },
-        {
-          "type": "IntegerInput",
-          "name": "templatesPerClass",
-          "label": "Templates per class",
-          "description": "Number of templates used per class to train the recognizer(s).",
-          "minValue": 0,
-          "maxValue": null,
-          "default": 0
         },
         {
           "name": "aggregateClasses",

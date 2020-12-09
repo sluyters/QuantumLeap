@@ -27,7 +27,8 @@ class PointsSelector extends React.Component {
 
     if (!values.main.settings.sensors) {
       // Get the selected dataset (testing config) TODO
-      let datasetName = 'datasetJ';
+      //const datasets = values.main.settings.datasets.modules;
+      let datasetName = 'lmc';
       const changePoints = (points) => {
         console.log(points)
         let newValue = {};
@@ -40,7 +41,7 @@ class PointsSelector extends React.Component {
             multiple
             options={[]}
             freeSolo
-            value={value.datasetPoints}
+            value={value[datasetName]}
             onChange={(event, points, reason) => {
               switch (reason) {
                 case 'create-option':

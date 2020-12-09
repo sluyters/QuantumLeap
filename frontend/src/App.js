@@ -18,7 +18,11 @@ const pages = [
   //{ name: 'home', route: '/', label: 'Home', icon: HomeIcon },
   { name: 'pipeline', route: '/pipeline', label: 'Recognition pipeline', icon: PipelineIcon },
   { name: 'datasets', route: '/datasets', label: 'Gesture sets', icon: GestureSetsIcon },
-  { name: 'testing', route: '/testing', label: 'Testing', icon: TestingIcon },
+  { name: 'testing', route: '/testing', label: 'Testing', icon: TestingIcon, items: [
+      { name: 'staticTesting', route: '/testing/static', label: 'Static gestures', icon: null },
+      { name: 'dynamicTesting', route: '/testing/dynamic', label: 'Dynamic gestures', icon: null },
+    ] 
+  },
   // { 
   //   name: 'modules', 
   //   label: 'Modules', 

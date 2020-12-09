@@ -23,7 +23,7 @@ class Recognizer extends AbstractDynamicRecognizer {
     constructor(options, dataset) {
 		super();
         NumPoints = options.samplingPoints;
-        pathName = parsePointsNames(options.pathName)[0];
+        pathName = parsePointsNames(options.points)[0];
         this.templates = {};
         this.threshold = Infinity;
 		if (dataset!==undefined){

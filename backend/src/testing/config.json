@@ -5,6 +5,11 @@
         "general": {
           "debug": true
         },
+        "testingParams": {
+          "r": 100,
+          "minT": 8,
+          "maxT": 8
+        },
         "globalParams": {
           "samplingPoints": 16,
           "points": []
@@ -25,7 +30,6 @@
               }
             }
           ],
-          "templatesPerClass": 100,
           "aggregateClasses": []
         },
         "dynamic": {
@@ -42,39 +46,7 @@
               }
             }
           ],
-          "templatesPerClass": 16,
-          "aggregateClasses": [
-            {
-              "name": "rhand_uswipe",
-              "classes": [
-                "swipe_up"
-              ]
-            },
-            {
-              "name": "rhand_dswipe",
-              "classes": [
-                "swipe_down"
-              ]
-            },
-            {
-              "name": "rhand_lswipe",
-              "classes": [
-                "swipe_left"
-              ]
-            },
-            {
-              "name": "rhand_rswipe",
-              "classes": [
-                "swipe_right"
-              ]
-            },
-            {
-              "name": "rindex_airtap",
-              "classes": [
-                "tap"
-              ]
-            }
-          ]
+          "aggregateClasses": []
         }
       },
       "recognizers": {
@@ -110,7 +82,16 @@
                     "moduleType": "recognizers/dynamic",
                     "moduleSettings": {
                       "samplingPoints": 16,
-                      "points": {}
+                      "points": {
+                        "lmc": [
+                          "rightPalmPosition",
+                          "rightThumbTipPosition",
+                          "rightIndexTipPosition",
+                          "rightMiddleTipPosition",
+                          "rightRingTipPosition",
+                          "rightPinkyTipPosition"
+                        ]
+                      }
                     },
                     "additionalSettings": {
                       "weight": 1
@@ -121,18 +102,16 @@
                     "moduleType": "recognizers/dynamic",
                     "moduleSettings": {
                       "samplingPoints": 16,
-                      "points": {}
-                    },
-                    "additionalSettings": {
-                      "weight": 1
-                    }
-                  },
-                  {
-                    "moduleName": "threecent",
-                    "moduleType": "recognizers/dynamic",
-                    "moduleSettings": {
-                      "samplingPoints": 16,
-                      "pathName": {}
+                      "points": {
+                        "lmc": [
+                          "rightPalmPosition",
+                          "rightThumbTipPosition",
+                          "rightIndexTipPosition",
+                          "rightMiddleTipPosition",
+                          "rightRingTipPosition",
+                          "rightPinkyTipPosition"
+                        ]
+                      }
                     },
                     "additionalSettings": {
                       "weight": 1
@@ -142,6 +121,46 @@
               },
               "additionalSettings": {
                 "useCustomParams": false
+              }
+            },
+            {
+              "moduleName": "jackknife",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "samplingPoints": 16,
+                "points": {
+                  "lmc": [
+                    "rightPalmPosition",
+                    "rightThumbTipPosition",
+                    "rightIndexTipPosition",
+                    "rightMiddleTipPosition",
+                    "rightRingTipPosition",
+                    "rightPinkyTipPosition"
+                  ]
+                }
+              },
+              "additionalSettings": {
+                "weight": 1
+              }
+            },
+            {
+              "moduleName": "p3dollarplus",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "samplingPoints": 16,
+                "points": {
+                  "lmc": [
+                    "rightPalmPosition",
+                    "rightThumbTipPosition",
+                    "rightIndexTipPosition",
+                    "rightMiddleTipPosition",
+                    "rightRingTipPosition",
+                    "rightPinkyTipPosition"
+                  ]
+                }
+              },
+              "additionalSettings": {
+                "weight": 1
               }
             }
           ]

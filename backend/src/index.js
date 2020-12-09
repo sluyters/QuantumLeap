@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const QuantumLeap = require('./framework/quantum-leap');
+const UserIndependentTesting = require('./testing/testing').UserIndependentTesting;
 const Configuration = require('./framework/config-helper');
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -106,6 +107,18 @@ app.put('/testing/values', (req, res) => {
   } catch (err) {
     console.error(`Unable to save the values. Details: ${err.stack}`);
   }
+});
+app.post('/testing/actions/start', (req, res) => {
+  try {
+    let parsedTestingConfig = testingConfig.toQLConfig();
+    // TODO
+    let userIndependentTesting = new UserIndependentTesting('dynamic', parsedTestingConfig.main.settings);
+    userIndependentTesting.run();
+    return res.status(200).send();
+  } catch (err) {
+    console.log(`Unable to start testing. Details: ${err.stack}`)
+    res.status(500).send();
+  } 
 });
 
 ////////////////////////////////////////////////////////////////////////////////
