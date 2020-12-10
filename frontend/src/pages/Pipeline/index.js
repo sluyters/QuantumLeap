@@ -14,12 +14,6 @@ const styles = (theme) => ({
   cardHeader: {
     padding: theme.spacing(1, 2),
   },
-  list: {
-    width: 250,
-    height: 230,
-    backgroundColor: theme.palette.background.paper,
-    overflow: 'auto',
-  },
   button: {
     margin: theme.spacing(0.5, 0),
   },
@@ -110,7 +104,7 @@ class Pipeline extends React.Component {
       }
     }
     return (
-      <Paper style={{ padding: theme.spacing(2), marginTop: disableMargin ? 0 : theme.spacing(3), backgroundColor: theme.palette.background.paper }}>
+      <div style={{ padding: theme.spacing(2), marginTop: disableMargin ? 0 : theme.spacing(3) }}>
         <Typography className={classes.componentName} variant='h2'>
           {label}
         </Typography>
@@ -131,7 +125,7 @@ class Pipeline extends React.Component {
             No settings available.
           </Typography>
         )}
-      </Paper>
+      </div>
     );
   }
 

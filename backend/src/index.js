@@ -11,7 +11,8 @@ const Configuration = require('./framework/config-helper');
 const TEMPLATES_NAME = 'config-template.json';
 const VALUES_NAME = 'config.json';
 const DATASET_INFO_NAME = 'info.json';
-const TESTING_DIRECTORY = path.join(__dirname, 'testing');
+const TESTING_DIRECTORY_D = path.join(__dirname, 'testing', 'dynamic');
+const TESTING_DIRECTORY_S = path.join(__dirname, 'testing', 'static');
 const QUANTUMLEAP_DIRECTORY = path.join(__dirname, 'quantumleap');
 const MODULES_DIRECTORY = path.join(__dirname, 'implementation');
 const DATASETS_DIRECTORY = path.join(__dirname, 'datasets');
@@ -24,8 +25,10 @@ let server = http.createServer();
 
 ////////////////////////////////////////////////////////////////////////////////
 // Initialize Benchmarking tool and its configuration
-let testingConfig = new Configuration(TESTING_DIRECTORY, MODULES_DIRECTORY, DATASETS_DIRECTORY, VALUES_NAME, TEMPLATES_NAME, DATASET_INFO_NAME);
-testingConfig.load();
+let testingConfigD = new Configuration(TESTING_DIRECTORY_D, MODULES_DIRECTORY, DATASETS_DIRECTORY, VALUES_NAME, TEMPLATES_NAME, DATASET_INFO_NAME);
+testingConfigD.load();
+let testingConfigS = new Configuration(TESTING_DIRECTORY_S, MODULES_DIRECTORY, DATASETS_DIRECTORY, VALUES_NAME, TEMPLATES_NAME, DATASET_INFO_NAME);
+testingConfigS.load();
 
 // Initialize QuantumLeap and its configuration
 let configuration = new Configuration(QUANTUMLEAP_DIRECTORY, MODULES_DIRECTORY, DATASETS_DIRECTORY, VALUES_NAME, TEMPLATES_NAME, DATASET_INFO_NAME);
@@ -87,32 +90,66 @@ app.post('/quantumleap/actions/restart', (req, res) => {
   } 
 });
 
-app.get('/testing/templates', (req, res) => {
-  let templates = testingConfig.getTemplates();
+app.get('/testing/dynamic/templates', (req, res) => {
+  let templates = testingConfigD.getTemplates();
   return res.status(200).json(templates);
 });
 
 
-app.get('/testing/values', (req, res) => {
-  let values = testingConfig.getValues();
+app.get('/testing/dynamic/values', (req, res) => {
+  let values = testingConfigD.getValues();
   return res.status(200).json(values);
 });
 
-app.put('/testing/values', (req, res) => {
+app.put('/testing/dynamic/values', (req, res) => {
   let values = req.body.data;
-  testingConfig.setValues(values);
+  testingConfigD.setValues(values);
   res.status(204).send();
   try {
-    testingConfig.saveValues();
+    testingConfigD.saveValues();
   } catch (err) {
     console.error(`Unable to save the values. Details: ${err.stack}`);
   }
 });
-app.post('/testing/actions/start', (req, res) => {
+app.post('/testing/dynamic/actions/start', (req, res) => {
   try {
-    let parsedTestingConfig = testingConfig.toQLConfig();
+    let parsedTestingConfig = testingConfigD.toQLConfig();
     // TODO
     let userIndependentTesting = new UserIndependentTesting('dynamic', parsedTestingConfig.main.settings);
+    userIndependentTesting.run();
+    return res.status(200).send();
+  } catch (err) {
+    console.log(`Unable to start testing. Details: ${err.stack}`)
+    res.status(500).send();
+  } 
+});
+
+app.get('/testing/static/templates', (req, res) => {
+  let templates = testingConfigS.getTemplates();
+  return res.status(200).json(templates);
+});
+
+
+app.get('/testing/static/values', (req, res) => {
+  let values = testingConfigS.getValues();
+  return res.status(200).json(values);
+});
+
+app.put('/testing/static/values', (req, res) => {
+  let values = req.body.data;
+  testingConfigS.setValues(values);
+  res.status(204).send();
+  try {
+    testingConfigS.saveValues();
+  } catch (err) {
+    console.error(`Unable to save the values. Details: ${err.stack}`);
+  }
+});
+app.post('/testing/static/actions/start', (req, res) => {
+  try {
+    let parsedTestingConfig = testingConfigS.toQLConfig();
+    // TODO
+    let userIndependentTesting = new UserIndependentTesting('static', parsedTestingConfig.main.settings);
     userIndependentTesting.run();
     return res.status(200).send();
   } catch (err) {

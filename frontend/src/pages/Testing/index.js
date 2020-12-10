@@ -72,25 +72,21 @@ class Testing extends React.Component {
   }
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, type } = this.props;
     const { templates, values } = this.state;
     return (
       <React.Fragment>
         {/* General settings */}
-        {this.renderComponentSettings(['main', 'settings', 'general'], 'Testing')}
-        {/* Static gesture dataset settings */}
-        {this.renderComponentSettings(['main', 'settings', 'datasets', 'static'], "Static dataset(s)")}
-        {/* Static gesture recognizer settings */}
-        {this.renderComponentSettings(['main', 'settings', 'recognizers', 'static'], "Static recognizer")}
-        {/* Dynamic gesture dataset settings */}
-        {this.renderComponentSettings(['main', 'settings', 'datasets', 'dynamic'], "Dynamic dataset(s)")}
-        {/* Dynamic gesture recognizer settings */}
-        {this.renderComponentSettings(['main', 'settings', 'recognizers', 'dynamic'], "Dynamic recognizer")}
+        {this.renderComponentSettings(['main', 'settings', 'general'], 'General', true)}
+        {/* Gesture dataset settings */}
+        {this.renderComponentSettings(['main', 'settings', 'datasets', type], `${type === 'static' ? 'Static' : 'Dynamic'} dataset`)}
+        {/* Gesture recognizer settings */}
+        {this.renderComponentSettings(['main', 'settings', 'recognizers', type], `${type === 'static' ? 'Static' : 'Dynamic'} recognizer(s)`)}
       </React.Fragment>
     );
   }
 
-  renderComponentSettings(path, label) {
+  renderComponentSettings(path, label, disableMargin=false) {
     const { classes, theme } = this.props;
     const { templates, values } = this.state;
     let componentTemplate = templates;
@@ -103,7 +99,7 @@ class Testing extends React.Component {
       }
     }
     return (
-      <Paper style={{ marginTop: theme.spacing(3), marginBottom: theme.spacing(3), padding: theme.spacing(2), backgroundColor: theme.palette.grey[50] }}>
+      <div style={{ padding: theme.spacing(2), marginTop: disableMargin ? 0 : theme.spacing(3) }}>
         <Typography className={classes.componentName} variant='h2'>
           {label}
         </Typography>
@@ -124,7 +120,7 @@ class Testing extends React.Component {
             No settings available.
           </Typography>
         )}
-      </Paper>
+      </div>
     );
   }
 
@@ -139,8 +135,8 @@ class Testing extends React.Component {
   }
 
   fetchData() {
-    let promise1 = axios.get(`${URL}/testing/templates`);
-    let promise2 = axios.get(`${URL}/testing/values`);
+    let promise1 = axios.get(`${URL}/testing/${this.props.type}/templates`);
+    let promise2 = axios.get(`${URL}/testing/${this.props.type}/values`);
     return Promise.all([promise1, promise2])
       .then(res => {
         this.setState({
@@ -158,7 +154,7 @@ class Testing extends React.Component {
   }
 
   startBenchmarking() {
-    return axios.post(`${URL}/testing/actions/start`)
+    return axios.post(`${URL}/testing/${this.props.type}/actions/start`)
     .then((res) => {
       console.log('Testing starting');
     })
@@ -168,7 +164,7 @@ class Testing extends React.Component {
   }
 
   discardValues() {
-    return axios.get(`${URL}/testing/values`)
+    return axios.get(`${URL}/testing/${this.props.type}/values`)
     .then((res) => {
       this.setState({
         values: res.data
@@ -221,7 +217,7 @@ class Testing extends React.Component {
   }
 
   sendValues() {
-    return axios.put(`${URL}/testing/values`, { data: this.state.values })
+    return axios.put(`${URL}/testing/${this.props.type}/values`, { data: this.state.values })
     .then((res) => {
         console.log(res);
         console.log('Data saved');

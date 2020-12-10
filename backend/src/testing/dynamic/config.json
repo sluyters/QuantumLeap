@@ -16,22 +16,6 @@
         }
       },
       "datasets": {
-        "static": {
-          "modules": [
-            {
-              "moduleName": "leap-loader",
-              "moduleType": "datasets/static",
-              "moduleSettings": {},
-              "additionalSettings": {
-                "datasets": [
-                  "guinevre-static"
-                ],
-                "id": "lmc"
-              }
-            }
-          ],
-          "aggregateClasses": []
-        },
         "dynamic": {
           "modules": [
             {
@@ -50,26 +34,6 @@
         }
       },
       "recognizers": {
-        "static": {
-          "modules": [
-            {
-              "moduleName": "gpsda",
-              "moduleType": "recognizers/static",
-              "moduleSettings": {
-                "alpha": 0.8,
-                "points": {
-                  "datasetJ": [
-                    "test",
-                    "hh"
-                  ]
-                }
-              },
-              "additionalSettings": {
-                "useCustomParams": false
-              }
-            }
-          ]
-        },
         "dynamic": {
           "modules": [
             {

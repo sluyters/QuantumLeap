@@ -1,0 +1,59 @@
+{
+  "main": {
+    "settings": {
+      "general": {
+        "general": {
+          "debug": true
+        },
+        "testingParams": {
+          "r": 100,
+          "minT": 8,
+          "maxT": 8
+        },
+        "globalParams": {
+          "points": []
+        }
+      },
+      "datasets": {
+        "static": {
+          "modules": [
+            {
+              "moduleName": "leap-loader",
+              "moduleType": "datasets/static",
+              "moduleSettings": {},
+              "additionalSettings": {
+                "datasets": [
+                  "guinevre-static"
+                ],
+                "id": "lmc"
+              }
+            }
+          ],
+          "aggregateClasses": []
+        }
+      },
+      "recognizers": {
+        "static": {
+          "modules": [
+            {
+              "moduleName": "gpsda",
+              "moduleType": "recognizers/static",
+              "moduleSettings": {
+                "alpha": 0.8,
+                "points": {
+                  "datasetJ": [
+                    "test",
+                    "hh"
+                  ]
+                }
+              },
+              "additionalSettings": {
+                "useCustomParams": false
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

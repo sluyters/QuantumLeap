@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 // Style
 import './App.css';
+import CssBaseline from '@material-ui/core/CssBaseline';
 // Components
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Layout from './components/Layout'
@@ -14,7 +15,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 
 const pages = [
-  //{ name: 'home', route: '/', label: 'Home', icon: HomeIcon },
+  { name: 'home', route: '/', label: 'Home', icon: HomeIcon },
   { name: 'pipeline', route: '/pipeline', label: 'Recognition pipeline', icon: PipelineIcon },
   { name: 'datasets', route: '/datasets', label: 'Gesture sets', icon: GestureSetsIcon },
   { name: 'testing', route: '/testing', label: 'Testing', icon: TestingIcon, items: [
@@ -22,26 +23,15 @@ const pages = [
       { name: 'dynamicTesting', route: '/testing/dynamic', label: 'Dynamic gestures', icon: null },
     ] 
   },
-  // { 
-  //   name: 'modules', 
-  //   label: 'Modules', 
-  //   icon: Extension,
-  //   items: [
-  //     //{ name: 'overview', route: '/modules', label: 'Overview', icon: null },
-  //     { name: 'sensors', route: '/modules/sensor', label: 'Sensors', icon: null },
-  //     { name: 'classifiers', route: '/modules/classifier', label: 'Classifiers', icon: null },
-  //     { name: 'datasets', label: 'Datasets', icon: null, items: [
-  //         { name: 'gestures', route: '/modules/gesture-dataset', label: 'Gestures', icon: null },
-  //         { name: 'poses', route: '/modules/pose-dataset', label: 'Poses', icon: null },
-  //       ] 
-  //     },
-  //     { name: 'analyzers', route: '/modules/analyzer', label: 'Analyzers', icon: null },
-  //     { name: 'segmenters', route: '/modules/segmenter', label: 'Segmenters', icon: null },
-  //     { name: 'recognizers', route: '/modules/recognizer', label: 'Recognizers', icon: null },
-  //   ], 
-  // },
-  //{ name: 'gestures', route: '/gestures', label: 'Gestures', icon: Gesture },
 ]
+
+const routesNames = {
+  '/': 'Home',
+  '/': 'Recognition pipeline',
+  '/': 'Gesture sets',
+  '/testing/static': 'Testing (static recognizers)',
+  '/testing/dynamic': 'Testing (dynamic recognizers)',
+}
 
 function App() {
   const [currentActions, setCurrentActions] = useState('');
@@ -58,25 +48,35 @@ function App() {
   return (
     <div className='App'>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Layout sidebarItems={pages} actions={currentActions}>
           <Switch>
             <Route 
               exact
               path='/' 
-              render={(props) => (<Pipeline {...props} setActions={setCurrentActions} />)}
+              render={(props) => (<NotFound {...props} setActions={setCurrentActions} />)}
             />
             <Route 
               exact
+              key='pipeline'
               path='/pipeline' 
               render={(props) => (<Pipeline {...props} setActions={setCurrentActions} />)}
             />
             <Route 
               exact
-              path='/testing' 
-              render={(props) => (<Testing {...props} setActions={setCurrentActions} />)}
+              key='testing-static'
+              path='/testing/static' 
+              render={(props) => (<Testing {...props} type='static' setActions={setCurrentActions} />)}
             />
             <Route 
               exact
+              key='testing-dynamic'
+              path='/testing/dynamic' 
+              render={(props) => (<Testing {...props} type='dynamic' setActions={setCurrentActions} />)}
+            />
+            <Route 
+              exact
+              key='not-found'
               path='/not-found'
               render={(props) => (<NotFound {...props} setActions={setCurrentActions} />)}
             />

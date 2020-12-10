@@ -6,11 +6,11 @@ class NotFound extends React.Component {
   render() {
     const { theme } = this.props;
     return (
-      <Paper style={{ marginTop: theme.spacing(3), marginBottom: theme.spacing(3), padding: theme.spacing(2), backgroundColor: theme.palette.grey[50] }}>
+      <div style={{ padding: theme.spacing(2) }}>
         <Typography variant='h2'>
           Not found.
         </Typography>
-      </Paper>
+      </div>
     );
   }
 

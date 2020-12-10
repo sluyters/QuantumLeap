@@ -1,17 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import clsx from 'clsx';
-import Sidebar from "../Sidebar";
 import Container from '@material-ui/core/Container'
-import { AppBar, IconButton, SwipeableDrawer, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, IconButton, SwipeableDrawer, Toolbar, Typography, useTheme } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
+import List from '@material-ui/core/List'
+import MenuItem from '@material-ui/core/MenuItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import Collapse from "@material-ui/core/Collapse"
+import ExpandLess from '@material-ui/icons/ExpandLess'
+import ExpandMore from '@material-ui/icons/ExpandMore'
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router';
+import { withStyles } from '@material-ui/core/styles'
+import { withRouter } from "react-router";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles((theme) => ({
+const styles = (theme) => ({
   root: {
-    backgroundColor: theme.palette.background.default,
-    minHeight: '100vh',
     display: 'flex',
   },
   appBar: {
@@ -47,57 +54,168 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0,
   },
-}));
+  navigationContainer: {
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+    boxSizing: 'border-box',
+  },
+  navigationItemContainer: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
+});
 
-export default function Layout({ actions, sidebarItems, children }) {
-  const classes = useStyles();
-  const [state, setState] = React.useState({
-    open: false,
-  });
-  const toggleDrawer = (open) => (event) => {
-    setState({ ...state, open: open });
-  };
-  return (
-    <div className={classes.root}>
-      <AppBar className={classes.appBar} position='fixed' color='primary'>
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(!state.open)}>
-            <MenuIcon />
-          </IconButton> 
-          <Typography variant="h6" className={classes.title}>
-            TITLE OF THE PAGE
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <SwipeableDrawer
-        className={classes.drawer}
-        variant='persistent'
-        anchor='left'
-        open={state.open}
-        onClose={toggleDrawer(false)}
-        onOpen={toggleDrawer(true)}
-      >
-        <Toolbar/>
-        <div className={classes.drawerContainer}>
-          <Sidebar items={sidebarItems}>
-            {actions}
-          </Sidebar>
-        </div>
-      </SwipeableDrawer>
-      {/* <div className={classes.sidebar}>
-        <Sidebar items={sidebarItems}>
-          {actions}
-        </Sidebar>
-      </div> */}
-      <div className={clsx(classes.content, {
-          [classes.contentShift]: state.open,
+const useStyles = makeStyles(styles);
+
+class Layout extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      pathName: props.history.location.pathname
+    };
+  }
+
+  componentDidMount() {
+    this.props.history.listen(() => {
+      this.setState({
+        pathName: this.props.history.location.pathname
+      });
+    });
+  }
+
+  render() {
+    const { actions, classes, sidebarItems, children } = this.props;
+    const toggleDrawer = (open) => (event) => {
+      this.setState({
+        open: open
+      });
+    };
+    return (
+      <div className={classes.root}>
+        <AppBar className={classes.appBar} position='fixed' color='primary'>
+          <Toolbar>
+            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(!this.state.open)}>
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              {this.state.pathName}
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <SwipeableDrawer
+          className={classes.drawer}
+          variant='persistent'
+          anchor='left'
+          open={this.state.open}
+          onClose={toggleDrawer(false)}
+          onOpen={toggleDrawer(true)}
+        >
+          <Toolbar />
+          <div className={classes.drawerContainer}>
+            <Navigation items={sidebarItems} pathName={this.state.pathName}>
+              {actions}
+            </Navigation>
+          </div>
+        </SwipeableDrawer>
+        <div className={clsx(classes.content, {
+          [classes.contentShift]: this.state.open,
         })}
-      >
-        <Toolbar/>
-        <Container>
-          {children}
-        </Container>
+        >
+          <Toolbar />
+          <Container>
+            {children}
+          </Container>
+        </div>
+      </div>
+    );
+  }
+}
+
+
+function Navigation({ children, items, pathName, depthStep, depth }) {
+  depthStep = depthStep !== undefined ? depthStep : 4;
+  depth = depth !== undefined ? depth : 0;
+  const theme = useTheme();
+  const classes = useStyles();
+  // Go through each of the items
+  let renderedItems = [];
+  items.forEach(item => {
+    renderedItems.push(
+      <NavigationItem
+        item={item}
+        pathName={pathName}
+        depthStep={depthStep}
+        depth={depth}
+        theme={theme}
+      />
+    );
+  });
+  // Render the item
+  return (
+    <div className={classes.navigationContainer}>
+      <List disablePadding className={classes.sidebarNav} >
+        {renderedItems}
+      </List>
+      <div className={classes.navigationItemContainer}>
+        {children}
       </div>
     </div>
   );
 }
+
+function NavigationItem({ item, pathName, depthStep, depth, theme }) {
+  let [collapsed, setCollapsed] = useState();
+  let history = useHistory();
+  // Build list of subitems (if any)
+  let renderedSubItems = [];
+  let expandIcon;
+  if (Array.isArray(item.items) && item.items.length) {
+    item.items.forEach(subItem => {
+      renderedSubItems.push(
+        <NavigationItem
+          item={subItem}
+          pathName={pathName}
+          depthStep={depthStep}
+          depth={depth + 1}
+          history={history}
+          theme={theme}
+        />
+      );
+    });
+    expandIcon = collapsed ? (<ExpandMore />) : (<ExpandLess />);
+  }
+  // Handler
+  let onClick = () => {
+    if (Array.isArray(item.items)) {
+      // Toggle collapse
+      setCollapsed(!collapsed);
+    } else {
+      // Open corresponding page
+      history.push(item.route);
+    }
+  }
+  // Render the item and its subitems
+  const ItemIcon = item.icon;
+  return (
+    <React.Fragment>
+      <MenuItem
+        key={item.name}
+        style={{ paddingLeft: theme.spacing(2 + depth * depthStep) }}
+        onClick={onClick}
+        button
+        selected={item.route === pathName}
+      >
+        {ItemIcon && <ListItemIcon><ItemIcon /></ListItemIcon>}
+        <ListItemText primary={item.label} />
+        {expandIcon}
+      </MenuItem>
+      <Collapse in={!collapsed} timeout='auto' unmountOnExit>
+        {renderedSubItems.length > 0 ? (<List disablePadding>{renderedSubItems}</List>) : ''}
+      </Collapse>
+    </React.Fragment>
+  );
+}
+
+
+export default withStyles(styles)(withRouter(Layout))
