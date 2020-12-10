@@ -5,6 +5,8 @@ import { withTheme, withStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import LeapMotionPoints from './LeapMotionPoints';
 
+const TIMEOUT_VALUE = 500;
+
 const styles = (theme) => ({
   pointsList: {
     backgroundColor: 'rgb(240, 240, 240)',
@@ -16,6 +18,14 @@ const styles = (theme) => ({
 });
 
 class PointsSelector extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: props.value,
+      typingTimeout: ''
+    };
+  }
+
   render() {
     const { classes, theme } = this.props;
     // Unchanged for each setting
@@ -27,43 +37,34 @@ class PointsSelector extends React.Component {
 
     if (!values.main.settings.sensors) {
       // Get the selected dataset (testing config) TODO
-      //const datasets = values.main.settings.datasets.modules;
-      let datasetName = 'lmc';
-      const changePoints = (points) => {
+      const dataset = values.main.settings.datasets.static.modules[0];
+      let datasetName = dataset.additionalSettings.id;
+      const changePoints = (event) => {
+        let text = event.target.value.replace(/^[, ]*/, '');
+        let points = text ? text.split(/[, ]+/) : [];
         console.log(points)
         let newValue = {};
-        newValue[datasetName] = points;
-        handleChange(path, newValue);
+        if (points.length > 0) {
+          newValue[datasetName] = points;
+        }
+        if (this.state.typingTimeout) {
+          clearTimeout(this.state.typingTimeout);
+        }
+        this.setState({
+          value: newValue,
+          typingTimeout: setTimeout(() => handleChange(path, newValue), TIMEOUT_VALUE)
+        });
       }
       return (
         <React.Fragment>
-          <Autocomplete
-            multiple
-            options={[]}
-            freeSolo
-            value={value[datasetName]}
-            onChange={(event, points, reason) => {
-              switch (reason) {
-                case 'create-option':
-                  changePoints(points);
-                  break;
-                case 'remove-option':
-                  changePoints(points);
-                  break;
-                case 'select-option':
-                  changePoints(points);
-                  break;
-                case 'clear':
-                  changePoints([]);
-                  break;
-                default:
-                  console.log(reason);
-              }
-            }}
-            renderInput={(params) => (
-              <TextField {...params} variant="outlined" placeholder="Points" />
-            )}
-          />  
+          <TextField
+            fullWidth
+            multiline
+            type='text'
+            variant='outlined'
+            value={this.state.value[datasetName] ? this.state.value[datasetName].join(',') : ''} 
+            onChange={changePoints}
+          />
         </React.Fragment>
       );
     } else {
@@ -277,6 +278,7 @@ class PointsItem extends React.Component {
   }
 }
 
+// Helpers
 
 function getAvailablePoints(sensorId, pointItem) {
   if (pointItem.type === 'category') {

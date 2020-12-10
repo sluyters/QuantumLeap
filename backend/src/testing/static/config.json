@@ -8,7 +8,7 @@
         "testingParams": {
           "r": 100,
           "minT": 8,
-          "maxT": 8
+          "maxT": 256
         },
         "globalParams": {
           "points": []
@@ -41,9 +41,43 @@
               "moduleSettings": {
                 "alpha": 0.8,
                 "points": {
-                  "datasetJ": [
-                    "test",
-                    "hh"
+                  "lmc": [
+                    "rightPalmPosition",
+                    "rightThumbTipPosition",
+                    "rightIndexTipPosition",
+                    "rightMiddleTipPosition",
+                    "rightRingTipPosition",
+                    "rightPinkyTipPosition"
+                  ]
+                }
+              },
+              "additionalSettings": {
+                "useCustomParams": false
+              }
+            },
+            {
+              "moduleName": "gpsda",
+              "moduleType": "recognizers/static",
+              "moduleSettings": {
+                "alpha": 0.8,
+                "points": {
+                  "lmc": [
+                    "rightPalmPosition",
+                    "rightThumbTipPosition",
+                    "rightIndexTipPosition",
+                    "rightMiddleTipPosition",
+                    "rightRingTipPosition",
+                    "rightPinkyTipPosition",
+                    "rightThumbPipPosition",
+                    "rightIndexPipPosition",
+                    "rightMiddlePipPosition",
+                    "rightRingPipPosition",
+                    "rightPinkyPipPosition",
+                    "rightThumbMcpPosition",
+                    "rightIndexMcpPosition",
+                    "rightMiddleMcpPosition",
+                    "rightRingMcpPosition",
+                    "rightPinkyMcpPosition"
                   ]
                 }
               },
