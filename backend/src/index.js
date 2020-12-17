@@ -52,8 +52,21 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/quantumleap/templates', (req, res) => {
+// app.get('/quantumleap/templates', (req, res) => {
+//   let templates = configuration.getTemplates();
+//   return res.status(200).json(templates);
+// });
+
+app.get('/quantumleap/templates/:moduleType?/:gestureType?', (req, res) => {
+  let moduleType = req.params.moduleType;
+  let gestureType = req.params.gestureType;
   let templates = configuration.getTemplates();
+  if (moduleType) {
+    templates = templates.main.settings[moduleType];
+  }
+  if (gestureType) {
+    templates = templates[gestureType];
+  }
   return res.status(200).json(templates);
 });
 
@@ -63,13 +76,49 @@ app.get('/quantumleap/templates', (req, res) => {
 //   res.status(204).send();
 // });
 
-app.get('/quantumleap/values', (req, res) => {
+// app.get('/quantumleap/values', (req, res) => {
+//   let values = configuration.getValues();
+//   return res.status(200).json(values);
+// });
+
+// app.put('/quantumleap/values', (req, res) => {
+//   let values = req.body.data;
+//   configuration.setValues(values);
+//   res.status(204).send();
+//   try {
+//     configuration.saveValues();
+//   } catch (err) {
+//     console.error(`Unable to save the values. Details: ${err.stack}`);
+//   }
+// });
+
+app.get('/quantumleap/values/:moduleType?/:gestureType?', (req, res) => {
+  let moduleType = req.params.moduleType;
+  let gestureType = req.params.gestureType;
   let values = configuration.getValues();
+  if (moduleType) {
+    values = values.main.settings[moduleType];
+  }
+  if (gestureType) {
+    values = values[gestureType];
+  }
   return res.status(200).json(values);
 });
 
-app.put('/quantumleap/values', (req, res) => {
-  let values = req.body.data;
+app.put('/quantumleap/values/:moduleType?/:gestureType?', (req, res) => {
+  let moduleType = req.params.moduleType;
+  let gestureType = req.params.gestureType;
+  let values = configuration.getValues();
+  let newValues = req.body.data;
+  if (moduleType) {
+    if (gestureType) {
+      values.main.settings[moduleType][gestureType] = newValues;
+    } else {
+      values.main.settings[moduleType] = newValues;
+    }
+  } else {
+    values = newValues;
+  }
   configuration.setValues(values);
   res.status(204).send();
   try {
@@ -79,16 +128,41 @@ app.put('/quantumleap/values', (req, res) => {
   }
 });
 
-app.post('/quantumleap/actions/restart', (req, res) => {
+app.get('/quantumleap/state/running', (req, res) => {
+  return res.status(200).json({ running: quantumLeap.isRunning() });
+});
+
+app.post('/quantumleap/actions/start', (req, res) => {
   try {
     let qlConfig = configuration.toQLConfig();
-    quantumLeap.restart(qlConfig);
-    return res.status(200).send();
+    quantumLeap.start(qlConfig);
+    return res.status(204).send();
   } catch (err) {
     console.log(`Unable to restart QuantumLeap. Details: ${err.stack}`)
     res.status(500).send();
   } 
 });
+
+app.post('/quantumleap/actions/stop', (req, res) => {
+  try {
+    quantumLeap.stop();
+    return res.status(204).send();
+  } catch (err) {
+    console.log(`Unable to stop QuantumLeap. Details: ${err.stack}`)
+    res.status(500).send();
+  } 
+});
+
+// app.post('/quantumleap/actions/restart', (req, res) => {
+//   try {
+//     let qlConfig = configuration.toQLConfig();
+//     quantumLeap.restart(qlConfig);
+//     return res.status(200).send();
+//   } catch (err) {
+//     console.log(`Unable to restart QuantumLeap. Details: ${err.stack}`)
+//     res.status(500).send();
+//   } 
+// });
 
 app.get('/testing/dynamic/templates', (req, res) => {
   let templates = testingConfigD.getTemplates();

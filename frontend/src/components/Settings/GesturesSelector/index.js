@@ -1,9 +1,25 @@
 import React from 'react';
-import { Grid, Button, IconButton, TextField, Typography } from '@material-ui/core';
+import { Grid, Button, IconButton, TextField, Typography, Box, Paper, Divider } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { withStyles } from '@material-ui/core/styles'
 
 const TIMEOUT_VALUE = 500;
+
+const styles = (theme) => ({
+  gesture: {
+    padding: theme.spacing(1.5, 2),
+  },
+  addGestureButton: {
+    margin: theme.spacing(1.5, 2),
+  },
+  gestureInfo: {
+    width: '100%'
+  },
+  deleteGestureButton: {
+    minHeight: '100%'
+  }
+});
 
 class GesturesSelector extends React.Component {
   constructor(props) {
@@ -20,6 +36,7 @@ class GesturesSelector extends React.Component {
     const { handleChange, level, path, value } = this.props;
     // Unique to each module
     const { datasetType } = this.props;
+    const { classes } = this.props;
 
     // Retrieve dataset-loaders & datasets infos
     const datasetLoaders = values.main.settings.datasets[datasetType].modules;
@@ -39,7 +56,7 @@ class GesturesSelector extends React.Component {
       let newValue = this.state.value.slice();
       newValue.push({
         name: '',
-        classes: []
+        gestureClasses: []
       });
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
@@ -50,11 +67,11 @@ class GesturesSelector extends React.Component {
       });
     }
 
-    const changeGesture = (index) => (name, classes) => {
+    const changeGesture = (index) => (name, gestureClasses) => {
       let newValue = this.state.value.slice();
       let gesture = newValue[index];
       gesture.name = name;
-      gesture.classes = classes;
+      gesture.gestureClasses = gestureClasses;
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
       }
@@ -77,83 +94,96 @@ class GesturesSelector extends React.Component {
     }
     // The level will impact the size, boldness, of the setting
     return (
-      <React.Fragment>
+      <Paper>
         {/* For each element in value, display it */}
         {this.state.value.map((gesture, index) => (
-          <Gesture
-            name={gesture.name}
-            classes={gesture.classes}
-            availableGestures={availableGestures}
-            onChange={changeGesture(index)}
-            onDelete={deleteGesture(index)}
-          />
+          <React.Fragment>
+            <Gesture
+              classes={classes}
+              name={gesture.name}
+              gestureClasses={gesture.gestureClasses}
+              availableGestures={availableGestures}
+              onChange={changeGesture(index)}
+              onDelete={deleteGesture(index)}
+            />
+            <Divider/>
+          </React.Fragment>
         ))}
         {/* Button to add an element */}
-        <Button variant="outlined" color="primary" onClick={addGesture}>
+        <Button className={classes.addGestureButton} variant='contained' color="secondary" onClick={addGesture}>
           Add
         </Button>
-      </React.Fragment>
+      </Paper>
     );
   }
 }
 
 class Gesture extends React.Component {
   render() {
-    const { name, classes, availableGestures, onChange, onDelete } = this.props;
+    const { name, classes, gestureClasses, availableGestures, onChange, onDelete } = this.props;
     return (
-      <React.Fragment>
-        <Grid
-          container
-          spacing={1}
-          alignItems='center'
-          wrap='nowrap'
-        >
-          {/* The input for the name of the gesture */}
-          <Grid item xs={3}>
-            <TextField 
-              type='text'
-              variant='outlined'
-              value={name}
-              onChange={(event) => {onChange(event.target.value, classes)}}
-              placeholder="Name"
-            />
+      <Box
+        className={classes.gesture}
+        display='flex'
+        alignItems='center'
+        flexWrap='nowrap'
+      >
+        <Box item flexGrow={1}>
+          <Grid
+            className={classes.gestureInfo}
+            container
+            spacing={1}
+            alignItems='center'
+            wrap='nowrap'
+          >
+            {/* The input for the name of the gesture */}
+            <Grid item xs={4}>
+              <TextField 
+                fullWidth
+                type='text'
+                variant='outlined'
+                value={name}
+                onChange={(event) => {onChange(event.target.value, gestureClasses)}}
+                placeholder="Name"
+              />
+            </Grid>
+            {/* The input for the names of the gestures that it groups */}
+            <Grid item xs={8}>
+              <Autocomplete
+                multiple
+                value={gestureClasses}
+                options={availableGestures}
+                onChange={(event, value, reason) => {
+                  switch (reason) {
+                    case 'remove-option':
+                      onChange(name, value);
+                      break;
+                    case 'select-option':
+                      onChange(name, value);
+                      break;
+                    case 'clear':
+                      onChange(name, []);
+                      break;
+                    default:
+                      console.log(reason);
+                  }
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} variant="outlined" placeholder="Gestures" />
+                )}
+              />     
+            </Grid>
           </Grid>
-          {/* The input for the names of the gestures that it groups */}
-          <Grid item xs={8}>
-            <Autocomplete
-              multiple
-              value={classes}
-              options={availableGestures}
-              onChange={(event, value, reason) => {
-                switch (reason) {
-                  case 'remove-option':
-                    onChange(name, value);
-                    break;
-                  case 'select-option':
-                    onChange(name, value);
-                    break;
-                  case 'clear':
-                    onChange(name, []);
-                    break;
-                  default:
-                    console.log(reason);
-                }
-              }}
-              renderInput={(params) => (
-                <TextField {...params} variant="outlined" placeholder="Gestures" />
-              )}
-            />     
-          </Grid>
-          {/* The "delete" button */}
-          <Grid item xs={1}>
-            <IconButton onClick={onDelete}>
-              <DeleteIcon/>
-            </IconButton>
-          </Grid>
-        </Grid>       
-      </React.Fragment>
+        </Box>
+        {/* The "delete" button */}
+        <Box item>
+          <IconButton onClick={onDelete}>
+            <DeleteIcon/>
+          </IconButton>
+        </Box>
+      </Box>       
     );
   }
 }
 
-export default GesturesSelector;
+export default withStyles(styles)(GesturesSelector);

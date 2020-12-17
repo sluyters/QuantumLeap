@@ -8,20 +8,28 @@ class QuantumLeap {
   }
 
   start(config) {
-    this.wss = setupWSS(config.main.settings, this.server);
+    if (this.wss) {
+      console.log('WebSocket server already running!');
+    } else {
+      console.log('WebSocket server starting...');
+      this.wss = setupWSS(config.main.settings, this.server);
+    }
   }
 
-  restart(config) {
-    console.log('WebSocket server restarting...');
+  stop(callback=()=>{}) {
+    console.log('WebSocket server stopping...');
     if (this.wss) {
       this.wss.close(() => {
-        this.wss = setupWSS(config.main.settings, this.server);
-        console.log('WebSocket server started!');
+        callback();
       });
+      this.wss = '';
     } else {
-      this.wss = setupWSS(config.main.settings, this.server);
-      console.log('WebSocket server started!');
+      callback();
     }
+  }
+
+  isRunning() {
+    return this.wss ? true : false;
   }
 }
 
@@ -34,7 +42,7 @@ function setupWSS(config, server) {
     server: server,
     perMessageDeflate: false
   });
-  wss.on('connection', async function connection(ws) {
+  wss.on('connection', async function connection(ws, request) {
     console.log('Connected!')
     // Handle messages from the client
     ws.on('message', function (message) {

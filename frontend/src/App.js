@@ -13,24 +13,43 @@ import Testing from './pages/Testing';
 import NotFound from './pages/NotFound';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import Overview from './pages/Overview';
+import Module from './pages/Module';
 
 const pages = [
-  { name: 'home', route: '/', label: 'Home', icon: HomeIcon },
-  { name: 'pipeline', route: '/pipeline', label: 'Recognition pipeline', icon: PipelineIcon },
-  { name: 'datasets', route: '/datasets', label: 'Gesture sets', icon: GestureSetsIcon },
-  { name: 'testing', route: '/testing', label: 'Testing', icon: TestingIcon, items: [
-      { name: 'staticTesting', route: '/testing/static', label: 'Static gestures', icon: null },
-      { name: 'dynamicTesting', route: '/testing/dynamic', label: 'Dynamic gestures', icon: null },
+  // { name: 'home', route: '/', label: 'Home', icon: HomeIcon },
+  { name: 'overview', route: '/overview', label: 'Overview', icon: HomeIcon },
+  { name: 'pipeline', route: '/pipeline', label: 'Pipeline', icon: PipelineIcon, items: [
+      { name: 'overview', route: '/pipeline/general', label: 'General', icon: null },
+      { name: 'sensors', route: '/pipeline/sensors', label: 'Sensor(s)', icon: null },
+      { name: 'filters', route: '/pipeline/filters', label: 'Filter', icon: null },
+      { name: 'static-datasets', route: '/pipeline/datasets/static', label: 'Static dataset(s)', icon: null },
+      { name: 'static-recognizers', route: '/pipeline/recognizers/static', label: 'Static recognizer', icon: null },
+      { name: 'analyzers', route: '/pipeline/analyzers', label: 'Analyzer', icon: null },
+      { name: 'segmenters', route: '/pipeline/segmenters', label: 'Segmenter', icon: null },
+      { name: 'dynamic-datasets', route: '/pipeline/datasets/dynamic', label: 'Dynamic dataset(s)', icon: null },
+      { name: 'dynamic-recognizers', route: '/pipeline/recognizers/dynamic', label: 'Dynamic recognizer', icon: null },
     ] 
   },
+  // { name: 'pipeline2', route: '/pipeline2', label: 'Recognition pipeline', icon: PipelineIcon },
+  // { name: 'datasets', route: '/datasets', label: 'Gesture sets', icon: GestureSetsIcon },
+  // { name: 'testing', route: '/testing', label: 'Testing', icon: TestingIcon, items: [
+  //     { name: 'staticTesting', route: '/testing/static', label: 'Static gestures', icon: null },
+  //     { name: 'dynamicTesting', route: '/testing/dynamic', label: 'Dynamic gestures', icon: null },
+  //   ] 
+  // },
 ]
 
-const routesNames = {
-  '/': 'Home',
-  '/': 'Recognition pipeline',
-  '/': 'Gesture sets',
-  '/testing/static': 'Testing (static recognizers)',
-  '/testing/dynamic': 'Testing (dynamic recognizers)',
+const routesInfos = {
+  '/pipeline/general': { label: 'General settings' },
+  '/pipeline/sensors': { label: 'Sensor(s)' },
+  '/pipeline/filters': { label: 'Filter' },
+  '/pipeline/datasets/static': { label: 'Static dataset(s)' },
+  '/pipeline/recognizers/static': { label: 'Static Recognizer' },
+  '/pipeline/analyzers': { label: 'Analyzer' },
+  '/pipeline/segmenters': { label: 'Segmenter' },
+  '/pipeline/datasets/dynamic': { label: 'Dynamic dataset(s)' },
+  '/pipeline/recognizers/dynamic': { label: 'Dynamic recognizer' },
 }
 
 function App() {
@@ -49,19 +68,29 @@ function App() {
     <div className='App'>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Layout sidebarItems={pages} actions={currentActions}>
+        <Layout sidebarItems={pages} actions={currentActions} >
           <Switch>
             <Route 
               exact
               path='/' 
-              render={(props) => (<NotFound {...props} setActions={setCurrentActions} />)}
+              render={(props) => (<Overview {...props} setActions={setCurrentActions} />)}
             />
             <Route 
               exact
-              key='pipeline'
-              path='/pipeline' 
-              render={(props) => (<Pipeline {...props} setActions={setCurrentActions} />)}
+              path='/overview' 
+              render={(props) => (<Overview {...props} setActions={setCurrentActions} />)}
             />
+            <Route 
+              exact
+              path='/pipeline/:moduleType/:gestureType?' 
+              render={(props) => (<Module {...props} routesInfos={routesInfos} />)}
+            />
+            {/* <Route 
+              exact
+              key='pipeline2'
+              path='/pipeline2' 
+              render={(props) => (<Pipeline {...props} setActions={setCurrentActions} />)}
+            /> */}
             <Route 
               exact
               key='testing-static'

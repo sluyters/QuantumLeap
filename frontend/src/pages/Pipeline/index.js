@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { Typography, Paper, Button, ButtonGroup } from '@material-ui/core'
+import { Typography, Button, ButtonGroup } from '@material-ui/core'
 import { withStyles, withTheme } from '@material-ui/core/styles'
 import { Setting } from '../../components/Settings'
 

@@ -1,18 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import clsx from 'clsx';
-import Container from '@material-ui/core/Container'
+import Container from '@material-ui/core/Container';
 import { AppBar, IconButton, SwipeableDrawer, Toolbar, Typography, useTheme } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
-import List from '@material-ui/core/List'
-import MenuItem from '@material-ui/core/MenuItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import Collapse from "@material-ui/core/Collapse"
-import ExpandLess from '@material-ui/icons/ExpandLess'
-import ExpandMore from '@material-ui/icons/ExpandMore'
+import List from '@material-ui/core/List';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Collapse from "@material-ui/core/Collapse";
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router';
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from "react-router";
 
 const drawerWidth = 240;
@@ -25,6 +25,7 @@ const styles = (theme) => ({
     zIndex: 1400,
   },
   drawerContainer: {
+    width: drawerWidth,
     overflow: 'auto',
   },
   menuButton: {
