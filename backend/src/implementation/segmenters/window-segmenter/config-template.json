@@ -6,13 +6,25 @@
   "properties": {},
   "settings": [
     {
-      "type": "IntegerInput",
-      "name": "windowWidth",
-      "label": "Width of the window",
-      "description": "The width of the window (in frames).",
-      "minValue": 1,
-      "maxValue": null,
-      "default": 20
+      "type": "CompoundSetting",
+      "name": "windows",
+      "label": "Sliding window(s)",
+      "description": "The sliding window(s) used in the segmentation",
+      "settings": [
+        {
+          "type": "IntegerInput",
+          "name": "width",
+          "label": "Width",
+          "description": "The width of the window (in frames).",
+          "minValue": 1,
+          "maxValue": null,
+          "default": 20
+        }
+      ],
+      "itemName": "Window",
+      "minNumber": 1,
+      "maxNumber": null,
+      "default": []
     },
     {
       "type": "IntegerInput",

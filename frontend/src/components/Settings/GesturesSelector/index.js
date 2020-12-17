@@ -16,9 +16,6 @@ const styles = (theme) => ({
   gestureInfo: {
     width: '100%'
   },
-  deleteGestureButton: {
-    minHeight: '100%'
-  }
 });
 
 class GesturesSelector extends React.Component {

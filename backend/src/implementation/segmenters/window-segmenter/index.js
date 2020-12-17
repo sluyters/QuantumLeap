@@ -3,29 +3,37 @@ const AbstractSegmenter = require('../../../framework/segmenters/abstract-segmen
 class Segmenter extends AbstractSegmenter {
   constructor(options) {
     super(options);
-    this.windowWidth = options.moduleSettings.windowWidth;
     this.numberIntervalFrames = options.moduleSettings.intervalLength;
     this.numberPauseFrames = options.moduleSettings.pauseLength;
-    this.frameBuffer = [];
+    this.windows = options.moduleSettings.windows;
+    // Init frame buffers
+    this.frameBuffers = [];
+    this.windows.forEach(window => {
+      this.frameBuffers.push([]);
+    });
     this.intervalCount = 0;
     this.pauseCount = 0;
   }
 
   computeSegments(frame) {
-    // Add new frame to the buffer
-    this.frameBuffer.push(frame);
-    if (this.frameBuffer.length > this.windowWidth) {
-      // Shift frames in buffer
-      this.frameBuffer.shift();
-    }
-    // Increment pause count
-    this.pauseCount = Math.max(this.pauseCount - 1, 0);
-    this.intervalCount = (this.intervalCount + 1) % this.numberIntervalFrames;
-    if (this.frameBuffer.length >= this.windowWidth && this.pauseCount == 0 && this.intervalCount == 0) {
-      // Buffer full & ready
-      return [ this.frameBuffer.slice() ];
-    }
-    return [];
+    let segments = [];
+    this.frameBuffers.forEach((frameBuffer, index) => {
+      let windowWidth = this.windows[index].width;
+      // Add new frame to the buffer
+      frameBuffer.push(frame);
+      if (frameBuffer.length > windowWidth) {
+        // Shift frames in buffer
+        frameBuffer.shift();
+      }
+      // Increment pause count
+      this.pauseCount = Math.max(this.pauseCount - 1, 0);
+      this.intervalCount = (this.intervalCount + 1) % this.numberIntervalFrames;
+      if (frameBuffer.length >= windowWidth && this.pauseCount == 0 && this.intervalCount == 0) {
+        // Buffer full & ready
+        segments.push(frameBuffer.slice());
+      }
+    });
+    return segments;
   }
 
   notifyRecognition() {

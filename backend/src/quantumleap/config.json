@@ -120,7 +120,11 @@
             "moduleName": "window-segmenter",
             "moduleType": "segmenters",
             "moduleSettings": {
-              "windowWidth": 20,
+              "windows": [
+                {
+                  "width": 60
+                }
+              ],
               "intervalLength": 3,
               "pauseLength": 60
             },

@@ -81,7 +81,7 @@ class FrameProcessor {
     try {
       frame = this.filter.filter(frame);
     } catch (error) {
-      console.error(`Filter error: ${error}`);
+      console.error(`Filter error: ${error.stack}`);
     }
     return frame;
   }
@@ -92,7 +92,7 @@ class FrameProcessor {
     try {
       sg = this.recognizers.static.recognize(frame).name;
     } catch (error) {
-      console.error(`Static gesture recognizer error: ${error}`);
+      console.error(`Static gesture recognizer error: ${error.stack}`);
     }
     // Compute the ratio of gesture in the buffer and increment the counter
     let sgRatio = 0;
@@ -120,7 +120,7 @@ class FrameProcessor {
     try {
       data = this.analyzer.analyze(frame);
     } catch (error) {
-      console.error(`Analyzer error: ${error}`);
+      console.error(`Analyzer error: ${error.stack}`);
     }
     return data;
   }
@@ -130,7 +130,7 @@ class FrameProcessor {
     try {
       segments = this.segmenter.segment(frame);
     } catch (error) {
-      console.error(`Segmenter error: ${error}`);
+      console.error(`Segmenter error: ${error.stack}`);
     }
     return segments;
   }
@@ -149,7 +149,7 @@ class FrameProcessor {
           bestScore = score;
         }
       } catch (error) {
-        console.error(`Dynamic gesture recognizer error: ${error}`);
+        console.error(`Dynamic gesture recognizer error: ${error.stack}`);
       }
     });
     return bestName;
