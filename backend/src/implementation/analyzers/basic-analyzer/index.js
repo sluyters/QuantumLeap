@@ -35,8 +35,8 @@ function computePinch(fromFrame, toFrame) {
 }
 
 function computeRotation(fromFrame, toFrame) {
-    let vectorFrom = translateTo(fromFrame.getArticulation("rightIndexTipPosition_lmc").point, fromFrame.getArticulation("rightThumbTipPosition_lmc").point);
-    let vectorTo = translateTo(toFrame.getArticulation("rightIndexTipPosition_lmc").point, toFrame.getArticulation("rightThumbTipPosition_lmc").point);
+    let vectorFrom = translateTo(fromFrame.getArticulation("rightIndexTipPosition_lmc").point, fromFrame.getArticulation("rightPalmPosition_lmc").point);
+    let vectorTo = translateTo(toFrame.getArticulation("rightIndexTipPosition_lmc").point, toFrame.getArticulation("rightPalmPosition_lmc").point);
     let a = computeAngle(vectorTo, vectorFrom);
     return a
 }
