@@ -12,7 +12,7 @@ class FrameProcessor {
     this.analyzer = new analyzerModule.module(analyzerModule.moduleSettings);
     // Initialize segmenter
     let segmenterModule = config.segmenters.modules[0];
-    this.segmenter = new segmenterModule.module(segmenterModule.moduleSettings);
+    this.segmenter = new segmenterModule.module(segmenterModule);
     // Initialize datasets and recognizers
     this.datasets = {}
     this.recognizers = {};
@@ -75,9 +75,44 @@ class FrameProcessor {
     }
   }
 
+  recognizeStatic(frame) {
+
+  }
+
+  segment(frame) {
+    let segments = [];
+    try {
+      segments = this.segmenter.segment(frame);
+    } catch (error) {
+      console.error(`Segmenter error: ${error}`);
+    }
+    return segments;
+  }
+
+  recognizeDynamic(segments) {
+    let bestName = '';
+    let bestScore = -1;
+    // For each segment, attempt to recognize the gesture
+    segments.forEach(segment => {
+      try {
+        // Recognize the gesture
+        let { name, score, time } = this.recognizers.dynamic.recognize(segment);
+        // Keep the gesture with the highest score
+        if (score && score > bestScore) {
+          bestName = name;
+          bestScore = score;
+        }
+      } catch (error) {
+        console.error(`Dynamic gesture recognizer error: ${error}`);
+      }
+    });
+    return bestName;
+  }
+
   processFrame(frame) {
-    // Get static gesture and data from the static gesture buffer
+    // Filter the data
     frame = this.filter.filter(frame);
+    // Get static gesture and data from the static gesture buffer
     let prevSgInfo = '';
     let prevSgRatio = 0;
     if (this.sgBuffer.isFull()) {
@@ -87,6 +122,7 @@ class FrameProcessor {
       }
     }
     let sg = '';
+    // Recognize the static gesture
     try {
       sg = this.recognizers.static.recognize(frame).name;
     } catch (error) {
@@ -97,7 +133,14 @@ class FrameProcessor {
       data: '' 
     };
     if (sg && (!this.config.recognizers.static.sendIfRequested || this.enabledGestures.static.includes(sg))) {
-      newSgInfo = { gesture: sg, data: this.analyzer.analyze(frame) };
+      // Get data from analyzer
+      let analyzerData = '';
+      try {
+        analyzerData = this.analyzer.analyze(frame);
+      } catch (error) {
+        console.error(`Analyzer error: ${error}`);
+      }
+      newSgInfo = { gesture: sg, data: analyzerData };
       if (!this.sgCounter.hasOwnProperty(sg)) {
         this.sgCounter[sg] = 1;
       } else {
@@ -114,29 +157,13 @@ class FrameProcessor {
     } else {
       // Reset analyzer
       this.analyzer.reset();
-      // Try to segment and recognize dynamic gesture
-      let segments = this.segmenter.segment(frame);
-      if (segments.length > 0) {
-        let bestName = '';
-        let bestScore = -1;
-        // For each segment, attempt to recognize the gesture
-        segments.forEach(segment => {
-          try {
-            let { name, score, time } = this.recognizers.dynamic.recognize(segment);
-            console.log(name, score, time)
-            // Keep the gesture with the highest score
-            if (score && score > bestScore) {
-              bestName = name;
-              bestScore = score;
-            }
-          } catch (error) {
-            console.error(`Dynamic gesture recognizer error: ${error}`);
-          }
-        });
-        if (bestName && (!this.config.recognizers.dynamic.sendIfRequested || this.enabledGestures.dynamic.includes(bestName))) {
-          this.segmenter.notifyRecognition();
-          return { 'type': 'dynamic', 'name': bestName, 'data': {} };
-        }
+      // Segment frames
+      let segments = this.segment(frame);
+      // Recognize dynamic gesture
+      let gestureName = this.recognizeDynamic(segments);
+      if (gestureName && (!this.config.recognizers.dynamic.sendIfRequested || this.enabledGestures.dynamic.includes(gestureName))) {
+        this.segmenter.notifyRecognition();
+        return { 'type': 'dynamic', 'name': gestureName, 'data': {} };
       }
     }
     // Nothing detected

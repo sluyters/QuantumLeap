@@ -121,21 +121,19 @@
             "moduleType": "segmenters",
             "moduleSettings": {
               "windowWidth": 20,
-              "intervalLength": 6,
-              "pauseLength": 60,
+              "intervalLength": 3,
+              "pauseLength": 60
+            },
+            "additionalSettings": {
               "motionThreshold": 70,
               "motionArticulations": {
                 "lmc": [
-                  "rightIndexTipPosition",
-                  "rightMiddleTipPosition",
-                  "rightRingTipPosition",
-                  "rightPinkyTipPosition",
                   "rightPalmPosition",
+                  "rightIndexTipPosition",
                   "rightThumbTipPosition"
                 ]
               }
-            },
-            "additionalSettings": {}
+            }
           }
         ]
       },
@@ -196,86 +194,6 @@
                           "rightMiddleTipPosition",
                           "rightRingTipPosition",
                           "rightPinkyTipPosition"
-                        ]
-                      }
-                    },
-                    "additionalSettings": {
-                      "weight": 1
-                    }
-                  },
-                  {
-                    "moduleName": "p3dollarplus",
-                    "moduleType": "recognizers/dynamic",
-                    "moduleSettings": {
-                      "samplingPoints": 16,
-                      "points": {
-                        "lmc": [
-                          "rightPalmPosition",
-                          "rightThumbTipPosition",
-                          "rightIndexTipPosition",
-                          "rightMiddleTipPosition",
-                          "rightRingTipPosition",
-                          "rightPinkyTipPosition"
-                        ]
-                      }
-                    },
-                    "additionalSettings": {
-                      "weight": 1
-                    }
-                  },
-                  {
-                    "moduleName": "threecent",
-                    "moduleType": "recognizers/dynamic",
-                    "moduleSettings": {
-                      "samplingPoints": 16,
-                      "points": {
-                        "lmc": [
-                          "rightPalmPosition"
-                        ]
-                      }
-                    },
-                    "additionalSettings": {
-                      "weight": 1
-                    }
-                  },
-                  {
-                    "moduleName": "pdollarplus",
-                    "moduleType": "recognizers/dynamic",
-                    "moduleSettings": {
-                      "samplingPoints": 16,
-                      "points": {
-                        "lmc": [
-                          "rightPalmPosition"
-                        ]
-                      }
-                    },
-                    "additionalSettings": {
-                      "weight": 1
-                    }
-                  },
-                  {
-                    "moduleName": "p3dollar",
-                    "moduleType": "recognizers/dynamic",
-                    "moduleSettings": {
-                      "samplingPoints": 16,
-                      "points": {
-                        "lmc": [
-                          "rightPalmPosition"
-                        ]
-                      }
-                    },
-                    "additionalSettings": {
-                      "weight": 1
-                    }
-                  },
-                  {
-                    "moduleName": "q3dollar",
-                    "moduleType": "recognizers/dynamic",
-                    "moduleSettings": {
-                      "samplingPoints": 16,
-                      "points": {
-                        "lmc": [
-                          "rightPalmPosition"
                         ]
                       }
                     },

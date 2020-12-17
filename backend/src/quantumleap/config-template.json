@@ -223,7 +223,26 @@
         "moduleType": "segmenters",
         "minModules": 1,
         "maxModules": 1,
-        "settings": [],
+        "settings": [
+          {
+            "type": "FloatInput",
+            "name": "motionThreshold",
+            "label": "Motion threshold",
+            "description": "The minimum hand motion to consider that the segment may be a gesture.",
+            "minValue": 0,
+            "maxValue": null,
+            "default": 70
+          },
+          {
+            "type": "PointsSelector",
+            "label": "Points",
+            "name": "motionArticulations",
+            "description": "The articulations that are used to determine whether the user moved his hand.",
+            "minNumber": 1,
+            "maxNumber": null,
+            "default": {}
+          }
+        ],
         "default": []
       }
     ],

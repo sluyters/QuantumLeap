@@ -1,7 +1,4 @@
 const AbstractSegmenter = require('../../../framework/segmenters/abstract-segmenter').AbstractSegmenter;
-const StrokeData = require('../../../framework/gestures/stroke-data').StrokeData;
-const Stroke = require('../../../framework/gestures/stroke-data').Stroke;
-const Path = require('../../../framework/gestures/stroke-data').Path;
 const { parsePointsNames } = require('../../../framework/utils');
 
 const xBound = 120;
@@ -11,15 +8,15 @@ const zBound = 60;
 class Segmenter extends AbstractSegmenter {
   constructor(options) {
     super(options);
-    this.minFrames = options.minSegmentLength;
-    this.maxFrames = options.maxSegmentLength;
-    this.numberPauseFrames = options.pauseLength;
-    this.monitoredArticulations = parsePointsNames(options.monitoredArticulations);
-    this.strokeData = null;
+    this.minFrames = options.moduleSettings.minSegmentLength;
+    this.maxFrames = options.moduleSettings.maxSegmentLength;
+    this.numberPauseFrames = options.moduleSettings.pauseLength;
+    this.monitoredArticulations = parsePointsNames(options.moduleSettings.monitoredArticulations);
+    this.frameBuffer = [];
     this.pauseCount = 0;
   }
 
-  segment(frame) {
+  computeSegments(frame) {
     // Increment pause count
     this.pauseCount = Math.max(this.pauseCount - 1, 0);
     if (this.pauseCount != 0) {
@@ -27,41 +24,21 @@ class Segmenter extends AbstractSegmenter {
     }
     if (isWithinBounds(frame, this.monitoredArticulations)) {
       // At least one articulation is in the zone
-      if (this.frameCount >= this.maxFrames) {
+      if (this.frameBuffer.length >= this.maxFrames) {
         // Max number of frames reached
-        let oldStrokeData = this.strokeData;
-        this.strokeData = null;
-        this.frameCount = 0;
-        return [ oldStrokeData ];
+        let frames = this.frameBuffer;
+        this.frameBuffer = [];
+        return [ frames ];
       }
-      if (this.strokeData === null) {
-        // Initialize strokeData
-        this.strokeData = new StrokeData();
-        for (const articulation of frame.articulations) {
-          let path = new Path(articulation.label);
-          this.strokeData.addPath(articulation.label, path);
-          let stroke = new Stroke();
-          path.addStroke(stroke);
-          stroke.addPoint(articulation.point);
-        }
-      } else {
-        for (const articulation of frame.articulations) {
-          let path = this.strokeData.paths[articulation.label];
-          let stroke = path.strokes[0];
-          stroke.addPoint(articulation.point);
-        }
-      }
-      this.frameCount++;
-    } else if (this.frameCount > this.minFrames) {
+      this.frameBuffer.push(frame);
+    } else if (this.frameBuffer.length > this.minFrames) {
       // Hands outside of the zone & enough frames
-      let oldStrokeData = this.strokeData;
-      this.strokeData = null;
-      this.frameCount = 0;
-      return [ oldStrokeData ];
+      let frames = this.frameBuffer;
+      this.frameBuffer = [];
+      return [ frames ];
     } else {
       // Hands outside of the zone and not enough frames
-      this.strokeData = null;
-      this.frameCount = 0;
+      this.frameBuffer = [];
     }
     return [];
   }

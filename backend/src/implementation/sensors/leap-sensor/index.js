@@ -53,16 +53,17 @@ class Sensor extends AbstractSensor {
     }
     // Add missing points
     const addMissingPoints = (type) => {
+      let valueMissing = Number.MIN_SAFE_INTEGER;
       let palmName = `${type}PalmPosition`;
       points.push({
         name: palmName,
-        point: new Point(0.0, 0.0, 0.0, timestamp)
+        point: new Point(valueMissing, valueMissing, valueMissing, timestamp)
       });
       for (const fingerName of fingerNames) {
         for (const fingerArticulation of fingerArticulations) {
           points.push({
             name: `${type}${fingerName}${fingerArticulation}Position`,
-            point: new Point(0.0, 0.0, 0.0, timestamp)
+            point: new Point(valueMissing, valueMissing, valueMissing, timestamp)
           });
         }
       }
