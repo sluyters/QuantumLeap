@@ -45,7 +45,7 @@ class CompoundSetting extends React.Component {
         {this.props.value.map((item, index) => (
           <React.Fragment>
             <div className={classes.item}>
-              <Typography variant='subtitle1'>
+              <Typography variant='overline'>
                 {`${itemName} ${index + 1}`}
                 <IconButton onClick={deleteItem(index)}>
                   <DeleteIcon/>

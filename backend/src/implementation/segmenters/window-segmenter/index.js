@@ -25,14 +25,14 @@ class Segmenter extends AbstractSegmenter {
         // Shift frames in buffer
         frameBuffer.shift();
       }
-      // Increment pause count
-      this.pauseCount = Math.max(this.pauseCount - 1, 0);
-      this.intervalCount = (this.intervalCount + 1) % this.numberIntervalFrames;
       if (frameBuffer.length >= windowWidth && this.pauseCount == 0 && this.intervalCount == 0) {
         // Buffer full & ready
         segments.push(frameBuffer.slice());
       }
     });
+    // Increment pause count
+    this.pauseCount = Math.max(this.pauseCount - 1, 0);
+    this.intervalCount = (this.intervalCount + 1) % this.numberIntervalFrames;
     return segments;
   }
 
