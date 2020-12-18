@@ -122,10 +122,7 @@
             "moduleSettings": {
               "windows": [
                 {
-                  "width": 60
-                },
-                {
-                  "width": 120
+                  "width": 30
                 }
               ],
               "intervalLength": 3,
@@ -177,7 +174,7 @@
             }
           ],
           "bufferLength": 15,
-          "poseRatioThreshold": 0.8,
+          "poseRatioThreshold": 0.7,
           "sendIfRequested": true,
           "loadOnRequest": false
         },
