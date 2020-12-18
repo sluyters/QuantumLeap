@@ -20,7 +20,6 @@ class Segmenter extends AbstractSegmenter {
     // Increment pause count
     this.pauseCount = Math.max(this.pauseCount - 1, 0);
     this.intervalCount = (this.intervalCount + 1) % this.numberIntervalFrames;
-    console.log(this.pauseCount)
     this.frameBuffers.forEach((frameBuffer, index) => {
       let windowWidth = this.windows[index].width;
       // Add new frame to the buffer

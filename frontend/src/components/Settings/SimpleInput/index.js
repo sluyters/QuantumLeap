@@ -5,11 +5,8 @@ import { Checkbox, TextField } from '@material-ui/core';
 const TIMEOUT_VALUE = 500;
 
 function BooleanInput(props) {
-  // Unchanged for each setting
-  const { templates, values } = props;
   // Each module has the props, but their value can change
-  const { handleChange, level, path, value } = props;
-
+  const { handleChange, path, value } = props;
   return (
     <Checkbox 
       checked={value}
@@ -24,48 +21,45 @@ class TextInput extends React.Component {
     super(props);
     this.state = {
       value: props.value,
-      typingTimeout: ''
+      typingTimeout: '',
     };
-    this.validateData = this.validateData.bind(this);
   }
 
   render() {
-    // // Unchanged for each setting
-    // const { templates, values } = this.props;
-    // // Each module has the props, but their value can change
-    // const { handleChange, level, path, value } = this.props;
-    // Unique to each module
-    const { minLength, maxLength } = this.props;
-    const value = this.state.value;
-    let valid = !(minLength && value.length < minLength) && !(maxLength && value.length > maxLength)
+    const { handleChange, path, minLength, maxLength } = this.props;
+    // Helper functions
+    const checkValue = (value) => {
+      let error = '';
+      if (minLength !== null && minLength !== undefined && value.length < minLength) {
+        console.error('Text input too short!');
+        error = `Value should be longer than ${minLength}!`;
+      } else if (maxLength !== null && maxLength !== undefined && value.length > maxLength) {
+        console.error('Text input too long!');
+        error = `Value should be shorter than ${maxLength}!`;
+      }
+      return error;
+    }
+    const updateData = (event) => {
+      let newValue = event.target.value ? parseFloat(event.target.value) : 0;
+      if (this.state.typingTimeout) {
+        clearTimeout(this.state.typingTimeout);
+      }
+      this.setState({
+        value: event.target.value,
+        typingTimeout: setTimeout(() => handleChange(path, newValue), TIMEOUT_VALUE)
+      });
+    }
+    let error = checkValue(this.state.value);
     return (
       <TextField 
-        error={!valid}
-        helperText={valid ? '' : 'Please enter a valid value.'}
+        error={error}
+        helperText={error}
         type='text'
         variant='outlined'
-        value={value}
-        onChange={this.validateData}
+        value={this.state.value}
+        onChange={updateData}
       />
     );
-  }
-
-  validateData(event) {
-    const newValue = event.target.value;
-    const { handleChange, path } = this.props;
-    const { minLength, maxLength } = this.props;
-    if (minLength !== null && minLength !== undefined && newValue.length < minLength) {
-      console.error('Text input too short!');
-    } else if (maxLength !== null && maxLength !== undefined && newValue.length > maxLength) {
-      console.error('Text input too long!');
-    }
-    if (this.state.typingTimeout) {
-      clearTimeout(this.state.typingTimeout);
-    }
-    this.setState({
-      value: newValue,
-      typingTimeout: setTimeout(() => handleChange(path, newValue), TIMEOUT_VALUE)
-    });
   }
 }
 
@@ -78,36 +72,42 @@ class FloatInput extends React.Component {
     };
   }
   render() {
-    // Unchanged for each setting
-    const { templates, values } = this.props;
-    // Each module has the props, but their value can change
-    const { handleChange, level, path, value } = this.props;
-    // Unique to each module
-    const { minValue, maxValue } = this.props;
-    const validateData = (event) => {
-      let newValue = event.target.value ? parseFloat(event.target.value) : 0;
-      // Validate data
-      if (minValue !== null && minValue !== undefined && newValue < minValue) {
+    const { handleChange, path, minValue, maxValue } = this.props;
+    // Helper functions
+    const checkValue = (value) => {
+      let error = '';
+      if (value === null || value === undefined || value.length === 0) {
+        console.error('No float input!');
+        error = `A value is required!`;
+      } else if (minValue !== null && minValue !== undefined && value < minValue) {
         console.error('Float input too small!');
-        newValue = minValue;
-      } else if (maxValue !== null && maxValue !== undefined && newValue > maxValue) {
+        error = `Value should be greater than ${minValue}!`;
+      } else if (maxValue !== null && maxValue !== undefined && value > maxValue) {
         console.error('Float input too big!');
-        newValue = maxValue;
+        error = `Value should be smaller than ${maxValue}!`;
       }
+      return error;
+    }
+    const updateData = (event) => {
+      let newValue = event.target.value;
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
       }
       this.setState({
-        value: newValue.toString(),
+        value: event.target.value,
         typingTimeout: setTimeout(() => handleChange(path, newValue), TIMEOUT_VALUE)
       });
     }
+    let error = checkValue(this.state.value);
     return (
       <TextField 
         type='number'
         variant='outlined'
+        error={error}
+        helperText={error}
         value={this.state.value}
-        onChange={validateData}
+        onChange={updateData}
+        inputProps={{ min: minValue, max: maxValue }}
       />
     );
   }
@@ -118,43 +118,47 @@ class IntegerInput extends React.Component {
     super(props);
     this.state = {
       value: props.value,
-      typingTimeout: ''
+      typingTimeout: '',
     };
   }
 
   render() {
-    // Unchanged for each setting
-    const { templates, values } = this.props;
-    // Each module has the props, but their value can change
-    const { handleChange, level, path, value } = this.props;
-    // Unique to each module
-    const { minValue, maxValue } = this.props;
-
-    const validateData = (event) => {
-      let newValue = event.target.value ? parseInt(event.target.value) : 0;
-      // Validate data
-      console.log(newValue, minValue)
-      if (minValue !== null && minValue !== undefined && newValue < minValue) {
+    const { handleChange, path, minValue, maxValue } = this.props;
+    // Helper functions
+    const checkValue = (value) => {
+      let error = '';
+      if (value === null || value === undefined || value.length === 0) {
+        console.error('No integer input!');
+        error = `A value is required!`;
+      } else if (minValue !== null && minValue !== undefined && value < minValue) {
         console.error('Integer input too small!');
-        newValue = minValue;
-      } else if (maxValue !== null && maxValue !== undefined && newValue > maxValue) {
+        error = `Value should be greater than ${minValue}!`;
+      } else if (maxValue !== null && maxValue !== undefined && value > maxValue) {
         console.error('Integer input too big!');
-        newValue = maxValue;
+        error = `Value should be smaller than ${maxValue}!`;
       }
+      return error;
+    }
+    const updateData = (event) => {
+      let newValue = event.target.value ? parseInt(event.target.value) : 0;
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
       }
       this.setState({
-        value: newValue.toString(),
+        value: event.target.value,
         typingTimeout: setTimeout(() => handleChange(path, newValue), TIMEOUT_VALUE)
       });
     }
+    let error = checkValue(this.state.value);
     return (
       <TextField 
         type='number'
         variant='outlined'
+        error={error}
+        helperText={error}
         value={this.state.value}
-        onChange={validateData}
+        onChange={updateData}
+        inputProps={{ min: minValue, max: maxValue }}
       />
     );
   }
