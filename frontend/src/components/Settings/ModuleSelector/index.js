@@ -99,6 +99,7 @@ class ModuleSelector extends React.Component {
               {(template.settings.length > 0) ? (
                 template.settings.map(setting => (
                   <Setting 
+                    key={`module-setting-${setting.name}`}
                     templates={templates}
                     values={values}
                     handleChange={handleSettingChange}
@@ -115,6 +116,7 @@ class ModuleSelector extends React.Component {
               {(settings.length > 0) ? (
                 settings.map(setting => (
                   <Setting 
+                  key={`additional-setting-${setting.name}`}
                     templates={templates}
                     values={values}
                     handleChange={handleSettingChange}

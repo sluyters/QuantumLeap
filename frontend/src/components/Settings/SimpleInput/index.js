@@ -52,7 +52,7 @@ class TextInput extends React.Component {
     let error = checkValue(this.state.value);
     return (
       <TextField 
-        error={error}
+        error={error ? true : false}
         helperText={error}
         type='text'
         variant='outlined'
@@ -103,7 +103,7 @@ class FloatInput extends React.Component {
       <TextField 
         type='number'
         variant='outlined'
-        error={error}
+        error={error ? true : false}
         helperText={error}
         value={this.state.value}
         onChange={updateData}
@@ -154,7 +154,7 @@ class IntegerInput extends React.Component {
       <TextField 
         type='number'
         variant='outlined'
-        error={error}
+        error={error ? true : false}
         helperText={error}
         value={this.state.value}
         onChange={updateData}

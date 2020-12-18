@@ -20,6 +20,7 @@ class Category extends React.Component {
         {
           settings.map(setting => (
             <Setting 
+              key={setting.name}
               templates={templates}
               values={values}
               handleChange={handleChange}

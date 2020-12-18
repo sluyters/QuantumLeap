@@ -141,9 +141,10 @@ function Navigation({ children, items, pathName, depthStep, depth }) {
   const classes = useStyles();
   // Go through each of the items
   let renderedItems = [];
-  items.forEach(item => {
+  items.forEach((item, index) => {
     renderedItems.push(
       <NavigationItem
+        key={index}
         item={item}
         pathName={pathName}
         depthStep={depthStep}
@@ -172,9 +173,10 @@ function NavigationItem({ item, pathName, depthStep, depth, theme }) {
   let renderedSubItems = [];
   let expandIcon;
   if (Array.isArray(item.items) && item.items.length) {
-    item.items.forEach(subItem => {
+    item.items.forEach((subItem, index) => {
       renderedSubItems.push(
         <NavigationItem
+          key={index}
           item={subItem}
           pathName={pathName}
           depthStep={depthStep}

@@ -26,7 +26,7 @@ const styles = (theme) => ({
   },
 });
 
-class Pipeline extends React.Component {
+class Module extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -104,24 +104,22 @@ class Pipeline extends React.Component {
           <React.Fragment>
             {componentTemplate.map((setting, index) => {
               return (
-                <React.Fragment>
-                  <Setting
-                    key={`${componentKey}-${index}`}
-                    templates={templates}
-                    values={values}
-                    handleChange={this.handleValueChange}
-                    level={0}
-                    path={path}
-                    value={componentValue[setting.name]}
-                    setting={setting}
-                  />
-                </React.Fragment>
+                <Setting
+                  key={`${componentKey}-${index}`}
+                  templates={templates}
+                  values={values}
+                  handleChange={this.handleValueChange}
+                  level={0}
+                  path={path}
+                  value={componentValue[setting.name]}
+                  setting={setting}
+                />
               );
             })}
             <div className={classes.actionButtons}>
               <ButtonGroup variant="contained" color="primary">
-                <Button onClick={this.sendValues}>Save changes</Button>
-                <Button onClick={discardChanges}>Discard changes</Button>
+                <Button key='save' onClick={this.sendValues}>Save changes</Button>
+                <Button key='discard' onClick={discardChanges}>Discard changes</Button>
               </ButtonGroup>
             </div>
           </React.Fragment>
@@ -198,4 +196,4 @@ function setObjectProperty(object, value, keys, index = 0) {
   }
 }
 
-export default withTheme(withStyles(styles)(withRouter(Pipeline)));
+export default withTheme(withStyles(styles)(withRouter(Module)));

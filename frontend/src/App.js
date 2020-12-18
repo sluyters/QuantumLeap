@@ -8,7 +8,6 @@ import Layout from './components/Layout'
 import { Home as HomeIcon, Settings as PipelineIcon, Gesture as GestureSetsIcon, Extension, Speed as TestingIcon } from '@material-ui/icons'
 // Pages
 import Home from './pages/Home'
-import Pipeline from './pages/Pipeline';
 import Testing from './pages/Testing';
 import NotFound from './pages/NotFound';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
