@@ -31,7 +31,8 @@ class Pipeline extends React.Component {
     super(props);
     this.state = {
       templates: '',
-      values: ''
+      values: '',
+      componentKey: Date.now(), // Necessary to ensure that state is reset across all sub-components
     };
     this.handleValueChange = this.handleValueChange.bind(this);
     this.fetchData = this.fetchData.bind(this);
@@ -41,19 +42,31 @@ class Pipeline extends React.Component {
 
   componentDidMount() {
     const { moduleType, gestureType } = this.props.match.params;
-    this.fetchData(moduleType, gestureType);
+    this.fetchData(moduleType, gestureType).then(res => {
+      this.setState({
+        componentKey: Date.now(),
+      });
+    });
   }
 
   componentDidUpdate(prevProps) {
     const { moduleType, gestureType } = this.props.match.params;
     if (moduleType !== prevProps.match.params.moduleType || gestureType !== prevProps.match.params.gestureType) {
-      this.fetchData(moduleType, gestureType);
+      this.setState({
+        templates: '',
+        values: '',
+      })
+      this.fetchData(moduleType, gestureType).then(res => {
+        this.setState({
+          componentKey: Date.now(),
+        });
+      });
     }
   }
 
   render() {
     const { classes, theme, history, routesInfos } = this.props;
-    const { templates, values, } = this.state;
+    const { templates, values, componentKey } = this.state;
 
     let path = [ 'main', 'settings' ];
     const route = history.location.pathname;
@@ -75,6 +88,13 @@ class Pipeline extends React.Component {
         break;
       }
     }
+    const discardChanges = () => {
+      this.fetchValues().then(res => {
+        this.setState({
+          componentKey: Date.now(),
+        });
+      });
+    }
     return (
       <div>
         <Typography className={classes.componentName} variant='h2'>
@@ -82,10 +102,11 @@ class Pipeline extends React.Component {
         </Typography>
         {(componentValue && componentTemplate) ? (
           <React.Fragment>
-            {componentTemplate.map(setting => {
+            {componentTemplate.map((setting, index) => {
               return (
                 <React.Fragment>
                   <Setting
+                    key={`${componentKey}-${index}`}
                     templates={templates}
                     values={values}
                     handleChange={this.handleValueChange}
@@ -100,7 +121,7 @@ class Pipeline extends React.Component {
             <div className={classes.actionButtons}>
               <ButtonGroup variant="contained" color="primary">
                 <Button onClick={this.sendValues}>Save changes</Button>
-                <Button onClick={this.fetchValues}>Discard changes</Button>
+                <Button onClick={discardChanges}>Discard changes</Button>
               </ButtonGroup>
             </div>
           </React.Fragment>

@@ -82,6 +82,7 @@ function App() {
             />
             <Route 
               exact
+              key={Date.now()}
               path='/pipeline/:moduleType/:gestureType?' 
               render={(props) => (<Module {...props} routesInfos={routesInfos} />)}
             />
