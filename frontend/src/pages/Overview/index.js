@@ -4,7 +4,6 @@ import { Typography, Button, ButtonGroup, Paper, IconButton, Divider } from '@ma
 import { withTheme, withStyles } from '@material-ui/core/styles'
 import { withRouter } from "react-router";
 import PipelineImage from './res/pipeline-svg';
-import { Setting } from '../../components/Settings';
 import { Pause, PlayArrow } from '@material-ui/icons';
 
 // Change
@@ -57,7 +56,7 @@ class Overview extends React.Component {
   }
 
   render() {
-    const { theme, history, classes } = this.props;
+    const { history, classes } = this.props;
     const { isRunning } = this.state;
 
     const clickHandler = (name) => {

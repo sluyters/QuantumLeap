@@ -1,13 +1,12 @@
 import React from 'react';
-import { withTheme } from '@material-ui/core/styles'
-import { Accordion, AccordionDetails, AccordionSummary, Typography, Select, FormControl, Divider, Box, IconButton } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Typography, Select, FormControl, Box, IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { v4 as uuidv4 } from 'uuid';
 import Setting from '../Setting';
 
 class ModuleSelector extends React.Component {
   render() {
-    const { theme } = this.props;
     // Unchanged for each setting
     const { templates, values } = this.props;
     // Each module has the props, but their value can change
@@ -32,6 +31,7 @@ class ModuleSelector extends React.Component {
       // Build default values
       let newValue = value.slice();
       let moduleConfig = {
+        uuid: uuidv4(),
         moduleName: moduleName,
         moduleType: moduleType,
         moduleSettings: getValuesFromSettings(moduleTemplate.settings),
@@ -43,6 +43,8 @@ class ModuleSelector extends React.Component {
     // Render selected modules
     let renderedSelected = [];
     selectedModules.forEach((module, moduleIndex) => {
+      // Get key
+      let key = module.uuid;
       // Get the name of the module
       let moduleName = module.moduleName;
       // Get the template of the module
@@ -63,14 +65,14 @@ class ModuleSelector extends React.Component {
       }
       // Render the module
       renderedSelected.push(
-        <Accordion>
+        <Accordion key={key}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Box width={1}>
               {/* Render the dropdown list */}
               <FormControl variant="outlined">
                 <Select native value={modulesNames.indexOf(module.moduleName)} onClick={(event) => event.stopPropagation()} onChange={(event) => handleModuleSelection(moduleIndex, event)}>
                   {modulesNames.map((moduleName, optionIndex) => (
-                    <option value={optionIndex}>
+                    <option key={optionIndex} value={optionIndex}>
                       {modules[moduleName].label}
                     </option>
                   ))}
@@ -141,7 +143,7 @@ class ModuleSelector extends React.Component {
         {renderedSelected}
         {/* If less modules selected than the maximum amount, just render the dropdown list */}
         {(!maxModules || selectedModules.length < maxModules) ? (
-          <Accordion expanded={false}>
+          <Accordion key='add-module' expanded={false}>
             <AccordionSummary>
               <Box width={1}>
                 <FormControl variant="outlined">
@@ -150,7 +152,7 @@ class ModuleSelector extends React.Component {
                       {'Select a module...'}
                     </option>
                     {modulesNames.map((moduleName, index) => (
-                      <option value={index}>
+                      <option key={index} value={index}>
                         {modules[moduleName].label}
                       </option>
                     ))}
@@ -187,4 +189,4 @@ function getValuesFromSettings(settings) {
   return parsedSettings;
 }
 
-export default withTheme(ModuleSelector);
+export default ModuleSelector;

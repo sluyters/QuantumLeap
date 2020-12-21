@@ -1,9 +1,8 @@
 import React from 'react';
-import { Box, Checkbox } from '@material-ui/core'; 
+import { Checkbox } from '@material-ui/core'; 
 import { withStyles } from '@material-ui/core/styles';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import CircleCheckedFilled from '@material-ui/icons/CheckCircle';
 import { ReactComponent as LeapHands } from './hands.svg';
 import { ReactComponent as LeapBones } from './handsbones.svg';
 

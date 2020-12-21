@@ -1,8 +1,8 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { withTheme, withStyles } from '@material-ui/core/styles'
-import { Paper, Button, Accordion, AccordionDetails, AccordionSummary, Typography, Select, FormControl, Divider, Box, IconButton } from '@material-ui/core';
+import { Paper, Button, Typography, Divider, IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Setting from '../Setting';
 
 const styles = (theme) => ({
@@ -31,7 +31,9 @@ class CompoundSetting extends React.Component {
     }
     const addItem = () => {
       let newValue = this.props.value.slice();
-      newValue.push(getValuesFromSettings(settings));
+      let settingsValues = getValuesFromSettings(settings);
+      settingsValues['uuid'] = uuidv4();
+      newValue.push(settingsValues);
       handleChange(path, newValue);
     };
     const deleteItem = (index) => () => {
@@ -43,7 +45,7 @@ class CompoundSetting extends React.Component {
       <Paper>
         {/* For each element in value, display it */}
         {this.props.value.map((item, index) => (
-          <React.Fragment>
+          <div key={item.uuid}>
             <div className={classes.item}>
               <Typography variant='overline'>
                 {`${itemName} ${index + 1}`}
@@ -53,8 +55,9 @@ class CompoundSetting extends React.Component {
               </Typography>
               {/* Render the settings for the item */}
               {(settings.length > 0) && (
-                settings.map(setting => (
+                settings.map((setting, index) => (
                   <Setting 
+                    key={index}
                     templates={templates}
                     values={values}
                     handleChange={handleSettingChange(index)}
@@ -67,7 +70,7 @@ class CompoundSetting extends React.Component {
               )}
             </div>
             <Divider/>
-          </React.Fragment>
+          </div>
         ))}
         {/* Button to add an element */}
         <Button className={classes.addItemButton} variant='contained' color="secondary" onClick={addItem}>

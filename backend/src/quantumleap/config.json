@@ -14,6 +14,7 @@
       "sensors": {
         "modules": [
           {
+            "uuid": "5b28fbec-5a92-495c-a132-04bc9533d263",
             "moduleName": "leap-sensor",
             "moduleType": "sensors",
             "moduleSettings": {},
@@ -27,11 +28,12 @@
       "filters": {
         "modules": [
           {
+            "uuid": "9e5a56ab-dfb9-4a65-9522-082093cacb9e",
             "moduleName": "one-euro",
             "moduleType": "filters",
             "moduleSettings": {
               "minCutoff": 1,
-              "beta": 0.001
+              "beta": "0.001"
             },
             "additionalSettings": {}
           }
@@ -41,6 +43,7 @@
         "static": {
           "modules": [
             {
+              "uuid": "9e5a56ab-dfb3-4a65-9522-082093cacb9e",
               "moduleName": "leap-loader",
               "moduleType": "datasets/static",
               "moduleSettings": {},
@@ -58,6 +61,7 @@
         "dynamic": {
           "modules": [
             {
+              "uuid": "9e5a56ab-dfb1-4a65-9522-082093cacb9e",
               "moduleName": "leap-loader",
               "moduleType": "datasets/dynamic",
               "moduleSettings": {},
@@ -107,6 +111,7 @@
       "analyzers": {
         "modules": [
           {
+            "uuid": "9e5a56bb-dfb9-4a65-9522-082093cacb9e",
             "moduleName": "basic-analyzer",
             "moduleType": "analyzers",
             "moduleSettings": {},
@@ -117,11 +122,13 @@
       "segmenters": {
         "modules": [
           {
+            "uuid": "9e8a56ab-dfb9-4a65-9522-082093cacb9e",
             "moduleName": "window-segmenter",
             "moduleType": "segmenters",
             "moduleSettings": {
               "windows": [
                 {
+                  "uuid": "5b28fbec-5a99-495c-a132-04bc9533d263",
                   "width": 30
                 }
               ],
@@ -145,6 +152,7 @@
         "static": {
           "modules": [
             {
+              "uuid": "9e5a56ab-dfb9-4a65-9522-152093cacb9e",
               "moduleName": "gpsda",
               "moduleType": "recognizers/static",
               "moduleSettings": {
@@ -181,11 +189,13 @@
         "dynamic": {
           "modules": [
             {
+              "uuid": "9e5a67ab-dfb9-4a65-9522-082093cacb9e",
               "moduleName": "multi-recognizer",
               "moduleType": "recognizers/dynamic",
               "moduleSettings": {
                 "recognizers": [
                   {
+                    "uuid": "9e5a56ab-eeb9-4a65-9522-082093cacb9e",
                     "moduleName": "jackknife",
                     "moduleType": "recognizers/dynamic",
                     "moduleSettings": {

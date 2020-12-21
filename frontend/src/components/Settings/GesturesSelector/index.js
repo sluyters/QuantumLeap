@@ -125,7 +125,7 @@ class Gesture extends React.Component {
         alignItems='center'
         flexWrap='nowrap'
       >
-        <Box item flexGrow={1}>
+        <Box flexGrow={1}>
           <Grid
             className={classes.gestureInfo}
             container
@@ -173,7 +173,7 @@ class Gesture extends React.Component {
           </Grid>
         </Box>
         {/* The "delete" button */}
-        <Box item>
+        <Box>
           <IconButton onClick={onDelete}>
             <DeleteIcon/>
           </IconButton>

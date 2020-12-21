@@ -59,7 +59,7 @@ class DatasetSelector extends React.Component {
           <FormControl variant="outlined">
             <Select native value={datasetsNames.indexOf(datasetName)} onChange={(event) => handleDatasetSelection(datasetIndex, event)}>
               {datasetsNames.map((datasetName, optionIndex) => (
-                <option value={optionIndex}>
+                <option key={optionIndex} value={optionIndex}>
                   {datasets[datasetName].label}
                 </option>
               ))}
@@ -91,12 +91,12 @@ class DatasetSelector extends React.Component {
               ''
             )}
             <FormControl variant="outlined">
-            <Select native value={''} onChange={(event) => handleDatasetSelection(selectedDatasets.length, event)}>
-              <option value={''}>
+            <Select native value='' onChange={(event) => handleDatasetSelection(selectedDatasets.length, event)}>
+              <option key='select-dataset' value=''>
                 {'Select a dataset...'}
               </option>
               {datasetsNames.map((datasetName, index) => (
-                <option value={index}>
+                <option key={index} value={index}>
                   {datasets[datasetName].label}
                 </option>
               ))}

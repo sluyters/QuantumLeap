@@ -123,7 +123,7 @@ class PointsSelector extends React.Component {
             );
         }
         renderedSensors.push(
-          <React.Fragment>
+          <div key={`points-${sensorId}`}>
             <Typography variant='subtitle1' >
               {`${name} (${sensorId})`}
             </Typography>
@@ -132,8 +132,9 @@ class PointsSelector extends React.Component {
               <Grid item xs={12} md={12} lg={5}>
                 <Paper className={classes.pointsList}>
                   <List dense style={{width: '100%'}}>
-                    {availablePoints.map(item => (
+                    {availablePoints.map((item, index) => (
                       <PointsItem
+                        key={index}
                         classes={classes}
                         item={item}
                         sensorId={sensorId}
@@ -155,7 +156,7 @@ class PointsSelector extends React.Component {
                 </Paper>
               </Grid>
             </Grid>
-          </React.Fragment>
+          </div>
         );
       });
       return (
@@ -237,8 +238,9 @@ class PointsItem extends React.Component {
         {/* Render a list of items */}
         <Collapse in={!collapsed} timeout='auto' unmountOnExit>
           <List dense> 
-          {item.points.map((subItem) => (
+          {item.points.map((subItem, index) => (
             <PointsItem
+              key={index}
               item={subItem}
               sensorId={sensorId}
               onSelect={onSelect}

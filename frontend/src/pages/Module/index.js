@@ -65,7 +65,7 @@ class Module extends React.Component {
   }
 
   render() {
-    const { classes, theme, history, routesInfos } = this.props;
+    const { classes, history, routesInfos } = this.props;
     const { templates, values, componentKey } = this.state;
 
     let path = [ 'main', 'settings' ];

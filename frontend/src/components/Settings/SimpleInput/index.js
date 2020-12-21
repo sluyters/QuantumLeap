@@ -30,7 +30,10 @@ class TextInput extends React.Component {
     // Helper functions
     const checkValue = (value) => {
       let error = '';
-      if (minLength !== null && minLength !== undefined && value.length < minLength) {
+      if (value === null || value === undefined) {
+        console.error('Invalid text input');
+        error = `The value could not be read!`;
+      } else if (minLength !== null && minLength !== undefined && value.length < minLength) {
         console.error('Text input too short!');
         error = `Value should be longer than ${minLength}!`;
       } else if (maxLength !== null && maxLength !== undefined && value.length > maxLength) {
@@ -40,7 +43,7 @@ class TextInput extends React.Component {
       return error;
     }
     const updateData = (event) => {
-      let newValue = event.target.value ? parseFloat(event.target.value) : 0;
+      let newValue = event.target.value;
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
       }
@@ -89,7 +92,7 @@ class FloatInput extends React.Component {
       return error;
     }
     const updateData = (event) => {
-      let newValue = event.target.value;
+      let newValue = event.target.value ? parseFloat(event.target.value) : 0;
       if (this.state.typingTimeout) {
         clearTimeout(this.state.typingTimeout);
       }
