@@ -48,7 +48,7 @@ class DatasetSelector extends React.Component {
       }
       // Render the dataset
       renderedSelected.push(
-        <React.Fragment>
+        <div key={datasetName}>
           {/* Divider */}
           {datasetIndex > 0 ? (
             <Divider light={true} style={{ marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}/>
@@ -73,7 +73,7 @@ class DatasetSelector extends React.Component {
           <Typography variant='body1'>
             {description}
           </Typography>
-        </React.Fragment>
+        </div>
       );
     })
 
@@ -82,7 +82,7 @@ class DatasetSelector extends React.Component {
       <React.Fragment>
         {renderedSelected}
         {/* If less datasets selected than the maximum amount, just render the dropdown list */}
-        {(!maxDatasets || selectedDatasets.length < maxDatasets) ? (
+        {(!maxDatasets || selectedDatasets.length < maxDatasets) && (
           <React.Fragment>
             {/* Divider */}
             {selectedDatasets.length > 0 ? (
@@ -103,8 +103,6 @@ class DatasetSelector extends React.Component {
             </Select>
           </FormControl>
           </React.Fragment>
-        ) : (
-          ''
         )}
       </React.Fragment>
     );

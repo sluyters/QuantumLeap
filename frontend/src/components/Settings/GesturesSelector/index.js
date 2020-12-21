@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { Grid, Button, IconButton, TextField, Typography, Box, Paper, Divider } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -52,6 +53,7 @@ class GesturesSelector extends React.Component {
     const addGesture = () => {
       let newValue = this.state.value.slice();
       newValue.push({
+        uuid: uuidv4(),
         name: '',
         gestureClasses: []
       });
@@ -94,7 +96,7 @@ class GesturesSelector extends React.Component {
       <Paper>
         {/* For each element in value, display it */}
         {this.state.value.map((gesture, index) => (
-          <React.Fragment>
+          <div key={gesture.uuid}>
             <Gesture
               classes={classes}
               name={gesture.name}
@@ -104,7 +106,7 @@ class GesturesSelector extends React.Component {
               onDelete={deleteGesture(index)}
             />
             <Divider/>
-          </React.Fragment>
+          </div>
         ))}
         {/* Button to add an element */}
         <Button className={classes.addGestureButton} variant='contained' color="secondary" onClick={addGesture}>
