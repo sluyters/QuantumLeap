@@ -54,7 +54,11 @@ class FrameProcessor {
         let gestureClass = this.datasets[type].getGestureClasses().get(name);
         if (gestureClass) {
           for (const template of gestureClass.getSamples()) {
-            this.recognizers[type].addGesture(name, template);
+            try {
+              this.recognizers[type].addGesture(name, template);
+            } catch(error) {
+              console.error(`Dynamic gesture recognizer error while adding a template for gesture '${name}': ${error.stack}`);
+            }
           }
         } else {
           console.error(`No ${type} gesture class in the dataset with name '${name}'`);
@@ -70,7 +74,11 @@ class FrameProcessor {
       // The gesture  was enabled, disable it
       this.enabledGestures[type].splice(index, 1);
       if (this.config.recognizers[type].loadOnRequest) {
-        this.recognizers[type].removeGesture(name);
+        try {
+          this.recognizers[type].removeGesture(name);
+        } catch(error) {
+          console.error(`Dynamic gesture recognizer error while removing gesture '${name}': ${error.stack}`);
+        }
       }
     }
   }
