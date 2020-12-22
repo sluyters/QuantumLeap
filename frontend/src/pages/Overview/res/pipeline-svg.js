@@ -1,5 +1,5 @@
 import { React, useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 const styles = (theme) => ({
   csvModule: {
@@ -14,10 +14,11 @@ const useStyles = makeStyles(styles);
 
 function SvgComponent(props) {
   const { onClick } = props;
+  const theme = useTheme();
   // Colors
   const backgroundColor = '#b3b3b3';
   const dataStreamColor = '#ccc';
-  const hoveredModuleColor = '#222';
+  const hoveredModuleColor = theme.palette.primary.dark;
   const moduleColor = '#666';
   const moduleTextColor = '#fff'
   const extModuleColor = '#333';
