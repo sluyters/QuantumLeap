@@ -2,8 +2,8 @@ const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const QuantumLeap = require('./framework/quantum-leap');
-const UserIndependentTesting = require('./testing/testing').UserIndependentTesting;
+const QuantumLeap = require('./framework/quantumleap');
+const UserIndependentTesting = require('./framework/testing').UserIndependentTesting;
 const Configuration = require('./framework/config-helper');
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -11,9 +11,9 @@ const Configuration = require('./framework/config-helper');
 const TEMPLATES_NAME = 'config-template.json';
 const VALUES_NAME = 'config.json';
 const DATASET_INFO_NAME = 'info.json';
-const TESTING_DIRECTORY_D = path.join(__dirname, 'testing', 'dynamic');
-const TESTING_DIRECTORY_S = path.join(__dirname, 'testing', 'static');
-const QUANTUMLEAP_DIRECTORY = path.join(__dirname, 'quantumleap');
+const TESTING_DIRECTORY_D = path.join(__dirname, 'config', 'testing', 'dynamic');
+const TESTING_DIRECTORY_S = path.join(__dirname, 'config', 'testing', 'static');
+const QUANTUMLEAP_DIRECTORY = path.join(__dirname, 'config', 'quantumleap');
 const MODULES_DIRECTORY = path.join(__dirname, 'implementation');
 const DATASETS_DIRECTORY = path.join(__dirname, 'datasets');
 const SERVER_IP = '127.0.0.1';
@@ -69,28 +69,6 @@ app.get('/quantumleap/templates/:moduleType?/:gestureType?', (req, res) => {
   }
   return res.status(200).json(templates);
 });
-
-// app.put('/templates', (req, res) => {
-//   let templates = req.body.data;
-//   configuration.setTemplates(templates);
-//   res.status(204).send();
-// });
-
-// app.get('/quantumleap/values', (req, res) => {
-//   let values = configuration.getValues();
-//   return res.status(200).json(values);
-// });
-
-// app.put('/quantumleap/values', (req, res) => {
-//   let values = req.body.data;
-//   configuration.setValues(values);
-//   res.status(204).send();
-//   try {
-//     configuration.saveValues();
-//   } catch (err) {
-//     console.error(`Unable to save the values. Details: ${err.stack}`);
-//   }
-// });
 
 app.get('/quantumleap/values/:moduleType?/:gestureType?', (req, res) => {
   let moduleType = req.params.moduleType;
@@ -152,17 +130,6 @@ app.post('/quantumleap/actions/stop', (req, res) => {
     res.status(500).send();
   } 
 });
-
-// app.post('/quantumleap/actions/restart', (req, res) => {
-//   try {
-//     let qlConfig = configuration.toQLConfig();
-//     quantumLeap.restart(qlConfig);
-//     return res.status(200).send();
-//   } catch (err) {
-//     console.log(`Unable to restart QuantumLeap. Details: ${err.stack}`)
-//     res.status(500).send();
-//   } 
-// });
 
 app.get('/testing/dynamic/templates', (req, res) => {
   let templates = testingConfigD.getTemplates();

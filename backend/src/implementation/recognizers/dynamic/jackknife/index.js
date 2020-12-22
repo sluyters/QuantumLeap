@@ -1,4 +1,4 @@
-const AbstractDynamicRecognizer = require('../../../../framework/recognizers/dynamic/abstract-dynamic-recognizer').AbstractDynamicRecognizer;
+const AbstractDynamicRecognizer = require('../../../../framework/modules/recognizers/dynamic/abstract-dynamic-recognizer').AbstractDynamicRecognizer;
 const jackknife_blades = require('./jackknife/jackknife').jackknife_blades;
 const Jackknife = require('./jackknife/jackknife_recognizer').Jackknife;
 const Vector = require('./jackknife/vector').Vector;

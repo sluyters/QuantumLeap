@@ -1,4 +1,4 @@
-const AbstractSegmenter = require('../../../framework/segmenters/abstract-segmenter').AbstractSegmenter;
+const AbstractSegmenter = require('../../../framework/modules/segmenters/abstract-segmenter').AbstractSegmenter;
 const { parsePointsNames } = require('../../../framework/utils');
 
 const xBound = 120;

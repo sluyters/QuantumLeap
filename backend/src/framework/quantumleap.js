@@ -1,6 +1,6 @@
 const WSServer = require('ws').Server;
 const FrameProcessor = require('./frame-processor').FrameProcessor;
-const SensorGroup = require('./sensors/sensor-group');
+const SensorGroup = require('./modules/sensors/sensor-group');
 
 class QuantumLeap {
   constructor(httpServer) {

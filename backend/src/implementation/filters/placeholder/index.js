@@ -1,4 +1,4 @@
-const AbstractFilter = require('../../../framework/filters/abstract-filter').AbstractFilter;
+const AbstractFilter = require('../../../framework/modules/filters/abstract-filter').AbstractFilter;
 
 class Filter extends AbstractFilter {
   constructor(options) {

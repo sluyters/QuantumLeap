@@ -1,4 +1,4 @@
-const AbstractStaticRecognizer = require('../../../../framework/recognizers/static/abstract-static-recognizer').AbstractStaticRecognizer;
+const AbstractStaticRecognizer = require('../../../../framework/modules/recognizers/static/abstract-static-recognizer').AbstractStaticRecognizer;
 const P3DollarPlusRecognizer = require('./p3dollarplus/recognizer').Recognizer;
 const Point = require('./p3dollarplus/recognizer').Point;
 const { parsePointsNames } = require('../../../../framework/utils');

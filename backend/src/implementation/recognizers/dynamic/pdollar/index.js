@@ -1,4 +1,4 @@
-const AbstractDynamicRecognizer = require('../../../../framework/recognizers/dynamic/abstract-dynamic-recognizer').AbstractDynamicRecognizer;
+const AbstractDynamicRecognizer = require('../../../../framework/modules/recognizers/dynamic/abstract-dynamic-recognizer').AbstractDynamicRecognizer;
 const PDollarRecognizer = require('./pdollar/pdollar').PDollarRecognizer;
 const Point = require('./pdollar/pdollar').Point;
 const { parsePointsNames } = require('../../../../framework/utils');

@@ -1,5 +1,5 @@
 const RingBuffer = require('ringbufferjs');
-const { initDataset } = require('./datasets/init-datasets');
+const { initDataset } = require('./modules/datasets/init-datasets');
 
 class FrameProcessor {
   constructor(config) {

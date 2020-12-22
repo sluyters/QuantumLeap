@@ -1,5 +1,5 @@
-const GestureSet = require('../gestures/gesture-set').GestureSet;
-const GestureClass = require('../gestures/gesture-class').GestureClass;
+const GestureSet = require('../../gestures/gesture-set').GestureSet;
+const GestureClass = require('../../gestures/gesture-class').GestureClass;
 const path = require('path'); // TODO improve
 
 function initDataset(type, sensorsConfig, datasetsConfig) {
@@ -11,7 +11,7 @@ function initDataset(type, sensorsConfig, datasetsConfig) {
     let datasetLoader = datasetLoaderModule.module;
     let identifier = datasetLoaderModule.additionalSettings.id;
     let datasetName = datasetLoaderModule.additionalSettings.datasets[0];
-    let datasetPath = path.resolve(__dirname, '../../datasets', type, datasetName); // TODO improve
+    let datasetPath = path.resolve(__dirname, '../../../datasets', type, datasetName); // TODO improve
     datasets.push(datasetLoader.loadDataset(datasetName, datasetPath, identifier, sensorsPointsNames));
   });
   let newDataset = new GestureSet('GestureSet');

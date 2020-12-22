@@ -10,7 +10,8 @@ const styles = (theme) => ({
   root: {
     width: '100%',
     position: 'relative',
-    backgroundColor: 'rgb(150, 150, 150)',
+    // backgroundColor: 'rgb(150, 150, 150)',
+    backgroundColor: theme.palette.background.default,
     paddingTop: '30px',
     boxSizing: 'border-box',
   },
@@ -19,12 +20,13 @@ const styles = (theme) => ({
     position: 'relative',
   },
   image: {
-    color: 'white',
+    color: theme.palette.action.selected,
     verticalAlign: 'top',
   },
   imageBones: {
     position: 'absolute',
-    color: 'rgb(220, 220, 220)',
+    color: theme.palette.action.disabled,
+    // color: 'rgb(220, 220, 220)',
     verticalAlign: 'top',
     zIndex: 0
   },

@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
-const GestureSet = require('../framework/gestures/gesture-set').GestureSet;
-const GestureClass = require('../framework/gestures/gesture-class').GestureClass;
+const GestureSet = require('./gestures/gesture-set').GestureSet;
+const GestureClass = require('./gestures/gesture-class').GestureClass;
 
 // Important values
 const computeNextT = x => x * 2; // Function that computes the next number of training templates

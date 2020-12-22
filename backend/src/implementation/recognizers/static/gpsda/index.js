@@ -1,4 +1,4 @@
-const AbstractStaticRecognizer = require('../../../../framework/recognizers/static/abstract-static-recognizer').AbstractStaticRecognizer;
+const AbstractStaticRecognizer = require('../../../../framework/modules/recognizers/static/abstract-static-recognizer').AbstractStaticRecognizer;
 const GPSDaRecognizer = require('./gpsda/gpsda-static-recognizer').Recognizer;
 const Point = require('./gpsda/gpsda-static-recognizer').Point;
 const { parsePointsNames } = require('../../../../framework/utils');

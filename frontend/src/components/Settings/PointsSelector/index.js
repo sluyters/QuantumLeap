@@ -9,10 +9,10 @@ const TIMEOUT_VALUE = 500;
 
 const styles = (theme) => ({
   pointsList: {
-    backgroundColor: 'rgb(240, 240, 240)',
+    backgroundColor: theme.palette.background.default
+    //backgroundColor: 'rgb(240, 240, 240)',
   },
   pointsVisualization: {
-    backgroundColor: 'rgb(240, 240, 240)',
     overflow: 'hidden',
   },
 });

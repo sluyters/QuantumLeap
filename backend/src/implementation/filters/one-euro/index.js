@@ -1,6 +1,6 @@
 const { Articulation } = require('../../../framework/frames/frame');
 
-const AbstractFilter = require('../../../framework/filters/abstract-filter').AbstractFilter;
+const AbstractFilter = require('../../../framework/modules/filters/abstract-filter').AbstractFilter;
 const OneEuroFilter = require('./OneEuroFilter/OneEuroFilter').OneEuroFilter;
 
 class Filter extends AbstractFilter {

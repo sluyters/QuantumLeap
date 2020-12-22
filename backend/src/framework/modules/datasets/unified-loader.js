@@ -1,9 +1,9 @@
 const path = require('path');
 const fs = require('fs-extra');
 
-const GestureSet = require('../gestures/gesture-set').GestureSet;
-const GestureClass = require('../gestures/gesture-class').GestureClass;
-const StrokeData = require('../gestures/stroke-data').StrokeData;
+const GestureSet = require('../../gestures/gesture-set').GestureSet;
+const GestureClass = require('../../gestures/gesture-class').GestureClass;
+const StrokeData = require('../../gestures/stroke-data').StrokeData;
 
 
 function loadDataset(name, directory) {

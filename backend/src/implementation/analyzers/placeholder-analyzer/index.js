@@ -1,4 +1,4 @@
-const AbstractAnalyzer = require('../../../framework/analyzers/abstract-analyzer').AbstractAnalyzer;
+const AbstractAnalyzer = require('../../../framework/modules/analyzers/abstract-analyzer').AbstractAnalyzer;
 
 class Analyzer extends AbstractAnalyzer {
 

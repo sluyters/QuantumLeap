@@ -1,4 +1,4 @@
-const { Frame, Articulation } = require('../frames/frame');
+const { Frame, Articulation } = require('../../frames/frame');
 
 class SensorGroup {
   constructor(config) {
