@@ -17,17 +17,25 @@ import Module from './pages/Module';
 
 const pages = [
   // { name: 'home', route: '/', label: 'Home', icon: HomeIcon },
-  { name: 'overview', route: '/overview', label: 'Overview', icon: HomeIcon },
-  { name: 'pipeline', route: '/pipeline', label: 'Pipeline', icon: PipelineIcon, items: [
-      { name: 'overview', route: '/pipeline/general', label: 'General', icon: null },
-      { name: 'sensors', route: '/pipeline/sensors', label: 'Sensor(s)', icon: null },
-      { name: 'filters', route: '/pipeline/filters', label: 'Filter', icon: null },
-      { name: 'static-datasets', route: '/pipeline/datasets/static', label: 'Static dataset(s)', icon: null },
-      { name: 'static-recognizers', route: '/pipeline/recognizers/static', label: 'Static recognizer', icon: null },
-      { name: 'analyzers', route: '/pipeline/analyzers', label: 'Analyzer', icon: null },
-      { name: 'segmenters', route: '/pipeline/segmenters', label: 'Segmenter', icon: null },
-      { name: 'dynamic-datasets', route: '/pipeline/datasets/dynamic', label: 'Dynamic dataset(s)', icon: null },
-      { name: 'dynamic-recognizers', route: '/pipeline/recognizers/dynamic', label: 'Dynamic recognizer', icon: null },
+  { name: 'quantumleap', route: '/quantumleap', label: 'QuantumLeap', icon: Extension, items: [
+      { name: 'overview', route: '/overview', label: 'Overview', icon: null },
+      { name: 'pipeline', route: '/pipeline', label: 'Pipeline', icon: null, items: [
+          { name: 'overview', route: '/pipeline/general', label: 'General', icon: null },
+          { name: 'sensors', route: '/pipeline/sensors', label: 'Sensor(s)', icon: null },
+          { name: 'filters', route: '/pipeline/filters', label: 'Filter', icon: null },
+          { name: 'static-datasets', route: '/pipeline/datasets/static', label: 'Static dataset(s)', icon: null },
+          { name: 'static-recognizers', route: '/pipeline/recognizers/static', label: 'Static recognizer', icon: null },
+          { name: 'analyzers', route: '/pipeline/analyzers', label: 'Analyzer', icon: null },
+          { name: 'segmenters', route: '/pipeline/segmenters', label: 'Segmenter', icon: null },
+          { name: 'dynamic-datasets', route: '/pipeline/datasets/dynamic', label: 'Dynamic dataset(s)', icon: null },
+          { name: 'dynamic-recognizers', route: '/pipeline/recognizers/dynamic', label: 'Dynamic recognizer', icon: null },
+        ] 
+      }
+    ]
+  },
+  { name: 'testing', route: '/testing', label: 'Testing', icon: TestingIcon, items: [
+      { name: 'staticTesting', route: '/testing/static', label: 'Static gestures', icon: null },
+      //{ name: 'dynamicTesting', route: '/testing/dynamic', label: 'Dynamic gestures', icon: null },
     ] 
   },
   // { name: 'pipeline2', route: '/pipeline2', label: 'Recognition pipeline', icon: PipelineIcon },

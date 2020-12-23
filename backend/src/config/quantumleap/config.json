@@ -157,31 +157,43 @@
         "static": {
           "modules": [
             {
-              "uuid": "9e5a56ab-dfb9-4a65-9522-152093cacb9e",
-              "moduleName": "gpsda",
+              "uuid": "d9e89f2d-e4d8-49c8-84b4-d32121ff53a8",
+              "moduleName": "multi-recognizer",
               "moduleType": "recognizers/static",
               "moduleSettings": {
-                "alpha": 0.8,
-                "points": {
-                  "lmc": [
-                    "rightPalmPosition",
-                    "rightThumbTipPosition",
-                    "rightIndexTipPosition",
-                    "rightMiddleTipPosition",
-                    "rightRingTipPosition",
-                    "rightPinkyTipPosition",
-                    "rightThumbPipPosition",
-                    "rightIndexPipPosition",
-                    "rightMiddlePipPosition",
-                    "rightRingPipPosition",
-                    "rightPinkyPipPosition",
-                    "rightThumbMcpPosition",
-                    "rightIndexMcpPosition",
-                    "rightMiddleMcpPosition",
-                    "rightRingMcpPosition",
-                    "rightPinkyMcpPosition"
-                  ]
-                }
+                "recognizers": [
+                  {
+                    "uuid": "9dbf540c-65cd-40df-b5e4-74db0d1f24c0",
+                    "moduleName": "gpsda",
+                    "moduleType": "recognizers/static",
+                    "moduleSettings": {
+                      "alpha": 0.8,
+                      "points": {
+                        "lmc": [
+                          "rightPalmPosition",
+                          "rightThumbTipPosition",
+                          "rightIndexTipPosition",
+                          "rightMiddleTipPosition",
+                          "rightRingTipPosition",
+                          "rightPinkyTipPosition",
+                          "rightThumbPipPosition",
+                          "rightIndexPipPosition",
+                          "rightMiddlePipPosition",
+                          "rightRingPipPosition",
+                          "rightPinkyPipPosition",
+                          "rightThumbMcpPosition",
+                          "rightIndexMcpPosition",
+                          "rightMiddleMcpPosition",
+                          "rightRingMcpPosition",
+                          "rightPinkyMcpPosition"
+                        ]
+                      }
+                    },
+                    "additionalSettings": {
+                      "weight": 1
+                    }
+                  }
+                ]
               },
               "additionalSettings": {}
             }

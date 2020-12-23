@@ -15,7 +15,7 @@ import { useHistory } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from "react-router";
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 const styles = (theme) => ({
   root: {
@@ -114,7 +114,7 @@ class Layout extends React.Component {
         >
           <Toolbar />
           <div className={classes.drawerContainer}>
-            <Navigation items={sidebarItems} pathName={this.state.pathName}>
+            <Navigation items={sidebarItems} pathName={this.state.pathName} depthStep={4}>
               {actions}
             </Navigation>
           </div>
