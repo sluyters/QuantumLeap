@@ -60,6 +60,9 @@ class AbstractSegmenter {
 }
 
 function isMotion(articulationsPoints, threshold, articulations) {
+  if (articulations.length === 0) {
+    return true;
+  }
   for (const articulation of articulations) {
     // Compute motion related to first point
     let refPoint = articulationsPoints[articulation][0];

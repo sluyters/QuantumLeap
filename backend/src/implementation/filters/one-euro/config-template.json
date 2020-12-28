@@ -12,6 +12,7 @@
       "description": "Decrease this value if slow speed jitter is a problem.",
       "minValue": 0,
       "maxValue": null,
+      "required": true,
       "default": 1.0
     },
     {
@@ -21,6 +22,7 @@
       "description": "Increase this value if high speed lag is a problem.",
       "minValue": null,
       "maxValue": null,
+      "required": true,
       "default": 0.0
     }
   ]

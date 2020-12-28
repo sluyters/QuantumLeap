@@ -18,6 +18,7 @@
           "description": "The width of the window (in frames).",
           "minValue": 1,
           "maxValue": null,
+          "required": true,
           "default": 20
         }
       ],
@@ -33,6 +34,7 @@
       "description": "The number of frames between each segment.",
       "minValue": 0,
       "maxValue": null,
+      "required": true,
       "default": 3
     },
     {
@@ -42,6 +44,7 @@
       "description": "The length of the pause after a gesture is recognized (in frames).",
       "minValue": 0,
       "maxValue": null,
+      "required": true,
       "default": 60
     }
   ]

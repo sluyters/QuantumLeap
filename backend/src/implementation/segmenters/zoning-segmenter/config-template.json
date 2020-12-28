@@ -12,6 +12,7 @@
       "description": "The minimum number of frames of a segment.",
       "minValue": 1,
       "maxValue": null,
+      "required": true,
       "default": 10
     },
     {
@@ -21,6 +22,7 @@
       "description": "The maximum number of frames of a segment.",
       "minValue": 1,
       "maxValue": null,
+      "required": true,
       "default": 60
     },
     {
@@ -30,6 +32,7 @@
       "description": "The length of the pause after a gesture is recognized (in frames).",
       "minValue": 0,
       "maxValue": null,
+      "required": true,
       "default": 60
     },
     {
@@ -39,6 +42,7 @@
       "description": "If any of the selected articulations is in the zone of the segmenter, segmentation is triggered.",
       "minNumber": 1,
       "maxNumber": null,
+      "required": true,
       "default": {}
     }
   ]

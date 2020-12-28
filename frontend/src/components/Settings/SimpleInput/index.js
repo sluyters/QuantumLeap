@@ -1,8 +1,17 @@
 import React from 'react';
-
-import { Checkbox, TextField } from '@material-ui/core';
+import { Checkbox, Select, MenuItem, TextField } from '@material-ui/core';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 const TIMEOUT_VALUE = 500;
+
+const styles = (theme) => ({
+  input: {
+    margin: theme.spacing(1),
+    minWidth: 150,
+  },
+});
+
+const useStyles = makeStyles(styles);
 
 function BooleanInput(props) {
   // Each module has the props, but their value can change
@@ -16,6 +25,23 @@ function BooleanInput(props) {
   );
 }
 
+function SelectInput(props) {
+  const { handleChange, path, value, items } = props;
+  const classes = useStyles();
+  return (
+    <Select
+      className={classes.input}
+      variant='outlined'
+      value={value}
+      onChange={(event) => handleChange(path, event.target.value)}
+    >
+      {items.map((item, index) => (
+        <MenuItem key={index} value={item.name}>{item.label}</MenuItem>
+      ))}
+    </Select>
+  )
+} 
+
 class TextInput extends React.Component {
   constructor(props) {
     super(props);
@@ -26,7 +52,7 @@ class TextInput extends React.Component {
   }
 
   render() {
-    const { handleChange, path, minLength, maxLength } = this.props;
+    const { handleChange, path, minLength, maxLength, classes } = this.props;
     // Helper functions
     const checkValue = (value) => {
       let error = '';
@@ -55,6 +81,7 @@ class TextInput extends React.Component {
     let error = checkValue(this.state.value);
     return (
       <TextField 
+        className={classes.input}
         error={error ? true : false}
         helperText={error}
         type='text'
@@ -75,11 +102,11 @@ class FloatInput extends React.Component {
     };
   }
   render() {
-    const { handleChange, path, minValue, maxValue } = this.props;
+    const { handleChange, path, minValue, maxValue, required, classes } = this.props;
     // Helper functions
     const checkValue = (value) => {
       let error = '';
-      if (value === null || value === undefined || value.length === 0) {
+      if (required && (value === null || value === undefined || value.length === 0)) {
         console.error('No float input!');
         error = `A value is required!`;
       } else if (minValue !== null && minValue !== undefined && value < minValue) {
@@ -104,6 +131,7 @@ class FloatInput extends React.Component {
     let error = checkValue(this.state.value);
     return (
       <TextField 
+        className={classes.input}
         type='number'
         variant='outlined'
         error={error ? true : false}
@@ -126,11 +154,11 @@ class IntegerInput extends React.Component {
   }
 
   render() {
-    const { handleChange, path, minValue, maxValue } = this.props;
+    const { handleChange, path, minValue, maxValue, required, classes } = this.props;
     // Helper functions
     const checkValue = (value) => {
       let error = '';
-      if (value === null || value === undefined || value.length === 0) {
+      if (required && (value === null || value === undefined || value.length === 0)) {
         console.error('No integer input!');
         error = `A value is required!`;
       } else if (minValue !== null && minValue !== undefined && value < minValue) {
@@ -155,6 +183,7 @@ class IntegerInput extends React.Component {
     let error = checkValue(this.state.value);
     return (
       <TextField 
+        className={classes.input}
         type='number'
         variant='outlined'
         error={error ? true : false}
@@ -167,8 +196,13 @@ class IntegerInput extends React.Component {
   }
 }
 
+TextInput = withStyles(styles)(TextInput);
+FloatInput = withStyles(styles)(FloatInput);
+IntegerInput = withStyles(styles)(IntegerInput);
+
 export {
   BooleanInput,
+  SelectInput,
   TextInput,
   FloatInput,
   IntegerInput,

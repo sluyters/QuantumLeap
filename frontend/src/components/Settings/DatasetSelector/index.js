@@ -1,6 +1,6 @@
 import React from 'react';
 import { withTheme } from '@material-ui/core/styles'
-import { Typography, Select, FormControl, Divider, IconButton } from '@material-ui/core';
+import { Typography, Select, FormControl, Divider, IconButton, MenuItem } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 class DatasetSelector extends React.Component {
@@ -57,11 +57,11 @@ class DatasetSelector extends React.Component {
           )}
           {/* Render the dropdown list */}
           <FormControl variant="outlined">
-            <Select native value={datasetsNames.indexOf(datasetName)} onChange={(event) => handleDatasetSelection(datasetIndex, event)}>
+            <Select value={datasetsNames.indexOf(datasetName)} onChange={(event) => handleDatasetSelection(datasetIndex, event)}>
               {datasetsNames.map((datasetName, optionIndex) => (
-                <option key={optionIndex} value={optionIndex}>
+                <MenuItem key={optionIndex} value={optionIndex}>
                   {datasets[datasetName].label}
-                </option>
+                </MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -91,14 +91,14 @@ class DatasetSelector extends React.Component {
               ''
             )}
             <FormControl variant="outlined">
-            <Select native value='' onChange={(event) => handleDatasetSelection(selectedDatasets.length, event)}>
-              <option key='select-dataset' value=''>
+            <Select value='no-value-selected' onChange={(event) => handleDatasetSelection(selectedDatasets.length, event)}>
+              <MenuItem key='select-dataset' value='no-value-selected'>
                 {'Select a dataset...'}
-              </option>
+              </MenuItem>
               {datasetsNames.map((datasetName, index) => (
-                <option key={index} value={index}>
+                <MenuItem key={index} value={index}>
                   {datasets[datasetName].label}
-                </option>
+                </MenuItem>
               ))}
             </Select>
           </FormControl>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Typography, Select, FormControl, Box, IconButton } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Typography, Select, FormControl, Box, IconButton, MenuItem } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { v4 as uuidv4 } from 'uuid';
@@ -70,11 +70,11 @@ class ModuleSelector extends React.Component {
             <Box width={1}>
               {/* Render the dropdown list */}
               <FormControl variant="outlined">
-                <Select native value={modulesNames.indexOf(module.moduleName)} onClick={(event) => event.stopPropagation()} onChange={(event) => handleModuleSelection(moduleIndex, event)}>
+                <Select value={modulesNames.indexOf(module.moduleName)} onClick={(event) => event.stopPropagation()} onChange={(event) => handleModuleSelection(moduleIndex, event)}>
                   {modulesNames.map((moduleName, optionIndex) => (
-                    <option key={optionIndex} value={optionIndex}>
+                    <MenuItem key={optionIndex} value={optionIndex}>
                       {modules[moduleName].label}
-                    </option>
+                    </MenuItem>
                   ))}
                 </Select>
               </FormControl>
@@ -147,14 +147,14 @@ class ModuleSelector extends React.Component {
             <AccordionSummary>
               <Box width={1}>
                 <FormControl variant="outlined">
-                  <Select native value={''} onClick={(event) => event.stopPropagation()} onChange={(event) => handleModuleSelection(selectedModules.length, event)}>
-                    <option value={''}>
+                  <Select value='no-value-selected' onClick={(event) => event.stopPropagation()} onChange={(event) => handleModuleSelection(selectedModules.length, event)}>
+                    <MenuItem value='no-value-selected'>
                       {'Select a module...'}
-                    </option>
+                    </MenuItem>
                     {modulesNames.map((moduleName, index) => (
-                      <option key={index} value={index}>
+                      <MenuItem key={index} value={index}>
                         {modules[moduleName].label}
-                      </option>
+                      </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
@@ -183,7 +183,12 @@ function getValuesFromSettings(settings) {
     if (item.type === 'Category') {
       parsedSettings[item.name] = getValuesFromSettings(item.settings);
     } else {
-      parsedSettings[item.name] = item.default;
+      // If the default value is an object, perform a deep copy
+      if (typeof item.default === 'object' && item.default !== null) {
+        parsedSettings[item.name] = JSON.parse(JSON.stringify(item.default));
+      } else {
+        parsedSettings[item.name] = item.default;
+      }
     }
   });
   return parsedSettings;

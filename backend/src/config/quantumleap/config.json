@@ -127,28 +127,28 @@
       "segmenters": {
         "modules": [
           {
-            "uuid": "9e8a56ab-dfb9-4a65-9522-082093cacb9e",
-            "moduleName": "window-segmenter",
+            "uuid": "87e658a5-bf54-4695-ab12-334c3b41379c",
+            "moduleName": "threshold-segmenter",
             "moduleType": "segmenters",
             "moduleSettings": {
-              "windows": [
+              "thresholds": [
                 {
-                  "uuid": "5b28fbec-5a99-495c-a132-04bc9533d263",
-                  "width": 30
+                  "point": {
+                    "lmc": [
+                      "leftPalmPosition"
+                    ]
+                  },
+                  "lowerBound": -200,
+                  "upperBound": null,
+                  "abs": false,
+                  "uuid": "2bead0a2-21ae-4c31-a7fd-e87d9bb31ec2"
                 }
               ],
-              "intervalLength": 3,
-              "pauseLength": 60
+              "mode": "and"
             },
             "additionalSettings": {
               "motionThreshold": 70,
-              "motionArticulations": {
-                "lmc": [
-                  "rightPalmPosition",
-                  "rightIndexTipPosition",
-                  "rightThumbTipPosition"
-                ]
-              }
+              "motionArticulations": {}
             }
           }
         ]

@@ -21,6 +21,7 @@
           "description": "The weight given to the recognizer. A lower weight means that the result of the recognizer is less significant",
           "minValue": 0,
           "maxValue": null,
+          "required": true,
           "default": 1
         }
       ],

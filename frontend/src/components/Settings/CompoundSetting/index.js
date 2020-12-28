@@ -45,7 +45,7 @@ class CompoundSetting extends React.Component {
       <Paper>
         {/* For each element in value, display it */}
         {this.props.value.map((item, index) => (
-          <div key={item.uuid}>
+          <div key= {item.uuid}>
             <div className={classes.item}>
               <Typography variant='overline'>
                 {`${itemName} ${index + 1}`}
@@ -55,9 +55,9 @@ class CompoundSetting extends React.Component {
               </Typography>
               {/* Render the settings for the item */}
               {(settings.length > 0) && (
-                settings.map((setting, index) => (
+                settings.map((setting, settingIndex) => (
                   <Setting 
-                    key={index}
+                    key={`${item.uuid}-${settingIndex}`}
                     templates={templates}
                     values={values}
                     handleChange={handleSettingChange(index)}
@@ -95,7 +95,12 @@ function getValuesFromSettings(settings) {
     if (item.type === 'Category') {
       parsedSettings[item.name] = getValuesFromSettings(item.settings);
     } else {
-      parsedSettings[item.name] = item.default;
+      // If the default value is an object, perform a deep copy
+      if (typeof item.default === 'object' && item.default !== null) {
+        parsedSettings[item.name] = JSON.parse(JSON.stringify(item.default));
+      } else {
+        parsedSettings[item.name] = item.default;
+      }
     }
   });
   return parsedSettings;

@@ -47,6 +47,7 @@
             "description": "Port of the server (for app interface).",
             "minValue": 0,
             "maxValue": 65535,
+            "required": true,
             "default": 6442
           }
         ]
@@ -75,12 +76,13 @@
         "default": []
       },
       {
-        "name": "framerate",
         "type": "IntegerInput",
+        "name": "framerate",
         "label": "Framerate",
         "description": "The number of frames captured per second.",
         "minValue": 1,
         "maxValue": null,
+        "required": true,
         "default": 60
       }
     ],
@@ -137,6 +139,7 @@
           "description": "Number of templates used per class to train the recognizer(s).",
           "minValue": 0,
           "maxValue": null,
+          "required": true,
           "default": 0
         },
         {
@@ -188,6 +191,7 @@
           "description": "Number of templates used per class to train the recognizer(s).",
           "minValue": 0,
           "maxValue": null,
+          "required": true,
           "default": 0
         },
         {
@@ -231,6 +235,7 @@
             "description": "The minimum hand motion to consider that the segment may be a gesture.",
             "minValue": 0,
             "maxValue": null,
+            "required": true,
             "default": 70
           },
           {
@@ -260,12 +265,13 @@
           "default": []
         },
         {
-          "name": "bufferLength",
           "type": "IntegerInput",
+          "name": "bufferLength",
           "label": "Buffer length",
           "description": "TODO.",
           "minValue": 0,
           "maxValue": null,
+          "required": true,
           "default": 15
         },
         {
@@ -275,6 +281,7 @@
           "description": "TODO.",
           "minValue": null,
           "maxValue": null,
+          "required": true,
           "default": 0.8
         },
         {
