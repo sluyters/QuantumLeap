@@ -52,8 +52,8 @@ class Recognizer extends AbstractStaticRecognizer {
 		});
 		let t1 = Date.now();
 		return {
-			name: bestFit,
-			score: results[bestFit]/this.recognizers.length,
+			name: bestFit ? bestFit : '',
+			score: bestFit ? results[bestFit]/this.recognizers.length : 0.0,
 			time: t1 - t0
 		};
 	}

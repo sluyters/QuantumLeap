@@ -49,8 +49,8 @@
 function Point(x, y, z, id, angle = 0.0)
 {
 	this.X = x;
-    this.Y = y;
-    this.Z = z;
+  this.Y = y;
+  this.Z = z;
 	this.ID = id;
 	this.Angle = angle; // normalized turning angle, $P+
 }

@@ -1,13 +1,12 @@
 const AbstractFilter = require('../../../framework/modules/filters/abstract-filter').AbstractFilter;
-const OneEuroFilter = require('./OneEuroFilter/OneEuroFilter').OneEuroFilter;
+const MovingWindowFilter = require('./moving-window/moving-window').MovingWindowFilter;
 
 class Filter extends AbstractFilter {
   constructor(framerate, options) {
     super(options);
     this.filters = {};
-    this.framerate = framerate;
-    this.minCutoff = options.minCutoff;
-    this.beta = options.beta;
+    this.windowSize = options.windowSize;
+    this.type = options.type;
   }
 
   filter(frame) {
@@ -16,7 +15,7 @@ class Filter extends AbstractFilter {
       let coordinates = articulation.point.getCoordinates();
       if (!this.filters[name]) {
         // Initialize filters
-        this.filters[name] = coordinates.map(() => new OneEuroFilter(this.framerate, this.minCutoff, this.beta));
+        this.filters[name] = coordinates.map(() => new MovingWindowFilter(this.windowSize, this.type));
       }
       let filteredCoordinates = coordinates.map((coordinate, index) => this.filters[name][index].filter(coordinate));
       articulation.point.setCoordinates(filteredCoordinates);

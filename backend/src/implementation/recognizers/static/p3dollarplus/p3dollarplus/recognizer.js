@@ -92,7 +92,7 @@ class Recognizer {
 	//
 	recognize(points) {
 		if(points.length != NumPoints) {
-			return { success: false, name: 'No match', time: 0.0 };
+			return { success: false, name: 'No match', score: 0.0, time: 0.0 };
 		}
 		let t0 = Date.now();
 		var candidate = new PointCloud("", points);
@@ -110,7 +110,7 @@ class Recognizer {
 			}
 		}
 		let t1 = Date.now();
-		return (u == -1) ? { success: false, name: 'No match', time: t1-t0 } : { success: true, name: this.PointClouds[u].Name, time: t1-t0 }; 
+		return (u == -1) ? { success: false, name: 'No match', score: 0.0, time: t1-t0 } : { success: true, name: this.PointClouds[u].Name, score: b > 1.0 ? 1.0 / b : 1.0, time: t1-t0 }; 
 	}
 
 	addGesture(name, points) {

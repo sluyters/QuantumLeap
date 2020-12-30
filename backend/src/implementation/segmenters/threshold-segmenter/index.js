@@ -27,7 +27,6 @@ class Segmenter extends AbstractSegmenter {
         if (threshold.abs) {
           value = Math.abs(value);
         }
-        console.log(value)
         // Check value against threshold
         if (mode === 'and') {
           ret = ret && compare(threshold.min, threshold.max, value);
@@ -47,7 +46,6 @@ class Segmenter extends AbstractSegmenter {
 
   computeSegments(frame) {
     if (this.checkThresholds(frame)) {
-      console.log('threshold OK')
       // The value(s) reach the threshold
       this.frameBuffer.push(frame);
     } else if (this.frameBuffer.length > 0 ) {
@@ -60,7 +58,7 @@ class Segmenter extends AbstractSegmenter {
   }
 
   notifyRecognition() {
-    //
+    // Do nothing
   }
 }
 

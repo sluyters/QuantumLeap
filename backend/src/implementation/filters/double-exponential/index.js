@@ -1,13 +1,11 @@
 const AbstractFilter = require('../../../framework/modules/filters/abstract-filter').AbstractFilter;
-const OneEuroFilter = require('./OneEuroFilter/OneEuroFilter').OneEuroFilter;
+const DoubleExponentialFilter = require('./double-exponential/double-exponential').DoubleExponentialFilter;
 
 class Filter extends AbstractFilter {
   constructor(framerate, options) {
     super(options);
     this.filters = {};
-    this.framerate = framerate;
-    this.minCutoff = options.minCutoff;
-    this.beta = options.beta;
+    this.alpha = options.alpha;
   }
 
   filter(frame) {
@@ -16,7 +14,7 @@ class Filter extends AbstractFilter {
       let coordinates = articulation.point.getCoordinates();
       if (!this.filters[name]) {
         // Initialize filters
-        this.filters[name] = coordinates.map(() => new OneEuroFilter(this.framerate, this.minCutoff, this.beta));
+        this.filters[name] = coordinates.map(() => new DoubleExponentialFilter(this.alpha));
       }
       let filteredCoordinates = coordinates.map((coordinate, index) => this.filters[name][index].filter(coordinate));
       articulation.point.setCoordinates(filteredCoordinates);

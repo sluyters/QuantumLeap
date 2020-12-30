@@ -3,7 +3,7 @@
     "settings": {
       "general": {
         "general": {
-          "debug": true,
+          "debug": false,
           "sendContinuousData": true
         },
         "server": {
@@ -28,12 +28,11 @@
       "filters": {
         "modules": [
           {
-            "uuid": "9e5a56ab-dfb9-4a65-9522-082093cacb9e",
-            "moduleName": "one-euro",
+            "uuid": "f5f6f28c-e528-4abb-a5eb-5433c712e726",
+            "moduleName": "single-exponential",
             "moduleType": "filters",
             "moduleSettings": {
-              "minCutoff": 1,
-              "beta": "0.001"
+              "alpha": 0.1
             },
             "additionalSettings": {}
           }
@@ -127,28 +126,28 @@
       "segmenters": {
         "modules": [
           {
-            "uuid": "87e658a5-bf54-4695-ab12-334c3b41379c",
-            "moduleName": "threshold-segmenter",
+            "uuid": "14f70dd0-7a58-4ca6-97f6-62bb2c5ca7da",
+            "moduleName": "window-segmenter",
             "moduleType": "segmenters",
             "moduleSettings": {
-              "thresholds": [
+              "windows": [
                 {
-                  "point": {
-                    "lmc": [
-                      "leftPalmPosition"
-                    ]
-                  },
-                  "lowerBound": -200,
-                  "upperBound": null,
-                  "abs": false,
-                  "uuid": "2bead0a2-21ae-4c31-a7fd-e87d9bb31ec2"
+                  "width": 30,
+                  "uuid": "02b45929-411f-4ae9-ac8b-4268c40ed1e6"
                 }
               ],
-              "mode": "and"
+              "intervalLength": 3,
+              "pauseLength": 60
             },
             "additionalSettings": {
               "motionThreshold": 70,
-              "motionArticulations": {}
+              "motionArticulations": {
+                "lmc": [
+                  "rightPalmPosition",
+                  "rightIndexTipPosition",
+                  "rightThumbTipPosition"
+                ]
+              }
             }
           }
         ]

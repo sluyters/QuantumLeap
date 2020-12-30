@@ -36,10 +36,10 @@
         "static": {
           "modules": [
             {
-              "moduleName": "gpsda",
+              "uuid": "81b3d1d7-7dc4-4dea-a68f-fd8dab975a23",
+              "moduleName": "p3dollarplus",
               "moduleType": "recognizers/static",
               "moduleSettings": {
-                "alpha": 0.8,
                 "points": {
                   "lmc": [
                     "rightPalmPosition",
@@ -80,6 +80,69 @@
                     "rightPinkyMcpPosition"
                   ]
                 }
+              },
+              "additionalSettings": {
+                "useCustomParams": false
+              }
+            },
+            {
+              "uuid": "2d398b20-9db1-453c-ba4d-e7425a40334d",
+              "moduleName": "multi-recognizer",
+              "moduleType": "recognizers/static",
+              "moduleSettings": {
+                "recognizers": [
+                  {
+                    "uuid": "fd35f04a-7234-45ce-b211-a3c0d5a61b0c",
+                    "moduleName": "gpsda",
+                    "moduleType": "recognizers/static",
+                    "moduleSettings": {
+                      "alpha": 0.8,
+                      "points": {
+                        "lmc": [
+                          "rightPalmPosition",
+                          "rightThumbTipPosition",
+                          "rightIndexTipPosition",
+                          "rightMiddleTipPosition",
+                          "rightRingTipPosition",
+                          "rightPinkyTipPosition",
+                          "rightThumbPipPosition",
+                          "rightIndexPipPosition",
+                          "rightMiddlePipPosition",
+                          "rightRingPipPosition",
+                          "rightPinkyPipPosition",
+                          "rightThumbMcpPosition",
+                          "rightIndexMcpPosition",
+                          "rightMiddleMcpPosition",
+                          "rightRingMcpPosition",
+                          "rightPinkyMcpPosition"
+                        ]
+                      }
+                    },
+                    "additionalSettings": {
+                      "weight": 1
+                    }
+                  },
+                  {
+                    "uuid": "5483fb65-9a89-45b7-8856-d42528d19f0b",
+                    "moduleName": "p3dollarplus",
+                    "moduleType": "recognizers/static",
+                    "moduleSettings": {
+                      "points": {
+                        "lmc": [
+                          "rightPalmPosition",
+                          "rightThumbTipPosition",
+                          "rightIndexTipPosition",
+                          "rightMiddleTipPosition",
+                          "rightRingTipPosition",
+                          "rightPinkyTipPosition"
+                        ]
+                      }
+                    },
+                    "additionalSettings": {
+                      "weight": 1
+                    }
+                  }
+                ]
               },
               "additionalSettings": {
                 "useCustomParams": false

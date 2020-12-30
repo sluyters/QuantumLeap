@@ -1,0 +1,30 @@
+{
+  "label": "Moving window",
+  "name": "moving-window",
+  "type": "filter",
+  "description": "TODO.",
+  "properties": {},
+  "settings": [
+    {
+      "type": "SelectInput",
+      "name": "type",
+      "label":"Type",
+      "description": "TODO",
+      "items": [
+        { "name": "average", "label": "Average" },
+        { "name": "median", "label": "Median" }
+      ],
+      "default": "average"
+    },
+    {
+      "type": "IntegerInput",
+      "name": "windowSize",
+      "label": "Window size",
+      "description": "Size of the window (in frames).",
+      "minValue": 1,
+      "maxValue": null,
+      "required": true,
+      "default": 10
+    }
+  ]
+}

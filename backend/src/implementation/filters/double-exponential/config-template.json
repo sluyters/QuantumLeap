@@ -1,0 +1,19 @@
+{
+  "label": "Double exponential",
+  "name": "double-exponential",
+  "type": "filter",
+  "description": "TODO.",
+  "properties": {},
+  "settings": [
+    {
+      "type": "FloatInput",
+      "name": "alpha",
+      "label": "Alpha",
+      "description": "The smoothing factor of the filter.",
+      "minValue": 0.0,
+      "maxValue": 1.0,
+      "required": true,
+      "default": 0.1
+    }
+  ]
+}

@@ -41,10 +41,10 @@ class Classifier extends AbstractStaticRecognizer {
             points.push(new Point(point.x, point.y, point.z, 0));
         }
         try {
-            let { success, name, time } = this.staticRecognizer.recognize(points);
-            return success ? { 'name': name, 'time': time } : { 'name': "", 'time': time };
+            let { name, score, time } = this.staticRecognizer.recognize(points);
+            return score > 0.0 ? { name: name, score: score, time: time } : { name: '', score: 0.0, time: time };
         } catch(err) {
-            return { 'name': "", 'time': 0.0 };
+            return { name: '', score: 0.0, time: 0.0 }
         }
     }
 

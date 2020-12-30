@@ -5,46 +5,50 @@ const { parsePointsNames } = require('../../../../framework/utils');
 
 class Classifier extends AbstractStaticRecognizer {
 
-    static name = "GPSDClassifier";
+  static name = "GPSDClassifier";
 
-    constructor(options, dataset) {
-        super(options);
-        this.selectedPoints = parsePointsNames(options.points);
-        this.staticRecognizer = new GPSDRecognizer(this.selectedPoints.length);
-        // Load gestures from the dataset
-        if (dataset !== undefined) {
-			dataset.getGestureClasses().forEach((gesture) => {
-				gesture.getSamples().forEach(sample => {
-                    this.addGesture(gesture.name, sample);
-				});
-            });
-        }
+  constructor(options, dataset) {
+    super(options);
+    this.selectedPoints = parsePointsNames(options.points);
+    this.staticRecognizer = new GPSDRecognizer(this.selectedPoints.length);
+    // Load gestures from the dataset
+    if (dataset !== undefined) {
+      dataset.getGestureClasses().forEach((gesture) => {
+        gesture.getSamples().forEach(sample => {
+          this.addGesture(gesture.name, sample);
+        });
+      });
     }
+  }
 
-   addGesture(name, frame) {
-        let points = []
-        for (const articulation of this.selectedPoints) {
-            points.push(frame.getArticulation(articulation).point);
-        }
-        this.staticRecognizer.addGesture(name, points);
+  addGesture(name, frame) {
+    let points = []
+    for (const articulation of this.selectedPoints) {
+      points.push(frame.getArticulation(articulation).point);
     }
+    this.staticRecognizer.addGesture(name, points);
+  }
 
-    removeGesture(name) {
-        this.staticRecognizer.removeGesture(name);
-    }
+  removeGesture(name) {
+    this.staticRecognizer.removeGesture(name);
+  }
 
-    recognize(frame) {
-        let points = []
-        for (const articulation of this.selectedPoints) {
-            points.push(frame.getArticulation(articulation).point);
-        }
-        let { success, name, time } = this.staticRecognizer.recognize(points);
-        return success ? { 'name': name, 'time': time } : { 'name': "", 'time': time };
+  recognize(frame) {
+    let points = []
+    for (const articulation of this.selectedPoints) {
+      points.push(frame.getArticulation(articulation).point);
     }
+    try {
+      let { name, score, time } = this.staticRecognizer.recognize(points);
+      return score > 0.0 ? { name: name, score: score, time: time } : { name: '', score: 0.0, time: time };
+  } catch(err) {
+      return { name: '', score: 0.0, time: 0.0 }
+  }
+  }
 
-    toString() {
-        return `${Classifier.name}`;
-    }
+  toString() {
+    return `${Classifier.name}`;
+  }
 }
 
 module.exports = Classifier;
