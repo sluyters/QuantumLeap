@@ -230,6 +230,22 @@
                     "additionalSettings": {
                       "weight": 1
                     }
+                  },
+                  {
+                    "uuid": "ac226d8c-a12e-459a-86ad-d4a79b43ab75",
+                    "moduleName": "freehanduni",
+                    "moduleType": "recognizers/dynamic",
+                    "moduleSettings": {
+                      "samplingPoints": 16,
+                      "points": {
+                        "lmc": [
+                          "rightPalmPosition"
+                        ]
+                      }
+                    },
+                    "additionalSettings": {
+                      "weight": 1
+                    }
                   }
                 ]
               },
