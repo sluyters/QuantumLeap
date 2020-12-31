@@ -6,6 +6,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Setting from '../Setting';
 
 const styles = (theme) => ({
+  root: {
+    margin: theme.spacing(1),
+    border: `solid 1px ${theme.palette.divider}`,
+  },
   item: {
     padding: theme.spacing(1.5, 2),
   },
@@ -16,8 +20,9 @@ const styles = (theme) => ({
 
 class CompoundSetting extends React.Component {
   render() {
+    const { classes } = this.props;
     // Unchanged for each setting
-    const { templates, values, classes } = this.props;
+    const { templates, values } = this.props;
     // Each module has the props, but their value can change
     const { handleChange, level, path, value } = this.props;
     // Unique to each module
@@ -42,7 +47,7 @@ class CompoundSetting extends React.Component {
       handleChange(path, newValue);
     }
     return (
-      <Paper>
+      <Paper className={classes.root} elevation={0}>
         {/* For each element in value, display it */}
         {this.props.value.map((item, index) => (
           <div key= {item.uuid}>

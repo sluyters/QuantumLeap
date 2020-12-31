@@ -1,7 +1,13 @@
 import React from 'react';
-import { withTheme } from '@material-ui/core/styles'
+import { withTheme, withStyles } from '@material-ui/core/styles'
 import { Typography, Select, FormControl, Divider, IconButton, MenuItem } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+
+const styles = (theme) => ({
+  root: {
+    margin: theme.spacing(1),
+  },
+});
 
 class DatasetSelector extends React.Component {
   constructor(props) {
@@ -12,7 +18,7 @@ class DatasetSelector extends React.Component {
   }
 
   render() {
-    const { theme } = this.props;
+    const { theme, classes } = this.props;
     // Unchanged for each setting
     const { templates, values } = this.props;
     // Each module has the props, but their value can change
@@ -50,10 +56,8 @@ class DatasetSelector extends React.Component {
       renderedSelected.push(
         <div key={datasetName}>
           {/* Divider */}
-          {datasetIndex > 0 ? (
+          {datasetIndex > 0 && (
             <Divider light={true} style={{ marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}/>
-          ) : (
-            ''
           )}
           {/* Render the dropdown list */}
           <FormControl variant="outlined">
@@ -79,16 +83,14 @@ class DatasetSelector extends React.Component {
 
     // Render
     return (
-      <React.Fragment>
+      <div className={classes.root}>
         {renderedSelected}
         {/* If less datasets selected than the maximum amount, just render the dropdown list */}
         {(!maxDatasets || selectedDatasets.length < maxDatasets) && (
           <React.Fragment>
             {/* Divider */}
-            {selectedDatasets.length > 0 ? (
+            {selectedDatasets.length > 0 && (
               <Divider light={true} style={{ marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}/>
-            ) : (
-              ''
             )}
             <FormControl variant="outlined">
             <Select value='no-value-selected' onChange={(event) => handleDatasetSelection(selectedDatasets.length, event)}>
@@ -104,9 +106,9 @@ class DatasetSelector extends React.Component {
           </FormControl>
           </React.Fragment>
         )}
-      </React.Fragment>
+      </div>
     );
   }
 }
 
-export default withTheme(DatasetSelector);
+export default withStyles(styles)(withTheme(DatasetSelector));

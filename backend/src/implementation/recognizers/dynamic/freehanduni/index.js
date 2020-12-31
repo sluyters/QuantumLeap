@@ -47,10 +47,13 @@ class Recognizer extends AbstractDynamicRecognizer {
 
 function convert(sample, pathName) {
 	let points = [];
+	let strokes = sample.paths[pathName].strokes;
 	// Keep only one stroke
-	sample.paths[pathName].strokes[0].points.forEach((point, index) => {
-		points.push(new Point(point.x, point.y, point.z, index));
-	});
+	if (strokes.length > 0) {
+		strokes[0].points.forEach((point, index) => {
+			points.push(new Point(point.x, point.y, point.z, index));
+		});
+	}
 	return points;
 }
 

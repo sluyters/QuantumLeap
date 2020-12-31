@@ -8,6 +8,10 @@ import { withStyles } from '@material-ui/core/styles'
 const TIMEOUT_VALUE = 500;
 
 const styles = (theme) => ({
+  root: {
+    margin: theme.spacing(1),
+    border: `solid 1px ${theme.palette.divider}`,
+  },
   gesture: {
     padding: theme.spacing(1.5, 2),
   },
@@ -93,7 +97,7 @@ class GesturesSelector extends React.Component {
     }
     // The level will impact the size, boldness, of the setting
     return (
-      <Paper>
+      <Paper className={classes.root} elevation={0}>
         {/* For each element in value, display it */}
         {this.state.value.map((gesture, index) => (
           <div key={gesture.uuid}>

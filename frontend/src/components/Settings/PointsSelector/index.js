@@ -8,6 +8,9 @@ import LeapMotionPoints from './LeapMotionPoints';
 const TIMEOUT_VALUE = 500;
 
 const styles = (theme) => ({
+  root: {
+    margin: theme.spacing(1),
+  },
   pointsList: {
     backgroundColor: theme.palette.background.default
     //backgroundColor: 'rgb(240, 240, 240)',
@@ -56,7 +59,7 @@ class PointsSelector extends React.Component {
         });
       }
       return (
-        <React.Fragment>
+        <div className={classes.root}>
           <TextField
             fullWidth
             multiline
@@ -65,7 +68,7 @@ class PointsSelector extends React.Component {
             value={this.state.value[datasetName] ? this.state.value[datasetName].join(',') : ''} 
             onChange={changePoints}
           />
-        </React.Fragment>
+        </div>
       );
     } else {
       // Get the selected sensors (quantumleap config)
@@ -160,9 +163,9 @@ class PointsSelector extends React.Component {
         );
       });
       return (
-        <React.Fragment>
+        <div className={classes.root}>
           {renderedSensors}
-        </React.Fragment>
+        </div>
       );
     }
   }

@@ -1,12 +1,20 @@
 import React from 'react';
+import { withStyles } from '@material-ui/core/styles'
 import { Accordion, AccordionDetails, AccordionSummary, Typography, Select, FormControl, Box, IconButton, MenuItem } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { v4 as uuidv4 } from 'uuid';
 import Setting from '../Setting';
 
+const styles = (theme) => ({
+  root: {
+    margin: theme.spacing(1),
+  },
+});
+
 class ModuleSelector extends React.Component {
   render() {
+    const { classes } = this.props;
     // Unchanged for each setting
     const { templates, values } = this.props;
     // Each module has the props, but their value can change
@@ -139,10 +147,10 @@ class ModuleSelector extends React.Component {
 
     // Render
     return (
-      <div>
+      <div className={classes.root}>
         {renderedSelected}
         {/* If less modules selected than the maximum amount, just render the dropdown list */}
-        {(!maxModules || selectedModules.length < maxModules) ? (
+        {(!maxModules || selectedModules.length < maxModules) && (
           <Accordion key='add-module' expanded={false}>
             <AccordionSummary>
               <Box width={1}>
@@ -161,8 +169,6 @@ class ModuleSelector extends React.Component {
               </Box>
             </AccordionSummary>
           </Accordion>
-        ) : (
-          ''
         )}
       </div>
     );
@@ -194,4 +200,4 @@ function getValuesFromSettings(settings) {
   return parsedSettings;
 }
 
-export default ModuleSelector;
+export default withStyles(styles)(ModuleSelector);

@@ -168,7 +168,7 @@ function Resample(points, n)
 	var I = PathLength(points) / (n - 1); // interval length
 	var D = 0.0;
 	var newpoints = new Array(points[0]);
-	for (var i = 1; i < points.length; i++)
+	for (var i = 1; i < points.length && newpoints.length <= n; i++)
 	{
 		if (points[i].ID == points[i-1].ID)
 		{
@@ -185,7 +185,7 @@ function Resample(points, n)
 			else D += d;
 		}
 	}
-	if (newpoints.length == n - 1) // sometimes we fall a rounding-error short of adding the last point, so add it if so
+	if (newpoints.length == n - 1)  // sometimes we fall a rounding-error short of adding the last point, so add it if so
 		newpoints[newpoints.length] = new Point(points[points.length - 1].X, points[points.length - 1].Y, points[points.length - 1].ID);
 	return newpoints;
 }

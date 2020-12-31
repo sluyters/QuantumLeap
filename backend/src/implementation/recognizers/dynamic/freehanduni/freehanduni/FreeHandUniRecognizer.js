@@ -146,7 +146,8 @@ function Resample(points, n) {
   let Distance = 0;
   let newpoints = new Array(points[0]);
   //if the distance between two consecutive points is greater than the interval resample the points
-  for (let i = 1; i < points.length; i++) {
+  // Added newpoints.length <= n to avoid infinite loops in some extremely rare cases
+  for (let i = 1; i < points.length && newpoints.length <= n; i++) {
     let PointsEuclidDist = EuclideanDistance(points[i - 1], points[i]);
     if ((Distance + PointsEuclidDist) >= Interval) {
       let x = points[i - 1].x + ((Interval - Distance) / PointsEuclidDist) * (points[i].x - points[i - 1].x);
