@@ -8,6 +8,7 @@ import Layout from './components/Layout'
 import { Home as HomeIcon, Settings as PipelineIcon, Gesture as GestureSetsIcon, Extension, Speed as TestingIcon } from '@material-ui/icons'
 // Pages
 import Home from './pages/Home'
+import Api from './pages/Api'
 import Testing from './pages/Testing';
 import NotFound from './pages/NotFound';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -19,6 +20,7 @@ const pages = [
   // { name: 'home', route: '/', label: 'Home', icon: HomeIcon },
   { name: 'quantumleap', route: '/quantumleap', label: 'QuantumLeap', icon: Extension, items: [
       { name: 'overview', route: '/overview', label: 'Overview', icon: null },
+      { name: 'api', route: '/api', label: 'API', icon: null },
       { name: 'pipeline', route: '/pipeline', label: 'Pipeline', icon: null, items: [
           { name: 'overview', route: '/pipeline/general', label: 'General', icon: null },
           { name: 'sensors', route: '/pipeline/sensors', label: 'Sensor(s)', icon: null },
@@ -33,11 +35,12 @@ const pages = [
       }
     ]
   },
-  { name: 'testing', route: '/testing', label: 'Testing', icon: TestingIcon, items: [
-      { name: 'staticTesting', route: '/testing/static', label: 'Static gestures', icon: null },
-      //{ name: 'dynamicTesting', route: '/testing/dynamic', label: 'Dynamic gestures', icon: null },
-    ] 
-  },
+  // { name: 'testing', route: '/testing', label: 'Testing', icon: TestingIcon, items: [
+  //     { name: 'staticTesting', route: '/testing/static', label: 'Static gestures', icon: null },
+  //     { name: 'dynamicTesting', route: '/testing/dynamic', label: 'Dynamic gestures', icon: null },
+  //   ] 
+  // },
+
   // { name: 'pipeline2', route: '/pipeline2', label: 'Recognition pipeline', icon: PipelineIcon },
   // { name: 'datasets', route: '/datasets', label: 'Gesture sets', icon: GestureSetsIcon },
   // { name: 'testing', route: '/testing', label: 'Testing', icon: TestingIcon, items: [
@@ -61,7 +64,7 @@ const routesInfos = {
 
 function App() {
   const [currentActions, setCurrentActions] = useState('');
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: light)');
   const theme = React.useMemo(
     () =>
       createMuiTheme({
@@ -91,6 +94,11 @@ function App() {
               exact
               path='/' 
               render={(props) => (<Overview {...props} setActions={setCurrentActions} />)}
+            />
+            <Route 
+              exact
+              path='/api' 
+              render={(props) => (<Api {...props} setActions={setCurrentActions} />)}
             />
             <Route 
               exact

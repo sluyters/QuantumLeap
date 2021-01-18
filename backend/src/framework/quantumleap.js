@@ -64,6 +64,8 @@ function setupWSS(config, server) {
         }
       }
     });
+    // Stop previous sensor loop (if any) TODO In the future, find a better solution
+    sensor.stop();
     // Process sensor frames
     sensor.loop((frame, appData) => {
       let message = getMessage('data');

@@ -33,7 +33,7 @@ function SvgComponent(props) {
     'dynamic-recognizers': false,
     'static-datasets': false,
     'dynamic-datasets': false,
-    'app-interface': false,
+    'api': false,
   });
   const classes = useStyles();
   const setHover = (name) => {
@@ -165,11 +165,11 @@ function SvgComponent(props) {
         />
         <path
           className={classes.csvModule}
-          onClick={() => onClick('app-interface')}
-          onMouseEnter={() => setHover('app-interface')}
-          onMouseLeave={() => removeHover('app-interface')}
+          onClick={() => onClick('api')}
+          onMouseEnter={() => setHover('api')}
+          onMouseLeave={() => removeHover('api')}
           d='M241 50h-21.4c-.61 0-1.1.49-1.1 1.1v32.8c0 .61.49 1.1 1.1 1.1H241z'
-          fill={state['app-interface'] ? hoveredModuleColor : moduleColor}
+          fill={state['api'] ? hoveredModuleColor : moduleColor}
         />
         <path
           d='M241 50h13.907c.605 0 1.093.49 1.093 1.1v32.8c0 .61-.488 1.1-1.093 1.1H241z'
@@ -764,25 +764,14 @@ function SvgComponent(props) {
         >
           <tspan
             x={229.708}
-            y={66.085}
+            y={68.684}
             style={{
               InkscapeFontSpecification: 'Calibri',
               textAlign: 'center',
             }}
             fontFamily='Calibri'
           >
-            {'app-'}
-          </tspan>
-          <tspan
-            x={229.708}
-            y={71.208}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-          >
-            {'interface'}
+            {'API'}
           </tspan>
         </text>
         <rect

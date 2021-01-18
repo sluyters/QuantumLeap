@@ -1,7 +1,7 @@
-import React from 'react'
-import axios from 'axios'
-import { Typography, Button, ButtonGroup, Paper, IconButton, Divider } from '@material-ui/core'
-import { withTheme, withStyles } from '@material-ui/core/styles'
+import React from 'react';
+import axios from 'axios';
+import { Typography, Button, ButtonGroup, Paper, IconButton, Divider } from '@material-ui/core';
+import { withTheme, withStyles } from '@material-ui/core/styles';
 import { withRouter } from "react-router";
 import PipelineImage from './res/pipeline-svg';
 import { Pause, PlayArrow } from '@material-ui/icons';
@@ -85,6 +85,9 @@ class Overview extends React.Component {
           break;
         case 'dynamic-recognizers':
           history.push('/pipeline/recognizers/dynamic');
+          break;
+        case 'api':
+          history.push('/api');
           break;
         default:
           console.error(name);
