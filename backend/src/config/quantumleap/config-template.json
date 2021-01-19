@@ -265,6 +265,16 @@
           "default": []
         },
         {
+          "name": "scoreThreshold",
+          "type": "FloatInput",
+          "label": "Score threshold",
+          "description": "The lowest score (included) for a gesture to be recognized.",
+          "minValue": 0.0,
+          "maxValue": 1.0,
+          "required": true,
+          "default": 0.25
+        },
+        {
           "type": "IntegerInput",
           "name": "bufferLength",
           "label": "Buffer length",
@@ -310,6 +320,16 @@
           "maxModules": 1,
           "settings": [],
           "default": []
+        },
+        {
+          "name": "scoreThreshold",
+          "type": "FloatInput",
+          "label": "Score threshold",
+          "description": "The lowest score (included) for a gesture to be recognized.",
+          "minValue": 0.0,
+          "maxValue": 1.0,
+          "required": true,
+          "default": 0.25
         },
         {
           "type": "BooleanInput",

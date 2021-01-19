@@ -15,11 +15,14 @@ class FrameProcessor {
     this.segmenter = new segmenterModule.module(segmenterModule);
     // Initialize datasets and recognizers
     this.datasets = {}
+    this.scoreThresholds = {};
     this.recognizers = {};
     this.enabledGestures = {};
     for (let type of ['static', 'dynamic']) {
       // Initialize dataset
       this.datasets[type] = initDataset(type, config.sensors, config.datasets[type]);
+      // Define thresholds (TODO option to compute threshold automatically per class)
+      this.scoreThresholds[type] = config.recognizers[type].scoreThreshold;
       // Initialize recognizer
       let recognizerModule = config.recognizers[type].modules[0];
       if (config.recognizers[type].loadOnRequest) {
@@ -98,7 +101,10 @@ class FrameProcessor {
     // Recognize the static gesture
     let sg = '';
     try {
-      sg = this.recognizers.static.recognize(frame).name;
+      let { name, score, time } = this.recognizers.static.recognize(frame);
+      if (score >= this.scoreThresholds.static) {
+        sg = name;
+      }
     } catch (error) {
       console.error(`Static gesture recognizer error: ${error.stack}`);
     }
@@ -160,7 +166,11 @@ class FrameProcessor {
         console.error(`Dynamic gesture recognizer error: ${error.stack}`);
       }
     });
-    return bestName;
+    if (bestScore >= this.scoreThresholds.dynamic) {
+      return bestName;
+    } else {
+      return '';
+    }
   }
 
   processFrame(frame) {

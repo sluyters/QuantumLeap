@@ -3,7 +3,7 @@
     "settings": {
       "general": {
         "general": {
-          "debug": false,
+          "debug": true,
           "sendContinuousData": true
         },
         "server": {
@@ -14,7 +14,7 @@
       "sensors": {
         "modules": [
           {
-            "uuid": "5b28fbec-5a92-495c-a132-04bc9533d263",
+            "uuid": "86a12a4f-a01c-4c8e-b69e-c9151d19f8be",
             "moduleName": "leap-sensor",
             "moduleType": "sensors",
             "moduleSettings": {},
@@ -28,12 +28,10 @@
       "filters": {
         "modules": [
           {
-            "uuid": "f5f6f28c-e528-4abb-a5eb-5433c712e726",
-            "moduleName": "single-exponential",
+            "uuid": "7c701e9b-c586-45d6-b295-2e63c6abac8b",
+            "moduleName": "placeholder",
             "moduleType": "filters",
-            "moduleSettings": {
-              "alpha": 0.1
-            },
+            "moduleSettings": {},
             "additionalSettings": {}
           }
         ]
@@ -42,81 +40,60 @@
         "static": {
           "modules": [
             {
-              "uuid": "9e5a56ab-dfb3-4a65-9522-082093cacb9e",
+              "uuid": "73e4a1e6-9606-46d2-b6c6-e3ab1d753969",
               "moduleName": "leap-loader",
               "moduleType": "datasets/static",
               "moduleSettings": {},
               "additionalSettings": {
                 "datasets": [
-                  "guinevre-static"
+                  "simple-dataset"
                 ],
                 "id": "lmc"
               }
             }
           ],
-          "templatesPerClass": 100,
-          "aggregateClasses": []
+          "templatesPerClass": 400,
+          "aggregateClasses": [
+            {
+              "uuid": "63be4496-d5ae-4dea-836c-3b222d36fc7a",
+              "name": "thumb",
+              "gestureClasses": [
+                "thumb"
+              ]
+            },
+            {
+              "uuid": "4cd8a690-bd02-462a-b5ae-8ed60aa5033a",
+              "name": "point index",
+              "gestureClasses": [
+                "point index"
+              ]
+            }
+          ]
         },
         "dynamic": {
           "modules": [
             {
-              "uuid": "9e5a56ab-dfb1-4a65-9522-082093cacb9e",
+              "uuid": "324632fa-27a0-443c-804d-7cba41685e7a",
               "moduleName": "leap-loader",
               "moduleType": "datasets/dynamic",
               "moduleSettings": {},
               "additionalSettings": {
                 "datasets": [
-                  "guinevere"
+                  "simple-dataset"
                 ],
                 "id": "lmc"
               }
             }
           ],
-          "templatesPerClass": 16,
-          "aggregateClasses": [
-            {
-              "uuid": "5b28fbec-5a92-495c-a132-04bc9533d263",
-              "name": "rhand_uswipe",
-              "classes": [
-                "swipe_up"
-              ]
-            },
-            {
-              "uuid": "5b28fbec-5a92-495c-a132-04bc9533d273",
-              "name": "rhand_dswipe",
-              "classes": [
-                "swipe_down"
-              ]
-            },
-            {
-              "uuid": "5b28fbec-5a92-495c-a132-04bc9536d263",
-              "name": "rhand_lswipe",
-              "classes": [
-                "swipe_left"
-              ]
-            },
-            {
-              "uuid": "5b28fbec-5a92-495c-a132-04ba9533d263",
-              "name": "rhand_rswipe",
-              "classes": [
-                "swipe_right"
-              ]
-            },
-            {
-              "uuid": "5b28fbec-5a92-495c-a132-03ea9533d263",
-              "name": "rindex_airtap",
-              "classes": [
-                "tap"
-              ]
-            }
-          ]
+          "templatesPerClass": 10,
+          "aggregateClasses": []
         }
       },
       "analyzers": {
         "modules": [
           {
-            "uuid": "9e5a56bb-dfb9-4a65-9522-082093cacb9e",
-            "moduleName": "basic-analyzer",
+            "uuid": "cfc121d7-576f-4f42-ab1c-2a18c4e79ba5",
+            "moduleName": "placeholder-analyzer",
             "moduleType": "analyzers",
             "moduleSettings": {},
             "additionalSettings": {}
@@ -126,14 +103,14 @@
       "segmenters": {
         "modules": [
           {
-            "uuid": "14f70dd0-7a58-4ca6-97f6-62bb2c5ca7da",
+            "uuid": "fb16c750-3866-440f-b033-f24f50108766",
             "moduleName": "window-segmenter",
             "moduleType": "segmenters",
             "moduleSettings": {
               "windows": [
                 {
-                  "width": 30,
-                  "uuid": "02b45929-411f-4ae9-ac8b-4268c40ed1e6"
+                  "width": 20,
+                  "uuid": "f612725b-4956-439d-8c57-94bf56a4c262"
                 }
               ],
               "intervalLength": 3,
@@ -143,9 +120,7 @@
               "motionThreshold": 70,
               "motionArticulations": {
                 "lmc": [
-                  "rightPalmPosition",
-                  "rightIndexTipPosition",
-                  "rightThumbTipPosition"
+                  "rightPalmPosition"
                 ]
               }
             }
@@ -156,102 +131,59 @@
         "static": {
           "modules": [
             {
-              "uuid": "d9e89f2d-e4d8-49c8-84b4-d32121ff53a8",
-              "moduleName": "multi-recognizer",
+              "uuid": "c9974c4b-9dbb-4a7a-85ce-f38d36ea6c8c",
+              "moduleName": "gpsda",
               "moduleType": "recognizers/static",
               "moduleSettings": {
-                "recognizers": [
-                  {
-                    "uuid": "9dbf540c-65cd-40df-b5e4-74db0d1f24c0",
-                    "moduleName": "gpsda",
-                    "moduleType": "recognizers/static",
-                    "moduleSettings": {
-                      "alpha": 0.8,
-                      "points": {
-                        "lmc": [
-                          "rightPalmPosition",
-                          "rightThumbTipPosition",
-                          "rightIndexTipPosition",
-                          "rightMiddleTipPosition",
-                          "rightRingTipPosition",
-                          "rightPinkyTipPosition",
-                          "rightThumbPipPosition",
-                          "rightIndexPipPosition",
-                          "rightMiddlePipPosition",
-                          "rightRingPipPosition",
-                          "rightPinkyPipPosition",
-                          "rightThumbMcpPosition",
-                          "rightIndexMcpPosition",
-                          "rightMiddleMcpPosition",
-                          "rightRingMcpPosition",
-                          "rightPinkyMcpPosition"
-                        ]
-                      }
-                    },
-                    "additionalSettings": {
-                      "weight": 1
-                    }
-                  }
-                ]
+                "alpha": 0.9,
+                "points": {
+                  "lmc": [
+                    "rightPalmPosition",
+                    "rightThumbTipPosition",
+                    "rightIndexTipPosition",
+                    "rightMiddleTipPosition",
+                    "rightRingTipPosition",
+                    "rightPinkyTipPosition",
+                    "rightThumbPipPosition",
+                    "rightIndexPipPosition",
+                    "rightMiddlePipPosition",
+                    "rightRingPipPosition",
+                    "rightPinkyPipPosition",
+                    "rightThumbMcpPosition",
+                    "rightIndexMcpPosition",
+                    "rightMiddleMcpPosition",
+                    "rightRingMcpPosition",
+                    "rightPinkyMcpPosition"
+                  ]
+                }
               },
               "additionalSettings": {}
             }
           ],
+          "scoreThreshold": 0.3,
           "bufferLength": 15,
-          "poseRatioThreshold": 0.7,
+          "poseRatioThreshold": 0.8,
           "sendIfRequested": true,
           "loadOnRequest": false
         },
         "dynamic": {
           "modules": [
             {
-              "uuid": "9e5a67ab-dfb9-4a65-9522-082093cacb9e",
-              "moduleName": "multi-recognizer",
+              "uuid": "38e15c81-7962-4de0-b87e-6548d279066f",
+              "moduleName": "jackknife",
               "moduleType": "recognizers/dynamic",
               "moduleSettings": {
-                "recognizers": [
-                  {
-                    "uuid": "9e5a56ab-eeb9-4a65-9522-082093cacb9e",
-                    "moduleName": "jackknife",
-                    "moduleType": "recognizers/dynamic",
-                    "moduleSettings": {
-                      "samplingPoints": 16,
-                      "points": {
-                        "lmc": [
-                          "rightPalmPosition",
-                          "rightThumbTipPosition",
-                          "rightIndexTipPosition",
-                          "rightMiddleTipPosition",
-                          "rightRingTipPosition",
-                          "rightPinkyTipPosition"
-                        ]
-                      }
-                    },
-                    "additionalSettings": {
-                      "weight": 1
-                    }
-                  },
-                  {
-                    "uuid": "ac226d8c-a12e-459a-86ad-d4a79b43ab75",
-                    "moduleName": "freehanduni",
-                    "moduleType": "recognizers/dynamic",
-                    "moduleSettings": {
-                      "samplingPoints": 16,
-                      "points": {
-                        "lmc": [
-                          "rightPalmPosition"
-                        ]
-                      }
-                    },
-                    "additionalSettings": {
-                      "weight": 1
-                    }
-                  }
-                ]
+                "samplingPoints": 16,
+                "points": {
+                  "lmc": [
+                    "rightPalmPosition"
+                  ]
+                }
               },
               "additionalSettings": {}
             }
           ],
+          "scoreThreshold": 0.4,
           "sendIfRequested": true,
           "loadOnRequest": false
         }

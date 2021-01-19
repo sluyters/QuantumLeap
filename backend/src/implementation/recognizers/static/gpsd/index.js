@@ -21,7 +21,8 @@ class Classifier extends AbstractStaticRecognizer {
     }
   }
 
-  addGesture(name, frame) {
+  addGesture(name, sample) {
+    let frame = sample.frame;
     let points = []
     for (const articulation of this.selectedPoints) {
       points.push(frame.getArticulation(articulation).point);

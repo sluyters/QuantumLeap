@@ -22,7 +22,7 @@ function initDataset(type, sensorsConfig, datasetsConfig) {
       let newGestureClass = new GestureClass(aggregate.name, index);
       let templates = [];
       // Fuse the classes into a new aggregate class
-      for (const className of aggregate.classes) {
+      for (const className of aggregate.gestureClasses) {
         datasets.forEach(dataset => {
           let oldClass = dataset.getGestureClasses().get(className);
           if (oldClass) {
