@@ -7,16 +7,19 @@
   "description": "A framework for gesture recognition.",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.0.0",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "concurrently": "^5.3.0",
     "electron-is-dev": "^1.2.0",
+    "env-cmd": "^10.1.0",
     "fontsource-roboto": "^3.0.3",
+    "npm-watch": "^0.7.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-markdown": "^5.0.3",
@@ -25,18 +28,30 @@
     "react-scripts": "4.0.0",
     "react-syntax-highlighter": "^15.4.3",
     "uuid": "^8.3.2",
-    "wait-on": "^5.2.0",
+    "wait-on": "^5.2.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
     "dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "dev:electron": "concurrently \"npm run watch:electron\" \"npm run start:electron\"",
+
+    "start:web": "env-cmd -f .env.web craco start",
+    "start:electron": "electron .",
+    "start:electron-dev": "electron electron-dev.js",
+    "build:web": "craco build",
+    "build:electron": "env-cmd -f .env.electron craco build",
+    "watch:electron": "npm-watch",
+
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "postinstall": "electron-builder install-app-deps"
+  },
+  "watch": {
+    "build:electron": "src/**/*.*"
   },
   "build": {
     "appId": "UCLouvain.QuantumLeap",
@@ -70,6 +85,7 @@
     ]
   },
   "devDependencies": {
+    "env-cmd": "^10.1.0",
     "electron": "^11.0.4",
     "electron-builder": "^22.9.1"
   }

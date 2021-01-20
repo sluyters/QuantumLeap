@@ -46,29 +46,14 @@
               "moduleSettings": {},
               "additionalSettings": {
                 "datasets": [
-                  "simple-dataset"
+                  "guinevre-static"
                 ],
                 "id": "lmc"
               }
             }
           ],
           "templatesPerClass": 400,
-          "aggregateClasses": [
-            {
-              "uuid": "63be4496-d5ae-4dea-836c-3b222d36fc7a",
-              "name": "thumb",
-              "gestureClasses": [
-                "thumb"
-              ]
-            },
-            {
-              "uuid": "4cd8a690-bd02-462a-b5ae-8ed60aa5033a",
-              "name": "point index",
-              "gestureClasses": [
-                "point index"
-              ]
-            }
-          ]
+          "aggregateClasses": []
         },
         "dynamic": {
           "modules": [
@@ -79,21 +64,50 @@
               "moduleSettings": {},
               "additionalSettings": {
                 "datasets": [
-                  "simple-dataset"
+                  "guinevere"
                 ],
                 "id": "lmc"
               }
             }
           ],
-          "templatesPerClass": 10,
-          "aggregateClasses": []
+          "templatesPerClass": 16,
+          "aggregateClasses": [
+            {
+              "uuid": "2efd3946-0f4b-446b-88da-42adf9c25afa",
+              "name": "rhand_uswipe",
+              "gestureClasses": [
+                "swipe_up"
+              ]
+            },
+            {
+              "uuid": "47c38215-9599-49a1-93e9-93895007b37a",
+              "name": "rhand_lswipe",
+              "gestureClasses": [
+                "swipe_left"
+              ]
+            },
+            {
+              "uuid": "0b661919-bc94-4e43-9f54-57755992e8a8",
+              "name": "rhand_rswipe",
+              "gestureClasses": [
+                "swipe_right"
+              ]
+            },
+            {
+              "uuid": "31a3334e-0877-4dd5-b47c-c031d32b51b5",
+              "name": "rindex_airtap",
+              "gestureClasses": [
+                "tap"
+              ]
+            }
+          ]
         }
       },
       "analyzers": {
         "modules": [
           {
-            "uuid": "cfc121d7-576f-4f42-ab1c-2a18c4e79ba5",
-            "moduleName": "placeholder-analyzer",
+            "uuid": "105957ad-23f9-4ac5-8605-989dd06e7546",
+            "moduleName": "basic-analyzer",
             "moduleType": "analyzers",
             "moduleSettings": {},
             "additionalSettings": {}
@@ -160,7 +174,7 @@
               "additionalSettings": {}
             }
           ],
-          "scoreThreshold": 0.3,
+          "scoreThreshold": 0.2,
           "bufferLength": 15,
           "poseRatioThreshold": 0.8,
           "sendIfRequested": true,

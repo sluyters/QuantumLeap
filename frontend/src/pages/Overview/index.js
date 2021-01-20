@@ -5,6 +5,10 @@ import { withTheme, withStyles } from '@material-ui/core/styles';
 import { withRouter } from "react-router";
 import PipelineImage from './res/pipeline-svg';
 import { Pause, PlayArrow } from '@material-ui/icons';
+let remote = '';
+if (process.env.REACT_APP_MODE == 'electron') {
+  remote = require('electron').remote; 
+}
 
 // Change
 const URL = 'http://127.0.0.1:6442'
@@ -115,8 +119,11 @@ class Overview extends React.Component {
           </IconButton>
         </Paper>
         <div className={classes.actionButtons}>
-          <ButtonGroup variant="contained" color="primary">
-            <Button onClick={this.loadValues}>Load configuration</Button>
+          <ButtonGroup variant='contained' color='primary'>
+            <Button component='label'>
+              Load configuration
+              <input type='file' accept='.json' hidden onChange={this.loadValues}/>
+            </Button>
             <Button onClick={this.downloadValues}>Download configuration</Button>
           </ButtonGroup>
         </div>
@@ -229,32 +236,40 @@ class Overview extends React.Component {
   }
 
   loadValues(event) {
-    if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
-      alert('The File APIs are not fully supported in this browser.');
-      return;
-    } else if (!event.target.files) {
-      alert("This browser doesn't seem to support the `files` property of file inputs.");
-    } else if (!event.target.files[0]) {
-      alert("Please select a file before clicking 'Load'");               
+    if (!remote) {
+      // electron
+      remote.dialog.showOpenDialog(remote.getCurrentWindow(), {properties:["openDirectory"]});
     } else {
-      var file = event.target.files[0];
-      var fileReader = new FileReader();
-      fileReader.onload = (event) => {
-        let previousValues = this.state.values;
-        try {
-          let values = JSON.parse(event.target.result)
-          this.setState({
-            values: values,
-          });
-          this.sendValues();
-        } catch (err) {
-          alert('Invalid file.');
-          this.setState({
-            values: previousValues,
-          });
-        }
-      };
-      fileReader.readAsText(file);
+      // web
+      
+      if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+        alert('The File APIs are not fully supported in this browser.');
+        return;
+      } else if (!event.target.files) {
+        console.log(event)
+        alert("This browser doesn't seem to support the `files` property of file inputs.");
+      } else if (!event.target.files[0]) {
+        alert("Please select a file before clicking 'Load'");               
+      } else {
+        var file = event.target.files[0];
+        var fileReader = new FileReader();
+        fileReader.onload = (event) => {
+          let previousValues = this.state.values;
+          try {
+            let values = JSON.parse(event.target.result)
+            this.setState({
+              values: values,
+            });
+            this.sendValues();
+          } catch (err) {
+            alert('Invalid file.');
+            this.setState({
+              values: previousValues,
+            });
+          }
+        };
+        fileReader.readAsText(file);
+      }
     }
   }
 }
