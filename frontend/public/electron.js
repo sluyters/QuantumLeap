@@ -10,17 +10,11 @@ function createWindow() {
         height: 768,
         minWidth: 800,
         minHeight: 600,
-        show: false,
-        webPreferences: {
-            nodeIntegration: true,
-            enableRemoteModule: true, // https://stackoverflow.com/questions/37884130/electron-remote-is-undefined
-        },
-
+        show: false
     });
     const startURL = isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`;
     mainWindow.loadURL(startURL);
     //mainWindow.loadFile(path.join(__dirname, '../build/index.html'));
-
     mainWindow.once('ready-to-show', () => mainWindow.show());
     mainWindow.on('closed', () => {
         mainWindow = null;

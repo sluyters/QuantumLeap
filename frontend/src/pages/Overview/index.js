@@ -115,7 +115,7 @@ class Overview extends React.Component {
           </IconButton>
         </Paper>
         <div className={classes.actionButtons}>
-          <ButtonGroup variant='contained' color='primary'>
+          <ButtonGroup variant="contained" color="primary">
             <Button component='label'>
               Load configuration
               <input type='file' accept='.json' hidden onChange={this.loadValues}/>
@@ -236,7 +236,6 @@ class Overview extends React.Component {
       alert('The File APIs are not fully supported in this browser.');
       return;
     } else if (!event.target.files) {
-      console.log(event)
       alert("This browser doesn't seem to support the `files` property of file inputs.");
     } else if (!event.target.files[0]) {
       alert("Please select a file before clicking 'Load'");               
