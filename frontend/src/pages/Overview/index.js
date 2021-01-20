@@ -5,10 +5,6 @@ import { withTheme, withStyles } from '@material-ui/core/styles';
 import { withRouter } from "react-router";
 import PipelineImage from './res/pipeline-svg';
 import { Pause, PlayArrow } from '@material-ui/icons';
-let remote = '';
-if (process.env.REACT_APP_MODE == 'electron') {
-  remote = require('electron').remote; 
-}
 
 // Change
 const URL = 'http://127.0.0.1:6442'
@@ -236,40 +232,33 @@ class Overview extends React.Component {
   }
 
   loadValues(event) {
-    if (!remote) {
-      // electron
-      remote.dialog.showOpenDialog(remote.getCurrentWindow(), {properties:["openDirectory"]});
+    if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+      alert('The File APIs are not fully supported in this browser.');
+      return;
+    } else if (!event.target.files) {
+      console.log(event)
+      alert("This browser doesn't seem to support the `files` property of file inputs.");
+    } else if (!event.target.files[0]) {
+      alert("Please select a file before clicking 'Load'");               
     } else {
-      // web
-      
-      if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
-        alert('The File APIs are not fully supported in this browser.');
-        return;
-      } else if (!event.target.files) {
-        console.log(event)
-        alert("This browser doesn't seem to support the `files` property of file inputs.");
-      } else if (!event.target.files[0]) {
-        alert("Please select a file before clicking 'Load'");               
-      } else {
-        var file = event.target.files[0];
-        var fileReader = new FileReader();
-        fileReader.onload = (event) => {
-          let previousValues = this.state.values;
-          try {
-            let values = JSON.parse(event.target.result)
-            this.setState({
-              values: values,
-            });
-            this.sendValues();
-          } catch (err) {
-            alert('Invalid file.');
-            this.setState({
-              values: previousValues,
-            });
-          }
-        };
-        fileReader.readAsText(file);
-      }
+      var file = event.target.files[0];
+      var fileReader = new FileReader();
+      fileReader.onload = (event) => {
+        let previousValues = this.state.values;
+        try {
+          let values = JSON.parse(event.target.result)
+          this.setState({
+            values: values,
+          });
+          this.sendValues();
+        } catch (err) {
+          alert('Invalid file.');
+          this.setState({
+            values: previousValues,
+          });
+        }
+      };
+      fileReader.readAsText(file);
     }
   }
 }
