@@ -47,6 +47,7 @@ const styles = (theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: -drawerWidth,
+    overflowX: 'auto',
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
