@@ -1,6 +1,7 @@
 // MODULES ----------------------------------------------------------------------------------------
 // Sensor Interfaces
 const LeapSensor = require('./implementation/sensors/leap-sensor/sensor').Sensor;
+const TouchPadSensor = require('./implementation/sensors/leap-sensor/sensor').Sensor;
 
 // Pose Analyzers
 const NoAnalyzer = require('./implementation/analyzers/placeholder-analyzer/analyzer').Analyzer;
@@ -38,6 +39,7 @@ const LeapMotionDatasetLoader = require('./implementation/datasets/gesture/leap-
 const SmartphoneDatasetLoader = require('./implementation/datasets/gesture/smartphone-loader');
 const HandGestureDatasetLoader = require('./implementation/datasets/gesture/hand-gesture-csv-loader');
 const UWaveDatasetLoader = require('./implementation/datasets/gesture/uwave-loader');
+const TouchPadDatasetLoader = require('./implementation/datasets/gesture/touchPad_loader')
 
 // Pose Dataset Loaders
 const MMHGRDatasetLoader = require('./implementation/datasets/pose/mmhgr-loader');
@@ -74,14 +76,14 @@ config.datasets = {};
 
 // CONFIGURATION ----------------------------------------------------------------------------------
 // General Configuration
-config.general.debug = false;                       // Show debug logs
+config.general.debug = true;                       // Show debug logs
 config.general.sendContinuousData = true;           // Send data from each frame to the client
 config.general.gesture = {
-    sendIfRequested: true,                          // Send recognized gestures only if they are requested by the client
+    sendIfRequested: false,                          // Send recognized gestures only if they are requested by the client
     loadOnRequest: false                            // Load gestures based on requests from the client
 }
 config.general.pose = {
-    sendIfRequested: true,                          // Send recognized gestures only if they are requested by the client
+    sendIfRequested: false,                          // Send recognized gestures only if they are requested by the client
     loadOnRequest: false                            // Load gestures based on requests from the client
 }
 
@@ -91,7 +93,7 @@ config.server.port = 6442;							// Port of the server (for app interface)
 
 // Sensor Interface
 config.sensor = {
-    module: LeapSensor,
+    module: TouchPadSensor,
     options: {
         framerate: 60                               // Sensor framerate [images/seconds]
     }
@@ -99,7 +101,7 @@ config.sensor = {
 
 // Pose Analyzer
 config.analyzer = {
-    module: BasicAnalyzer,
+    module: NoAnalyzer,
     options: {}
 }
 
@@ -121,16 +123,16 @@ config.segmenter = {
 // Gesture Dataset
 config.datasets.gesture = {
     directory: __dirname + "/datasets/gesture",
-    loader: LeapMotionDatasetLoader,
-    name: "guinevere",
+    loader: TouchPadDatasetLoader,
+    name: "TouchPad",
     useCustomTemplatesPerClass: true,
-    templatesPerClass: 16,
+    templatesPerClass: 1,
     aggregateClasses: [
-        { name: "rhand_uswipe", classes: ["swipe_up"] },
-        { name: "rhand_dswipe", classes: ["swipe_down"] },
-        { name: "rhand_lswipe", classes: ["swipe_left"] },
-        { name: "rhand_rswipe", classes: ["swipe_right"] },
-        { name: "rindex_airtap", classes: ["tap"] },
+        { name: "rhand_uswipe", classes: ["AirCircleLeft_SwipeLeft2D"] },
+        // { name: "rhand_dswipe", classes: ["swipe_down"] },
+        // { name: "rhand_lswipe", classes: ["swipe_left"] },
+        // { name: "rhand_rswipe", classes: ["swipe_right"] },
+        // { name: "rindex_airtap", classes: ["tap"] },
         //{ name: "rhand_crotate", classes: ["turn_clockwise"] },
         //{ name: "rhand_acrotate", classes: ["turn_counter_clockwise"] },
         //{ name: "rhand_close", classes: ["pinch_in"] },
@@ -138,9 +140,9 @@ config.datasets.gesture = {
         //{ name: "thumbs_up", classes: ["thumbs_up"] },
         //{ name: "thumbs_down", classes: ["thumbs_down"] }
     ]
-}
+} 
 
-// Pose Dataset
+//Pose Dataset
 config.datasets.pose = {
     directory: __dirname + "/datasets/pose",
     loader: LeapPoseDatasetLoader,
@@ -157,14 +159,14 @@ config.recognizer = {
         palmThreshold: 50,
         fingerThreshold: 15,
         samplingPoints: 16,                         // Number of sampling points [#points]
-        articulations: palms.right,
+        articulations: ["AirCircleLeft_SwipeLeft2D"],
         //pathName: "rightPalmPosition"
     }
 }
 
 // Pose Classifier
 config.classifier = {
-    module: GPSDaClassifier,
+    module: NoClassifier,
     options: {
         bufferLength: 15,
         poseRatioThreshold: 0.8,

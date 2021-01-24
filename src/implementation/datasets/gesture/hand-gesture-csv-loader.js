@@ -6,7 +6,7 @@ const GestureClass = require('../../../framework/gestures/gesture-class').Gestur
 const StrokeData = require('../../../framework/gestures/stroke-data').StrokeData;
 const Stroke = require('../../../framework/gestures/stroke-data').Stroke;
 const Path = require('../../../framework/gestures/stroke-data').Path;
-const Point = require('../../../framework/gestures/point').Point3D;
+const Point = require('../../../framework/gestures/Point').Point3D;
 
 //const gestureNames = ["Tap","Swipe Right", "Swipe Left", "Swipe Up", "Swipe Down", "Swipe X", "Swipe +", "Swipe V", "Shake"];
 const gestureNames = ["Grab", "Tap", "Expand", "Pinch", "Rotation Clockwise", "Rotation Counter Clockwise",

@@ -1,4 +1,4 @@
-const Point = require('../../../framework/gestures/point').Point3D;
+const Point = require('../../../framework/gestures/Point').Point3D;
 const AbstractAnalyzer = require('../../../framework/analyzers/abstract-analyzer').AbstractAnalyzer;
 
 class Analyzer extends AbstractAnalyzer {

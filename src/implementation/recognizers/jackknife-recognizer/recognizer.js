@@ -58,6 +58,9 @@ class Recognizer extends AbstractRecognizer {
 
 function convert(sample, articulations, name) {
     let jackknifeSample;
+    test = sample.paths
+    console.log(test.Paths)
+    //console.log(name)
     if (name) {
         jackknifeSample = new Sample(0, name);
     } else {
@@ -67,7 +70,9 @@ function convert(sample, articulations, name) {
     let maxMovement = 0;
     let threshold = 40;
     let initPoints = {};
+
     for (const articulation of articulations) {
+        console.log(articulation)
         initPoints[articulation] = sample.paths[articulation].strokes[0].points[0];
     }
     // check min distance END

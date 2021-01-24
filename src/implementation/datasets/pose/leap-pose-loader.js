@@ -5,7 +5,7 @@ const GestureSet = require('../../../framework/gestures/gesture-set').GestureSet
 const GestureClass = require('../../../framework/gestures/gesture-class').GestureClass;
 const PoseData = require('../../../framework/gestures/pose-data').PoseData;
 const { Frame, Articulation } = require('../../../framework/frames/frame');
-const Point = require('../../../framework/gestures/point').Point3D;
+const Point = require('../../../framework/gestures/Point').Point3D;
 
 const fingerNames = ["Thumb", "Index", "Middle", "Ring", "Pinky"];
 const fingerArticulations = ["Mcp", "Pip", "Tip"];

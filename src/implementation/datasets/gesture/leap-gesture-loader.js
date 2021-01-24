@@ -6,7 +6,7 @@ const GestureClass = require('../../../framework/gestures/gesture-class').Gestur
 const StrokeData = require('../../../framework/gestures/stroke-data').StrokeData;
 const Stroke = require('../../../framework/gestures/stroke-data').Stroke;
 const Path = require('../../../framework/gestures/stroke-data').Path;
-const Point = require('../../../framework/gestures/point').Point3D;
+const Point = require('../../../framework/gestures/Point').Point3D;
 
 const fingerNames = ["Thumb", "Index", "Middle", "Ring", "Pinky"];
 const fingerArticulations = ["Mcp", "Pip", "Tip"];
