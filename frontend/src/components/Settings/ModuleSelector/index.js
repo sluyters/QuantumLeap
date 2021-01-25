@@ -28,7 +28,9 @@ class ModuleSelector extends React.Component {
     for (let key of modulePath) {
       modules = modules[key];
     }
-    const modulesNames = Object.keys(modules);
+    const modulesNames = Object.keys(modules).filter(name => 
+      (modules[name].display === true || modules[name].display === undefined || modules[name].display === null)
+    );
     // Get selected module(s)
     let selectedModules = value;
     // Module selection handler

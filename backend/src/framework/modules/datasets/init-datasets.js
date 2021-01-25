@@ -10,9 +10,11 @@ function initDataset(type, sensorsConfig, datasetsConfig) {
   datasetsConfig.modules.forEach(datasetLoaderModule => {
     let datasetLoader = datasetLoaderModule.module;
     let identifier = datasetLoaderModule.additionalSettings.id;
-    let datasetName = datasetLoaderModule.additionalSettings.datasets[0];
-    let datasetPath = path.resolve(__dirname, '../../../datasets', type, datasetName); // TODO improve
-    datasets.push(datasetLoader.loadDataset(datasetName, datasetPath, identifier, sensorsPointsNames));
+    if (datasetLoaderModule.additionalSettings.datasets !== undefined && datasetLoaderModule.additionalSettings.datasets.length > 0) {
+      let datasetName = datasetLoaderModule.additionalSettings.datasets[0];
+      let datasetPath = path.resolve(__dirname, '../../../datasets', type, datasetName); // TODO improve
+      datasets.push(datasetLoader.loadDataset(datasetName, datasetPath, identifier, sensorsPointsNames));
+    }
   });
   let newDataset = new GestureSet('GestureSet');
   // Select/aggregate/rename classes of the dataset if required

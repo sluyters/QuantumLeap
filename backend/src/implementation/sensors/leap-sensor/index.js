@@ -11,7 +11,7 @@ class Sensor extends AbstractSensor {
     this.controller = new Leap.Controller({
       frameEventName: 'deviceFrame',
       loopWhileDisconnected: false
-    })
+    });
   }
 
   getPoints(timestamp) {
@@ -46,7 +46,7 @@ class Sensor extends AbstractSensor {
             points.push({
               name: `${hand.type}${fingerNames[finger.type]}${fingerArticulation}Position`,
               point: new Point(...finger[`${fingerArticulation.toLowerCase()}Position`], timestamp)
-            })
+            });
           }
         });
       }
@@ -86,7 +86,7 @@ class Sensor extends AbstractSensor {
   }
 
   connect() {
-    this.controller.connect()
+    this.controller.connect();
   }
 
   disconnect() {

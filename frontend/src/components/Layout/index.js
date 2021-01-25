@@ -73,7 +73,7 @@ class Layout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
+      open: true,
       pathName: props.history.location.pathname
     };
   }
