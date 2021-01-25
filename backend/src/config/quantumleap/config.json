@@ -3,7 +3,7 @@
     "settings": {
       "general": {
         "general": {
-          "debug": true,
+          "debug": false,
           "sendContinuousData": true
         },
         "server": {
@@ -12,178 +12,42 @@
         }
       },
       "sensors": {
-        "modules": [
-          {
-            "uuid": "86a12a4f-a01c-4c8e-b69e-c9151d19f8be",
-            "moduleName": "leap-sensor",
-            "moduleType": "sensors",
-            "moduleSettings": {},
-            "additionalSettings": {
-              "id": "lmc"
-            }
-          }
-        ],
+        "modules": [],
         "framerate": 60
       },
       "filters": {
-        "modules": [
-          {
-            "uuid": "7c701e9b-c586-45d6-b295-2e63c6abac8b",
-            "moduleName": "placeholder",
-            "moduleType": "filters",
-            "moduleSettings": {},
-            "additionalSettings": {}
-          }
-        ]
+        "modules": []
       },
       "datasets": {
         "static": {
-          "modules": [
-            {
-              "uuid": "73e4a1e6-9606-46d2-b6c6-e3ab1d753969",
-              "moduleName": "leap-loader",
-              "moduleType": "datasets/static",
-              "moduleSettings": {},
-              "additionalSettings": {
-                "datasets": [
-                  "simple-dataset"
-                ],
-                "id": "lmc"
-              }
-            }
-          ],
-          "templatesPerClass": 400,
-          "aggregateClasses": [
-            {
-              "uuid": "63be4496-d5ae-4dea-836c-3b222d36fc7a",
-              "name": "thumb",
-              "gestureClasses": [
-                "thumb"
-              ]
-            },
-            {
-              "uuid": "4cd8a690-bd02-462a-b5ae-8ed60aa5033a",
-              "name": "point index",
-              "gestureClasses": [
-                "point index"
-              ]
-            }
-          ]
+          "modules": [],
+          "templatesPerClass": 0,
+          "aggregateClasses": []
         },
         "dynamic": {
-          "modules": [
-            {
-              "uuid": "324632fa-27a0-443c-804d-7cba41685e7a",
-              "moduleName": "leap-loader",
-              "moduleType": "datasets/dynamic",
-              "moduleSettings": {},
-              "additionalSettings": {
-                "datasets": [
-                  "simple-dataset"
-                ],
-                "id": "lmc"
-              }
-            }
-          ],
-          "templatesPerClass": 10,
+          "modules": [],
+          "templatesPerClass": 0,
           "aggregateClasses": []
         }
       },
       "analyzers": {
-        "modules": [
-          {
-            "uuid": "cfc121d7-576f-4f42-ab1c-2a18c4e79ba5",
-            "moduleName": "placeholder-analyzer",
-            "moduleType": "analyzers",
-            "moduleSettings": {},
-            "additionalSettings": {}
-          }
-        ]
+        "modules": []
       },
       "segmenters": {
-        "modules": [
-          {
-            "uuid": "fb16c750-3866-440f-b033-f24f50108766",
-            "moduleName": "window-segmenter",
-            "moduleType": "segmenters",
-            "moduleSettings": {
-              "windows": [
-                {
-                  "width": 20,
-                  "uuid": "f612725b-4956-439d-8c57-94bf56a4c262"
-                }
-              ],
-              "intervalLength": 3,
-              "pauseLength": 60
-            },
-            "additionalSettings": {
-              "motionThreshold": 70,
-              "motionArticulations": {
-                "lmc": [
-                  "rightPalmPosition"
-                ]
-              }
-            }
-          }
-        ]
+        "modules": []
       },
       "recognizers": {
         "static": {
-          "modules": [
-            {
-              "uuid": "c9974c4b-9dbb-4a7a-85ce-f38d36ea6c8c",
-              "moduleName": "gpsda",
-              "moduleType": "recognizers/static",
-              "moduleSettings": {
-                "alpha": 0.9,
-                "points": {
-                  "lmc": [
-                    "rightPalmPosition",
-                    "rightThumbTipPosition",
-                    "rightIndexTipPosition",
-                    "rightMiddleTipPosition",
-                    "rightRingTipPosition",
-                    "rightPinkyTipPosition",
-                    "rightThumbPipPosition",
-                    "rightIndexPipPosition",
-                    "rightMiddlePipPosition",
-                    "rightRingPipPosition",
-                    "rightPinkyPipPosition",
-                    "rightThumbMcpPosition",
-                    "rightIndexMcpPosition",
-                    "rightMiddleMcpPosition",
-                    "rightRingMcpPosition",
-                    "rightPinkyMcpPosition"
-                  ]
-                }
-              },
-              "additionalSettings": {}
-            }
-          ],
-          "scoreThreshold": 0.3,
+          "modules": [],
+          "scoreThreshold": 0.25,
           "bufferLength": 15,
           "poseRatioThreshold": 0.8,
           "sendIfRequested": true,
           "loadOnRequest": false
         },
         "dynamic": {
-          "modules": [
-            {
-              "uuid": "38e15c81-7962-4de0-b87e-6548d279066f",
-              "moduleName": "jackknife",
-              "moduleType": "recognizers/dynamic",
-              "moduleSettings": {
-                "samplingPoints": 16,
-                "points": {
-                  "lmc": [
-                    "rightPalmPosition"
-                  ]
-                }
-              },
-              "additionalSettings": {}
-            }
-          ],
-          "scoreThreshold": 0.4,
+          "modules": [],
+          "scoreThreshold": 0.25,
           "sendIfRequested": true,
           "loadOnRequest": false
         }

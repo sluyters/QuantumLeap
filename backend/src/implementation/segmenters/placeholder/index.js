@@ -1,6 +1,13 @@
-class Segmenter {
+const AbstractSegmenter = require('../../../framework/modules/segmenters/abstract-segmenter').AbstractSegmenter;
+
+class Segmenter extends AbstractSegmenter {
   constructor(options) {
-    // Do nothing
+    super({
+      additionalSettings: {
+        motionThreshold: 0.0,
+        motionArticulations: {} 
+      }
+    });
   }
 
   computeSegments(frame) {

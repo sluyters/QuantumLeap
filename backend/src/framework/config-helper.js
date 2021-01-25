@@ -122,26 +122,35 @@ class QLConfiguration {
           });
         } else if (template.type === 'ModuleSelector') {
           // If one or more module(s) is selected, repair subsettings
-          values[template.name].forEach((moduleValue) => {
-            // Additional settings
-            if (!moduleValue.hasOwnProperty('additionalSettings')) {
-              moduleValue.additionalSettings = {};
-              repaired = true;
-            }
-            repaired = repairSettings(template.settings, moduleValue.additionalSettings) || repaired;
-            // Module settings
-            if (!moduleValue.hasOwnProperty('moduleSettings')) {
-              moduleValue.moduleSettings = {};
-              repaired = true;
-            }
+          for (let i = values[template.name].length - 1; i >= 0; i--) {
+            let moduleValue = values[template.name][i];
+            console.log(values[template.name])
+            // Get module template
             let subTypes = template.moduleType.split('/');
             let moduleTemplate = this.templates.modules;
             subTypes.forEach(subType => {
               moduleTemplate = moduleTemplate[subType];
             });
             moduleTemplate = moduleTemplate[moduleValue.moduleName];
-            repaired = repairSettings(moduleTemplate.settings, moduleValue.moduleSettings) || repaired;
-          })
+            // If there is no corresponding module, remove it. Otherwise, check subsettings
+            if (moduleTemplate === undefined) {
+              values[template.name].splice(i, 1);
+              repaired = true;
+            } else {
+              // Additional settings
+              if (!moduleValue.hasOwnProperty('additionalSettings')) {
+                moduleValue.additionalSettings = {};
+                repaired = true;
+              }
+              repaired = repairSettings(template.settings, moduleValue.additionalSettings) || repaired;
+              // Module settings
+              if (!moduleValue.hasOwnProperty('moduleSettings')) {
+                moduleValue.moduleSettings = {};
+                repaired = true;
+              }
+              repaired = repairSettings(moduleTemplate.settings, moduleValue.moduleSettings) || repaired;
+            }
+          }
         } else if (template.hasOwnProperty('settings')) {
           console.error(`Subsettings unsupported for setting (NAME: ${template.name}, TYPE: ${template.type})!`);
         }
@@ -209,6 +218,14 @@ class QLConfiguration {
           } else {
             // If one or more module(s) is selected, repair subsettings
             values[template.name].forEach((moduleValue, index) => {
+              // Get template
+              let subTypes = template.moduleType.split('/');
+              let moduleTemplate = this.templates.modules;
+              subTypes.forEach(subType => {
+                moduleTemplate = moduleTemplate[subType];
+              });
+              moduleTemplate = moduleTemplate[moduleValue.moduleName];
+              // Get module
               let pathToModule = path.join(this.modulesDirectory, template.moduleType, moduleValue.moduleName);
               let parsedModule = {
                 module: require(pathToModule),
@@ -218,12 +235,6 @@ class QLConfiguration {
               // Additional settings
               parseSettings(template.settings, moduleValue.additionalSettings)
               // Module settings
-              let subTypes = template.moduleType.split('/');
-              let moduleTemplate = this.templates.modules;
-              subTypes.forEach(subType => {
-                moduleTemplate = moduleTemplate[subType];
-              });
-              moduleTemplate = moduleTemplate[moduleValue.moduleName];
               parseSettings(moduleTemplate.settings, moduleValue.moduleSettings)
               // Add module
               values[template.name][index] = parsedModule;
