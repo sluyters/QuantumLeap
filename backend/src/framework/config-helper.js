@@ -124,7 +124,6 @@ class QLConfiguration {
           // If one or more module(s) is selected, repair subsettings
           for (let i = values[template.name].length - 1; i >= 0; i--) {
             let moduleValue = values[template.name][i];
-            console.log(values[template.name])
             // Get module template
             let subTypes = template.moduleType.split('/');
             let moduleTemplate = this.templates.modules;

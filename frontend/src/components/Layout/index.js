@@ -15,7 +15,7 @@ import { useHistory } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from "react-router";
 
-const drawerWidth = 300;
+const drawerWidth = 280;
 
 const styles = (theme) => ({
   root: {
