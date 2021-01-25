@@ -13,23 +13,30 @@ function loadDataset(name,directory){
     let gestureSet = new GestureSet(name);
     let dirPath = path.join(directory,name);
     let gestureIndex = 0;
+    let user = 0
     console.log("We LOADING")
 
     fs.readdirSync(dirPath).forEach((dir)=>{
         let gestureClassDirPath = path.join(dirPath,dir);
         let gestureClass = new GestureClass(dir,gestureIndex);
         gestureIndex+=1;
+        user += 1
+        let count = 0
         
         fs.readdirSync(gestureClassDirPath).forEach((file)=>{
+            
             let rawGesturePath = path.join(gestureClassDirPath,file);
             let rawGestureData = JSON.parse(fs.readFileSync(rawGesturePath));
-            let gestureData = new StrokeData();
+            let gestureData = new StrokeData(user,count,undefined);
+            count += 1
             let strokePath = new Path("main");
             gestureData.addPath("main",strokePath);
-            
+
+            let stroke = new Stroke(0);
+
             for(let i = 0 ; i < rawGestureData.table.length ; i++ ) {
+                let points = {}
                 var value = rawGestureData.table
-                let stroke = new Stroke(i);
                 if(value[i].type === "2D"){
                     let x = value[i].x;
                     let y = value[i].y;
@@ -43,15 +50,14 @@ function loadDataset(name,directory){
                     let t = value[i].count;
                     stroke.addPoint(new Point3D(x,y,z,t))
                 }
-                strokePath.addStroke(stroke);
+                                
             }
-           // console.log(gestureData)
+            strokePath.addStroke(stroke);
             gestureClass.addSample(gestureData);
         });
-        console.log(gestureClass)
         gestureSet.addGestureClass(gestureClass)
-        console.log(gestureSet)
     });
+    console.log(gestureSet)
 
     return gestureSet;
 }

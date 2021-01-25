@@ -95,7 +95,6 @@ config.server.port = 6442;							// Port of the server (for app interface)
 config.sensor = {
     module: TouchPadSensor,
     options: {
-        framerate: 60                               // Sensor framerate [images/seconds]
     }
 }
 
@@ -107,47 +106,54 @@ config.analyzer = {
 
 // Gesture Segmenter
 config.segmenter = {
-    module: WindowSegmenter,
+    module: FrameSegmenter,
     options: {
-        motionThreshold: 70,                        // Minimum hand motion to consider that the segment may be a gesture
-        minSegmentLength: 10,                       // Minimum length of a segment (if applicable) [#frames]
-        maxSegmentLength: 60,                       // Maximum length of a segment (if applicable) [#frames]
-        windowWidth: 20,                            // Width of the window (if applicable) [#frames]
-        intervalLength: 3,                          // Length of the interval between 2 consecutive segments (if applicable) [#frames]
-        pauseLength: 60,                            // Length of the pause after a gesture has been detected (if applicable) [#frames]
-        xBound: 120,                                // 1/2 width of the zone (if applicable) [mm]
-        zBound: 60                                  // 1/2 depth of the zone (if applicable) [mm]
+        // motionThreshold: 70,                        // Minimum hand motion to consider that the segment may be a gesture
+        // minSegmentLength: 10,                       // Minimum length of a segment (if applicable) [#frames]
+        // maxSegmentLength: 60,                       // Maximum length of a segment (if applicable) [#frames]
+        // windowWidth: 20,                            // Width of the window (if applicable) [#frames]
+        // intervalLength: 3,                          // Length of the interval between 2 consecutive segments (if applicable) [#frames]
+        // pauseLength: 60,                            // Length of the pause after a gesture has been detected (if applicable) [#frames]
+        // xBound: 70000,                                // 1/2 width of the zone (if applicable) [mm]
+        // zBound: 70000                                  // 1/2 depth of the zone (if applicable) [mm]
     }
 }
 
-// Gesture Dataset
+// // Gesture Dataset
 config.datasets.gesture = {
     directory: __dirname + "/datasets/gesture",
     loader: TouchPadDatasetLoader,
     name: "TouchPad",
     useCustomTemplatesPerClass: true,
-    templatesPerClass: 1,
+    templatesPerClass: 4,
     aggregateClasses: [
-        { name: "rhand_uswipe", classes: ["AirCircleLeft_SwipeLeft2D"] },
-        // { name: "rhand_dswipe", classes: ["swipe_down"] },
-        // { name: "rhand_lswipe", classes: ["swipe_left"] },
-        // { name: "rhand_rswipe", classes: ["swipe_right"] },
-        // { name: "rindex_airtap", classes: ["tap"] },
-        //{ name: "rhand_crotate", classes: ["turn_clockwise"] },
-        //{ name: "rhand_acrotate", classes: ["turn_counter_clockwise"] },
-        //{ name: "rhand_close", classes: ["pinch_in"] },
-        //{ name: "rhand_open", classes: ["pinch_out"] },
-        //{ name: "thumbs_up", classes: ["thumbs_up"] },
-        //{ name: "thumbs_down", classes: ["thumbs_down"] }
+        { name: "Test", classes: ["Only3D"] },
+       // { name: "Test", classes: ["Only3D"] },
+        
     ]
 } 
+
+// config.datasets.gesture = {	
+//     directory: __dirname + "/datasets/gesture",	
+//     loader: LeapMotionDatasetLoader,
+//     name: "guinevere",
+//     useCustomTemplatesPerClass: true,
+//     templatesPerClass: 16,	
+//     aggregateClasses: [	 
+//         { name: "rhand_uswipe", classes: ["swipe_up"] },	      
+//         //{ name: "rhand_dswipe", classes: ["swipe_down"] },	        
+//         // { name: "rhand_lswipe", classes: ["swipe_left"] },	        
+//         // { name: "rhand_rswipe", classes: ["swipe_right"] },	    
+//         // { name: "rindex_airtap", classes: ["tap"] },
+//     ]}
+
 
 //Pose Dataset
 config.datasets.pose = {
     directory: __dirname + "/datasets/pose",
     loader: LeapPoseDatasetLoader,
     name: "guinevre-pose",
-    useCustomTemplatesPerClass: true,
+    useCustomTemplatesPerClass: false,
     templatesPerClass: 100,
     aggregateClasses: []
 }
@@ -156,10 +162,9 @@ config.datasets.pose = {
 config.recognizer = {
     module: JackknifeRecognizer,
     options: {
-        palmThreshold: 50,
-        fingerThreshold: 15,
         samplingPoints: 16,                         // Number of sampling points [#points]
-        articulations: ["AirCircleLeft_SwipeLeft2D"],
+        articulations: ["main"],
+        // articulations: palms.right,
         //pathName: "rightPalmPosition"
     }
 }
@@ -168,10 +173,6 @@ config.recognizer = {
 config.classifier = {
     module: NoClassifier,
     options: {
-        bufferLength: 15,
-        poseRatioThreshold: 0.8,
-        alpha: 0.8,
-        articulations: articulationsRightHandDetailed
     }
 }
 
