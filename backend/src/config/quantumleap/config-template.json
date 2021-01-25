@@ -146,9 +146,8 @@
           "name": "aggregateClasses",
           "type": "GesturesSelector",
           "label": "Gestures",
-          "description": "The gestures that are used to train the recognizers(s). All the gestures are used if none is selected.",
+          "description": "The gestures that are used to train the recognizer(s). All the gestures are used if none is selected.",
           "datasetType": "static",
-          "settings": [],
           "default": []
         }
       ],
@@ -200,7 +199,6 @@
           "label": "Gestures",
           "description": "The gestures that are used to train the recognizer(s). All the gestures are used if none is selected.",
           "datasetType": "dynamic",
-          "settings": [],
           "default": []
         }
       ]
