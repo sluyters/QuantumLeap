@@ -2,7 +2,7 @@
   "label": "Sliding Window",
   "name": "window",
   "type": "segmenter",
-  "description": "TODO.",
+  "description": "A segmenter that triggers gesture recognition at regular intervals by relying on fixed-size buffers (windows). Each time a new frame is received, it is pushed in the window(s), while the oldest frame is removed. Every fixed number of frames, the buffered gesture data are sent to the recognizer.",
   "properties": {},
   "settings": [
     {
