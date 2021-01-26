@@ -6,12 +6,12 @@ const {Frame, Articulation} = require('../../../framework/frames/frame');
 
 //Web Socket Import
 var webSocketServer = require('ws').Server;
-var socket = new webSocketServer({port:8080})
+var socket = new webSocketServer({port:8081})
 var fs = require('fs');
 
 
 class Sensor extends AbstractSensor{
-    constructor(options){
+    constructor(){
         super("Touchpad-Interface");
     }
 
@@ -32,28 +32,31 @@ class Sensor extends AbstractSensor{
                     let y = data3D_received.y
                     let z = data3D_received.z
                     let t = data3D_received.count
-                    
+                    console.log(data3D_received)
 
                     let point3D = new Point3D(x,y,z,t);
-                    let articulation = new Articulation("Point3D",point3D);
+                    let articulation = new Articulation("main",point3D);
                     parsedFrame.addArticulation(articulation);
                 }
-                else if(received_info.type === "3D"){
+                else if(received_info.type === "2D"){
                     let data2D_received = received_info
                     let x = data2D_received.x
                     let y = data2D_received.y
                     let t = data2D_received.count
                     
+                    console.log(data2D_received)
 
                     let point2D = new Point2D(x,y,t);
-                    let articulation = new Articulation("Point2D",point2D);
+                    let articulation = new Articulation("main",point2D);
                     parsedFrame.addArticulation(articulation);
                 }
             })
         })
+        callback(parsedFrame, {});
     }
+
     stop(){
-        ws.onclose = function(event){
+        socket.onclose = function(event){
             console.log("TouchPad---Disconnected-----")
         }
     }

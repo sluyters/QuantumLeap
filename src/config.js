@@ -1,7 +1,7 @@
 // MODULES ----------------------------------------------------------------------------------------
 // Sensor Interfaces
 const LeapSensor = require('./implementation/sensors/leap-sensor/sensor').Sensor;
-const TouchPadSensor = require('./implementation/sensors/leap-sensor/sensor').Sensor;
+const TouchPadSensor = require('./implementation/sensors/touchPad/sensor').Sensor;
 
 // Pose Analyzers
 const NoAnalyzer = require('./implementation/analyzers/placeholder-analyzer/analyzer').Analyzer;
@@ -127,8 +127,8 @@ config.datasets.gesture = {
     useCustomTemplatesPerClass: true,
     templatesPerClass: 4,
     aggregateClasses: [
-        { name: "Test", classes: ["Only3D"] },
-       // { name: "Test", classes: ["Only3D"] },
+        { name: "rhand_uswipe", classes: ["Only3D"] },
+        { name: "rindex_airtap", classes: ["Only3D"] },
         
     ]
 } 

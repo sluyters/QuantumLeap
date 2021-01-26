@@ -57,10 +57,8 @@ class Recognizer extends AbstractRecognizer {
 }
 
 function convert(sample, articulations, name) {
+
     let jackknifeSample;
-    test = sample.paths
-    console.log(test.Paths)
-    //console.log(name)
     if (name) {
         jackknifeSample = new Sample(0, name);
     } else {
@@ -71,8 +69,9 @@ function convert(sample, articulations, name) {
     let threshold = 40;
     let initPoints = {};
 
+
     for (const articulation of articulations) {
-        console.log(articulation)
+        // console.log(sample.paths[articulation].strokes)
         initPoints[articulation] = sample.paths[articulation].strokes[0].points[0];
     }
     // check min distance END
@@ -84,6 +83,7 @@ function convert(sample, articulations, name) {
             let point = sample.paths[articulation].strokes[0].points[i];
             // check min distance START
             let articulationMovement = distance(point, initPoints[articulation]);
+            
             maxMovement = Math.max(maxMovement, articulationMovement);
             // check min distance END
             vCoordinates.push(point.x);
@@ -93,15 +93,20 @@ function convert(sample, articulations, name) {
         trajectory.push(new Vector(vCoordinates));
     }
     jackknifeSample.add_trajectory(trajectory);
+    // console.log(maxMovement)
     return maxMovement > threshold ? jackknifeSample : null;
 }
 
 function distance(p1, p2) // Euclidean distance between two points
 {
+    
 	var dx = p2.x - p1.x;
-	var dy = p2.y - p1.y;
-	var dz = p2.z - p1.z;
-	return Math.sqrt(dx * dx + dy * dy + dz * dz);
+    var dy = p2.y - p1.y;
+    var dz = p2.z - p1.z;
+    
+    let value = dx * dx + dy * dy + dz * dz
+    
+	return Math.sqrt(value);
 }
 
 module.exports = {

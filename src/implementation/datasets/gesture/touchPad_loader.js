@@ -57,7 +57,7 @@ function loadDataset(name,directory){
         });
         gestureSet.addGestureClass(gestureClass)
     });
-    console.log(gestureSet)
+    // console.log(gestureSet)
 
     return gestureSet;
 }

@@ -3,6 +3,18 @@ const http = require('http');
 const config = require('./config');
 const FrameProcessor = require('./framework/frame-processor').FrameProcessor;
 
+/////// NEW ////////////////////////////////////////////////
+const Point2D = require('./framework/gestures/Point').Point2D;
+const Point3D = require('./framework/gestures/Point').Point3D;
+const {Frame, Articulation} = require('./framework/frames/frame');
+
+//Web Socket Import
+var webSocketServer = require('ws').Server;
+var socket = new webSocketServer({port:8080})
+var fs = require('fs');
+
+///////////////////////////////////////////////
+
 // Load the modules
 const Sensor = config.sensor.module;
 
@@ -35,6 +47,7 @@ function run() {
                 }
             }
         });
+
         // Process sensor frames
         sensor.loop((frame, appData) => {
             let message = getMessage('data');
