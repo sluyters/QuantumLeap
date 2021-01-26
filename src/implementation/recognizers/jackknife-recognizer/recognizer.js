@@ -71,9 +71,9 @@ function convert(sample, articulations, name) {
 
 
     for (const articulation of articulations) {
-        // console.log(sample.paths[articulation].strokes)
         initPoints[articulation] = sample.paths[articulation].strokes[0].points[0];
     }
+
     // check min distance END
     let nFrames = sample.paths[articulations[0]].strokes[0].points.length;
     let trajectory = [];
@@ -92,8 +92,8 @@ function convert(sample, articulations, name) {
         }
         trajectory.push(new Vector(vCoordinates));
     }
+    
     jackknifeSample.add_trajectory(trajectory);
-    // console.log(maxMovement)
     return maxMovement > threshold ? jackknifeSample : null;
 }
 

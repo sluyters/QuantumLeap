@@ -177,7 +177,6 @@ function initDataset(config) {
             // Add the aggregate class to the new dataset
             newDataset.addGestureClass(newClass);
         });
-       // console.log(newDataset)
         return newDataset
     } else {
         // Select a number of templates from the dataset if required

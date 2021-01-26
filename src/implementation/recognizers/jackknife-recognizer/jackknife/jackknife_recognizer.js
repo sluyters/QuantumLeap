@@ -159,6 +159,7 @@ Jackknife.prototype.train = function(gpsr_n, gpsr_r, beta) {
         // to create one negative sample.
         for (var jj = 0; jj < 2; jj++) {
             var tt = Math.floor(Math.random() * template_cnt % template_cnt);
+            
             var s = this.templates[tt].sample;
             var len = s.trajectory.length;
 
