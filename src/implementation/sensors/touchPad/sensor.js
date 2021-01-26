@@ -19,12 +19,14 @@ class Sensor extends AbstractSensor{
         console.log("Hello")
 
         this.callback = callback;
-        
-        let parsedFrame = new Frame(0);
+       
 
         socket.on('connection',function(ws){
             console.log("TouchPad----Connected-----");
             ws.on('message',function(message){
+                 
+                let parsedFrame = new Frame(0);
+
                 var received_info = JSON.parse(message)
                 if(received_info.type === "3D"){
                     let data3D_received = received_info
@@ -32,7 +34,6 @@ class Sensor extends AbstractSensor{
                     let y = data3D_received.y
                     let z = data3D_received.z
                     let t = data3D_received.count
-                    console.log(data3D_received)
 
                     let point3D = new Point3D(x,y,z,t);
                     let articulation = new Articulation("main",point3D);
@@ -44,15 +45,16 @@ class Sensor extends AbstractSensor{
                     let y = data2D_received.y
                     let t = data2D_received.count
                     
-                    console.log(data2D_received)
 
-                    let point2D = new Point2D(x,y,t);
+                    let point2D = new Point3D(x,y,0,t);
                     let articulation = new Articulation("main",point2D);
                     parsedFrame.addArticulation(articulation);
                 }
+                parsedFrame.hasRightHand = true;
+                callback(parsedFrame, {});
             })
         })
-        callback(parsedFrame, {});
+        
     }
 
     stop(){

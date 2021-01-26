@@ -82,7 +82,9 @@ function convert(sample, articulations, name) {
         for (const articulation of articulations) {
             let point = sample.paths[articulation].strokes[0].points[i];
             // check min distance START
+           
             let articulationMovement = distance(point, initPoints[articulation]);
+            
             
             maxMovement = Math.max(maxMovement, articulationMovement);
             // check min distance END

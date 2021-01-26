@@ -39,7 +39,7 @@ class Segmenter extends AbstractSegmenter {
             this.bufferLength++;
         } else if (this.pauseCount == 0 && this.intervalCount == 0 && (frame.hasLeftHand || frame.hasRightHand)) {
             // Buffer full & ready
-            if (isMotion(this.frameBuffer, this.motionThreshold, ["rightPalmPosition", "rightThumbTipPosition", "rightIndexTipPosition"])) {
+          //  if (isMotion(this.frameBuffer, this.motionThreshold, ["rightPalmPosition", "rightThumbTipPosition", "rightIndexTipPosition"])) {
                 // Create the StrokeData object from the frames in the buffer
                 let strokeData = new StrokeData();
                 for (const articulation of frame.articulations) {
@@ -50,7 +50,7 @@ class Segmenter extends AbstractSegmenter {
                     stroke.points = this.frameBuffer[articulation.label].slice();
                 }
                 return strokeData;
-            }
+            //}
         }
         return null;
     }

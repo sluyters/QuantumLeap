@@ -106,14 +106,14 @@ config.analyzer = {
 
 // Gesture Segmenter
 config.segmenter = {
-    module: FrameSegmenter,
+    module: WindowSegmenter,
     options: {
-        // motionThreshold: 70,                        // Minimum hand motion to consider that the segment may be a gesture
+        motionThreshold: 70,                        // Minimum hand motion to consider that the segment may be a gesture
         // minSegmentLength: 10,                       // Minimum length of a segment (if applicable) [#frames]
         // maxSegmentLength: 60,                       // Maximum length of a segment (if applicable) [#frames]
-        // windowWidth: 20,                            // Width of the window (if applicable) [#frames]
-        // intervalLength: 3,                          // Length of the interval between 2 consecutive segments (if applicable) [#frames]
-        // pauseLength: 60,                            // Length of the pause after a gesture has been detected (if applicable) [#frames]
+        windowWidth: 20,                            // Width of the window (if applicable) [#frames]
+        intervalLength: 3,                          // Length of the interval between 2 consecutive segments (if applicable) [#frames]
+        pauseLength: 60,                            // Length of the pause after a gesture has been detected (if applicable) [#frames]
         // xBound: 70000,                                // 1/2 width of the zone (if applicable) [mm]
         // zBound: 70000                                  // 1/2 depth of the zone (if applicable) [mm]
     }
@@ -127,8 +127,8 @@ config.datasets.gesture = {
     useCustomTemplatesPerClass: true,
     templatesPerClass: 4,
     aggregateClasses: [
-        { name: "rhand_uswipe", classes: ["Only3D"] },
-        { name: "rindex_airtap", classes: ["Only3D"] },
+        { name: "rhand_uswipe", classes: ["SwipeRightTouch"] },
+        { name: "rindex_airtap", classes: ["AirCircleLeft"] },
         
     ]
 } 
