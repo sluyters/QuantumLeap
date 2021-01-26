@@ -8,7 +8,6 @@ const Sensor = config.sensor.module;
 
 // Main function
 function run() {
-    console.log("TEst")
     // Initialize the sensor interface, dataset, recognizer and segmenter
     var sensor = new Sensor(config.sensor.options);
     var frameProcessor = new FrameProcessor(config);

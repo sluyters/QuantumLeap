@@ -69,7 +69,6 @@ function convert(sample, articulations, name) {
     let threshold = 40;
     let initPoints = {};
 
-
     for (const articulation of articulations) {
         initPoints[articulation] = sample.paths[articulation].strokes[0].points[0];
     }
@@ -87,7 +86,7 @@ function convert(sample, articulations, name) {
             
             
             maxMovement = Math.max(maxMovement, articulationMovement);
-            // check min distance END
+           // check min distance END  
             vCoordinates.push(point.x);
             vCoordinates.push(point.y);
             vCoordinates.push(point.z);

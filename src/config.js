@@ -128,7 +128,7 @@ config.datasets.gesture = {
     templatesPerClass: 4,
     aggregateClasses: [
         { name: "rhand_uswipe", classes: ["SwipeRightTouch"] },
-        { name: "rindex_airtap", classes: ["AirCircleLeft"] },
+        { name: "rindex_airtap", classes: ["SwipeRightDoubleTouch"] },
         
     ]
 } 
@@ -162,8 +162,8 @@ config.datasets.pose = {
 config.recognizer = {
     module: JackknifeRecognizer,
     options: {
-        samplingPoints: 16,                         // Number of sampling points [#points]
-        articulations: ["main"],
+        samplingPoints: 16,                          // Number of sampling points [#points]
+        articulations: ["2DTouch2"],
         // articulations: palms.right,
         //pathName: "rightPalmPosition"
     }
