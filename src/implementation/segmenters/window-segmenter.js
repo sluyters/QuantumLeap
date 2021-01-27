@@ -24,11 +24,11 @@ class Segmenter extends AbstractSegmenter {
         } else {
             for (const articulation of frame.articulations) {
                 // Add the position of this articulation to the buffer
-                this.frameBuffer[articulation.label].push(articulation.point);
+                this.frameBuffer[articulation.label].push(articulation.point); 
                 if (this.bufferLength >= this.windowWidth) {
                     // Shift items in buffer
                     this.frameBuffer[articulation.label].shift();
-                }
+                }  
             }
         }
         // Increment pause count
