@@ -66,7 +66,7 @@ function convert(sample, articulations, name) {
     }
     // check min distance START
     let maxMovement = 0;
-    let threshold = 40;
+    let threshold = -1;
     let initPoints = {};
 
     for (const articulation of articulations) {

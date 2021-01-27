@@ -61,22 +61,33 @@ function loadDataset(name,directory){
                     }
                     if(nbr_fingers == 1){
                         stroke2D1.addPoint(points2D_tab[0])
+                        stroke2D2.addPoint(new Point3D(0,0,0,0))
+                        stroke2D3.addPoint(new Point3D(0,0,0,0))
+                        stroke3D.addPoint(new Point3D(0,0,0,0))
                     }
-                    else if(nbr_fingers === 2){
+                    else if(nbr_fingers == 2){
                         let it = 0
                         while(it< 2){
                             stroke2D2.addPoint(points2D_tab[it])
+                            stroke2D1.addPoint(new Point3D(0,0,0,0))
+                            stroke2D3.addPoint(new Point3D(0,0,0,0))
+                            stroke3D.addPoint(new Point3D(0,0,0,0))
                             it += 1
                         }
+                        i += 1
                     }
                     else{
                         let it = 0
                         while(it< 3){
                             stroke2D3.addPoint(points2D_tab[it])
+                            stroke2D2.addPoint(new Point3D(0,0,0,0))
+                            stroke2D1.addPoint(new Point3D(0,0,0,0))
+                            stroke3D.addPoint(new Point3D(0,0,0,0))
                             it += 1
                         }
+                        i += count - 1
                     }
-                    i += count;
+    
                 }
                 else if(value[i].type === "3D"){
                     let x = value[i].x;
@@ -84,6 +95,9 @@ function loadDataset(name,directory){
                     let z = value[i].z;
                     let t = value[i].count;
                     stroke3D.addPoint(new Point3D(x,y,z,t))
+                    stroke2D2.addPoint(new Point3D(0,0,0,0))
+                    stroke2D1.addPoint(new Point3D(0,0,0,0))
+                    stroke2D3.addPoint(new Point3D(0,0,0,0))
                 }
                                 
             }

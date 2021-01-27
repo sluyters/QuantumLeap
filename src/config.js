@@ -127,8 +127,8 @@ config.datasets.gesture = {
     useCustomTemplatesPerClass: true,
     templatesPerClass: 4,
     aggregateClasses: [
-        { name: "rhand_uswipe", classes: ["SwipeRight1Touch"] },
-        { name: "rindex_airtap", classes: ["SwipeLeft1Touch"] },
+        { name: "rhand_uswipe", classes: ["SwipeLeft1Touch"] },
+        { name: "rindex_airtap", classes: ["SwipeLeft2Touch"] },
         
     ]
 } 
@@ -155,17 +155,17 @@ config.datasets.pose = {
     name: "guinevre-pose",
     useCustomTemplatesPerClass: false,
     templatesPerClass: 100,
-    aggregateClasses: []
+    aggregateClasses: [] 
 }
 
 // Gesture Recognizer
 config.recognizer = {
-    module: PDollarPlusRecognizer,
+    module: JackknifeRecognizer,
     options: {
         samplingPoints: 16,                          // Number of sampling points [#points]
-        articulations: ["2DTouch1"],
+        articulations: ["2DTouch1","2DTouch2"],
         // articulations: palms.right,
-        pathName: "2DTouch1"
+        //pathName: "2DTouch1"
     }
 }
 

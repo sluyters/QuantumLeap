@@ -32,6 +32,7 @@ class Sensor extends AbstractSensor{
                 let parsedFrame = new Frame(0);
 
                 var received_info = JSON.parse(message)
+                var basic_point = new Point3D(0,0,0,0)
 
 
                 if(received_info.type === "2D"){
@@ -54,6 +55,9 @@ class Sensor extends AbstractSensor{
                         if(actual_count != data2D_received.count){
                             if (count_fingers == 1){
                                 parsedFrame.addArticulation(new Articulation("2DTouch1",points2D_tab[0]))
+                                parsedFrame.addArticulation(new Articulation("3D",basic_point))
+                                parsedFrame.addArticulation(new Articulation("2DTouch2",basic_point))
+                                parsedFrame.addArticulation(new Articulation("2DTouch3",basic_point))
                                 parsedFrame.hasRightHand = true;
                                 callback(parsedFrame, {});
                                 
@@ -64,6 +68,9 @@ class Sensor extends AbstractSensor{
                                 let it = 0
                                 while(it< 2){
                                     parsedFrame.addArticulation(new Articulation("2DTouch2",points2D_tab[it]))
+                                    parsedFrame.addArticulation(new Articulation("3D",basic_point))
+                                    parsedFrame.addArticulation(new Articulation("2DTouch1",basic_point))
+                                    parsedFrame.addArticulation(new Articulation("2DTouch2",basic_point))
                                     parsedFrame.hasRightHand = true;
                                     callback(parsedFrame, {});
                                     it += 1
@@ -79,6 +86,9 @@ class Sensor extends AbstractSensor{
                                 let it = 0
                                 while(it< 3){
                                     parsedFrame.addArticulation(new Articulation("2DTouch3",points2D_tab[it]))
+                                    parsedFrame.addArticulation(new Articulation("3D",basic_point))
+                                    parsedFrame.addArticulation(new Articulation("2DTouch2",basic_point))
+                                    parsedFrame.addArticulation(new Articulation("2DTouch1",basic_point))
                                     parsedFrame.hasRightHand = true;
                                     callback(parsedFrame, {});
                                     it += 1
@@ -104,6 +114,9 @@ class Sensor extends AbstractSensor{
                     if (previous2DData == true){
                         if(count_fingers == 1){
                             parsedFrame.addArticulation(new Articulation("2DTouch1",points2D_tab[0]))
+                            parsedFrame.addArticulation(new Articulation("3D",basic_point))
+                            parsedFrame.addArticulation(new Articulation("2DTouch2",basic_point))
+                            parsedFrame.addArticulation(new Articulation("2DTouch3",basic_point))
                             parsedFrame.hasRightHand = true;
                             callback(parsedFrame, {});
                         }
@@ -111,6 +124,9 @@ class Sensor extends AbstractSensor{
                             let it = 0
                             while(it < count_fingers){
                                 parsedFrame.addArticulation(new Articulation("2DTouch2",points2D_tab[it]))
+                                parsedFrame.addArticulation(new Articulation("3D",basic_point))
+                                parsedFrame.addArticulation(new Articulation("2DTouch1",basic_point))
+                                parsedFrame.addArticulation(new Articulation("2DTouch3",basic_point))
                                 parsedFrame.hasRightHand = true;
                                 callback(parsedFrame, {});
                                 it += 1
@@ -120,6 +136,9 @@ class Sensor extends AbstractSensor{
                             let it = 0
                             while(it < 3){
                                 parsedFrame.addArticulation(new Articulation("2DTouch3",points2D_tab[it]))
+                                parsedFrame.addArticulation(new Articulation("3D",basic_point))
+                                parsedFrame.addArticulation(new Articulation("2DTouch1",basic_point))
+                                parsedFrame.addArticulation(new Articulation("2DTouch2",basic_point))
                                 parsedFrame.hasRightHand = true;
                                 callback(parsedFrame, {});
                                 it += 1
@@ -141,6 +160,9 @@ class Sensor extends AbstractSensor{
                     let point3D = new Point3D(x,y,z,t);
                     let articulation = new Articulation("3D",point3D);
                     parsedFrame.addArticulation(articulation);
+                    parsedFrame.addArticulation(new Articulation("2DTouch1",basic_point))
+                    parsedFrame.addArticulation(new Articulation("2DTouch2",basic_point))
+                    parsedFrame.addArticulation(new Articulation("2DTouch3",basic_point))
                     
                     parsedFrame.hasRightHand = true;
                     callback(parsedFrame, {});
