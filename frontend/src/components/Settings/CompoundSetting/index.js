@@ -8,19 +8,23 @@ import Setting from '../Setting';
 const styles = (theme) => ({
   root: {
     margin: theme.spacing(1),
+  },
+  itemsOverview: {
     border: `solid 1px ${theme.palette.divider}`,
+    maxHeight: '500px',
+    overflowY: 'auto',
   },
   item: {
     padding: theme.spacing(1.5, 2),
   },
   addItemButton: {
-    margin: theme.spacing(1.5, 2),
-  },
+    marginTop: theme.spacing(1),
+  }
 });
 
 class CompoundSetting extends React.Component {
   render() {
-    const { classes } = this.props;
+    const { classes, theme } = this.props;
     // Unchanged for each setting
     const { templates, values } = this.props;
     // Each module has the props, but their value can change
@@ -46,42 +50,57 @@ class CompoundSetting extends React.Component {
       newValue.splice(index, 1);
       handleChange(path, newValue);
     }
+
+    let error = minNumber !== undefined && this.props.value.length < minNumber;
+
     return (
-      <Paper className={classes.root} elevation={0}>
-        {/* For each element in value, display it */}
-        {this.props.value.map((item, index) => (
-          <div key= {item.uuid}>
-            <div className={classes.item}>
-              <Typography variant='overline'>
-                {`${itemName} ${index + 1}`}
-                <IconButton onClick={deleteItem(index)}>
-                  <DeleteIcon/>
-                </IconButton>
-              </Typography>
-              {/* Render the settings for the item */}
-              {(settings.length > 0) && (
-                settings.map((setting, settingIndex) => (
-                  <Setting 
-                    key={`${item.uuid}-${settingIndex}`}
-                    templates={templates}
-                    values={values}
-                    handleChange={handleSettingChange(index)}
-                    level={level + 1}
-                    path={[]}
-                    value={item[setting.name]}
-                    setting={setting}
-                  />
-                ))
-              )}
+      <div className={classes.root}>
+        <Paper className={classes.itemsOverview} style={{border: error ? '1px solid red' : ''}} elevation={0}>
+          {/* For each element in value, display it */}
+          {this.props.value.map((item, index) => (
+            <div key= {item.uuid}>
+              <div className={classes.item}>
+                <Typography variant='h6'>
+                  {itemName} {index + 1}
+                  <IconButton onClick={deleteItem(index)}>
+                    <DeleteIcon/>
+                  </IconButton>
+                </Typography>
+                {/* Render the settings for the item */}
+                {(settings.length > 0) && (
+                  settings.map((setting, settingIndex) => (
+                    <Setting 
+                      key={`${item.uuid}-${settingIndex}`}
+                      templates={templates}
+                      values={values}
+                      handleChange={handleSettingChange(index)}
+                      level={level + 1}
+                      path={[]}
+                      value={item[setting.name]}
+                      setting={setting}
+                    />
+                  ))
+                )}
+              </div>
+              {index < this.props.value.length - 1 && <Divider/>}
             </div>
-            <Divider/>
-          </div>
-        ))}
+          ))}
+          {this.props.value.length === 0 && 
+            <Typography style={{padding: theme.spacing(1)}}>
+              No {itemName} selected.
+            </Typography>
+          }
+        </Paper>
+        {error && 
+          <div style={{marginLeft: theme.spacing(2), marginRight: theme.spacing(2)}}>
+            <Typography color='error' variant='caption'>At least {minNumber} {itemName}(s) should be selected!</Typography>
+          </div>  
+        }
         {/* Button to add an element */}
-        <Button className={classes.addItemButton} variant='contained' color="secondary" onClick={addItem}>
-          Add
+        <Button className={classes.addItemButton} variant='outlined' onClick={addItem}>
+          Add {itemName}
         </Button>
-      </Paper>
+      </div>
     ); 
   }
 }

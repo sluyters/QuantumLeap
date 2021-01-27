@@ -23,9 +23,9 @@ class Setting extends React.Component {
           {(setting.type === 'Category') ? (
             '' 
           ) : ( 
-            <Typography variant='subtitle1' style={{display:'flex', alignItems:'center'}}>
+            <Typography style={{display:'flex', alignItems:'center', fontWeight: 600}}>
               {setting.label}
-          <Tooltip title={<Typography variant='subtitle1'>{setting.description}</Typography>} style={{ marginLeft: theme.spacing(1)}} arrow> 
+            <Tooltip title={<Typography>{setting.description}</Typography>} style={{ marginLeft: theme.spacing(1)}} arrow> 
                 <InfoOutlinedIcon fontSize='small'/>
               </Tooltip>
             </Typography>

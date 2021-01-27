@@ -3,24 +3,28 @@ import { v4 as uuidv4 } from 'uuid';
 import { Grid, Button, IconButton, TextField, Typography, Box, Paper, Divider } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, withTheme } from '@material-ui/core/styles'
 
 const TIMEOUT_VALUE = 500;
 
 const styles = (theme) => ({
   root: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(1)
+  },
+  gesturesOverview: {
     border: `solid 1px ${theme.palette.divider}`,
+    maxHeight: '300px',
+    overflowY: 'auto',
   },
   gesture: {
     padding: theme.spacing(1.5, 2),
   },
-  addGestureButton: {
-    margin: theme.spacing(1.5, 2),
-  },
   gestureInfo: {
     width: '100%'
   },
+  addGestureButton: {
+    marginTop: theme.spacing(1),
+  }
 });
 
 class GesturesSelector extends React.Component {
@@ -38,7 +42,7 @@ class GesturesSelector extends React.Component {
     const { handleChange, level, path, value } = this.props;
     // Unique to each module
     const { datasetType } = this.props;
-    const { classes } = this.props;
+    const { classes, theme } = this.props;
 
     // Retrieve dataset-loaders & datasets infos
     const datasetLoaders = values.main.settings.datasets[datasetType].modules;
@@ -97,26 +101,33 @@ class GesturesSelector extends React.Component {
     }
     // The level will impact the size, boldness, of the setting
     return (
-      <Paper className={classes.root} elevation={0}>
-        {/* For each element in value, display it */}
-        {this.state.value.map((gesture, index) => (
-          <div key={gesture.uuid}>
-            <Gesture
-              classes={classes}
-              name={gesture.name}
-              gestureClasses={gesture.gestureClasses}
-              availableGestures={availableGestures}
-              onChange={changeGesture(index)}
-              onDelete={deleteGesture(index)}
-            />
-            <Divider/>
-          </div>
-        ))}
+      <div className={classes.root}>
+        <Paper className={classes.gesturesOverview} elevation={0}>
+          {/* For each element in value, display it */}
+          {this.state.value.map((gesture, index) => (
+            <div key={gesture.uuid}>
+              <Gesture
+                classes={classes}
+                name={gesture.name}
+                gestureClasses={gesture.gestureClasses}
+                availableGestures={availableGestures}
+                onChange={changeGesture(index)}
+                onDelete={deleteGesture(index)}
+              />
+              {index < this.state.value.length - 1 && <Divider/>}
+            </div>
+          ))}
+          {this.state.value.length === 0 && 
+            <Typography style={{padding: theme.spacing(1)}}>
+              No gesture selected.
+            </Typography>
+          }
+        </Paper>
         {/* Button to add an element */}
-        <Button className={classes.addGestureButton} variant='contained' color="secondary" onClick={addGesture}>
-          Add
+        <Button className={classes.addGestureButton} variant='outlined' onClick={addGesture}>
+          Add gesture
         </Button>
-      </Paper>
+      </div>
     );
   }
 }
@@ -189,4 +200,4 @@ class Gesture extends React.Component {
   }
 }
 
-export default withStyles(styles)(GesturesSelector);
+export default withTheme(withStyles(styles)(GesturesSelector));

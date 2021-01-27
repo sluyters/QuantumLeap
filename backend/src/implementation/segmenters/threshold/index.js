@@ -7,12 +7,12 @@ class Segmenter extends AbstractSegmenter {
     let thresholds = options.moduleSettings.thresholds.map((threshold) => {
       return {
         point: parsePointsNames(threshold.point)[0],
+        property: threshold.property,
         min: threshold.lowerBound,
         max: threshold.upperBound,
         abs: threshold.abs,
       };
     })
-    // this.monitoredArticulations = parsePointsNames(options.moduleSettings.monitoredArticulations);
     this.frameBuffer = [];
     let mode = options.moduleSettings.mode;
     
@@ -22,7 +22,7 @@ class Segmenter extends AbstractSegmenter {
         let threshold = thresholds[i];
         // Get point value
         let point = frame.getArticulation(threshold.point).point;
-        let value = point.x; // TODO change when better representation of the points
+        let value = point[property]; // TODO change when better representation of the points
         // If abs, get absolute value
         if (threshold.abs) {
           value = Math.abs(value);

@@ -22,7 +22,7 @@ const styles = (theme) => ({
     display: 'flex',
   },
   appBar: {
-    zIndex: 1400,
+    zIndex: 1250,
   },
   drawerContainer: {
     width: drawerWidth,

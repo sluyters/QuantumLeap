@@ -21,6 +21,15 @@
           "default": {}
         },
         {
+          "type": "TextInput",
+          "name": "property",
+          "label": "Point property",
+          "description": "The property of the point to compare to the threshold (e.g., x, y, z, dx,...).",
+          "minLength": 1,
+          "maxLength": null,
+          "default": ""
+        },
+        {
           "type": "FloatInput",
           "name": "lowerBound",
           "label": "Lower bound",

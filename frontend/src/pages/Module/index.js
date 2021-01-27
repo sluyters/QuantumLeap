@@ -1,9 +1,10 @@
 import React from 'react';
 import axios from 'axios'
-import { Typography, Button, ButtonGroup } from '@material-ui/core';
+import { Typography, Button, ButtonGroup, Snackbar } from '@material-ui/core';
 import { withStyles, withTheme } from '@material-ui/core/styles';
 import { Setting } from '../../components/Settings';
 import { withRouter } from "react-router";
+import { Alert } from '@material-ui/lab';
 
 // Change
 const URL = 'http://127.0.0.1:6442'
@@ -30,10 +31,13 @@ class Module extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      alert: '',
+      alertMessage: '',
       templates: '',
       values: '',
       componentKey: Date.now(), // Necessary to ensure that state is reset across all sub-components
     };
+    this.handleAlertClose = this.handleAlertClose.bind(this);
     this.handleValueChange = this.handleValueChange.bind(this);
     this.fetchData = this.fetchData.bind(this);
     this.fetchValues = this.fetchValues.bind(this);
@@ -66,7 +70,7 @@ class Module extends React.Component {
 
   render() {
     const { classes, history, routesInfos } = this.props;
-    const { templates, values, componentKey } = this.state;
+    const { alert, alertMessage, templates, values, componentKey } = this.state;
 
     let path = [ 'main', 'settings' ];
     const route = history.location.pathname;
@@ -128,8 +132,20 @@ class Module extends React.Component {
             No settings available.
           </Typography>
         )}
+        {/* <Snackbar open={alert ? true : false} autoHideDuration={5000} onClose={this.handleAlertClose}>
+          <Alert variant='filled' severity={alert}>
+            {alertMessage}
+          </Alert>
+        </Snackbar> */}
       </div>
     );
+  }
+
+  handleAlertClose() {
+    this.setState({
+      alert: '',
+      alertMessage: '',
+    });
   }
 
   handleValueChange(valuePath, value) {
@@ -180,9 +196,17 @@ class Module extends React.Component {
     return axios.put(`${URL}/quantumleap/values`, { data: this.state.values })
     .then((res) => {
         console.log(res);
+        this.setState({
+          alert: 'success',
+          alertMessage: 'Changes saved!'
+        });
         console.log('Data saved');
       })
       .catch((err) => {
+        this.setState({
+          alert: 'error',
+          alertMessage: 'Failed to save the changes!'
+        });
         console.error(err.message);
       });
   }

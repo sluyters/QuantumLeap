@@ -75,9 +75,12 @@ class ModuleSelector extends React.Component {
       }
       // Render the module
       renderedSelected.push(
-        <Accordion key={key} defaultExpanded={true}>
+        <Accordion key={key} defaultExpanded={false}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Box width={1}>
+              <Typography variant='h6'>
+                Module {moduleIndex + 1}
+              </Typography>
               {/* Render the dropdown list */}
               <FormControl variant="outlined">
                 <Select value={modulesNames.indexOf(module.moduleName)} onClick={(event) => event.stopPropagation()} onChange={(event) => handleModuleSelection(moduleIndex, event)}>
@@ -100,7 +103,10 @@ class ModuleSelector extends React.Component {
           </AccordionSummary>
           <AccordionDetails>
             <Box width={1}>
-            {(template.settings.length === 0 && settings.length === 0) ? (
+              <Typography variant='h6'>
+                Settings
+              </Typography>
+              {(template.settings.length === 0 && settings.length === 0) ? (
                 <Typography variant='body1'>
                   No settings available.
                 </Typography>

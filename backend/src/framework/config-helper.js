@@ -1,6 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Imports
-const { settings } = require('cluster');
 const fs = require('fs');
 const path = require('path');
 
@@ -28,6 +27,11 @@ class QLConfiguration {
     this.values = {};
   }
 
+  /**
+   * Load and check the configuration file. If no configuration file is found, 
+   * build a new (default) configuration. If the configuration file is not 
+   * valid, repair it.
+   */
   load() {
     // Load the configuration
     console.log('Loading templates...');
@@ -53,6 +57,29 @@ class QLConfiguration {
    * Load the config templates
    */
   loadTemplates() {
+    // Helper
+    const initData = (directory, filename) => {
+      let data = {};
+      let items = fs.readdirSync(directory, { withFileTypes: true });
+      for (let i = 0; i < items.length; i++) {
+        let item = items[i];
+        const itemPath = path.join(directory, item.name);
+        if (item.isDirectory()) {
+          let subData = initData(itemPath, filename);
+          if (Object.keys(subData).length !== 0) {
+            data[item.name] = subData;
+          }
+        } else if (item.name === filename) {
+          try {
+            let parsedData = JSON.parse(fs.readFileSync(itemPath));
+            return parsedData;
+          } catch (err) {
+            console.error(`Failed to load data at ${itemPath}). Details: ${err.stack}`);
+          }
+        }
+      }
+      return data;
+    };
     let newConfigDefs = {}
     try {
       // Load main config definition
@@ -84,6 +111,9 @@ class QLConfiguration {
     return true;
   }
 
+  /**
+   * Repair the values by comparing existing values with the templates.
+   */
   repairValues() {
     // Helper functions
     const repairValuesHelper = (settings, values) => {
@@ -186,6 +216,10 @@ class QLConfiguration {
     return true;
   }
 
+  /**
+   * Return a configuration usable by QuantumLeap. Import the selected modules 
+   * or a placeholder module if no module is selected.
+   */
   toQLConfig() {
     const parseValues = (settings, values) => {
       if (Array.isArray(settings)) {
@@ -282,32 +316,6 @@ class QLConfiguration {
   
   }
 
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Helpers
-
-function initData(directory, filename) {
-  let data = {};
-  let items = fs.readdirSync(directory, { withFileTypes: true });
-  for (let i = 0; i < items.length; i++) {
-    let item = items[i];
-    const itemPath = path.join(directory, item.name);
-    if (item.isDirectory()) {
-      let subData = initData(itemPath, filename);
-      if (Object.keys(subData).length !== 0) {
-        data[item.name] = subData;
-      }
-    } else if (item.name === filename) {
-      try {
-        let parsedData = JSON.parse(fs.readFileSync(itemPath));
-        return parsedData;
-      } catch (err) {
-        console.error(`Failed to load data at ${itemPath}). Details: ${err.stack}`);
-      }
-    }
-  }
-  return data;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
