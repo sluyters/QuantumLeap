@@ -41,8 +41,13 @@ function loadDataset(name,directory){
             let stroke2D1 = new Stroke("2DTouch1")
             let stroke2D2 = new Stroke("2DTouch2")
             let stroke2D3 = new Stroke("2DTouch3")
+
+            let basic_point = new Point3D(0,0,0,0)
             
             for(let i = 0 ; i < rawGestureData.table.length ; i++ ) {
+                if (i > 0){
+                    basic_point = new Point3D(0,0,0,0)
+                }
                 var value = rawGestureData.table
                 if(value[i].type === "2D"){
                     points2D_tab = []
@@ -61,17 +66,17 @@ function loadDataset(name,directory){
                     }
                     if(nbr_fingers == 1){
                         stroke2D1.addPoint(points2D_tab[0])
-                        stroke2D2.addPoint(new Point3D(0,0,0,0))
-                        stroke2D3.addPoint(new Point3D(0,0,0,0))
-                        stroke3D.addPoint(new Point3D(0,0,0,0))
+                        stroke2D2.addPoint(basic_point)
+                        stroke2D3.addPoint(basic_point)
+                        stroke3D.addPoint(basic_point)
                     }
                     else if(nbr_fingers == 2){
                         let it = 0
                         while(it< 2){
                             stroke2D2.addPoint(points2D_tab[it])
-                            stroke2D1.addPoint(new Point3D(0,0,0,0))
-                            stroke2D3.addPoint(new Point3D(0,0,0,0))
-                            stroke3D.addPoint(new Point3D(0,0,0,0))
+                            stroke2D1.addPoint(basic_point)
+                            stroke2D3.addPoint(basic_point)
+                            stroke3D.addPoint(basic_point)
                             it += 1
                         }
                         i += 1
@@ -80,9 +85,9 @@ function loadDataset(name,directory){
                         let it = 0
                         while(it< 3){
                             stroke2D3.addPoint(points2D_tab[it])
-                            stroke2D2.addPoint(new Point3D(0,0,0,0))
-                            stroke2D1.addPoint(new Point3D(0,0,0,0))
-                            stroke3D.addPoint(new Point3D(0,0,0,0))
+                            stroke2D2.addPoint(basic_point)
+                            stroke2D1.addPoint(basic_point)
+                            stroke3D.addPoint(basic_point)
                             it += 1
                         }
                         i += count - 1
@@ -95,9 +100,9 @@ function loadDataset(name,directory){
                     let z = value[i].z;
                     let t = value[i].count;
                     stroke3D.addPoint(new Point3D(x,y,z,t))
-                    stroke2D2.addPoint(new Point3D(0,0,0,0))
-                    stroke2D1.addPoint(new Point3D(0,0,0,0))
-                    stroke2D3.addPoint(new Point3D(0,0,0,0))
+                    stroke2D2.addPoint(basic_point)
+                    stroke2D1.addPoint(basic_point)
+                    stroke2D3.addPoint(basic_point)
                 }
                                 
             }

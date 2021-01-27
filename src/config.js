@@ -125,10 +125,12 @@ config.datasets.gesture = {
     loader: TouchPadDatasetLoader,
     name: "TouchPad",
     useCustomTemplatesPerClass: true,
-    templatesPerClass: 4,
+    templatesPerClass: 8,
     aggregateClasses: [
-        { name: "rhand_uswipe", classes: ["SwipeLeft1Touch"] },
-        { name: "rindex_airtap", classes: ["SwipeLeft2Touch"] },
+        { name: "rhand_uswipe", classes: ["SwipeRight1Touch"] },
+        { name: "rindex_airtap", classes: ["AirSwipeLeft"] },
+        { name: "rhand_lswipe", classes: ["SwipeLeft1Touch"] },
+        { name: "rhand_rswipe", classes: ["AirSwipeRight"] },
         
     ]
 } 
@@ -163,9 +165,9 @@ config.recognizer = {
     module: JackknifeRecognizer,
     options: {
         samplingPoints: 16,                          // Number of sampling points [#points]
-        articulations: ["2DTouch1","2DTouch2"],
+        articulations: ["3D","2DTouch1","2DTouch2","2DTouch3"],
         // articulations: palms.right,
-        //pathName: "2DTouch1"
+        //pathName: "3D"
     }
 }
 

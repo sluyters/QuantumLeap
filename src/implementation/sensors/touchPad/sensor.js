@@ -23,6 +23,7 @@ class Sensor extends AbstractSensor{
         var points2D_tab = []
         var actual_count = -1
         var count_fingers = 1
+        var basic_point = new Point3D(0,0,0,0)
 
 
         socket.on('connection',function(ws){
@@ -32,7 +33,6 @@ class Sensor extends AbstractSensor{
                 let parsedFrame = new Frame(0);
 
                 var received_info = JSON.parse(message)
-                var basic_point = new Point3D(0,0,0,0)
 
 
                 if(received_info.type === "2D"){
@@ -70,7 +70,7 @@ class Sensor extends AbstractSensor{
                                     parsedFrame.addArticulation(new Articulation("2DTouch2",points2D_tab[it]))
                                     parsedFrame.addArticulation(new Articulation("3D",basic_point))
                                     parsedFrame.addArticulation(new Articulation("2DTouch1",basic_point))
-                                    parsedFrame.addArticulation(new Articulation("2DTouch2",basic_point))
+                                    parsedFrame.addArticulation(new Articulation("2DTouch3",basic_point))
                                     parsedFrame.hasRightHand = true;
                                     callback(parsedFrame, {});
                                     it += 1
@@ -167,6 +167,7 @@ class Sensor extends AbstractSensor{
                     parsedFrame.hasRightHand = true;
                     callback(parsedFrame, {});
                 }
+                basic_point = new Point3D(1000000,1000000,1000000,0)
                 
             })
         })
