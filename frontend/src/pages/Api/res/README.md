@@ -31,11 +31,74 @@ let gestureHandler = new GestureHandler({ timeout: 5000, requireRegistration: fa
 
 Methods
 -------
+### addListener(eventName, listener)
+Attach the handler function to the event. The function will be triggered each time the event occurs. Any number of listeners can be attached to an event.
+
+  * `eventName` - **string** - The name of [event](#events).
+  * `listener` - **function** - A listener function.
+
+```javascript
+gestureHandler.addListener('frame', (event) => {
+  console.log('Frame received!');
+});
+```
+
+### connect([addr])
+Connect to the QuantumLeap framework.
+
+  * `addr` - **string** - *Default: 'ws://127.0.0.1:6442'* - The address of a running instance of QuantumLeap framework.
+
+```javascript
+gestureHandler.connect();
+```
+
+### disconnect()
+Disconnect from the QuantumLeap framework.
+
+```javascript
+gestureHandler.disconnect();
+```
+
 ### registerGestures(type, names)
 Register gestures to the QuantumLeap framework. If `requireRegistration` is set to *true*, `gesture` events are triggered for each registered gesture.
 
   * `type` - **'static' | 'dynamic'** - The type of the gesture(s) to register.
   * `names` - **string | string[]** - The name(s) of the gesture(s) to register.
+
+```javascript
+gestureHandler.registerGestures('dynamic', ['circle', 'tap']);
+```
+
+### removeAllListeners([eventName])
+Remove all listeners attached to the event. If `eventName` is omitted, all listeners attached to all events will be removed.
+
+  * `eventName` - **string** - The name of [event](#events). If omitted, all listeners will be removed for all events.
+
+```javascript
+let listener1 = () => {
+  // ...
+};
+let listener2 = () => {
+  // ...
+};
+gestureHandler.addListener('frame', listener);
+gestureHandler.addListener('frame', listener2);
+gestureHandler.removeAllListeners('frame');
+```
+
+### removeListener(eventName, listener)
+Remove the listener attached to the event.
+
+  * `eventName` - **string** - The name of [event](#events).
+  * `listener` - **function** - The listener function to remove.
+
+```javascript
+let listener = () => {
+  // ...
+};
+gestureHandler.addListener('frame', listener);
+gestureHandler.removeListener('frame', listener);
+```
 
 ### unregisterGestures(type, names)
 Unregister gestures from the QuantumLeap framework. If `requireRegistration` is set to *true*, `gesture` events will not be triggered anymore for unregistered gestures.
@@ -43,72 +106,59 @@ Unregister gestures from the QuantumLeap framework. If `requireRegistration` is 
   * `type` - **'static' | 'dynamic'** - The type of the gesture(s) to unregister.
   * `names` - **string | string[]** - The name(s) of the gesture(s) to unregister.
 
-### addEventListener(type, listener)
-Attach a listener function to an event. The listener will be triggered each time the event occurs. Any number of listeners can be attached to an event.
-
-  * `type` - **'frame' | 'gesture' | 'connect' | 'disconnect' | 'error'** - The type of event.
-  * `listener` - **function** - A listener function.
-
-### removeEventListener(type, listener)
-Remove a listener attached to an event.
-
-  * `type` - **'frame' | 'gesture' | 'connect' | 'disconnect' | 'error'** - The type of event.
-  * `listener` - **function** - The listener function to remove.
-
-### removeEventListeners([type])
-Remove all listeners attached to an event. If `type` is omitted, all listeners attached to all events will be removed.
-
-  * `type` - **'frame' | 'gesture' | 'connect' | 'disconnect' | 'error'** - The type of event. If omitted, all listeners will be removed for all events.
-
-### connect([addr])
-Connect to the QuantumLeap framework.
-
-  * `addr` - **string** - *Default: 'ws://127.0.0.1:6442'* - The address of a running instance of QuantumLeap framework.
-
-### disconnect()
-Disconnect from the QuantumLeap framework.
-
+```javascript
+gestureHandler.unregisterGestures('dynamic', ['circle', 'tap']);
+```
 
 Events
 ------
-### frame
-Emitted when a frame is received from the QuantumLeap framework.
+### Event: 'frame'
+Emitted after a frame is received from the QuantumLeap framework.
 
 #### Properties
-  * `Event.type` - The type of event.
   * `Event.frame` - Data corresponding to the current frame.
 
-### gesture
-Emitted when a gesture is recognized by the QuantumLeap framework. If `requireRegistration` was set to *true*, an event is emitted only is the recognized gesture was previously registered. Otherwise, an event is emitted for any recognized gesture.
+### Event: 'gesture'
+Emitted after a gesture is recognized by the QuantumLeap framework. If `requireRegistration` was set to *true*, an event is emitted only is the recognized gesture was previously registered. Otherwise, an event is emitted for any recognized gesture.
 
 #### Properties
-  * `Event.type` - The type of event.
   * `Event.gesture` - Data corresponding to the recognized gesture.
     * `Event.gesture.type` - The type of the recognized gesture.
     * `Event.gesture.name` - The name of the recognized gesture.
     * `Event.gesture.data` - Additional data corresponding to the recognized gesture.
   * `Event.frame` - Data corresponding to the current frame.
 
-### connect
+### Event: 'connect'
 Emitted after the connection with the QuantumLeap framework.
 
 #### Properties
-  * `Event.type` - The type of event.
   * `Event.message` - A message describing the event.
 
-### disconnect
+### Event: 'disconnect'
 Emitted when a disconnection with the QuantumLeap framework occurs.
 
 #### Properties
-  * `Event.type` - The type of event.
   * `Event.message` - A message describing the event.
 
-### error
+### Event: 'error'
 Emitted when a connection error with the QuantumLeap framework occurs.
 
 #### Properties
-  * `Event.type` - The type of event.
   * `Event.message` - A message describing the event.
+
+### Event: 'newListener'
+Emitted just before the new event listener is added.
+
+#### Properties
+  * `Event.eventName` - The name of the event being listened for.
+  * `Event.listener` - The event handler function.
+
+### Event: 'removeListener'
+Emitted after the listener is removed.
+
+#### Properties
+  * `Event.eventName` - The name of the event being listened for.
+  * `Event.listener` - The event handler function.
 
 Examples
 --------
@@ -117,10 +167,10 @@ import GestureHandler from 'quantumleapjs'
 
 let gestureHandler = new GestureHandler();
 
-gestureHandler.registerGestures('dynamic', ['left swipe', 'right swipe']);
+gestureHandler.registerGestures('dynamic', ['circle', 'tap']);
 gestureHandler.registerGestures('static', 'thumb up');
 
-gestureHandler.addEventListener('gesture', (event) => {
+gestureHandler.addListener('gesture', (event) => {
   if (event.gesture.type === 'dynamic') {
     console.log('Dynamic gesture detected.');
   }

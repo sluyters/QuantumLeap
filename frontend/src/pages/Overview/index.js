@@ -154,7 +154,7 @@ class Overview extends React.Component {
             <Button onClick={this.downloadValues}>Download configuration</Button>
           </ButtonGroup>
         </div>
-        {/* <Snackbar open={alert ? true : false} autoHideDuration={5000} onClose={this.handleAlertClose}>
+        {/* <Snackbar open={alert ? true : false} autoHideDuration={5000} disableWindowBlurListener={true} onClose={this.handleAlertClose}>
           <Alert variant='filled' severity={alert}>
             {alertMessage}
           </Alert>

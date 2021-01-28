@@ -144,6 +144,7 @@ class Module extends React.Component {
             No settings available.
           </Typography>
         )}
+        {/* https://michaelchan-13570.medium.com/using-react-router-v4-prompt-with-custom-modal-component-ca839f5faf39 */}
         <Prompt when={changes} message={this.handleBlockedNavigation}/>
         <Dialog open={prompt}>
           <DialogTitle>
@@ -163,7 +164,7 @@ class Module extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-        {/* <Snackbar open={alert ? true : false} autoHideDuration={5000} onClose={this.handleAlertClose}>
+        {/* <Snackbar open={alert ? true : false} disableWindowBlurListener={true} autoHideDuration={5000} onClose={this.handleAlertClose}>
           <Alert variant='filled' severity={alert}>
             {alertMessage}
           </Alert>
