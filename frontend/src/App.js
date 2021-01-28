@@ -109,7 +109,7 @@ function App() {
               exact
               key={Date.now()}
               path='/pipeline/:moduleType/:gestureType?' 
-              render={(props) => (<Module {...props} routesInfos={routesInfos} />)}
+              render={(props) => (<Module {...props} key={Date.now()} routesInfos={routesInfos} />)}
             />
             {/* <Route 
               exact

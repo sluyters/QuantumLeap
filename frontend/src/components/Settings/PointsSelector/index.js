@@ -138,23 +138,6 @@ class SelectedPoints extends React.Component {
   render() {
     const { classes, theme, points, sensorsIds, onDelete, error } = this.props;
     return (
-      // <Paper className={classes.pointsOverview} style={{border: error ? '1px solid red' : ''}} elevation={0}>
-      //   {/* For each element in value, display it */}
-      //   {points.map((item, index) => (
-      //     <div key={index}>
-      //       {/* The part to standardize */}
-      //       <Typography style={{padding: theme.spacing(1), color: sensorsIds.indexOf(item.sensorId) === -1 ? 'red' : 'black' }}>
-      //         {item.name} ({item.sensorId})
-      //       </Typography>
-      //       {index < points.length - 1 && <Divider/>}
-      //     </div>
-      //   ))}
-      //   {points.length === 0 && 
-      //     <Typography style={{padding: theme.spacing(1)}}>
-      //       No point selected.
-      //     </Typography>
-      //   }
-      // </Paper>
       <Paper className={classes.pointsOverview} style={{border: error ? '1px solid red' : ''}} elevation={0}>
         <List disablePadding>
           {/* For each element in value, display it */}

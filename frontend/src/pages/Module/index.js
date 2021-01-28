@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios'
-import { Typography, Button, ButtonGroup, Snackbar } from '@material-ui/core';
+import { Typography, Button, ButtonGroup, Snackbar, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import { withStyles, withTheme } from '@material-ui/core/styles';
 import { Setting } from '../../components/Settings';
-import { withRouter } from "react-router";
+import { Prompt, withRouter } from "react-router";
 import { Alert } from '@material-ui/lab';
 
 // Change
@@ -31,12 +31,20 @@ class Module extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      prompt: false,
+      confirmedNavigation: false,
+      blockedLocation: '',
+      changes: false,
       alert: '',
       alertMessage: '',
       templates: '',
       values: '',
       componentKey: Date.now(), // Necessary to ensure that state is reset across all sub-components
     };
+    this.handleBlockedNavigation = this.handleBlockedNavigation.bind(this);
+    this.handleConfirmNavigation = this.handleConfirmNavigation.bind(this);
+    this.openPrompt = this.openPrompt.bind(this);
+    this.closePrompt = this.closePrompt.bind(this);
     this.handleAlertClose = this.handleAlertClose.bind(this);
     this.handleValueChange = this.handleValueChange.bind(this);
     this.fetchData = this.fetchData.bind(this);
@@ -70,7 +78,7 @@ class Module extends React.Component {
 
   render() {
     const { classes, history, routesInfos } = this.props;
-    const { alert, alertMessage, templates, values, componentKey } = this.state;
+    const { changes, prompt, alert, alertMessage, templates, values, componentKey } = this.state;
 
     let path = [ 'main', 'settings' ];
     const route = history.location.pathname;
@@ -92,11 +100,15 @@ class Module extends React.Component {
         break;
       }
     }
+    // Helpers
     const discardChanges = () => {
       this.fetchValues().then(res => {
         this.setState({
           componentKey: Date.now(),
         });
+      });
+      this.setState({
+        changes: false,
       });
     }
     return (
@@ -121,7 +133,7 @@ class Module extends React.Component {
               );
             })}
             <div className={classes.actionButtons}>
-              <ButtonGroup variant="contained" color="primary">
+              <ButtonGroup variant='contained' color='primary'>
                 <Button key='save' onClick={this.sendValues}>Save changes</Button>
                 <Button key='discard' onClick={discardChanges}>Discard changes</Button>
               </ButtonGroup>
@@ -132,6 +144,25 @@ class Module extends React.Component {
             No settings available.
           </Typography>
         )}
+        <Prompt when={changes} message={this.handleBlockedNavigation}/>
+        <Dialog open={prompt}>
+          <DialogTitle>
+            Unsaved changes
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              There are unsaved changes! Do you really want to leave the page?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.closePrompt()}>
+              Stay
+            </Button>
+            <Button variant='outlined' onClick={this.handleConfirmNavigation}>
+              Leave
+            </Button>
+          </DialogActions>
+        </Dialog>
         {/* <Snackbar open={alert ? true : false} autoHideDuration={5000} onClose={this.handleAlertClose}>
           <Alert variant='filled' severity={alert}>
             {alertMessage}
@@ -139,6 +170,42 @@ class Module extends React.Component {
         </Snackbar> */}
       </div>
     );
+  }
+
+  handleBlockedNavigation(nextLocation) {
+    const { confirmedNavigation } = this.state;
+    if (!confirmedNavigation) {
+      this.openPrompt(nextLocation);
+      return false;
+    }
+    return true;
+  }
+
+  handleConfirmNavigation() {
+    this.closePrompt(() => {
+      const { history } = this.props;
+      const { blockedLocation } = this.state;
+      if (blockedLocation) {
+        this.setState({
+          confirmedNavigation: true,
+        }, () => {
+          history.push(blockedLocation);
+        })
+      }
+    });
+  }
+
+  openPrompt(nextLocation) {
+    this.setState({
+      prompt: true,
+      blockedLocation: nextLocation,
+    });
+  }
+
+  closePrompt(callback) {
+    this.setState({
+      prompt: false,
+    }, callback);
   }
 
   handleAlertClose() {
@@ -153,7 +220,8 @@ class Module extends React.Component {
       let values = prevState.values;
       setObjectProperty(values, value, valuePath);
       return ({
-        values: values
+        changes: true,
+        values: values,
       });
     });
   }
@@ -197,6 +265,7 @@ class Module extends React.Component {
     .then((res) => {
         console.log(res);
         this.setState({
+          changes: false,
           alert: 'success',
           alertMessage: 'Changes saved!'
         });
