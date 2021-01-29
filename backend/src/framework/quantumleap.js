@@ -40,7 +40,8 @@ function setupWSS(config, server) {
   // Initialize WebSocket server
   let wss = new WSServer({
     server: server,
-    perMessageDeflate: false
+    perMessageDeflate: false,
+    clientTracking: true,
   });
   wss.on('connection', async function connection(ws, request) {
     console.log('Connected!')
@@ -66,6 +67,7 @@ function setupWSS(config, server) {
     });
     // Stop previous sensor loop (if any) TODO In the future, find a better solution
     sensor.stop();
+    frameProcessor.resetContext();
     // Process sensor frames
     sensor.loop((frame, appData) => {
       let message = getMessage('data');
@@ -90,10 +92,12 @@ function setupWSS(config, server) {
       }
     });
     // Stop processing frames after disconnection
-    ws.on('close', function () {
+    ws.on('close', function (event) {
+      if (wss.clients.size === 0) {
+        sensor.stop();
+        frameProcessor.resetContext();
+      }
       console.log("Disconnected!");
-      sensor.stop();
-      frameProcessor.resetContext();
     });
     // Connection error
     ws.on('error', function (error) {

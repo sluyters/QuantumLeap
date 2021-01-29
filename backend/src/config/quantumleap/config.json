@@ -3,7 +3,7 @@
     "settings": {
       "general": {
         "general": {
-          "debug": false,
+          "debug": true,
           "sendContinuousData": true
         },
         "server": {
@@ -12,7 +12,17 @@
         }
       },
       "sensors": {
-        "modules": [],
+        "modules": [
+          {
+            "uuid": "5b28fbec-5a92-495c-a132-04bc9533d263",
+            "moduleName": "leap-sensor",
+            "moduleType": "sensors",
+            "moduleSettings": {},
+            "additionalSettings": {
+              "id": "lmc"
+            }
+          }
+        ],
         "framerate": 60
       },
       "filters": {
@@ -20,36 +30,192 @@
       },
       "datasets": {
         "static": {
-          "modules": [],
-          "templatesPerClass": 0,
+          "modules": [
+            {
+              "uuid": "9e5a56ab-dfb3-4a65-9522-082093cacb9e",
+              "moduleName": "leap-loader",
+              "moduleType": "datasets/static",
+              "moduleSettings": {},
+              "additionalSettings": {
+                "datasets": [
+                  "guinevre-static"
+                ],
+                "id": "lmc"
+              }
+            }
+          ],
+          "templatesPerClass": 100,
           "aggregateClasses": []
         },
         "dynamic": {
-          "modules": [],
-          "templatesPerClass": 0,
-          "aggregateClasses": []
+          "modules": [
+            {
+              "uuid": "9e5a56ab-dfb1-4a65-9522-082093cacb9e",
+              "moduleName": "leap-loader",
+              "moduleType": "datasets/dynamic",
+              "moduleSettings": {},
+              "additionalSettings": {
+                "datasets": [
+                  "guinevere"
+                ],
+                "id": "lmc"
+              }
+            }
+          ],
+          "templatesPerClass": 16,
+          "aggregateClasses": [
+            {
+              "uuid": "5b28fbec-5a92-495c-a132-04bc9533d263",
+              "name": "rhand_uswipe",
+              "gestureClasses": [
+                "swipe_up"
+              ]
+            },
+            {
+              "uuid": "5b28fbec-5a92-495c-a132-04bc9533d273",
+              "name": "rhand_dswipe",
+              "gestureClasses": [
+                "swipe_down"
+              ]
+            },
+            {
+              "uuid": "5b28fbec-5a92-495c-a132-04bc9536d263",
+              "name": "rhand_lswipe",
+              "gestureClasses": [
+                "swipe_left"
+              ]
+            },
+            {
+              "uuid": "5b28fbec-5a92-495c-a132-04ba9533d263",
+              "name": "rhand_rswipe",
+              "gestureClasses": [
+                "swipe_right"
+              ]
+            },
+            {
+              "uuid": "5b28fbec-5a92-495c-a132-03ea9533d263",
+              "name": "rindex_airtap",
+              "gestureClasses": [
+                "tap"
+              ]
+            }
+          ]
         }
       },
       "analyzers": {
-        "modules": []
+        "modules": [
+          {
+            "uuid": "9e5a56bb-dfb9-4a65-9522-082093cacb9e",
+            "moduleName": "basic",
+            "moduleType": "analyzers",
+            "moduleSettings": {},
+            "additionalSettings": {}
+          }
+        ]
       },
       "segmenters": {
-        "modules": []
+        "modules": [
+          {
+            "uuid": "77605bb0-5fba-4dd3-becd-72688acdfd72",
+            "moduleName": "window",
+            "moduleType": "segmenters",
+            "moduleSettings": {
+              "windows": [
+                {
+                  "width": 20,
+                  "uuid": "f443fcf6-63db-4ec5-88e3-63e0f48f66c8"
+                }
+              ],
+              "intervalLength": 3,
+              "pauseLength": 60
+            },
+            "additionalSettings": {
+              "motionThreshold": 70,
+              "motionArticulations": {
+                "lmc": [
+                  "rightPalmPosition"
+                ]
+              }
+            }
+          }
+        ]
       },
       "recognizers": {
         "static": {
-          "modules": [],
-          "scoreThreshold": 0.25,
+          "modules": [
+            {
+              "uuid": "d9e89f2d-e4d8-49c8-84b4-d32121ff53a8",
+              "moduleName": "multi-recognizer",
+              "moduleType": "recognizers/static",
+              "moduleSettings": {
+                "recognizers": [
+                  {
+                    "uuid": "9dbf540c-65cd-40df-b5e4-74db0d1f24c0",
+                    "moduleName": "gpsda",
+                    "moduleType": "recognizers/static",
+                    "moduleSettings": {
+                      "alpha": 0.8,
+                      "points": {
+                        "lmc": [
+                          "rightPalmPosition",
+                          "rightThumbTipPosition",
+                          "rightIndexTipPosition",
+                          "rightMiddleTipPosition",
+                          "rightRingTipPosition",
+                          "rightPinkyTipPosition",
+                          "rightThumbPipPosition",
+                          "rightIndexPipPosition",
+                          "rightMiddlePipPosition",
+                          "rightRingPipPosition",
+                          "rightPinkyPipPosition",
+                          "rightThumbMcpPosition",
+                          "rightIndexMcpPosition",
+                          "rightMiddleMcpPosition",
+                          "rightRingMcpPosition",
+                          "rightPinkyMcpPosition"
+                        ]
+                      }
+                    },
+                    "additionalSettings": {
+                      "weight": 1
+                    }
+                  }
+                ]
+              },
+              "additionalSettings": {}
+            }
+          ],
           "bufferLength": 15,
-          "poseRatioThreshold": 0.8,
+          "poseRatioThreshold": 0.7,
           "sendIfRequested": true,
-          "loadOnRequest": false
+          "loadOnRequest": false,
+          "scoreThreshold": 0.25
         },
         "dynamic": {
-          "modules": [],
-          "scoreThreshold": 0.25,
+          "modules": [
+            {
+              "uuid": "69bd1642-34e0-441c-b76d-eafa2bfcc75a",
+              "moduleName": "jackknife",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "samplingPoints": 16,
+                "points": {
+                  "lmc": [
+                    "rightPalmPosition",
+                    "rightThumbTipPosition",
+                    "rightIndexTipPosition",
+                    "rightMiddleTipPosition",
+                    "rightRingTipPosition",
+                    "rightPinkyTipPosition"
+                  ]
+                }
+              },
+              "additionalSettings": {}
+            }
+          ],
           "sendIfRequested": true,
-          "loadOnRequest": false
+          "loadOnRequest": false,
+          "scoreThreshold": 0.25
         }
       }
     }
