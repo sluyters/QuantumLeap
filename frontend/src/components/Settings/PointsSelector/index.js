@@ -230,6 +230,16 @@ class SelectionWindow extends React.Component {
             />
           );
           break;
+        case 'leapv5':
+          pointsVisualization = (
+            <LeapMotionPoints
+              selectedPoints={selectedPoints}
+              sensorId={sensorId}
+              onSelect={selectPoints}
+              onDeselect={deselectPoints}
+            />
+          );
+          break;
         default:
           pointsVisualization = (
             <Typography variant='subtitle1' align='center'>
