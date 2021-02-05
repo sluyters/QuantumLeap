@@ -6,7 +6,7 @@ const yBound = 1000;
 const zBound = 60;
 
 class Segmenter extends AbstractSegmenter {
-  constructor(options) {
+  constructor(options, dataset) {
     super(options);
     this.minFrames = options.moduleSettings.minSegmentLength;
     this.maxFrames = options.moduleSettings.maxSegmentLength;
@@ -14,6 +14,14 @@ class Segmenter extends AbstractSegmenter {
     this.monitoredArticulations = parsePointsNames(options.moduleSettings.monitoredArticulations);
     this.frameBuffer = [];
     this.pauseCount = 0;
+  }
+
+  addGesture(name, sample) {
+    // Do nothing
+  }
+
+  removeGesture(name) {
+    // Do nothing
   }
 
   computeSegments(frame) {

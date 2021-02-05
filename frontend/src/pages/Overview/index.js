@@ -60,8 +60,8 @@ class Overview extends React.Component {
     this.fetchData = this.fetchData.bind(this);
     this.fetchValues = this.fetchValues.bind(this);
     this.sendValues = this.sendValues.bind(this);
-    this.downloadValues = this.downloadValues.bind(this);
-    this.loadValues = this.loadValues.bind(this);
+    this.exportValues = this.exportValues.bind(this);
+    this.importValues = this.importValues.bind(this);
     this.startQuantumLeap = this.startQuantumLeap.bind(this);
     this.stopQuantumLeap = this.stopQuantumLeap.bind(this);
     this.isQuantumLeapRunning = this.isQuantumLeapRunning.bind(this);
@@ -131,7 +131,7 @@ class Overview extends React.Component {
           </div>
           <Divider/>
           <div className={classes.controlButtons}>
-            {/* {loading ? (
+            {loading ? (
               <div className={classes.toggleStartButton}>
                 <CircularProgress size={48}/>
               </div>
@@ -139,26 +139,25 @@ class Overview extends React.Component {
               <IconButton className={classes.toggleStartButton} onClick={toggleRun}>
                 {!isRunning ? <PlayArrow className={classes.toggleStartIcon}/> : <Pause className={classes.toggleStartIcon}/>}
               </IconButton>
-            )} */}
-            <IconButton className={classes.toggleStartButton} onClick={toggleRun}>
-              {!isRunning ? <PlayArrow className={classes.toggleStartIcon}/> : <Pause className={classes.toggleStartIcon}/>}
-            </IconButton>
+            )}
           </div>
         </Paper>
         <div className={classes.actionButtons}>
           <ButtonGroup variant="contained" color="primary">
             <Button component='label'>
-              Load configuration
-              <input type='file' accept='.json' hidden onChange={this.loadValues}/>
+              Import configuration
+              <input type='file' accept='.json' hidden onChange={this.importValues}/>
             </Button>
-            <Button onClick={this.downloadValues}>Download configuration</Button>
+            <Button onClick={this.exportValues}>
+              Export configuration
+            </Button>
           </ButtonGroup>
         </div>
-        {/* <Snackbar open={alert ? true : false} autoHideDuration={5000} disableWindowBlurListener={true} onClose={this.handleAlertClose}>
+        <Snackbar open={alert ? true : false} autoHideDuration={5000} disableWindowBlurListener={true} onClose={this.handleAlertClose}>
           <Alert variant='filled' severity={alert}>
             {alertMessage}
           </Alert>
-        </Snackbar> */}
+        </Snackbar>
       </div>
     );
   }
@@ -287,7 +286,7 @@ class Overview extends React.Component {
       });
   }
 
-  downloadValues() {
+  exportValues() {
     const { values } = this.state;
     const fileData = JSON.stringify(values, null, 2);
     const blob = new Blob([fileData], {type: "text/plain"});
@@ -298,7 +297,7 @@ class Overview extends React.Component {
     link.click();
   }
 
-  loadValues(event) {
+  importValues(event) {
     if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
       alert('The File APIs are not fully supported in this browser.');
       return;

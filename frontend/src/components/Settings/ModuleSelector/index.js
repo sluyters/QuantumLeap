@@ -75,7 +75,7 @@ class ModuleSelector extends React.Component {
       }
       // Render the module
       renderedSelected.push(
-        <Accordion key={key} defaultExpanded={false}>
+        <Accordion key={key} defaultExpanded={true}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Box width={1}>
               <Typography variant='h6'>

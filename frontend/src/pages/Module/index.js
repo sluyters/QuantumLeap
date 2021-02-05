@@ -164,11 +164,11 @@ class Module extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-        {/* <Snackbar open={alert ? true : false} disableWindowBlurListener={true} autoHideDuration={5000} onClose={this.handleAlertClose}>
+        <Snackbar open={alert ? true : false} disableWindowBlurListener={true} autoHideDuration={5000} onClose={this.handleAlertClose}>
           <Alert variant='filled' severity={alert}>
             {alertMessage}
           </Alert>
-        </Snackbar> */}
+        </Snackbar>
       </div>
     );
   }

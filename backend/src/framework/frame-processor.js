@@ -10,9 +10,6 @@ class FrameProcessor {
     // Initialize analyzer
     let analyzerModule = config.analyzers.modules[0];
     this.analyzer = new analyzerModule.module(analyzerModule.moduleSettings);
-    // Initialize segmenter
-    let segmenterModule = config.segmenters.modules[0];
-    this.segmenter = new segmenterModule.module(segmenterModule);
     // Initialize datasets and recognizers
     this.datasets = {}
     this.scoreThresholds = {};
@@ -33,6 +30,13 @@ class FrameProcessor {
       // Keep track of the enabled gestures
       this.enabledGestures[type] = [];
     }
+    // Initialize segmenter
+    let segmenterModule = config.segmenters.modules[0];
+    if (config.recognizers.dynamic.loadOnRequest) {
+      this.segmenter = new segmenterModule.module(segmenterModule);
+    } else {
+      this.segmenter = new segmenterModule.module(segmenterModule, this.datasets.dynamic);
+    }
     // Initialize buffer for static gestures
     this.sgBuffer = new RingBuffer(config.recognizers.static.bufferLength);
     this.sgCounter = {};
@@ -48,6 +52,9 @@ class FrameProcessor {
       }
       this.enabledGestures[type] = [];
     }
+    if (this.config.recognizers.dynamic.loadOnRequest) {
+      this.segmenter = new segmenterModule.module(segmenterModule);
+    }
   }
 
   enableGesture(type, name) {
@@ -60,7 +67,14 @@ class FrameProcessor {
             try {
               this.recognizers[type].addGesture(name, template);
             } catch(error) {
-              console.error(`Dynamic gesture recognizer error while adding a template for gesture '${name}': ${error.stack}`);
+              console.error(`Gesture recognizer (${type}) error while adding a template for gesture '${name}': ${error.stack}`);
+            }
+            if (type === 'dynamic') {
+              try {
+                this.segmenter.addGesture(name, template);
+              } catch(error) {
+                console.error(`Gesture segmenter error while adding a template for gesture '${name}': ${error.stack}`);
+              }
             }
           }
         } else {
@@ -80,8 +94,15 @@ class FrameProcessor {
         try {
           this.recognizers[type].removeGesture(name);
         } catch(error) {
-          console.error(`Dynamic gesture recognizer error while removing gesture '${name}': ${error.stack}`);
+          console.error(`Gesture recognizer (${type}) error while removing gesture '${name}': ${error.stack}`);
         }
+      }
+    }
+    if (this.config.recognizers.dynamic.loadOnRequest) {
+      try {
+        this.segmenter.removeGesture(name);
+      } catch(error) {
+        console.error(`Gesture segmenter error while removing gesture '${name}': ${error.stack}`);
       }
     }
   }

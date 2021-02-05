@@ -7,7 +7,7 @@ const fingerArticulations = ["Mcp", "Pip", "Tip"];
 const interactionBox = [
   [-100, 100],
   [200, 400],
-  [-150, 80]
+  [-120, 80]
 ];
 
 class Sensor extends AbstractSensor {

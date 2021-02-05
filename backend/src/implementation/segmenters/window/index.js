@@ -1,7 +1,7 @@
 const AbstractSegmenter = require('../../../framework/modules/segmenters/abstract-segmenter').AbstractSegmenter;
 
 class Segmenter extends AbstractSegmenter {
-  constructor(options) {
+  constructor(options, dataset) {
     super(options);
     this.numberIntervalFrames = options.moduleSettings.intervalLength;
     this.numberPauseFrames = options.moduleSettings.pauseLength;
@@ -13,6 +13,14 @@ class Segmenter extends AbstractSegmenter {
     });
     this.intervalCount = 0;
     this.pauseCount = 0;
+  }
+
+  addGesture(name, sample) {
+    // Do nothing
+  }
+
+  removeGesture(name) {
+    // Do nothing
   }
 
   computeSegments(frame) {

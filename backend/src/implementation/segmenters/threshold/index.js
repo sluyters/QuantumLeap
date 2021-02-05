@@ -2,7 +2,7 @@ const AbstractSegmenter = require('../../../framework/modules/segmenters/abstrac
 const { parsePointsNames } = require('../../../framework/utils');
 
 class Segmenter extends AbstractSegmenter {
-  constructor(options) {
+  constructor(options, dataset) {
     super(options);
     let thresholds = options.moduleSettings.thresholds.map((threshold) => {
       return {
@@ -42,6 +42,14 @@ class Segmenter extends AbstractSegmenter {
       }
       return ret;
     }
+  }
+
+  addGesture(name, sample) {
+    // Do nothing
+  }
+
+  removeGesture(name) {
+    // Do nothing
   }
 
   computeSegments(frame) {

@@ -4,9 +4,26 @@ const Stroke = require('../../gestures/stroke-data').Stroke;
 const Path = require('../../gestures/stroke-data').Path;
 
 class AbstractSegmenter {
-  constructor(options) {
+  constructor(options, dataset) {
     this.motionThreshold = options.additionalSettings.motionThreshold;
     this.motionArticulations = parsePointsNames(options.additionalSettings.motionArticulations);
+  }
+
+  /**
+   * Add a dynamic gesture  to the training set of this segmenter.
+   * @param {Object} name - The name of the dynamic gesture  to add.
+   * @param {Object} sample - The dynamic gesture  to add.
+   */
+  addGesture(name, sample) {
+    throw new Error('You have to implement this function');
+  }
+
+  /**
+   * Remove a dynamic gesture  from the training set of this segmenter.
+   * @param {Object} name - The name of the dynamic gesture  to remove.
+   */
+  removeGesture(name) {
+    throw new Error('You have to implement this function');
   }
 
   /**
