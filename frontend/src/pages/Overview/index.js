@@ -199,6 +199,7 @@ class Overview extends React.Component {
       this.setState({
         alert: 'error',
         alertMessage: 'Unable to start QuantumLeap!',
+        isRunning: false,
         loading: false,
       });
       console.error(err.message);
@@ -220,6 +221,7 @@ class Overview extends React.Component {
       this.setState({
         alert: 'error',
         alertMessage: 'Unable to stop QuantumLeap!',
+        isRunning: false,
         loading: false,
       });
       console.error(err.message);

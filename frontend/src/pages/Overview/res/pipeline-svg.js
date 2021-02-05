@@ -48,784 +48,623 @@ function SvgComponent(props) {
   }
   return (
     <svg
-      xmlns='http://www.w3.org/2000/svg'
-      viewBox='0 0 250 130'
+      viewBox="0 0 2571.40148 1664.31498"
+      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <g transform='translate(-6)'>
-        <rect
-          width={220}
-          height={130}
-          x={21}
-          ry={1.1}
-          rx={1.1}
-          fill={backgroundColor}
-        />
-        <path
+      <g fillRule="evenodd">
+        <path d="M189.03.08v1663h2192V.08h-2192z" fill="#e7e6e6" />
+        <path d="M189.03 491.41v1133.7h376.14V491.41H189.03z" fill={backgroundColor} />
+        <path d="M189.03 529.17v377.9H453.5v-377.9H189.03z" 
           className={classes.csvModule}
           onClick={() => onClick('static-datasets')}
           onMouseEnter={() => setHover('static-datasets')}
           onMouseLeave={() => removeHover('static-datasets')}
-          d='M21 50h21.4c.61 0 1.1.49 1.1 1.1v32.8c0 .61-.49 1.1-1.1 1.1H21z'
-          fill={state['static-datasets'] ? hoveredModuleColor : moduleColor}
+          fill={state['static-datasets'] ? hoveredModuleColor : moduleColor} 
         />
+      </g>
+      <g fontFamily="Calibri" fontSize={48} letterSpacing={0} wordSpacing={0}>
+        <text
+          className={classes.csvText}
+          fill={moduleTextColor}
+          transform="translate(267.61 676.8)"
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"Static"}
+            </tspan>
+          </tspan>
+        </text>
+        <text
+          className={classes.csvText}
+          fill={moduleTextColor}
+          transform="translate(249.05 734.39)"
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"dataset"}
+            </tspan>
+          </tspan>
+        </text>
+        <text
+          className={classes.csvText}
+          fill={moduleTextColor}
+          transform="translate(234.81 791.99)"
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"loader(s)"}
+            </tspan>
+          </tspan>
+        </text>
+      </g>
+      <path
+        className={classes.csvModule}
+        onClick={() => onClick('sensors')}
+        onMouseEnter={() => setHover('sensors')}
+        onMouseLeave={() => removeHover('sensors')}
+        fill={state['sensors'] ? hoveredModuleColor : moduleColor}
+        d="M189.03 75.756v378.06H453.5V75.756H189.03z"
+      />
+      <text
+        className={classes.csvText}
+        fill={moduleTextColor}
+        transform="translate(255.29 252.24)"
+        fontFamily="Calibri"
+        fontSize={48}
+        letterSpacing={0}
+        wordSpacing={0}
+        style={{
+          lineHeight: "125%",
+        }}
+      >
+        <tspan x={0} y={0}>
+          <tspan dx={0} dy={0} fill="#FFF">
+            {"Sensor"}
+          </tspan>
+        </tspan>
+      </text>
+      <text
+        className={classes.csvText}
+        fill={moduleTextColor}
+        transform="translate(210.97 309.83)"
+        fontFamily="Calibri"
+        fontSize={48}
+        letterSpacing={0}
+        wordSpacing={0}
+        style={{
+          lineHeight: "125%",
+        }}
+      >
+        <tspan x={0} y={0}>
+          <tspan dx={0} dy={0} fill="#FFF">
+            {"interface(s)"}
+          </tspan>
+        </tspan>
+      </text>
+      <path
+        d="M.08 75.756v378.06h188.95V75.756H.08z"
+        fill="#262626"
+        fillRule="evenodd"
+      />
+      <text
+        className={classes.csvText}
+        fill={moduleTextColor}
+        transform="rotate(-90 232.825 121.975)"
+        fontFamily="Calibri"
+        fontSize={48}
+        letterSpacing={0}
+        wordSpacing={0}
+        style={{
+          lineHeight: "125%",
+        }}
+      >
+        <tspan x={0} y={0}>
+          <tspan dx={0} dy={0} fill="#FFF">
+            {"Sensor"}
+          </tspan>
+        </tspan>
+      </text>
+      <text
+        className={classes.csvText}
+        fill={moduleTextColor}
+        transform="rotate(-90 166.83 55.98)"
+        fontFamily="Calibri"
+        fontSize={48}
+        letterSpacing={0}
+        wordSpacing={0}
+        style={{
+          lineHeight: "125%",
+        }}
+      >
+        <tspan x={0} y={0}>
+          <tspan dx={0} dy={0} fill="#FFF">
+            {"(s)"}
+          </tspan>
+        </tspan>
+      </text>
+      <path
+        d="M.08 529.17v377.9h188.95v-377.9H.08z"
+        fill="#262626"
+        fillRule="evenodd"
+      />
+      <g fontFamily="Calibri" fontSize={48} letterSpacing={0} wordSpacing={0}>
+        <text
+          className={classes.csvText}
+          fill={moduleTextColor}
+          transform="rotate(-90 492.115 381.315)"
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"Static"}
+            </tspan>
+          </tspan>
+        </text>
+        <text
+          className={classes.csvText}
+          fill={moduleTextColor}
+          transform="rotate(-90 433.08 322.28)"
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"dataset"}
+            </tspan>
+          </tspan>
+        </text>
+        <text
+          className={classes.csvText}
+          fill={moduleTextColor}
+          transform="rotate(-90 360.845 250.045)"
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"(s)"}
+            </tspan>
+          </tspan>
+        </text>
+      </g>
+      <path
+        d="M189.03 1209.5v377.9H453.5v-377.9H189.03z"
+        className={classes.csvModule}
+        onClick={() => onClick('dynamic-datasets')}
+        onMouseEnter={() => setHover('dynamic-datasets')}
+        onMouseLeave={() => removeHover('dynamic-datasets')}
+        fill={state['dynamic-datasets'] ? hoveredModuleColor : moduleColor}
+      />
+      <g fontFamily="Calibri" fontSize={48} letterSpacing={0} wordSpacing={0}>
+        <text
+          className={classes.csvText}
+          fill={moduleTextColor}
+          transform="translate(236.55 1357.1)"
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"Dynamic"}
+            </tspan>
+          </tspan>
+        </text>
+        <text
+          className={classes.csvText}
+          fill={moduleTextColor}
+          transform="translate(249.02 1414.7)"
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"dataset"}
+            </tspan>
+          </tspan>
+        </text>
+        <text
+          className={classes.csvText}
+          fill={moduleTextColor}
+          transform="translate(234.79 1472.3)"
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"loader(s)"}
+            </tspan>
+          </tspan>
+        </text>
+      </g>
+      <path
+        d="M.08 1209.5v377.9h188.95v-377.9H.08z"
+        fill="#262626"
+        fillRule="evenodd"
+      />
+      <g fontFamily="Calibri" fontSize={48} letterSpacing={0} wordSpacing={0}>
+        <text
+          className={classes.csvText}
+          fill={moduleTextColor}
+          transform="rotate(-90 782.652 700.648)"
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"Dynamic"}
+            </tspan>
+          </tspan>
+        </text>
+        <text
+          className={classes.csvText}
+          fill={moduleTextColor}
+          transform="rotate(-90 821.85 682.25)"
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"datasets"}
+            </tspan>
+          </tspan>
+        </text>
+        <text
+          className={classes.csvText}
+          fill={moduleTextColor}
+          transform="rotate(-90 740.25 600.65)"
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"(s)"}
+            </tspan>
+          </tspan>
+        </text>
+      </g>
+      <g>
         <path
-          className={classes.csvModule}
-          onClick={() => onClick('dynamic-datasets')}
-          onMouseEnter={() => setHover('dynamic-datasets')}
-          onMouseLeave={() => removeHover('dynamic-datasets')}
-          d='M21 90h21.4c.61 0 1.1.49 1.1 1.1v32.8c0 .61-.49 1.1-1.1 1.1H21z'
-          fill={state['dynamic-datasets'] ? hoveredModuleColor : moduleColor}
+          d="M529.17 37.838v1587.3h1247.3V37.838H529.17z"
+          fill={backgroundColor}
+          fillRule="evenodd"
         />
+        <text
+          transform="translate(955.4 88.03)"
+          fontFamily="Calibri"
+          fontSize={48}
+          letterSpacing={0}
+          wordSpacing={0}
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0}>
+              {"Frame processor"}
+            </tspan>
+          </tspan>
+        </text>
+        <g fillRule="evenodd">
+          <path
+            d="M453.66 242.15v45.278h151.19V242.15H453.66zM453.66 695.4v45.438h491.33V695.4H453.66z"
+            fill={dataStreamColor}
+          />
+          <path
+            d="M685.96 702.28l26.719 15.839-26.719 15.839zM515.89 249.03l26.719 15.839-26.719 15.839z"
+            fill="#fff"
+          />
+        </g>
+      </g>
+      <g fill={dataStreamColor} fillRule="evenodd">
+        <path d="M453.66 1375.7v45.438h1118.7V1375.7H453.66z" />
+        <path d="M1118.7 1321.9v71.196h-45.278V1321.9zM1572.3 1321.9v71.196h-45.278V1321.9z" />
+      </g>
+      <g>
+        <g fillRule="evenodd">
+          <path
+            d="M1080.3 1360.6l15.839-26.719 15.839 26.719zM1533.8 1360.6l15.839-26.719 15.839 26.719z"
+            fill="#fff"
+          />
+          <path
+            d="M944.99 566.93v302.38h302.38V566.93H944.99z"
+            className={classes.csvModule}
+            onClick={() => onClick('static-recognizers')}
+            onMouseEnter={() => setHover('static-recognizers')}
+            onMouseLeave={() => removeHover('static-recognizers')}
+            fill={state['static-recognizers'] ? hoveredModuleColor : moduleColor}
+          />
+        </g>
+        <text
+          className={classes.csvText}
+          fill={moduleTextColor}
+          transform="translate(1042.6 705.59)"
+          fontFamily="Calibri"
+          fontSize={48}
+          letterSpacing={0}
+          wordSpacing={0}
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"Static"}
+            </tspan>
+          </tspan>
+        </text>
+        <text
+          className={classes.csvText}
+          fill={moduleTextColor}
+          transform="translate(994.88 763.19)"
+          fontFamily="Calibri"
+          fontSize={48}
+          letterSpacing={0}
+          wordSpacing={0}
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"recognizer"}
+            </tspan>
+          </tspan>
+        </text>
         <path
-          className={classes.csvModule}
-          onClick={() => onClick('sensors')}
-          onMouseEnter={() => setHover('sensors')}
-          onMouseLeave={() => removeHover('sensors')}
-          d='M21 5h21.4c.61 0 1.1.49 1.1 1.1v32.8c0 .61-.49 1.1-1.1 1.1H21z'
-          fill={state['sensors'] ? hoveredModuleColor : moduleColor}
-        />
-        <rect
-          className={classes.csvModule}
-          onClick={() => onClick('static-recognizers')}
-          onMouseEnter={() => setHover('static-recognizers')}
-          onMouseLeave={() => removeHover('static-recognizers')}
-          width={35}
-          height={35}
-          x={63.5}
-          y={50}
-          ry={1.1}
-          rx={1.1}
-          fill={state['static-recognizers'] ? hoveredModuleColor : moduleColor}
-        />
-        <rect
-          className={classes.csvModule}
-          onClick={() => onClick('analyzers')}
-          onMouseEnter={() => setHover('analyzers')}
-          onMouseLeave={() => removeHover('analyzers')}
-          width={35}
-          height={35}
-          x={108.5}
-          y={50}
-          ry={1.1}
-          rx={1.1}
-          fill={state['analyzers'] ? hoveredModuleColor : moduleColor}
-        />
-        <rect
+          d="M944.99 1019.9v302.38h302.38V1019.9H944.99z"
           className={classes.csvModule}
           onClick={() => onClick('segmenters')}
           onMouseEnter={() => setHover('segmenters')}
           onMouseLeave={() => removeHover('segmenters')}
-          width={35}
-          height={20}
-          x={96}
-          y={90}
-          ry={0.733}
-          rx={1.1}
           fill={state['segmenters'] ? hoveredModuleColor : moduleColor}
         />
-        <rect
-          className={classes.csvModule}
-          onClick={() => onClick('dynamic-recognizers')}
-          onMouseEnter={() => setHover('dynamic-recognizers')}
-          onMouseLeave={() => removeHover('dynamic-recognizers')}
-          width={35}
-          height={35}
-          x={141}
-          y={90}
-          ry={0.77}
-          rx={1.1}
-          fill={state['dynamic-recognizers'] ? hoveredModuleColor : moduleColor}
+        <text
+          className={classes.csvText}
+          fill={moduleTextColor}
+          transform="translate(990.4 1187.3)"
+          fontFamily="Calibri"
+          fontSize={48}
+          letterSpacing={0}
+          wordSpacing={0}
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"Segmenter"}
+            </tspan>
+          </tspan>
+        </text>
+        <path
+          d="M1851.8 37.838v1587.3h188.95V37.838H1851.8z"
+          fill={backgroundColor}
+          fillRule="evenodd"
         />
-        <rect
+        <text
+          transform="translate(1883.9 847.77)"
+          fontFamily="Calibri"
+          fontSize={48}
+          letterSpacing={0}
+          wordSpacing={0}
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0}>
+              {"Server"}
+            </tspan>
+          </tspan>
+        </text>
+        <path
+          d="M604.85 113.51v302.22h302.38V113.51H604.85z"
           className={classes.csvModule}
           onClick={() => onClick('filters')}
           onMouseEnter={() => setHover('filters')}
           onMouseLeave={() => removeHover('filters')}
-          width={20}
-          height={35}
-          x={53.5}
-          y={5}
-          ry={1.1}
-          rx={0.629}
           fill={state['filters'] ? hoveredModuleColor : moduleColor}
         />
-        <rect
-          className={classes.csvModule}
-          onClick={() => onClick('server')}
-          onMouseEnter={() => setHover('server')}
-          onMouseLeave={() => removeHover('server')}
-          width={22.5}
-          height={120}
-          x={186}
-          y={5}
-          ry={1.1}
-          rx={1.65}
-          fill={state['server'] ? hoveredModuleColor : moduleColor}
+        <text
+          className={classes.csvText}
+          fill={moduleTextColor}
+          transform="translate(705.94 280.87)"
+          fontFamily="Calibri"
+          fontSize={48}
+          letterSpacing={0}
+          wordSpacing={0}
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"Filter"}
+            </tspan>
+          </tspan>
+        </text>
+        <path
+          d="M1700.8 1149v45.438h151.19V1149H1700.8z"
+          fill={dataStreamColor}
+          fillRule="evenodd"
         />
         <path
+          d="M1763.2 1155.9l26.559 15.839-26.559 15.839z"
+          fill="#fff"
+          fillRule="evenodd"
+        />
+      </g>
+      <g fill={dataStreamColor} fillRule="evenodd">
+        <path d="M907.23 242.15v45.278h944.75V242.15H907.23z" />
+        <path d="M1118.7 264.71v302.22h-45.278V264.71zM1247.4 695.4v45.438h151.03V695.4H1247.4z" />
+      </g>
+      <g>
+        <g fillRule="evenodd">
+          <path d="M1309.5 702.28l26.559 15.839-26.559 15.839z" fill="#fff" />
+          <path d="M1700.8 695.4v45.438h151.19V695.4H1700.8z" fill={dataStreamColor} />
+          <path d="M1763 702.28l26.719 15.839L1763 733.958z" fill="#fff" />
+          <path
+            d="M1247.4 1149.1v45.278h151.03V1149.1H1247.4z"
+            fill={dataStreamColor}
+          />
+          <path
+            d="M1309.3 1155.9l26.719 15.839-26.719 15.839zM1112 413.98l-15.839 26.559-15.839-26.559z"
+            fill="#fff"
+          />
+          <path d="M2381.1 642.61v377.9h188.95v-377.9H2381.1z" fill="#262626" />
+        </g>
+        <text
+          className={classes.csvText}
+          fill={moduleTextColor}
+          transform="rotate(-90 1716.905 -774.895)"
+          fontFamily="Calibri"
+          fontSize={48}
+          letterSpacing={0}
+          wordSpacing={0}
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"Application"}
+            </tspan>
+          </tspan>
+        </text>
+        <path
+          d="M2192.1 642.61v377.9h188.95v-377.9H2192.1z"
           className={classes.csvModule}
           onClick={() => onClick('api')}
           onMouseEnter={() => setHover('api')}
           onMouseLeave={() => removeHover('api')}
-          d='M241 50h-21.4c-.61 0-1.1.49-1.1 1.1v32.8c0 .61.49 1.1 1.1 1.1H241z'
           fill={state['api'] ? hoveredModuleColor : moduleColor}
         />
-        <path
-          d='M241 50h13.907c.605 0 1.093.49 1.093 1.1v32.8c0 .61-.488 1.1-1.093 1.1H241z'
-          fill={extModuleColor}
-        />
-        <rect
-          width={97.5}
-          height={5}
-          x={43.5}
-          y={115}
-          rx={0}
-          ry={0}
-          fill={dataStreamColor}
-        />
-        <rect
-          width={17.5}
-          height={5}
-          x={-96}
-          y={97.5}
-          rx={0}
-          ry={0}
-          transform='scale(-1 1)'
-          fill={dataStreamColor}
-        />
-        <rect
-          width={17.5}
-          height={5}
-          x={85}
-          y={-83.5}
-          rx={0}
-          ry={0}
-          transform='rotate(90)'
-          fill={dataStreamColor}
-        />
-        <path d='M73.5 20H186v5H73.5z' fill={dataStreamColor} />
-        <rect
-          width={42.5}
-          height={5}
-          x={143.5}
-          y={65}
-          rx={0}
-          ry={0}
-          fill={dataStreamColor}
-        />
-        <rect
-          width={10}
-          height={5}
-          x={208.5}
-          y={68}
-          rx={0}
-          ry={0}
-          fill={dataStreamColor}
-        />
-        <g fill={backgroundColor}>
-          <path d='M129.333 20l2.5 2.5-.833.833L127.667 20z' />
-          <path d='M131 21.667l.833.833-2.5 2.5h-1.666z' />
-        </g>
-        <g fill={backgroundColor} strokeWidth={1.029}>
-          <path d='M164.356 65l2.362 2.5-.788.833L162.782 65z' />
-          <path d='M165.93 66.667l.788.833-2.362 2.5h-1.574z' />
-        </g>
-        <g fill={backgroundColor}>
-          <path d='M213.083 68l2.5 2.5-.833.833L211.417 68z' />
-          <path d='M214.75 69.667l.833.833-2.5 2.5h-1.666z' />
-        </g>
-        <g fill={backgroundColor} strokeWidth={1.04}>
-          <path d='M91.864 115l2.313 2.5-.77.833L90.322 115z' />
-          <path d='M93.406 116.667l.771.833-2.312 2.5h-1.542z' />
-        </g>
-        <g fill={backgroundColor}>
-          <path d='M86.833 97.5l2.5 2.5-.833.833-3.333-3.333z' />
-          <path d='M88.5 99.167l.833.833-2.5 2.5h-1.666z' />
-        </g>
-        <g fill={backgroundColor}>
-          <path d='M48.5 67.917l-2.5-2.5-.833.833 3.333 3.333z' />
-          <path d='M46.833 66.25L46 65.417l-2.5 2.5v1.666z' />
+        <text
+          className={classes.csvText}
+          fill={moduleTextColor}
+          transform="translate(2254.1 847.77)"
+          fontFamily="Calibri"
+          fontSize={48}
+          letterSpacing={0}
+          wordSpacing={0}
+          style={{
+            lineHeight: "125%",
+          }}
+        >
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0}>
+              {"API"}
+            </tspan>
+          </tspan>
+        </text>
+        <g fillRule="evenodd">
+          <path
+            d="M2040.8 840.36v45.438h151.19V840.36H2040.8z"
+            fill={dataStreamColor}
+          />
+          <path d="M2103.2 847.24l26.559 15.839-26.559 15.839z" fill="#fff" />
+          <path
+            d="M2040.8 779.24v45.278h151.19V779.24H2040.8z"
+            fill={dataStreamColor}
+          />
+          <path d="M2129.7 817.64l-26.559-15.839 26.559-15.839z" fill="#fff" />
+          <path
+            d="M1398.4 1020.7v302.38h302.38V1020.7H1398.4z"
+            className={classes.csvModule}
+            onClick={() => onClick('dynamic-recognizers')}
+            onMouseEnter={() => setHover('dynamic-recognizers')}
+            onMouseLeave={() => removeHover('dynamic-recognizers')}
+            fill={state['dynamic-recognizers'] ? hoveredModuleColor : moduleColor}
+          />
         </g>
         <text
           className={classes.csvText}
-          style={{
-            lineHeight: 1,
-            textAlign: 'center',
-          }}
-          x={80.858}
-          y={66.098}
-          fontWeight={400}
-          fontSize={4.939}
-          fontFamily='sans-serif'
-          textAnchor='middle'
           fill={moduleTextColor}
-          strokeWidth={0.265}
+          transform="translate(1465 1159.2)"
+          fontFamily="Calibri"
+          fontSize={48}
+          letterSpacing={0}
+          wordSpacing={0}
+          style={{
+            lineHeight: "125%",
+          }}
         >
-          <tspan
-            x={80.858}
-            y={66.098}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-          >
-            {'Static '}
-          </tspan>
-          <tspan
-            x={80.858}
-            y={71.222}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-          >
-            {'recognizer'}
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"Dynamic"}
+            </tspan>
           </tspan>
         </text>
         <text
           className={classes.csvText}
-          style={{
-            lineHeight: 1,
-            textAlign: 'center',
-          }}
-          x={158.358}
-          y={106.098}
-          fontWeight={400}
-          fontSize={4.939}
-          fontFamily='sans-serif'
-          textAnchor='middle'
           fill={moduleTextColor}
-          strokeWidth={0.265}
-        >
-          <tspan
-            x={158.358}
-            y={106.098}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-          >
-            {'Dynamic '}
-          </tspan>
-          <tspan
-            x={158.358}
-            y={111.222}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-          >
-            {'recognizer'}
-          </tspan>
-        </text>
-        <text
-          className={classes.csvText}
+          transform="translate(1448.4 1216.8)"
+          fontFamily="Calibri"
+          fontSize={48}
+          letterSpacing={0}
+          wordSpacing={0}
           style={{
-            lineHeight: 1,
-            textAlign: 'center',
+            lineHeight: "125%",
           }}
-          x={113.457}
-          y={101.143}
-          fontWeight={400}
-          fontSize={4.939}
-          fontFamily='sans-serif'
-          textAnchor='middle'
-          fill={moduleTextColor}
-          strokeWidth={0.265}
         >
-          <tspan
-            x={113.457}
-            y={101.143}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-          >
-            {'Segmenter'}
-          </tspan>
-        </text>
-        <text
-          className={classes.csvText}
-          style={{
-            lineHeight: 1,
-            textAlign: 'center',
-          }}
-          x={126}
-          y={68.741}
-          fontWeight={400}
-          fontSize={4.939}
-          fontFamily='sans-serif'
-          textAnchor='middle'
-          fill={moduleTextColor}
-          strokeWidth={0.265}
-        >
-          <tspan
-            x={126}
-            y={68.741}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-          >
-            {'Analyzer'}
-          </tspan>
-        </text>
-        <text
-          className={classes.csvText}
-          style={{
-            lineHeight: 1,
-            textAlign: 'center',
-          }}
-          x={197.2}
-          y={66.783}
-          fontWeight={400}
-          fontSize={4.939}
-          fontFamily='sans-serif'
-          textAnchor='middle'
-          fill={moduleTextColor}
-          strokeWidth={0.265}
-        >
-          <tspan
-            x={197.2}
-            y={66.783}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-          >
-            {'Server'}
-          </tspan>
-        </text>
-        <text
-          className={classes.csvText}
-          style={{
-            lineHeight: 1,
-            textAlign: 'center',
-          }}
-          x={32.227}
-          y={63.561}
-          fontWeight={400}
-          fontSize={4.939}
-          fontFamily='sans-serif'
-          textAnchor='middle'
-          fill={moduleTextColor}
-          strokeWidth={0.265}
-        >
-          <tspan
-            x={32.227}
-            y={63.561}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-          >
-            {'Static '}
-          </tspan>
-          <tspan
-            x={32.227}
-            y={68.684}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-          >
-            {'dataset'}
-          </tspan>
-          <tspan
-            x={32.227}
-            y={73.807}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-          >
-            {'loader(s)'}
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"recognizer"}
+            </tspan>
           </tspan>
         </text>
         <path
-          d='M21 50H7.094C6.488 50 6 50.49 6 51.1v32.8c0 .61.488 1.1 1.094 1.1H21z'
-          fill={extModuleColor}
+          d="M1398.4 567.09v302.38h302.38V567.09H1398.4z"
+          className={classes.csvModule}
+          onClick={() => onClick('analyzers')}
+          onMouseEnter={() => setHover('analyzers')}
+          onMouseLeave={() => removeHover('analyzers')}
+          fill={state['analyzers'] ? hoveredModuleColor : moduleColor}
         />
         <text
           className={classes.csvText}
-          style={{
-            lineHeight: 1,
-            textAlign: 'center',
-          }}
-          x={-67.338}
-          y={12.123}
-          transform='rotate(-90)'
-          fontWeight={400}
-          fontSize={4.939}
-          fontFamily='sans-serif'
-          textAnchor='middle'
-          strokeWidth={0.265}
-        >
-          <tspan
-            x={-67.338}
-            y={12.123}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-            fill={extModuleTextColor}
-          >
-            {'Static'}
-          </tspan>
-          <tspan
-            x={-67.338}
-            y={17.246}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-            fill={extModuleTextColor}
-          >
-            {' dataset(s)'}
-          </tspan>
-        </text>
-        <path
-          d='M21 90H7.094C6.488 90 6 90.49 6 91.1v32.8c0 .61.488 1.1 1.094 1.1H21z'
-          fill={extModuleColor}
-        />
-        <text
-          className={classes.csvText}
-          style={{
-            lineHeight: 1,
-            textAlign: 'center',
-          }}
-          x={-107.339}
-          y={12.123}
-          transform='rotate(-90)'
-          fontWeight={400}
-          fontSize={4.939}
-          fontFamily='sans-serif'
-          textAnchor='middle'
-          strokeWidth={0.265}
-        >
-          <tspan
-            x={-107.339}
-            y={12.123}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-            fill={extModuleTextColor}
-          >
-            {'Dynamic'}
-          </tspan>
-          <tspan
-            x={-107.339}
-            y={17.246}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-            fill={extModuleTextColor}
-          >
-            {' dataset(s)'}
-          </tspan>
-        </text>
-        <text
-          className={classes.csvText}
-          style={{
-            lineHeight: 1,
-            textAlign: 'center',
-          }}
-          x={32.251}
-          y={21.106}
-          fontWeight={400}
-          fontSize={4.5}
-          fontFamily='sans-serif'
-          textAnchor='middle'
           fill={moduleTextColor}
-          strokeWidth={0.265}
-        >
-          <tspan
-            x={32.251}
-            y={21.106}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-          >
-            {'Sensor'}
-          </tspan>
-          <tspan
-            x={32.251}
-            y={26.229}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-          >
-            {'interface(s)'}
-          </tspan>
-        </text>
-        <text
-          className={classes.csvText}
+          transform="translate(1466.2 734.52)"
+          fontFamily="Calibri"
+          fontSize={48}
+          letterSpacing={0}
+          wordSpacing={0}
           style={{
-            lineHeight: 1,
-            textAlign: 'center',
+            lineHeight: "125%",
           }}
-          x={32.227}
-          y={103.561}
-          fontWeight={400}
-          fontSize={4.939}
-          fontFamily='sans-serif'
-          textAnchor='middle'
-          fill={moduleTextColor}
-          strokeWidth={0.265}
         >
-          <tspan
-            x={32.227}
-            y={103.561}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-          >
-            {'Dynamic'}
-          </tspan>
-          <tspan
-            x={32.227}
-            y={108.684}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-          >
-            {'dataset'}
-          </tspan>
-          <tspan
-            x={32.227}
-            y={113.808}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-          >
-            {'loader(s)'}
+          <tspan x={0} y={0}>
+            <tspan dx={0} dy={0} fill="#FFF">
+              {"Analyzer"}
+            </tspan>
           </tspan>
         </text>
-        <path
-          d='M21 5H7.094C6.488 5 6 5.49 6 6.1v32.8c0 .61.488 1.1 1.094 1.1H21z'
-          fill={extModuleColor}
-        />
-        <text
-          className={classes.csvText}
-          style={{
-            lineHeight: 1,
-            textAlign: 'center',
-          }}
-          x={-22.424}
-          y={14.795}
-          transform='rotate(-90)'
-          fontWeight={400}
-          fontSize={4.939}
-          fontFamily='sans-serif'
-          textAnchor='middle'
-          strokeWidth={0.265}
-        >
-          <tspan
-            x={-22.424}
-            y={14.795}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-            fill={extModuleTextColor}
-          >
-            {'Sensor(s)'}
-          </tspan>
-        </text>
-        <text
-          className={classes.csvText}
-          style={{
-            lineHeight: 1,
-            textAlign: 'center',
-          }}
-          x={63.335}
-          y={24.157}
-          fontWeight={400}
-          fontSize={4.939}
-          fontFamily='sans-serif'
-          textAnchor='middle'
-          fill={moduleTextColor}
-          strokeWidth={0.265}
-        >
-          <tspan
-            x={63.335}
-            y={24.157}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-          >
-            {'Filter'}
-          </tspan>
-        </text>
-        <rect
-          width={10}
-          height={5}
-          x={43.471}
-          y={20}
-          rx={0}
-          ry={0}
-          fill={dataStreamColor}
-        />
-        <g fill={backgroundColor}>
-          <path d='M48.054 20l2.5 2.5-.833.833L46.387 20z' />
-          <path d='M49.72 21.667l.834.833-2.5 2.5h-1.667z' />
-        </g>
-        <rect width={20} height={5} x={43.5} y={65} rx={0} ry={0} fill={dataStreamColor} />
-        <g fill={backgroundColor}>
-          <path d='M53.083 65l2.5 2.5-.833.833L51.417 65z' />
-          <path d='M54.75 66.667l.833.833-2.5 2.5h-1.666z' />
-        </g>
-        <rect
-          width={30}
-          height={5}
-          x={20}
-          y={-83.5}
-          rx={0}
-          ry={0}
-          transform='rotate(90)'
-          fill={dataStreamColor}
-        />
-        <g fill={backgroundColor}>
-          <path d='M83.5 37.229l-2.5 2.5-.833-.833 3.333-3.333z' />
-          <path d='M81.833 38.896l-.833.833-2.5-2.5v-1.666z' />
-        </g>
-        <text
-          className={classes.csvText}
-          style={{
-            lineHeight: 1,
-            textAlign: 'center',
-          }}
-          x={-67.364}
-          y={249.741}
-          transform='rotate(-90)'
-          fontWeight={400}
-          fontSize={4.939}
-          fontFamily='sans-serif'
-          textAnchor='middle'
-          strokeWidth={0.265}
-        >
-          <tspan
-            x={-67.364}
-            y={249.741}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-            fill={extModuleTextColor}
-          >
-            {'Application'}
-          </tspan>
-        </text>
-        <text
-          className={classes.csvText}
-          style={{
-            lineHeight: 1,
-            textAlign: 'center',
-          }}
-          x={229.708}
-          y={66.085}
-          fontWeight={400}
-          fontSize={4.939}
-          fontFamily='sans-serif'
-          textAnchor='middle'
-          fill={moduleTextColor}
-          strokeWidth={0.265}
-        >
-          <tspan
-            x={229.708}
-            y={68.684}
-            style={{
-              InkscapeFontSpecification: 'Calibri',
-              textAlign: 'center',
-            }}
-            fontFamily='Calibri'
-          >
-            {'API'}
-          </tspan>
-        </text>
-        <rect
-          width={10}
-          height={5}
-          x={-218.5}
-          y={62}
-          rx={0}
-          ry={0}
-          transform='scale(-1 1)'
-          fill={dataStreamColor}
-        />
-        <g fill={backgroundColor}>
-          <path d='M213.917 62l-2.5 2.5.833.833L215.583 62z' />
-          <path d='M212.25 63.667l-.833.833 2.5 2.5h1.666z' />
-        </g>
-        <rect
-          width={10}
-          height={5}
-          x={176}
-          y={104.5}
-          rx={0}
-          ry={0}
-          fill={dataStreamColor}
-        />
-        <g fill={backgroundColor}>
-          <path d='M180.583 104.5l2.5 2.5-.833.833-3.333-3.333z' />
-          <path d='M182.25 106.167l.833.833-2.5 2.5h-1.666z' />
-        </g>
-        <rect
-          width={10}
-          height={5}
-          x={131}
-          y={97.5}
-          rx={0}
-          ry={0}
-          fill={dataStreamColor}
-        />
-        <g fill={backgroundColor}>
-          <path d='M135.583 97.5l2.5 2.5-.833.833-3.333-3.333z' />
-          <path d='M137.25 99.167l.833.833-2.5 2.5h-1.666z' />
-        </g>
-        <rect
-          width={10}
-          height={5}
-          x={98.5}
-          y={64.5}
-          rx={0}
-          ry={0}
-          fill={dataStreamColor}
-        />
-        <g fill={backgroundColor}>
-          <path d='M103.083 64.5l2.5 2.5-.833.833-3.333-3.333z' />
-          <path d='M104.75 66.167l.833.833-2.5 2.5h-1.666z' />
+        <g fillRule="evenodd">
+          <path d="M1118.7 868.99v151.19h-45.278V868.99z" fill={dataStreamColor} />
+          <path
+            d="M1112 931.23l-15.839 26.719-15.839-26.719zM1453.8 249.03l26.719 15.839-26.719 15.839z"
+            fill="#fff"
+          />
         </g>
       </g>
     </svg>
