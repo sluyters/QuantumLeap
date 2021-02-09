@@ -3,9 +3,9 @@ const P3DollarPlusRecognizer = require('./p3dollarplus/recognizer').Recognizer;
 const Point = require('./p3dollarplus/recognizer').Point;
 const { parsePointsNames } = require('../../../../framework/utils');
 
-class Classifier extends AbstractStaticRecognizer {
+class Recognizer extends AbstractStaticRecognizer {
 
-    static name = "P3DollarPlusClassifier";
+    static name = "P3DollarPlusRecognizer";
 
     constructor(options, dataset) {
         super(options);
@@ -49,8 +49,8 @@ class Classifier extends AbstractStaticRecognizer {
     }
 
     toString() {
-        return `${Classifier.name}`;
+        return `${Recognizer.name}`;
     }
 }
 
-module.exports = Classifier;
+module.exports = Recognizer;

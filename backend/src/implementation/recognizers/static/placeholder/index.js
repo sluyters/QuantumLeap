@@ -1,8 +1,8 @@
 const AbstractStaticRecognizer = require('../../../../framework/modules/recognizers/static/abstract-static-recognizer').AbstractStaticRecognizer;
 
-class Classifier extends AbstractStaticRecognizer {
+class Recognizer extends AbstractStaticRecognizer {
 
-    static name = "PlaceholderClassifier";
+    static name = "PlaceholderRecognizer";
 
     constructor(options) {
         super(options);
@@ -21,8 +21,8 @@ class Classifier extends AbstractStaticRecognizer {
     }
 
     toString() {
-        return `${Classifier.name}`;
+        return `${Recognizer.name}`;
     }
 }
 
-module.exports = Classifier;
+module.exports = Recognizer;

@@ -3,9 +3,9 @@ const GPSDRecognizer = require('./gpsd/gpsd-static-recognizer').Recognizer;
 const Point = require('./gpsd/gpsd-static-recognizer').Point;
 const { parsePointsNames } = require('../../../../framework/utils');
 
-class Classifier extends AbstractStaticRecognizer {
+class Recognizer extends AbstractStaticRecognizer {
 
-  static name = "GPSDClassifier";
+  static name = "GPSDRecognizer";
 
   constructor(options, dataset) {
     super(options);
@@ -48,8 +48,8 @@ class Classifier extends AbstractStaticRecognizer {
   }
 
   toString() {
-    return `${Classifier.name}`;
+    return `${Recognizer.name}`;
   }
 }
 
-module.exports = Classifier;
+module.exports = Recognizer;

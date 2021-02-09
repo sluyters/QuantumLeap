@@ -4,7 +4,7 @@ class AbstractStaticRecognizer {
     }
 
     /**
-     * Add a static gesture to the training set of this classifier.
+     * Add a static gesture to the training set of this recognizer.
      * @param {Object} name - The name of the static gesture to add.
      * @param {Object} frame - The frame containing the static gesture to add.
      */
@@ -13,7 +13,7 @@ class AbstractStaticRecognizer {
     }
 
     /**
-     * Remove a static gesture from the training set of this classifier.
+     * Remove a static gesture from the training set of this recognizer.
      * @param {Object} name - The name of the static gesture to remove.
      */
     removeGesture(name) {

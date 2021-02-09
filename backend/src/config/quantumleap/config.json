@@ -14,12 +14,12 @@
       "sensors": {
         "modules": [
           {
-            "uuid": "0417fe35-04c6-4337-992d-afbecef47522",
-            "moduleName": "leapv5",
+            "uuid": "ad845eb0-c3fe-4c65-8fb3-0717f059acce",
+            "moduleName": "leap-sensor",
             "moduleType": "sensors",
             "moduleSettings": {},
             "additionalSettings": {
-              "id": "Imc"
+              "id": "lmc"
             }
           }
         ],
@@ -40,7 +40,7 @@
                 "datasets": [
                   "guinevre-static"
                 ],
-                "id": "Imc"
+                "id": "lmc"
               }
             }
           ],
@@ -58,7 +58,7 @@
                 "datasets": [
                   "guinevere"
                 ],
-                "id": "Imc"
+                "id": "lmc"
               }
             }
           ],
@@ -125,7 +125,7 @@
             "additionalSettings": {
               "motionThreshold": 70,
               "motionArticulations": {
-                "Imc": [
+                "lmc": [
                   "rightPalmPosition"
                 ]
               }
@@ -143,23 +143,23 @@
               "moduleSettings": {
                 "alpha": 0.8,
                 "points": {
-                  "Imc": [
-                    "rightThumbTipPosition",
-                    "rightThumbPipPosition",
-                    "rightThumbMcpPosition",
+                  "lmc": [
                     "rightPalmPosition",
-                    "rightIndexMcpPosition",
-                    "rightMiddleMcpPosition",
-                    "rightRingMcpPosition",
-                    "rightPinkyMcpPosition",
-                    "rightPinkyPipPosition",
-                    "rightRingPipPosition",
-                    "rightMiddlePipPosition",
-                    "rightIndexPipPosition",
+                    "rightThumbTipPosition",
                     "rightIndexTipPosition",
                     "rightMiddleTipPosition",
                     "rightRingTipPosition",
-                    "rightPinkyTipPosition"
+                    "rightPinkyTipPosition",
+                    "rightThumbPipPosition",
+                    "rightIndexPipPosition",
+                    "rightMiddlePipPosition",
+                    "rightRingPipPosition",
+                    "rightPinkyPipPosition",
+                    "rightThumbMcpPosition",
+                    "rightIndexMcpPosition",
+                    "rightMiddleMcpPosition",
+                    "rightRingMcpPosition",
+                    "rightPinkyMcpPosition"
                   ]
                 }
               },
@@ -181,7 +181,7 @@
               "moduleSettings": {
                 "samplingPoints": 16,
                 "points": {
-                  "Imc": [
+                  "lmc": [
                     "rightPalmPosition"
                   ]
                 }

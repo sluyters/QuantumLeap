@@ -3,9 +3,9 @@ const GPSDAlphaDissimilarityRecognizer = require('./gpsda-dissimilarity/gpsda-di
 const Point = require('./gpsda-dissimilarity/gpsda-dissimilarity-static-recognizer').Point;
 const { parsePointsNames } = require('../../../../framework/utils');
 
-class Classifier extends AbstractStaticRecognizer {
+class Recognizer extends AbstractStaticRecognizer {
 
-  static name = "GPSDaDissimilarityClassifier";
+  static name = "GPSDaDissimilarityRecognizer";
 
   constructor(options, dataset) {
     super(options);
@@ -49,8 +49,8 @@ class Classifier extends AbstractStaticRecognizer {
   }
 
   toString() {
-    return `${Classifier.name} [ alpha = ${this.alpha.toFixed(2)} ]`;
+    return `${Recognizer.name} [ alpha = ${this.alpha.toFixed(2)} ]`;
   }
 }
 
-module.exports = Classifier;
+module.exports = Recognizer;

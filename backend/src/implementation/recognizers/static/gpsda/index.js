@@ -3,9 +3,9 @@ const GPSDaRecognizer = require('./gpsda/gpsda-static-recognizer').Recognizer;
 const Point = require('./gpsda/gpsda-static-recognizer').Point;
 const { parsePointsNames } = require('../../../../framework/utils');
 
-class Classifier extends AbstractStaticRecognizer {
+class Recognizer extends AbstractStaticRecognizer {
 
-  static name = "GPSDaClassifier";
+  static name = "GPSDaRecognizer";
 
   constructor(options, dataset) {
     super(options);
@@ -49,8 +49,8 @@ class Classifier extends AbstractStaticRecognizer {
   }
 
   toString() {
-    return `${Classifier.name} [ alpha = ${this.alpha.toFixed(2)} ]`;
+    return `${Recognizer.name} [ alpha = ${this.alpha.toFixed(2)} ]`;
   }
 }
 
-module.exports = Classifier;
+module.exports = Recognizer;
