@@ -1,0 +1,51 @@
+{
+  "label": "Sliding Window",
+  "name": "window",
+  "type": "segmenter",
+  "description": "A segmenter that triggers gesture recognition at regular intervals by relying on fixed-size buffers (windows). Each time a new frame is received, it is pushed in the window(s), while the oldest frame is removed. Every fixed number of frames, the buffered gesture data are sent to the recognizer.",
+  "properties": {},
+  "settings": [
+    {
+      "type": "CompoundSetting",
+      "name": "windows",
+      "label": "Sliding window(s)",
+      "description": "The sliding window(s) used in the segmentation",
+      "settings": [
+        {
+          "type": "IntegerInput",
+          "name": "width",
+          "label": "Width",
+          "description": "The width of the window (in frames).",
+          "minValue": 1,
+          "maxValue": null,
+          "required": true,
+          "default": 20
+        }
+      ],
+      "itemName": "Window",
+      "minNumber": 1,
+      "maxNumber": null,
+      "default": []
+    },
+    {
+      "type": "IntegerInput",
+      "name": "intervalLength",
+      "label": "Interval Length",
+      "description": "The number of frames between each segment.",
+      "minValue": 0,
+      "maxValue": null,
+      "required": true,
+      "default": 3
+    },
+    {
+      "type": "IntegerInput",
+      "name": "pauseLength",
+      "label": "Pause length",
+      "description": "The length of the pause after a gesture is recognized (in frames).",
+      "minValue": 0,
+      "maxValue": null,
+      "required": true,
+      "default": 60
+    }
+  ]
+}

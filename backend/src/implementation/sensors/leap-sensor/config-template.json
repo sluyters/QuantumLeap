@@ -1,0 +1,227 @@
+{
+  "label": "Leap Motion Controller",
+  "name": "leap-sensor",
+  "type": "sensor",
+  "description": "An adaptation layer for the Leap Motion Controller.",
+  "properties": {
+    "points": [
+      {
+        "type": "category",
+        "name": "left",
+        "label": "Left",
+        "points": [
+          {
+            "type": "joint",
+            "name": "leftPalmPosition",
+            "label": "Palm"
+          },
+          {
+            "type": "category",
+            "name": "tips",
+            "label": "Tips",
+            "points": [
+              {
+                "type": "joint",
+                "name": "leftThumbTipPosition",
+                "label": "Thumb tip"
+              },
+              {
+                "type": "joint",
+                "name": "leftIndexTipPosition",
+                "label": "Index tip"
+              },
+              {
+                "type": "joint",
+                "name": "leftMiddleTipPosition",
+                "label": "Middle tip"
+              },
+              {
+                "type": "joint",
+                "name": "leftRingTipPosition",
+                "label": "Ring tip"
+              },
+              {
+                "type": "joint",
+                "name": "leftPinkyTipPosition",
+                "label": "Pinky tip"
+              }
+            ]
+          },
+          {
+            "type": "category",
+            "name": "pips",
+            "label": "Pips",
+            "points": [
+              {
+                "type": "joint",
+                "name": "leftThumbPipPosition",
+                "label": "Thumb pip"
+              },
+              {
+                "type": "joint",
+                "name": "leftIndexPipPosition",
+                "label": "Index pip"
+              },
+              {
+                "type": "joint",
+                "name": "leftMiddlePipPosition",
+                "label": "Middle pip"
+              },
+              {
+                "type": "joint",
+                "name": "leftRingPipPosition",
+                "label": "Ring pip"
+              },
+              {
+                "type": "joint",
+                "name": "leftPinkyPipPosition",
+                "label": "Pinky pip"
+              }
+            ]
+          },
+          {
+            "type": "category",
+            "name": "mcps",
+            "label": "Mcps",
+            "points": [
+              {
+                "type": "joint",
+                "name": "leftThumbMcpPosition",
+                "label": "Thumb mcp"
+              },
+              {
+                "type": "joint",
+                "name": "leftIndexMcpPosition",
+                "label": "Index mcp"
+              },
+              {
+                "type": "joint",
+                "name": "leftMiddleMcpPosition",
+                "label": "Middle mcp"
+              },
+              {
+                "type": "joint",
+                "name": "leftRingMcpPosition",
+                "label": "Ring mcp"
+              },
+              {
+                "type": "joint",
+                "name": "leftPinkyMcpPosition",
+                "label": "Pinky mcp"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "name": "right",
+        "label": "Right",
+        "points": [
+          {
+            "type": "joint",
+            "name": "rightPalmPosition",
+            "label": "Palm"
+          },
+          {
+            "type": "category",
+            "name": "tips",
+            "label": "Tips",
+            "points": [
+              {
+                "type": "joint",
+                "name": "rightThumbTipPosition",
+                "label": "Thumb tip"
+              },
+              {
+                "type": "joint",
+                "name": "rightIndexTipPosition",
+                "label": "Index tip"
+              },
+              {
+                "type": "joint",
+                "name": "rightMiddleTipPosition",
+                "label": "Middle tip"
+              },
+              {
+                "type": "joint",
+                "name": "rightRingTipPosition",
+                "label": "Ring tip"
+              },
+              {
+                "type": "joint",
+                "name": "rightPinkyTipPosition",
+                "label": "Pinky tip"
+              }
+            ]
+          },
+          {
+            "type": "category",
+            "name": "pips",
+            "label": "Pips",
+            "points": [
+              {
+                "type": "joint",
+                "name": "rightThumbPipPosition",
+                "label": "Thumb pip"
+              },
+              {
+                "type": "joint",
+                "name": "rightIndexPipPosition",
+                "label": "Index pip"
+              },
+              {
+                "type": "joint",
+                "name": "rightMiddlePipPosition",
+                "label": "Middle pip"
+              },
+              {
+                "type": "joint",
+                "name": "rightRingPipPosition",
+                "label": "Ring pip"
+              },
+              {
+                "type": "joint",
+                "name": "rightPinkyPipPosition",
+                "label": "Pinky pip"
+              }
+            ]
+          },
+          {
+            "type": "category",
+            "name": "mcps",
+            "label": "Mcps",
+            "points": [
+              {
+                "type": "joint",
+                "name": "rightThumbMcpPosition",
+                "label": "Thumb mcp"
+              },
+              {
+                "type": "joint",
+                "name": "rightIndexMcpPosition",
+                "label": "Index mcp"
+              },
+              {
+                "type": "joint",
+                "name": "rightMiddleMcpPosition",
+                "label": "Middle mcp"
+              },
+              {
+                "type": "joint",
+                "name": "rightRingMcpPosition",
+                "label": "Ring mcp"
+              },
+              {
+                "type": "joint",
+                "name": "rightPinkyMcpPosition",
+                "label": "Pinky mcp"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "settings": []
+}

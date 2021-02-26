@@ -1,0 +1,20 @@
+{
+  "label": "Machete",
+  "name": "machete",
+  "type": "segmenter",
+  "description": "The Machete recognizer.",
+  "display": true,
+  "properties": {},
+  "settings": [
+    {
+      "type": "PointsSelector",
+      "label": "Points",
+      "name": "monitoredArticulations",
+      "description": "The points to use for segmentation.",
+      "minNumber": 1,
+      "maxNumber": null,
+      "required": true,
+      "default": {}
+    }
+  ]
+}

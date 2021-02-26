@@ -1,0 +1,31 @@
+{
+  "label": "Multiple Recognizers",
+  "name": "multi-recognizer",
+  "type": "recognizer-static",
+  "description": "A module that allows the combination of multiple recognizers.",
+  "properties": {},
+  "settings": [
+    {
+      "name": "recognizers",
+      "type": "ModuleSelector",
+      "label": "Recognizers",
+      "description": "The recognizers to combine.",
+      "moduleType": "recognizers/static",
+      "minModules": 1,
+      "maxModules": null,
+      "settings": [
+        {
+          "name": "weight",
+          "type": "FloatInput",
+          "label": "Weight",
+          "description": "The weight given to the recognizer. A lower weight means that the result of the recognizer is less significant",
+          "minValue": 0,
+          "maxValue": null,
+          "required": true,
+          "default": 1
+        }
+      ],
+      "default": []
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "label": "GPSDa",
+  "name": "gpsda",
+  "type": "recognizer-static",
+  "description": "A static gesture recognizer that is rotation-, scale-, and position-invariant.",
+  "properties": {},
+  "settings": [
+    {
+      "name": "alpha",
+      "type": "FloatInput",
+      "label": "Alpha",
+      "description": "TODO.",
+      "minValue": null,
+      "maxValue": null,
+      "required": true,
+      "default": 0.8
+    },
+    {
+      "name": "points",
+      "type": "PointsSelector",
+      "label": "Points",
+      "description": "The points that are used by the recognizer.",
+      "minNumber": 1,
+      "maxNumber": null,
+      "default": {}
+    }
+  ]
+}

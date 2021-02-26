@@ -1,0 +1,349 @@
+{
+  "label": "General configuration",
+  "name": "quantumLeap",
+  "description": "The general configuration of the QuantumLeap framework.",
+  "properties": {},
+  "settings": {
+    "general": [
+      {
+        "type": "Category",
+        "name": "general",
+        "label": "General",
+        "settings": [
+          {
+            "type": "BooleanInput",
+            "name": "debug",
+            "label": "Show debug logs",
+            "description": "Display the logs in the terminal for debugging.",
+            "default": false
+          },
+          {
+            "type": "BooleanInput",
+            "name": "sendContinuousData",
+            "label": "Send continuous data",
+            "description": "Send the data from each frame to the client.",
+            "default": true
+          }
+        ]
+      },
+      {
+        "type": "Category",
+        "name": "server",
+        "label": "Server",
+        "settings": [
+          {
+            "type": "TextInput",
+            "name": "ip",
+            "label": "Server IP",
+            "description": "IP address of the server (for app interface).",
+            "minLength": 1,
+            "maxLength": null,
+            "default": "127.0.0.1"
+          },
+          {
+            "type": "IntegerInput",
+            "name": "port",
+            "label": "Server port",
+            "description": "Port of the server (for app interface).",
+            "minValue": 0,
+            "maxValue": 65535,
+            "required": true,
+            "default": 6442
+          }
+        ]
+      }
+    ],
+    "sensors": [
+      {
+        "name": "modules",
+        "type": "ModuleSelector",
+        "label": "Module(s)",
+        "description": "The sensor(s) to use in the pipeline.",
+        "moduleType": "sensors",
+        "minModules": 1,
+        "maxModules": null,
+        "settings": [
+          {
+            "type": "TextInput",
+            "name": "id",
+            "label": "Identifier",
+            "description": "Unique identifier for the sensor (strongly recommended if multiple sensors are selected).",
+            "minLength": 1,
+            "maxLength": null,
+            "default": "sensor"
+          }
+        ],
+        "default": []
+      },
+      {
+        "type": "IntegerInput",
+        "name": "framerate",
+        "label": "Framerate",
+        "description": "The number of frames captured per second.",
+        "minValue": 1,
+        "maxValue": null,
+        "required": true,
+        "default": 60
+      }
+    ],
+    "filters": [
+      {
+        "name": "modules",
+        "type": "ModuleSelector",
+        "label": "Module",
+        "description": "The filter to use in the pipeline.",
+        "moduleType": "filters",
+        "minModules": 1,
+        "maxModules": 1,
+        "settings": [],
+        "default": []
+      }
+    ],
+    "datasets": {
+      "static": [
+        {
+          "name": "modules",
+          "type": "ModuleSelector",
+          "label": "Module(s)",
+          "description": "The static dataset loader(s) to use in the pipeline.",
+          "moduleType": "datasets/static",
+          "minModules": 1,
+          "maxModules": null,
+          "settings": [
+            {
+              "name": "datasets",
+              "type": "DatasetSelector",
+              "label": "Dataset",
+              "description": "The static dataset to load.",
+              "datasetType": "static",
+              "minDatasets": 1,
+              "maxDatasets": 1,
+              "default": []
+            },
+            {
+              "type": "TextInput",
+              "name": "id",
+              "label": "Identifier",
+              "description": "Unique identifier for the dataset (strongly recommended if multiple datasets are selected).",
+              "minLength": 1,
+              "maxLength": null,
+              "default": ""
+            }
+          ],
+          "default": []
+        },
+        {
+          "type": "IntegerInput",
+          "name": "templatesPerClass",
+          "label": "Templates per class",
+          "description": "Number of templates used per class to train the recognizer(s).",
+          "minValue": 0,
+          "maxValue": null,
+          "required": true,
+          "default": 0
+        },
+        {
+          "name": "aggregateClasses",
+          "type": "GesturesSelector",
+          "label": "Gestures",
+          "description": "The gestures that are used to train the recognizer(s). All the gestures are used if none is selected.",
+          "datasetType": "static",
+          "default": []
+        }
+      ],
+      "dynamic": [
+        {
+          "name": "modules",
+          "type": "ModuleSelector",
+          "label": "Module(s)",
+          "description": "The dynamic gesture dataset loader(s) to use in the pipeline.",
+          "moduleType": "datasets/dynamic",
+          "minModules": 1,
+          "maxModules": null,
+          "settings": [
+            {
+              "name": "datasets",
+              "type": "DatasetSelector",
+              "label": "Dataset",
+              "description": "The dynamic gesture dataset to load.",
+              "datasetType": "dynamic",
+              "minDatasets": 1,
+              "maxDatasets": 1,
+              "default": []
+            },
+            {
+              "type": "TextInput",
+              "name": "id",
+              "label": "Identifier",
+              "description": "Unique identifier for the dataset (strongly recommended if multiple datasets are selected).",
+              "minLength": 1,
+              "maxLength": null,
+              "default": ""
+            }
+          ],
+          "default": []
+        },
+        {
+          "type": "IntegerInput",
+          "name": "templatesPerClass",
+          "label": "Templates per class",
+          "description": "Number of templates used per class to train the recognizer(s).",
+          "minValue": 0,
+          "maxValue": null,
+          "required": true,
+          "default": 0
+        },
+        {
+          "name": "aggregateClasses",
+          "type": "GesturesSelector",
+          "label": "Gestures",
+          "description": "The gestures that are used to train the recognizer(s). All the gestures are used if none is selected.",
+          "datasetType": "dynamic",
+          "default": []
+        }
+      ]
+    },
+    "analyzers": [
+      {
+        "name": "modules",
+        "type": "ModuleSelector",
+        "label": "Module",
+        "description": "The analyzer to use in the pipeline.",
+        "moduleType": "analyzers",
+        "minModules": 1,
+        "maxModules": 1,
+        "settings": [],
+        "default": []
+      }
+    ],
+    "segmenters": [
+      {
+        "name": "modules",
+        "type": "ModuleSelector",
+        "label": "Module",
+        "description": "The segmenter to use in the pipeline.",
+        "moduleType": "segmenters",
+        "minModules": 1,
+        "maxModules": 1,
+        "settings": [
+          {
+            "type": "FloatInput",
+            "name": "motionThreshold",
+            "label": "Motion threshold",
+            "description": "The minimum hand motion to consider that the segment may be a gesture.",
+            "minValue": 0,
+            "maxValue": null,
+            "required": true,
+            "default": 70
+          },
+          {
+            "type": "PointsSelector",
+            "label": "Points",
+            "name": "motionArticulations",
+            "description": "The articulations that are used to determine whether the user moved his hand.",
+            "minNumber": 1,
+            "maxNumber": null,
+            "default": {}
+          }
+        ],
+        "default": []
+      }
+    ],
+    "recognizers": {
+      "static": [
+        {
+          "name": "modules",
+          "type": "ModuleSelector",
+          "label": "Module",
+          "description": "The static recognizer to use in the pipeline.",
+          "moduleType": "recognizers/static",
+          "minModules": 1,
+          "maxModules": 1,
+          "settings": [],
+          "default": []
+        },
+        {
+          "name": "scoreThreshold",
+          "type": "FloatInput",
+          "label": "Score threshold",
+          "description": "The lowest score (included) for a gesture to be recognized.",
+          "minValue": 0.0,
+          "maxValue": 1.0,
+          "required": true,
+          "default": 0.25
+        },
+        {
+          "type": "IntegerInput",
+          "name": "bufferLength",
+          "label": "Buffer length",
+          "description": "TODO.",
+          "minValue": 0,
+          "maxValue": null,
+          "required": true,
+          "default": 15
+        },
+        {
+          "name": "poseRatioThreshold",
+          "type": "FloatInput",
+          "label": "Pose ratio threshold",
+          "description": "TODO.",
+          "minValue": null,
+          "maxValue": null,
+          "required": true,
+          "default": 0.8
+        },
+        {
+          "type": "BooleanInput",
+          "name": "sendIfRequested",
+          "label": "Send if requested",
+          "description": "Send recognized gestures only if they are requested by the client.",
+          "default": true
+        },
+        {
+          "type": "BooleanInput",
+          "name": "loadOnRequest",
+          "label": "Load on request",
+          "description": "Load gestures based on requests from the client.",
+          "default": false
+        }
+      ],
+      "dynamic": [
+        {
+          "name": "modules",
+          "type": "ModuleSelector",
+          "label": "Module",
+          "description": "The dynamic recognizer to use in the pipeline.",
+          "moduleType": "recognizers/dynamic",
+          "minModules": 1,
+          "maxModules": 1,
+          "settings": [],
+          "default": []
+        },
+        {
+          "name": "scoreThreshold",
+          "type": "FloatInput",
+          "label": "Score threshold",
+          "description": "The lowest score (included) for a gesture to be recognized.",
+          "minValue": 0.0,
+          "maxValue": 1.0,
+          "required": true,
+          "default": 0.25
+        },
+        {
+          "type": "BooleanInput",
+          "name": "sendIfRequested",
+          "label": "Send if requested",
+          "description": "Send recognized gestures only if they are requested by the client.",
+          "default": true
+        },
+        {
+          "type": "BooleanInput",
+          "name": "loadOnRequest",
+          "label": "Load on request",
+          "description": "Load gestures based on requests from the client.",
+          "default": false
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "label": "Threshold",
+  "name": "threshold",
+  "type": "segmenter",
+  "description": "A segmenter that segments gestures based on threshold.",
+  "properties": {},
+  "settings": [
+    {
+      "type": "CompoundSetting",
+      "name": "thresholds",
+      "label": "Points & thresholds",
+      "description": "The points used for segmentation and their threshold",
+      "settings": [
+        {
+          "type": "PointsSelector",
+          "label": "Point",
+          "name": "point",
+          "description": "The point used for segmentation.",
+          "minNumber": 1,
+          "maxNumber": 1,
+          "default": {}
+        },
+        {
+          "type": "TextInput",
+          "name": "property",
+          "label": "Point property",
+          "description": "The property of the point to compare to the threshold (e.g., x, y, z, dx,...).",
+          "minLength": 1,
+          "maxLength": null,
+          "default": ""
+        },
+        {
+          "type": "FloatInput",
+          "name": "lowerBound",
+          "label": "Lower bound",
+          "description": "The lower bound of the threshold.",
+          "minValue": null,
+          "maxValue": null,
+          "required": false,
+          "default": null
+        },
+        {
+          "type": "FloatInput",
+          "name": "upperBound",
+          "label": "Upper bound",
+          "description": "The upper bound of the threshold.",
+          "minValue": null,
+          "maxValue": null,
+          "required": false,
+          "default": null
+        },
+        {
+          "type": "BooleanInput",
+          "name": "abs",
+          "label": "Absolute value",
+          "description": "Set to true if the threshold is an absolute value.",
+          "default": false
+        }
+      ],
+      "itemName": "Threshold",
+      "minNumber": 1,
+      "maxNumber": null,
+      "default": []
+    },
+    {
+      "type": "SelectInput",
+      "name": "mode",
+      "label":"Mode",
+      "description": "TODO",
+      "items": [
+        { "name": "and", "label": "AND" },
+        { "name": "or", "label": "OR" }
+      ],
+      "default": "and"
+    }
+  ]
+}

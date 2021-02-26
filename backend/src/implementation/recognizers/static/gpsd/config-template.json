@@ -1,0 +1,18 @@
+{
+  "label": "GPSD",
+  "name": "gpsd",
+  "type": "recognizer-static",
+  "description": "TODO.",
+  "properties": {},
+  "settings": [
+    {
+      "name": "points",
+      "type": "PointsSelector",
+      "label": "Points",
+      "description": "The points that are used by the recognizer.",
+      "minNumber": 1,
+      "maxNumber": null,
+      "default": {}
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "main": {
+    "settings": {
+      "general": {
+        "general": {
+          "debug": true
+        },
+        "testingParams": {
+          "r": 100,
+          "minT": 8,
+          "maxT": 8
+        },
+        "globalParams": {
+          "samplingPoints": 16,
+          "points": []
+        }
+      },
+      "datasets": {
+        "dynamic": {
+          "modules": [
+            {
+              "moduleName": "leap-loader",
+              "moduleType": "datasets/dynamic",
+              "moduleSettings": {},
+              "additionalSettings": {
+                "datasets": [
+                  "guinevere"
+                ],
+                "id": "lmc"
+              }
+            }
+          ],
+          "aggregateClasses": []
+        }
+      },
+      "recognizers": {
+        "dynamic": {
+          "modules": [
+            {
+              "moduleName": "multi-recognizer",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "recognizers": [
+                  {
+                    "moduleName": "jackknife",
+                    "moduleType": "recognizers/dynamic",
+                    "moduleSettings": {
+                      "samplingPoints": 16,
+                      "points": {
+                        "lmc": [
+                          "rightPalmPosition",
+                          "rightThumbTipPosition",
+                          "rightIndexTipPosition",
+                          "rightMiddleTipPosition",
+                          "rightRingTipPosition",
+                          "rightPinkyTipPosition"
+                        ]
+                      }
+                    },
+                    "additionalSettings": {
+                      "weight": 1
+                    }
+                  },
+                  {
+                    "moduleName": "p3dollarplus",
+                    "moduleType": "recognizers/dynamic",
+                    "moduleSettings": {
+                      "samplingPoints": 16,
+                      "points": {
+                        "lmc": [
+                          "rightPalmPosition",
+                          "rightThumbTipPosition",
+                          "rightIndexTipPosition",
+                          "rightMiddleTipPosition",
+                          "rightRingTipPosition",
+                          "rightPinkyTipPosition"
+                        ]
+                      }
+                    },
+                    "additionalSettings": {
+                      "weight": 1
+                    }
+                  }
+                ]
+              },
+              "additionalSettings": {
+                "useCustomParams": false
+              }
+            },
+            {
+              "moduleName": "jackknife",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "samplingPoints": 16,
+                "points": {
+                  "lmc": [
+                    "rightPalmPosition",
+                    "rightThumbTipPosition",
+                    "rightIndexTipPosition",
+                    "rightMiddleTipPosition",
+                    "rightRingTipPosition",
+                    "rightPinkyTipPosition"
+                  ]
+                }
+              },
+              "additionalSettings": {
+                "weight": 1,
+                "useCustomParams": false
+              }
+            },
+            {
+              "moduleName": "p3dollarplus",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "samplingPoints": 16,
+                "points": {
+                  "lmc": [
+                    "rightPalmPosition",
+                    "rightThumbTipPosition",
+                    "rightIndexTipPosition",
+                    "rightMiddleTipPosition",
+                    "rightRingTipPosition",
+                    "rightPinkyTipPosition"
+                  ]
+                }
+              },
+              "additionalSettings": {
+                "weight": 1,
+                "useCustomParams": false
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
