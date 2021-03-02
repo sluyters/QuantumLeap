@@ -14,12 +14,12 @@
       "sensors": {
         "modules": [
           {
-            "uuid": "ad845eb0-c3fe-4c65-8fb3-0717f059acce",
-            "moduleName": "leap-sensor",
+            "uuid": "1ae884a0-10a0-4bf9-8c90-37ca869f36be",
+            "moduleName": "touchPad-sensor",
             "moduleType": "sensors",
             "moduleSettings": {},
             "additionalSettings": {
-              "id": "lmc"
+              "id": "3Dtchp"
             }
           }
         ],
@@ -30,81 +30,31 @@
       },
       "datasets": {
         "static": {
-          "modules": [
-            {
-              "uuid": "5f9a3573-ac9d-4996-8b8a-d155da8bc34f",
-              "moduleName": "leap-loader",
-              "moduleType": "datasets/static",
-              "moduleSettings": {},
-              "additionalSettings": {
-                "datasets": [
-                  "guinevre-static"
-                ],
-                "id": "lmc"
-              }
-            }
-          ],
-          "templatesPerClass": 100,
+          "modules": [],
+          "templatesPerClass": 0,
           "aggregateClasses": []
         },
         "dynamic": {
           "modules": [
             {
-              "uuid": "a79054f0-4bd7-418f-b28e-c6c1b144e4a5",
-              "moduleName": "leap-loader",
+              "uuid": "87da6c59-2376-4c81-85f4-a0ab984f0045",
+              "moduleName": "touchPad-loader",
               "moduleType": "datasets/dynamic",
               "moduleSettings": {},
               "additionalSettings": {
                 "datasets": [
-                  "guinevere"
+                  "touchPad"
                 ],
-                "id": "lmc"
+                "id": "3Dtchp"
               }
             }
           ],
           "templatesPerClass": 8,
-          "aggregateClasses": [
-            {
-              "uuid": "524761cf-5979-457b-be9c-8ce4db066848",
-              "name": "rindex_airtap",
-              "gestureClasses": [
-                "tap"
-              ]
-            },
-            {
-              "uuid": "018a9b7e-dcb9-4c1a-9780-a9c899cc5603",
-              "name": "rhand_uswipe",
-              "gestureClasses": [
-                "swipe_up"
-              ]
-            },
-            {
-              "uuid": "d5bc65d5-7142-4187-9609-fbd40ca4c174",
-              "name": "rhand_lswipe",
-              "gestureClasses": [
-                "swipe_left"
-              ]
-            },
-            {
-              "uuid": "5d92ee86-7ed2-4061-b2cf-2b90e0843be9",
-              "name": "rhand_rswipe",
-              "gestureClasses": [
-                "swipe_right"
-              ]
-            }
-          ]
+          "aggregateClasses": []
         }
       },
       "analyzers": {
-        "modules": [
-          {
-            "uuid": "ee508cff-b01c-40d0-bdb7-6c0d6effe148",
-            "moduleName": "basic",
-            "moduleType": "analyzers",
-            "moduleSettings": {},
-            "additionalSettings": {}
-          }
-        ]
+        "modules": []
       },
       "segmenters": {
         "modules": [
@@ -125,8 +75,8 @@
             "additionalSettings": {
               "motionThreshold": 70,
               "motionArticulations": {
-                "lmc": [
-                  "rightPalmPosition"
+                "touchPad": [
+                  "3D"
                 ]
               }
             }
@@ -135,37 +85,7 @@
       },
       "recognizers": {
         "static": {
-          "modules": [
-            {
-              "uuid": "4345429e-8ea8-472d-b5e5-23ec9381cd3c",
-              "moduleName": "gpsda",
-              "moduleType": "recognizers/static",
-              "moduleSettings": {
-                "alpha": 0.8,
-                "points": {
-                  "lmc": [
-                    "rightPalmPosition",
-                    "rightThumbTipPosition",
-                    "rightIndexTipPosition",
-                    "rightMiddleTipPosition",
-                    "rightRingTipPosition",
-                    "rightPinkyTipPosition",
-                    "rightThumbPipPosition",
-                    "rightIndexPipPosition",
-                    "rightMiddlePipPosition",
-                    "rightRingPipPosition",
-                    "rightPinkyPipPosition",
-                    "rightThumbMcpPosition",
-                    "rightIndexMcpPosition",
-                    "rightMiddleMcpPosition",
-                    "rightRingMcpPosition",
-                    "rightPinkyMcpPosition"
-                  ]
-                }
-              },
-              "additionalSettings": {}
-            }
-          ],
+          "modules": [],
           "scoreThreshold": 0.25,
           "bufferLength": 15,
           "poseRatioThreshold": 0.8,
@@ -179,10 +99,13 @@
               "moduleName": "jackknife",
               "moduleType": "recognizers/dynamic",
               "moduleSettings": {
-                "samplingPoints": 16,
+                "samplingPoints": 5,
                 "points": {
-                  "lmc": [
-                    "rightPalmPosition"
+                  "sensor": [
+                    "3D",
+                    "2DTouch1",
+                    "2DTouch2",
+                    "2DTouch3"
                   ]
                 }
               },

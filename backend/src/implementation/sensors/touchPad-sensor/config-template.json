@@ -1,0 +1,45 @@
+{
+    "label": "3D TouchPad Sensor",
+    "name": "3DTouchPad",
+    "type": "sensor",
+    "description": "An adaptation layer for the 3DTouchPad sensor.",
+    "properties": {
+      "points": [
+          {
+              "type": "category",
+              "name": "Air Gesture",
+              "label": "Air",
+              "points": [
+                  {
+                      "type": "joint",
+                      "name": "3D",
+                      "label": "3D"
+                  }
+              ]
+          },
+          {
+            "type": "category",
+            "name": "Touch Gesture",
+            "label": "Touch",
+            "points": [
+                {
+                    "type": "joint",
+                    "name": "2DTouch1",
+                    "label": "Touch With 1 fingers"
+                },
+                {
+                    "type": "joint",
+                    "name": "2DTouch2",
+                    "label": "Touch With 2 fingers"
+                },
+                {
+                    "type": "joint",
+                    "name": "2DTouch3",
+                    "label": "Touch With 3 fingers"
+                }
+            ]
+        }
+      ]
+    },
+    "settings": []
+  }
