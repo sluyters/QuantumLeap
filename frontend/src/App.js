@@ -35,11 +35,11 @@ const pages = [
       }
     ]
   },
-  // { name: 'testing', route: '/testing', label: 'Testing', icon: TestingIcon, items: [
-  //     { name: 'staticTesting', route: '/testing/static', label: 'Static gestures', icon: null },
-  //     { name: 'dynamicTesting', route: '/testing/dynamic', label: 'Dynamic gestures', icon: null },
-  //   ] 
-  // },
+  { name: 'testing', route: '/testing', label: 'Testing', icon: TestingIcon, items: [
+      { name: 'staticTesting', route: '/testing/static', label: 'Static gestures', icon: null },
+      { name: 'dynamicTesting', route: '/testing/dynamic', label: 'Dynamic gestures', icon: null },
+    ] 
+  },
 
   // { name: 'pipeline2', route: '/pipeline2', label: 'Recognition pipeline', icon: PipelineIcon },
   // { name: 'datasets', route: '/datasets', label: 'Gesture sets', icon: GestureSetsIcon },

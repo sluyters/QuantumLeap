@@ -25,10 +25,10 @@ let server = http.createServer();
 
 ////////////////////////////////////////////////////////////////////////////////
 // Initialize Benchmarking tool and its configuration
-// let testingConfigD = new Configuration(TESTING_DIRECTORY_D, MODULES_DIRECTORY, DATASETS_DIRECTORY, VALUES_NAME, TEMPLATES_NAME, DATASET_INFO_NAME);
-// testingConfigD.load();
-// let testingConfigS = new Configuration(TESTING_DIRECTORY_S, MODULES_DIRECTORY, DATASETS_DIRECTORY, VALUES_NAME, TEMPLATES_NAME, DATASET_INFO_NAME);
-// testingConfigS.load();
+let testingConfigD = new Configuration(TESTING_DIRECTORY_D, MODULES_DIRECTORY, DATASETS_DIRECTORY, VALUES_NAME, TEMPLATES_NAME, DATASET_INFO_NAME);
+testingConfigD.load();
+let testingConfigS = new Configuration(TESTING_DIRECTORY_S, MODULES_DIRECTORY, DATASETS_DIRECTORY, VALUES_NAME, TEMPLATES_NAME, DATASET_INFO_NAME);
+testingConfigS.load();
 
 // Initialize QuantumLeap and its configuration
 let configuration = new Configuration(QUANTUMLEAP_DIRECTORY, MODULES_DIRECTORY, DATASETS_DIRECTORY, VALUES_NAME, TEMPLATES_NAME, DATASET_INFO_NAME);

@@ -7,8 +7,8 @@
         },
         "testingParams": {
           "r": 100,
-          "minT": 8,
-          "maxT": 8
+          "minT": 1,
+          "maxT": 4
         },
         "globalParams": {
           "samplingPoints": 16,
@@ -24,7 +24,7 @@
               "moduleSettings": {},
               "additionalSettings": {
                 "datasets": [
-                  "guinevere"
+                  "walabot-lmc"
                 ],
                 "id": "lmc"
               }
@@ -36,78 +36,6 @@
       "recognizers": {
         "dynamic": {
           "modules": [
-            {
-              "moduleName": "multi-recognizer",
-              "moduleType": "recognizers/dynamic",
-              "moduleSettings": {
-                "recognizers": [
-                  {
-                    "moduleName": "jackknife",
-                    "moduleType": "recognizers/dynamic",
-                    "moduleSettings": {
-                      "samplingPoints": 16,
-                      "points": {
-                        "lmc": [
-                          "rightPalmPosition",
-                          "rightThumbTipPosition",
-                          "rightIndexTipPosition",
-                          "rightMiddleTipPosition",
-                          "rightRingTipPosition",
-                          "rightPinkyTipPosition"
-                        ]
-                      }
-                    },
-                    "additionalSettings": {
-                      "weight": 1
-                    }
-                  },
-                  {
-                    "moduleName": "p3dollarplus",
-                    "moduleType": "recognizers/dynamic",
-                    "moduleSettings": {
-                      "samplingPoints": 16,
-                      "points": {
-                        "lmc": [
-                          "rightPalmPosition",
-                          "rightThumbTipPosition",
-                          "rightIndexTipPosition",
-                          "rightMiddleTipPosition",
-                          "rightRingTipPosition",
-                          "rightPinkyTipPosition"
-                        ]
-                      }
-                    },
-                    "additionalSettings": {
-                      "weight": 1
-                    }
-                  }
-                ]
-              },
-              "additionalSettings": {
-                "useCustomParams": false
-              }
-            },
-            {
-              "moduleName": "jackknife",
-              "moduleType": "recognizers/dynamic",
-              "moduleSettings": {
-                "samplingPoints": 16,
-                "points": {
-                  "lmc": [
-                    "rightPalmPosition",
-                    "rightThumbTipPosition",
-                    "rightIndexTipPosition",
-                    "rightMiddleTipPosition",
-                    "rightRingTipPosition",
-                    "rightPinkyTipPosition"
-                  ]
-                }
-              },
-              "additionalSettings": {
-                "weight": 1,
-                "useCustomParams": false
-              }
-            },
             {
               "moduleName": "p3dollarplus",
               "moduleType": "recognizers/dynamic",
@@ -126,6 +54,43 @@
               },
               "additionalSettings": {
                 "weight": 1,
+                "useCustomParams": false
+              }
+            },
+            {
+              "uuid": "88f08b0e-9e44-49a1-8617-b53d2a41a296",
+              "moduleName": "jackknife",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "samplingPoints": 16,
+                "points": {
+                  "lmc": [
+                    "rightPalmPosition",
+                    "rightThumbTipPosition",
+                    "rightIndexTipPosition",
+                    "rightMiddleTipPosition",
+                    "rightRingTipPosition",
+                    "rightPinkyTipPosition"
+                  ]
+                }
+              },
+              "additionalSettings": {
+                "useCustomParams": false
+              }
+            },
+            {
+              "uuid": "3cfc4461-06b4-4d8e-a1f6-0b49955ed8f9",
+              "moduleName": "jackknife",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "samplingPoints": 16,
+                "points": {
+                  "lmc": [
+                    "rightPalmPosition"
+                  ]
+                }
+              },
+              "additionalSettings": {
                 "useCustomParams": false
               }
             }

@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const GestureSet = require('./gestures/gesture-set').GestureSet;
 const GestureClass = require('./gestures/gesture-class').GestureClass;
+const stringify = require("json-stringify-pretty-compact");
 
 // Important values
 const computeNextT = x => x * 2; // Function that computes the next number of training templates
@@ -45,7 +46,7 @@ class Testing {
       results.push(datasetResults);
     }
     console.log('end')
-    fs.writeFileSync(`results-${this.recognizerType}.json`, JSON.stringify(results, null, 2));
+    fs.writeFileSync(`results-${this.recognizerType}.json`, stringify(results, {maxLength: 150, indend: 2}));
   }
 
   testRecognizer(dataset, recognizerModule) {
@@ -94,6 +95,7 @@ class UserIndependentTesting extends Testing {
             // Mark the training template
             markedTemplates[index].push(training);
             // Train the recognizer
+            console.log(gestureClass.name)
             recognizer.addGesture(gestureClass.name, gestureClass.getSamples()[training]);
             index++;
           });
@@ -104,6 +106,7 @@ class UserIndependentTesting extends Testing {
           // Retrieve the testing sample
           let toBeTested = gestureClass.getSamples()[candidates[index]];
           // Attempt recognition
+          //console.log(gestureClass.name, toBeTested.id)
           if (this.recognizerType === 'dynamic') {
             var result = recognizer.recognize(toBeTested);
           } else {
