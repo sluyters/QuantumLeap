@@ -4,6 +4,7 @@ const { Sample } = require('./machete/sample');
 const { Vector } = require('./machete/vector');
 const { ContinuousResult, ContinuousResultOptions }= require ('./machete/continuous_result_options');
 const { parsePointsNames } = require('../../../framework/utils');
+const CBuffer = require('cbuffer');
 
 class Segmenter extends AbstractSegmenter {
   constructor(options, dataset) {
@@ -18,6 +19,8 @@ class Segmenter extends AbstractSegmenter {
     // });
     // this.intervalCount = 0;
     // this.pauseCount = 0;
+
+    this.numberPauseFrames = 60;// options.moduleSettings.pauseLength;
 
     this.monitoredArticulations = parsePointsNames(options.moduleSettings.monitoredArticulations);
     this.cancelIfBetterScore = false;
@@ -34,8 +37,13 @@ class Segmenter extends AbstractSegmenter {
       });
     }
 
-    // TODO
-    this.frameBuffer = [];
+    // Circular frame buffer (TODO size should depend on Machete's buffer)
+    this.fb = new CBuffer(300);
+    // Index of the oldest frame in the buffer
+    this.fbStart = 0;
+    // Index of the newest frame in the buffer
+    this.fbEnd = 0;
+    this.pauseCount = 0;
   }
 
   addGesture(name, sample) {
@@ -51,42 +59,34 @@ class Segmenter extends AbstractSegmenter {
 
   computeSegments(frame) {
     let segments = [];
-    // Create vector with selected points 
+    // Decrement pause count
+    this.pauseCount = Math.max(this.pauseCount - 1, 0);
+    
     if (frame.hasData) {
+      // Update frame buffer
+      if (this.fb.isFull()) {
+        this.fbStart++;
+      }
+      this.fb.push(frame);
+      // Create vector with selected points 
       let vCoordinates = [];
       for (const articulation of this.monitoredArticulations) {
         vCoordinates.push(...frame.getArticulation(articulation).point.getCoordinates());
       }
       let vector = new Vector(vCoordinates);
-      let continuousResults = this.macheteSegmenter.doTheThing(vector, frame.timestamp);
+      // Attempt segmentation
+      let continuousResults = this.macheteSegmenter.doTheThing(vector, this.fbEnd++);
       let result = ContinuousResult.selectResult(continuousResults, this.cancelIfBetterScore);
-      //console.log(continuousResults, result)
-      if (result !== null) {
-        console.log(result);
-        // TODO
+      if (result !== null && this.pauseCount === 0) {
+        let frames = this.fb.slice(result.startFrameNo - this.fbStart, result.endFrameNo - this.fbStart + 1);
+        segments.push(frames);
       }
     }
-    // // Increment pause count
-    // this.pauseCount = Math.max(this.pauseCount - 1, 0);
-    // this.intervalCount = (this.intervalCount + 1) % this.numberIntervalFrames;
-    // this.frameBuffers.forEach((frameBuffer, index) => {
-    //   let windowWidth = this.windows[index].width;
-    //   // Add new frame to the buffer
-    //   frameBuffer.push(frame);
-    //   if (frameBuffer.length > windowWidth) {
-    //     // Shift frames in buffer
-    //     frameBuffer.shift();
-    //   }
-    //   if (frameBuffer.length >= windowWidth && this.pauseCount == 0 && this.intervalCount == 0) {
-    //     // Buffer full & ready
-    //     segments.push(frameBuffer.slice());
-    //   }
-    // });
     return segments;
   }
 
   notifyRecognition() {
-    // TODO
+    this.pauseCount = this.numberPauseFrames;
   }
 }
 

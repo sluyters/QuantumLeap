@@ -25,7 +25,7 @@ class Segmenter extends AbstractSegmenter {
 
   computeSegments(frame) {
     let segments = [];
-    // Increment pause count
+    // Decrement pause count
     this.pauseCount = Math.max(this.pauseCount - 1, 0);
     this.intervalCount = (this.intervalCount + 1) % this.numberIntervalFrames;
     this.frameBuffers.forEach((frameBuffer, index) => {

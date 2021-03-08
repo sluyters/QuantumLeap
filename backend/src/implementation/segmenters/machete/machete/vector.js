@@ -186,11 +186,16 @@ class Vector {
     }
 
     length() {
-        return this.data.length;
+        let ret = 0;
+
+        for (let i = 0; i < this.data.length; i++)
+            ret += this.data[i] * this.data[i];
+
+        return Math.sqrt(ret);
     }
 
     normalize() {
-        let length = this.data.length;
+        let length = this.length();
 
         for (let i = 0; i < this.data.length; i++) {
             this.data[i] = this.data[i] / length;

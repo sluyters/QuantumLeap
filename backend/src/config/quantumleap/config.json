@@ -14,8 +14,8 @@
       "sensors": {
         "modules": [
           {
-            "uuid": "ad845eb0-c3fe-4c65-8fb3-0717f059acce",
-            "moduleName": "leap-sensor",
+            "uuid": "a4adc068-d518-40f0-b958-008be7560658",
+            "moduleName": "leapv5",
             "moduleType": "sensors",
             "moduleSettings": {},
             "additionalSettings": {
@@ -65,28 +65,28 @@
           "templatesPerClass": 8,
           "aggregateClasses": [
             {
-              "uuid": "524761cf-5979-457b-be9c-8ce4db066848",
-              "name": "rindex_airtap",
-              "gestureClasses": [
-                "tap"
-              ]
-            },
-            {
-              "uuid": "018a9b7e-dcb9-4c1a-9780-a9c899cc5603",
+              "uuid": "f92868b5-27d0-4cb4-a0e1-13096c5da2f8",
               "name": "rhand_uswipe",
               "gestureClasses": [
                 "swipe_up"
               ]
             },
             {
-              "uuid": "d5bc65d5-7142-4187-9609-fbd40ca4c174",
+              "uuid": "9747032b-4b52-4a31-9c2a-7c576e432fad",
+              "name": "rindex_airtap",
+              "gestureClasses": [
+                "tap"
+              ]
+            },
+            {
+              "uuid": "42e4d32f-5550-43f7-86c7-a87f0eeaf91b",
               "name": "rhand_lswipe",
               "gestureClasses": [
                 "swipe_left"
               ]
             },
             {
-              "uuid": "5d92ee86-7ed2-4061-b2cf-2b90e0843be9",
+              "uuid": "2c9acf9a-775d-4322-a5ff-5b14bd884afa",
               "name": "rhand_rswipe",
               "gestureClasses": [
                 "swipe_right"
@@ -96,37 +96,36 @@
         }
       },
       "analyzers": {
-        "modules": [
-          {
-            "uuid": "ee508cff-b01c-40d0-bdb7-6c0d6effe148",
-            "moduleName": "basic",
-            "moduleType": "analyzers",
-            "moduleSettings": {},
-            "additionalSettings": {}
-          }
-        ]
+        "modules": []
       },
       "segmenters": {
         "modules": [
           {
-            "uuid": "bb3bced8-934e-4506-84fa-921320300458",
-            "moduleName": "window",
+            "uuid": "d5ff2a3a-7cd9-4c25-8617-c4b137cb3dc0",
+            "moduleName": "machete",
             "moduleType": "segmenters",
             "moduleSettings": {
-              "windows": [
-                {
-                  "width": 20,
-                  "uuid": "5a93d460-7288-4e2e-a2c7-ef20d2bd6ff4"
-                }
-              ],
-              "intervalLength": 3,
-              "pauseLength": 60
+              "monitoredArticulations": {
+                "lmc": [
+                  "rightIndexTipPosition",
+                  "rightMiddleTipPosition",
+                  "rightRingTipPosition",
+                  "rightPinkyTipPosition",
+                  "rightThumbTipPosition",
+                  "rightPalmPosition"
+                ]
+              }
             },
             "additionalSettings": {
               "motionThreshold": 70,
               "motionArticulations": {
                 "lmc": [
-                  "rightPalmPosition"
+                  "rightPalmPosition",
+                  "rightThumbTipPosition",
+                  "rightIndexTipPosition",
+                  "rightMiddleTipPosition",
+                  "rightRingTipPosition",
+                  "rightPinkyTipPosition"
                 ]
               }
             }
@@ -135,13 +134,21 @@
       },
       "recognizers": {
         "static": {
+          "modules": [],
+          "scoreThreshold": 0.25,
+          "bufferLength": 15,
+          "poseRatioThreshold": 0.8,
+          "sendIfRequested": true,
+          "loadOnRequest": false
+        },
+        "dynamic": {
           "modules": [
             {
-              "uuid": "4345429e-8ea8-472d-b5e5-23ec9381cd3c",
-              "moduleName": "gpsda",
-              "moduleType": "recognizers/static",
+              "uuid": "8e1d6701-5e39-4333-8f1e-f2446fc50968",
+              "moduleName": "jackknife",
+              "moduleType": "recognizers/dynamic",
               "moduleSettings": {
-                "alpha": 0.8,
+                "samplingPoints": 16,
                 "points": {
                   "lmc": [
                     "rightPalmPosition",
@@ -160,29 +167,6 @@
                     "rightMiddleMcpPosition",
                     "rightRingMcpPosition",
                     "rightPinkyMcpPosition"
-                  ]
-                }
-              },
-              "additionalSettings": {}
-            }
-          ],
-          "scoreThreshold": 0.25,
-          "bufferLength": 15,
-          "poseRatioThreshold": 0.8,
-          "sendIfRequested": true,
-          "loadOnRequest": false
-        },
-        "dynamic": {
-          "modules": [
-            {
-              "uuid": "8e1d6701-5e39-4333-8f1e-f2446fc50968",
-              "moduleName": "jackknife",
-              "moduleType": "recognizers/dynamic",
-              "moduleSettings": {
-                "samplingPoints": 16,
-                "points": {
-                  "lmc": [
-                    "rightPalmPosition"
                   ]
                 }
               },
