@@ -3,7 +3,7 @@
     "settings": {
       "general": {
         "general": {
-          "debug": true,
+          "debug": false,
           "sendContinuousData": true
         },
         "server": {
@@ -14,8 +14,8 @@
       "sensors": {
         "modules": [
           {
-            "uuid": "a4adc068-d518-40f0-b958-008be7560658",
-            "moduleName": "leapv5",
+            "uuid": "61365c60-efda-4b48-9134-a15624a4b598",
+            "moduleName": "leap-sensor",
             "moduleType": "sensors",
             "moduleSettings": {},
             "additionalSettings": {
@@ -96,36 +96,37 @@
         }
       },
       "analyzers": {
-        "modules": []
+        "modules": [
+          {
+            "uuid": "5bb6e233-6879-407f-a029-8f948f2e6d61",
+            "moduleName": "basic",
+            "moduleType": "analyzers",
+            "moduleSettings": {},
+            "additionalSettings": {}
+          }
+        ]
       },
       "segmenters": {
         "modules": [
           {
-            "uuid": "d5ff2a3a-7cd9-4c25-8617-c4b137cb3dc0",
-            "moduleName": "machete",
+            "uuid": "87c92956-93a4-4ebf-98b5-ae07d851aa69",
+            "moduleName": "window",
             "moduleType": "segmenters",
             "moduleSettings": {
-              "monitoredArticulations": {
-                "lmc": [
-                  "rightIndexTipPosition",
-                  "rightMiddleTipPosition",
-                  "rightRingTipPosition",
-                  "rightPinkyTipPosition",
-                  "rightThumbTipPosition",
-                  "rightPalmPosition"
-                ]
-              }
+              "windows": [
+                {
+                  "width": 20,
+                  "uuid": "c06790a2-3d15-41e9-8e99-e31f389f4659"
+                }
+              ],
+              "intervalLength": 3,
+              "pauseLength": 60
             },
             "additionalSettings": {
               "motionThreshold": 70,
               "motionArticulations": {
                 "lmc": [
-                  "rightPalmPosition",
-                  "rightThumbTipPosition",
-                  "rightIndexTipPosition",
-                  "rightMiddleTipPosition",
-                  "rightRingTipPosition",
-                  "rightPinkyTipPosition"
+                  "rightPalmPosition"
                 ]
               }
             }
@@ -134,21 +135,13 @@
       },
       "recognizers": {
         "static": {
-          "modules": [],
-          "scoreThreshold": 0.25,
-          "bufferLength": 15,
-          "poseRatioThreshold": 0.8,
-          "sendIfRequested": true,
-          "loadOnRequest": false
-        },
-        "dynamic": {
           "modules": [
             {
-              "uuid": "8e1d6701-5e39-4333-8f1e-f2446fc50968",
-              "moduleName": "jackknife",
-              "moduleType": "recognizers/dynamic",
+              "uuid": "dc8031ac-9645-400e-8a32-290b8bb06e6c",
+              "moduleName": "gpsda",
+              "moduleType": "recognizers/static",
               "moduleSettings": {
-                "samplingPoints": 16,
+                "alpha": 0.8,
                 "points": {
                   "lmc": [
                     "rightPalmPosition",
@@ -167,6 +160,29 @@
                     "rightMiddleMcpPosition",
                     "rightRingMcpPosition",
                     "rightPinkyMcpPosition"
+                  ]
+                }
+              },
+              "additionalSettings": {}
+            }
+          ],
+          "scoreThreshold": 0.1,
+          "bufferLength": 15,
+          "poseRatioThreshold": 0.8,
+          "sendIfRequested": true,
+          "loadOnRequest": false
+        },
+        "dynamic": {
+          "modules": [
+            {
+              "uuid": "8e1d6701-5e39-4333-8f1e-f2446fc50968",
+              "moduleName": "jackknife",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "samplingPoints": 16,
+                "points": {
+                  "lmc": [
+                    "rightPalmPosition"
                   ]
                 }
               },

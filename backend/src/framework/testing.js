@@ -38,7 +38,7 @@ class Testing {
         console.log(recognizerModule.module.name);
         datasetResults.data.push({
           name: recognizerModule.module.name,
-          options: recognizerModule.options,
+          options: recognizerModule.moduleSettings,
           data: res
         });
       }
@@ -95,7 +95,7 @@ class UserIndependentTesting extends Testing {
             // Mark the training template
             markedTemplates[index].push(training);
             // Train the recognizer
-            console.log(gestureClass.name)
+            //console.log(gestureClass.name)
             recognizer.addGesture(gestureClass.name, gestureClass.getSamples()[training]);
             index++;
           });
@@ -112,6 +112,7 @@ class UserIndependentTesting extends Testing {
           } else {
             var result = recognizer.recognize(toBeTested.frame);
           }
+          //console.log(result.name)
           // Update the confusion matrix
           if (dataset.getGestureClasses().has(result.name)) {
             let resultIndex = dataset.getGestureClasses().get(result.name).index;

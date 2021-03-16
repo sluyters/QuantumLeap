@@ -11,7 +11,7 @@
           "maxT": 4
         },
         "globalParams": {
-          "samplingPoints": 16,
+          "samplingPoints": 80,
           "points": []
         }
       },
@@ -19,12 +19,13 @@
         "dynamic": {
           "modules": [
             {
-              "moduleName": "leap-loader",
+              "uuid": "23c42a1a-423f-49d8-98e4-f471cba3e992",
+              "moduleName": "unified-loader",
               "moduleType": "datasets/dynamic",
               "moduleSettings": {},
               "additionalSettings": {
                 "datasets": [
-                  "walabot-lmc"
+                  "walabot-walabot"
                 ],
                 "id": "lmc"
               }
@@ -37,40 +38,19 @@
         "dynamic": {
           "modules": [
             {
-              "moduleName": "p3dollarplus",
-              "moduleType": "recognizers/dynamic",
-              "moduleSettings": {
-                "samplingPoints": 16,
-                "points": {
-                  "lmc": [
-                    "rightPalmPosition",
-                    "rightThumbTipPosition",
-                    "rightIndexTipPosition",
-                    "rightMiddleTipPosition",
-                    "rightRingTipPosition",
-                    "rightPinkyTipPosition"
-                  ]
-                }
-              },
-              "additionalSettings": {
-                "weight": 1,
-                "useCustomParams": false
-              }
-            },
-            {
               "uuid": "88f08b0e-9e44-49a1-8617-b53d2a41a296",
               "moduleName": "jackknife",
               "moduleType": "recognizers/dynamic",
               "moduleSettings": {
-                "samplingPoints": 16,
+                "samplingPoints": 4,
                 "points": {
                   "lmc": [
-                    "rightPalmPosition",
-                    "rightThumbTipPosition",
-                    "rightIndexTipPosition",
-                    "rightMiddleTipPosition",
-                    "rightRingTipPosition",
-                    "rightPinkyTipPosition"
+                    "antenna-2",
+                    "antenna-3",
+                    "antenna-4",
+                    "antenna-6",
+                    "antenna-7",
+                    "antenna-10"
                   ]
                 }
               },
@@ -79,14 +59,211 @@
               }
             },
             {
-              "uuid": "3cfc4461-06b4-4d8e-a1f6-0b49955ed8f9",
+              "uuid": "8c6e20ca-a7e2-433d-80fc-9dbd2fa283c2",
+              "moduleName": "jackknife",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "samplingPoints": 8,
+                "points": {
+                  "lmc": [
+                    "antenna-2",
+                    "antenna-3",
+                    "antenna-4",
+                    "antenna-6",
+                    "antenna-7",
+                    "antenna-10"
+                  ]
+                }
+              },
+              "additionalSettings": {
+                "useCustomParams": false
+              }
+            },
+            {
+              "uuid": "b08417ec-a7a7-4087-8e2c-36a275733a0d",
               "moduleName": "jackknife",
               "moduleType": "recognizers/dynamic",
               "moduleSettings": {
                 "samplingPoints": 16,
                 "points": {
                   "lmc": [
-                    "rightPalmPosition"
+                    "antenna-2",
+                    "antenna-3",
+                    "antenna-4",
+                    "antenna-6",
+                    "antenna-7",
+                    "antenna-10"
+                  ]
+                }
+              },
+              "additionalSettings": {
+                "useCustomParams": false
+              }
+            },
+            {
+              "uuid": "ae52b18d-3078-4321-a01b-7bc5fa0144af",
+              "moduleName": "jackknife",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "samplingPoints": 32,
+                "points": {
+                  "lmc": [
+                    "antenna-2",
+                    "antenna-3",
+                    "antenna-4",
+                    "antenna-6",
+                    "antenna-7",
+                    "antenna-10"
+                  ]
+                }
+              },
+              "additionalSettings": {
+                "useCustomParams": false
+              }
+            },
+            {
+              "uuid": "93906751-b775-4193-9919-c4dde2890417",
+              "moduleName": "jackknife",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "samplingPoints": 64,
+                "points": {
+                  "lmc": [
+                    "antenna-2",
+                    "antenna-3",
+                    "antenna-4",
+                    "antenna-6",
+                    "antenna-7",
+                    "antenna-10"
+                  ]
+                }
+              },
+              "additionalSettings": {
+                "useCustomParams": false
+              }
+            },
+            {
+              "uuid": "84439e1c-c82c-4e86-97c3-071197e01aaf",
+              "moduleName": "jackknife",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "samplingPoints": 16,
+                "points": {
+                  "lmc": [
+                    "antenna-2"
+                  ]
+                }
+              },
+              "additionalSettings": {
+                "useCustomParams": false
+              }
+            },
+            {
+              "uuid": "ea1f70fd-e600-4aab-adfd-88949b5bceb5",
+              "moduleName": "jackknife",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "samplingPoints": 16,
+                "points": {
+                  "lmc": [
+                    "antenna-2",
+                    "antenna-3"
+                  ]
+                }
+              },
+              "additionalSettings": {
+                "useCustomParams": false
+              }
+            },
+            {
+              "uuid": "eedab24c-6f80-4c71-b0e8-e474ad32a7e7",
+              "moduleName": "jackknife",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "samplingPoints": 16,
+                "points": {
+                  "lmc": [
+                    "antenna-2",
+                    "antenna-3",
+                    "antenna-4"
+                  ]
+                }
+              },
+              "additionalSettings": {
+                "useCustomParams": false
+              }
+            },
+            {
+              "uuid": "a1f523de-2e16-4cca-a837-c7e620ac5e76",
+              "moduleName": "jackknife",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "samplingPoints": 16,
+                "points": {
+                  "lmc": [
+                    "antenna-2",
+                    "antenna-3",
+                    "antenna-4",
+                    "antenna-6"
+                  ]
+                }
+              },
+              "additionalSettings": {
+                "useCustomParams": false
+              }
+            },
+            {
+              "uuid": "877227eb-1ff8-4145-b420-7142260d9d52",
+              "moduleName": "jackknife",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "samplingPoints": 16,
+                "points": {
+                  "lmc": [
+                    "antenna-2",
+                    "antenna-3",
+                    "antenna-4",
+                    "antenna-6",
+                    "antenna-7"
+                  ]
+                }
+              },
+              "additionalSettings": {
+                "useCustomParams": false
+              }
+            },
+            {
+              "uuid": "d1f929cc-526c-4de9-827d-6a1c1fdcae66",
+              "moduleName": "jackknife",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "samplingPoints": 16,
+                "points": {
+                  "lmc": [
+                    "antenna-3",
+                    "antenna-6",
+                    "antenna-7",
+                    "antenna-10"
+                  ]
+                }
+              },
+              "additionalSettings": {
+                "useCustomParams": false
+              }
+            },
+            {
+              "uuid": "d76291cc-887c-4b18-9600-6f4360b352d5",
+              "moduleName": "jackknife",
+              "moduleType": "recognizers/dynamic",
+              "moduleSettings": {
+                "samplingPoints": 16,
+                "points": {
+                  "lmc": [
+                    "antenna-2",
+                    "antenna-3",
+                    "antenna-6",
+                    "antenna-7",
+                    "antenna-10"
                   ]
                 }
               },
