@@ -38,7 +38,7 @@
               "moduleSettings": {},
               "additionalSettings": {
                 "datasets": [
-                  "guinevre-static"
+                  "guinevre-static2"
                 ],
                 "id": "lmc"
               }
@@ -90,6 +90,13 @@
               "name": "rhand_rswipe",
               "gestureClasses": [
                 "swipe_right"
+              ]
+            },
+            {
+              "uuid": "7c9f217b-6eeb-409d-9e2c-b255d5861730",
+              "name": "rhand_dswipe",
+              "gestureClasses": [
+                "swipe_down"
               ]
             }
           ]
@@ -166,7 +173,7 @@
               "additionalSettings": {}
             }
           ],
-          "scoreThreshold": 0.1,
+          "scoreThreshold": 0.15,
           "bufferLength": 15,
           "poseRatioThreshold": 0.8,
           "sendIfRequested": true,
@@ -182,7 +189,12 @@
                 "samplingPoints": 16,
                 "points": {
                   "lmc": [
-                    "rightPalmPosition"
+                    "rightPalmPosition",
+                    "rightIndexTipPosition",
+                    "rightThumbTipPosition",
+                    "rightMiddleTipPosition",
+                    "rightRingTipPosition",
+                    "rightPinkyTipPosition"
                   ]
                 }
               },

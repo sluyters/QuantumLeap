@@ -39,6 +39,7 @@ class Sensor extends AbstractSensor {
           let position = pointable.tipPosition;
           let normalized = normalizePoint(position);
           fingers.push({
+            'hand': hand.type,
             'type': pointable.type,
             'normalizedPosition': normalized,
             'touchDistance': 0.5,//finger.touchDistance,
