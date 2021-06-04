@@ -81,6 +81,7 @@ class FrameProcessor {
           console.error(`No ${type} gesture class in the dataset with name '${name}'`);
         }
       }
+      console.log(name)
       this.enabledGestures[type].push(name);
     }
   }
@@ -197,6 +198,7 @@ class FrameProcessor {
   processFrame(frame) {
     frame = this.filterFrame(frame);
     let sg = this.recognizeStatic(frame);
+
     if (sg && (!this.config.recognizers.static.sendIfRequested || this.enabledGestures.static.includes(sg))) {
       // Static gesture detected
       let data = this.analyze(frame);

@@ -66,11 +66,12 @@ function convert(sample, selectedPoints, name) {
   }
   // check min distance START
   let maxMovement = 0;
-  let threshold = 40;
+  let threshold = 0;
   let initPoints = {};
   for (const articulation of selectedPoints) {
     initPoints[articulation] = sample.paths[articulation].strokes[0].points[0];
   }
+
   // check min distance END
   let nFrames = sample.paths[selectedPoints[0]].strokes[0].points.length;
   let trajectory = [];
