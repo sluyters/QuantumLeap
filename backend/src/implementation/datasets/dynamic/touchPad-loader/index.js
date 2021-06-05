@@ -41,64 +41,55 @@ function loadDataset(name, datasetPath, identifier, sensorPointsNames){
             let stroke2D2 = new Stroke("2DTouch2_3Dtchp");
             let stroke2D3 = new Stroke("2DTouch3_3Dtchp");
 
-            let basic_point = new Point3D(10,10,10,10);
             for(let i = 0 ; i < rawGestureData.table.length ; i++ ) {
                 
-                if (i > 0){
-                    basic_point = new Point3D(10,10,10,10);
-                }
+                let basic_point = new Point3D(10,10,10,10);
+                
                 var value = rawGestureData.table
-                if(value[i].type === "2D"){
-                    points2D_tab = [];
 
-                    let x = value[i].x;
-                    let y = value[i].y;
-                    let t = value[i].count;
-                    points2D_tab[0] = new Point3D(x,y,0,t);
-                    
-                    let nbr_fingers = 1;
-                    let actual_count = value[i].count;
+                if(value[i].type === "2DTouch1"){
+                    stroke2D1.addPoint(new Point3D(value[i].x[0],value[i].y[0],0,value[i].count));
 
-                    for(let count = 1 ; i+count < value.length && value[i+count].type === "2D" && value[i+count].count == actual_count  && count < 4; count ++){
-                        points2D_tab[count] = new Point3D(value[i+count].x,value[i+count].y,0,actual_count);
-                        nbr_fingers += 1;
-                    }
-                    if(nbr_fingers == 1){
-                        stroke2D1.addPoint(points2D_tab[0]);
-                        stroke2D2.addPoint(basic_point);
-                        stroke2D3.addPoint(basic_point);
-                        stroke3D.addPoint(basic_point);
-                    }
-                    else if(nbr_fingers == 2){
-                        let it = 0;
-                        while(it< 2){
-                            stroke2D2.addPoint(points2D_tab[it]);
-                            stroke2D1.addPoint(basic_point);
-                            stroke2D3.addPoint(basic_point);
-                            stroke3D.addPoint(basic_point);
-                            it += 1;
-                        }
-                        i += 1;
-                    }
-                    else{
-                        let it = 0;
-                        while(it< 3){
-                            stroke2D3.addPoint(points2D_tab[it]);
-                            stroke2D2.addPoint(basic_point);
-                            stroke2D1.addPoint(basic_point);
-                            stroke3D.addPoint(basic_point);
-                            it += 1;
-                        }
-                        i += count - 1;
-                    }
-    
+                    stroke3D.addPoint(basic_point);
+                    stroke2D2.addPoint(basic_point);
+                    stroke2D3.addPoint(basic_point);
+                }
+                if(value[i].type === "2DTouch2"){
+                    stroke2D2.addPoint(new Point3D(value[i].x[0],value[i].y[0],0,value[i].count));
+
+                    stroke3D.addPoint(basic_point);
+                    stroke2D1.addPoint(basic_point);
+                    stroke2D3.addPoint(basic_point);
+
+                    stroke2D2.addPoint(new Point3D(value[i].x[1],value[i].y[1],0,value[i].count));
+
+                    stroke3D.addPoint(basic_point);
+                    stroke2D1.addPoint(basic_point);
+                    stroke2D3.addPoint(basic_point);
+                }
+                if(value[i].type === "2DTouch3"){
+                    stroke2D3.addPoint(new Point3D(value[i].x[0],value[i].y[0],0,value[i].count));
+
+                    stroke3D.addPoint(basic_point);
+                    stroke2D1.addPoint(basic_point);
+                    stroke2D2.addPoint(basic_point);
+
+                    stroke2D3.addPoint(new Point3D(value[i].x[1],value[i].y[1],0,value[i].count));
+
+                    stroke3D.addPoint(basic_point);
+                    stroke2D1.addPoint(basic_point);
+                    stroke2D2.addPoint(basic_point);
+
+                    stroke2D3.addPoint(new Point3D(value[i].x[2],value[i].y[2],0,value[i].count));
+
+                    stroke3D.addPoint(basic_point);
+                    stroke2D1.addPoint(basic_point);
+                    stroke2D2.addPoint(basic_point);
                 }
                 else if(value[i].type === "3D"){
-                    let x = value[i].x;
-                    let y = value[i].y;
-                    let z = value[i].z;
-                    let t = value[i].count;
-                    stroke3D.addPoint(new Point3D(x,y,z,t));
+                
+                    stroke3D.addPoint(new Point3D(value[i].x,value[i].y,value[i].z,value[i].count));
+
                     stroke2D2.addPoint(basic_point);
                     stroke2D1.addPoint(basic_point);
                     stroke2D3.addPoint(basic_point);

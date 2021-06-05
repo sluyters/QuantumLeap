@@ -81,7 +81,6 @@ class FrameProcessor {
           console.error(`No ${type} gesture class in the dataset with name '${name}'`);
         }
       }
-      console.log(name)
       this.enabledGestures[type].push(name);
     }
   }

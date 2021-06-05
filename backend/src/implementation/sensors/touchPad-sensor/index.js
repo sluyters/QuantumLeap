@@ -5,6 +5,8 @@ var websocket = new webSocketServer({port:8081})
 var count = -1;
 var lastFrame;
 
+var articulation_field = ["3D","2DTouch1","2DTouch2","2DTouch3"]
+
 
 
 class Sensor extends AbstractSensor{
@@ -23,12 +25,66 @@ class Sensor extends AbstractSensor{
                 appData: {}
               };
         }
-        points.push({
-            name: "3D",
-            point: new Point(lastFrame.x,lastFrame.y,lastFrame.z,lastFrame.count)
-        })
 
-        //console.log(JSON.stringify(lastFrame))
+        const addMissingPoints = (field,points) => {
+            let basic_point = new Point(10,10,10,10);
+            for(let i = 0; i < articulation_field.length; i++){
+                if (field !== articulation_field[i]){
+                    points.push({
+                        name : articulation_field[i],
+                        point : basic_point
+                    })
+                }
+            }
+        }
+        if(lastFrame.type === "3D"){
+            points.push({
+                name: "3D",
+                point: new Point(lastFrame.x,lastFrame.y,lastFrame.z,lastFrame.count)
+            })
+            addMissingPoints("3D",points)
+        }
+        else if(lastFrame.type ==="2DTouch1"){
+            points.push({
+                name : "2DTouch1",
+                point: new Point(lastFrame.x[0],lastFrame.y[0],0,lastFrame.count)
+            })
+            addMissingPoints("2DTouch1",points)
+        }
+        else if (lastFrame.type === "2DTouch2"){
+            points.push({
+                name : "2DTouch2",
+                point: new Point(lastFrame.x[0],lastFrame.y[0],0,lastFrame.count)
+            })
+            addMissingPoints("2DTouch2",points)
+
+            points.push({
+                name : "2DTouch2",
+                point: new Point(lastFrame.x[1],lastFrame.y[1],0,lastFrame.count)
+            })
+            addMissingPoints("2DTouch2",points)
+        }
+        else if (lastFrame.type === "2DTouch3"){
+
+            points.push({
+                name : "2DTouch3",
+                point: new Point(lastFrame.x[0],lastFrame.y[0],0,lastFrame.count)
+            })
+            addMissingPoints("2DTouch3",points)
+
+            points.push({
+                name : "2DTouch3",
+                point: new Point(lastFrame.x[1],lastFrame.y[1],0,lastFrame.count)
+            })
+            addMissingPoints("2DTouch3",points)
+
+            points.push({
+                name : "2DTouch3",
+                point: new Point(lastFrame.x[2],lastFrame.y[2],0,lastFrame.count)
+            })
+            addMissingPoints("2DTouch3",points)
+        }
+
         lastFrame = null
 
         
@@ -38,6 +94,7 @@ class Sensor extends AbstractSensor{
             appData: {}
           };
     }
+
     
 
     connect(){  

@@ -53,9 +53,107 @@
           "aggregateClasses": [
             {
               "uuid": "a009a3d2-947b-4a34-b206-ba81a2fa24cd",
-              "name": "rhand_uswipe",
+              "name": "air_swipe_right",
               "gestureClasses": [
                 "AirSwipeRight"
+              ]
+            },
+            {
+              "uuid": "81b69cd6-d1bf-43d5-960b-1ff35c0b76db",
+              "name": "air_swipe_left",
+              "gestureClasses": [
+                "AirSwipeLeft"
+              ]
+            },
+            {
+              "uuid": "d8f00abb-cb12-405b-bd62-1245f9f5aca1",
+              "name": "air_circle_left",
+              "gestureClasses": [
+                "AirCircleLeft"
+              ]
+            },
+            {
+              "uuid": "904494e7-2d3d-4253-8fcd-367ec8edd853",
+              "name": "air_circle_right",
+              "gestureClasses": [
+                "AirCircleRight"
+              ]
+            },
+            {
+              "uuid": "8b3afaf5-adda-47dd-94c4-a6a66e7c91bb",
+              "name": "swipe_right_1touch",
+              "gestureClasses": [
+                "SwipeRight1Touch"
+              ]
+            },
+            {
+              "uuid": "b61f306c-e72d-41cf-89c7-0eccea57e02c",
+              "name": "swipe_left_1touch",
+              "gestureClasses": [
+                "SwipeLeft1Touch"
+              ]
+            },
+            {
+              "uuid": "15ee4919-4613-4191-894a-5706d08e6512",
+              "name": "swipe_down_1touch",
+              "gestureClasses": [
+                "SwipeDown1Touch"
+              ]
+            },
+            {
+              "uuid": "aca3b11e-cb8e-4597-bb28-67033fe75da8",
+              "name": "swipe_up_1touch",
+              "gestureClasses": [
+                "SwipeUp1Touch"
+              ]
+            },
+            {
+              "uuid": "ecbbf2c4-420d-4865-9fd7-b8e84a261ff5",
+              "name": "swipe_right_2touch",
+              "gestureClasses": [
+                "SwipeRight2Touch"
+              ]
+            },
+            {
+              "uuid": "7f52528b-ec98-4b1a-ae64-9c0072e6855c",
+              "name": "swipe_left_2touch",
+              "gestureClasses": [
+                "SwipeLeft2Touch"
+              ]
+            },
+            {
+              "uuid": "274d178d-e2e1-4f2d-b68b-1084158a97f6",
+              "name": "swipe_up_2touch",
+              "gestureClasses": [
+                "SwipeUp2Touch"
+              ]
+            },
+            {
+              "uuid": "3f15c373-982d-4587-80a8-92d7dc0299eb",
+              "name": "swipe_down_2touch",
+              "gestureClasses": [
+                "SwipeDown2Touch"
+              ]
+            },
+            {
+              "uuid": "0d559d98-ada7-4acf-897d-5b91a2bcd45b",
+              "name": "swipe_right_3touch",
+              "gestureClasses": [
+                "SwipeRight3Touch"
+              ]
+            },
+            {
+              "uuid": "603e3ee0-64eb-46c5-a6bd-13dfc8d20bfa",
+              "name": "swipe_down_3touch",
+              "gestureClasses": [
+                "SwipeDown3Touch"
+              ]
+            },
+            {
+              "uuid": "dae5430c-c498-41ed-ac03-2ec84d64a9d4",
+              "name": "swipe_up_3touch",
+              "gestureClasses": [
+                "SwipeUp3Touch"
               ]
             }
           ]
@@ -84,7 +182,10 @@
               "motionThreshold": 70,
               "motionArticulations": {
                 "3Dtchp": [
-                  "3D"
+                  "3D",
+                  "2DTouch1",
+                  "2DTouch2",
+                  "2DTouch3"
                 ]
               }
             }
@@ -110,7 +211,10 @@
                 "samplingPoints": 16,
                 "points": {
                   "3Dtchp": [
-                    "3D"
+                    "3D",
+                    "2DTouch1",
+                    "2DTouch2",
+                    "2DTouch3"
                   ]
                 }
               },
