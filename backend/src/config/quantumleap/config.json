@@ -23,7 +23,7 @@
             }
           }
         ],
-        "framerate": 50
+        "framerate": 60
       },
       "filters": {
         "modules": []
@@ -155,7 +155,58 @@
               "gestureClasses": [
                 "SwipeUp3Touch"
               ]
+            },
+            {
+              "uuid": "dae5430c-c498-4365-9580-9ef9f7903c80",
+              "name": "swipe_left_3touch",
+              "gestureClasses": [
+                "SwipeLeft3Touch"
+              ]
+            },
+            {
+              "uuid": "4ceef471-a5b1-4365-9580-9ef9f7903c80",
+              "name": "air_up",
+              "gestureClasses": [
+                "AirUp"
+              ]
+            },
+            {
+              "uuid": "3807b2df-d868-4474-a46a-076ed6d0b2bb",
+              "name": "air_swipe_down",
+              "gestureClasses": [
+                "AirSwipeDown"
+              ]
+            },
+            {
+              "uuid": "3b0a84db-ca84-4386-b8a1-d8ec331d134a",
+              "name": "air_swipe_up",
+              "gestureClasses": [
+                "AirSwipeUp"
+              ]
+            },
+            {
+              "uuid": "3807b2df-d868-4386-b8a1-d8ec331d134a",
+              "name": "air_down",
+              "gestureClasses": [
+                "AirDown"
+              ]
+            },
+            {
+              "uuid": "dae5430c-c498-4386-b8a1-d8ec331d134a",
+              "name": "zoom_in_2touch",
+              "gestureClasses": [
+                "ZoomIn2Touch"
+              ]
             }
+            ,
+            {
+              "uuid": "603e3ee0-64eb-4386-b8a1-d8ec331d134a",
+              "name": "zoom_out_2touch",
+              "gestureClasses": [
+                "ZoomOut2Touch"
+              ]
+            }
+
           ]
         }
       },
