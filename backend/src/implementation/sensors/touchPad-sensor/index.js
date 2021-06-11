@@ -1,7 +1,6 @@
 const AbstractSensor = require('../../../framework/modules/sensors/abstract-sensor').AbstractSensor
 const Point = require('../../../framework/gestures/point').Point3D;
-var webSocketServer = require('ws').Server;
-var websocket = new webSocketServer({port:8081})
+net = require('net');
 var count = -1;
 var lastFrame;
 
@@ -99,16 +98,18 @@ class Sensor extends AbstractSensor{
 
     connect(){  
 
-        websocket.on('connection',function(ws){
-            this.ws = ws
-            console.log("Touchpad Sensor is Connected !")
-
-            ws.on('message', function getVal(event) {
-                let data = JSON.parse(event);
-                lastFrame = data
-                count = data.count
-            })
-        }) 
+        net.createServer(function (socket) {
+			console.log("TouchPad Connected")
+			socket.on('data', function (data) {
+				lastFrame = JSON.parse(data);
+				count ++;
+			});
+			
+			socket.on('error', function(e){
+				console.log(e);
+			});
+			
+		}).listen(5000);
 
     }
 
