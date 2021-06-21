@@ -73,8 +73,6 @@ function convert(sample, selectedPoints, name) {
   let threshold = 40;
   let initPoints = {};
 
- // console.log(sample)
-
 
   for(let i = 0 ; i < Object.keys(sample.paths).length; i ++){
     for(let y = 0; y < selectedPoints.length ; y++){
@@ -86,64 +84,27 @@ function convert(sample, selectedPoints, name) {
     }
   }
 
-  let nFrames = 0;
-  for(let i = 0; i < selectedPoints.length ; i ++){
-    if(sample.paths[selectedPoints[i]] !== undefined){
-      nFrames = sample.paths[selectedPoints[i]].strokes[0].points.length;
-      i = selectedPoints.length
-    }
-  }
+  console.log(selectedPoints)
 
-
-
-  let basic_point = new Point3D(10,10,10,10);
-  
   for (const articulation of selectedPoints) {
-    try{  
-      initPoints[articulation] = sample.paths[articulation].strokes[0].points[0];
-    }
-    catch(error){
-      let strokePath = new Path(articulation)
-      sample.addPath(articulation,strokePath)
-      let stroke = new Stroke(articulation)
-      let count = 0;
-      while(count < nFrames){
-        stroke.addPoint(basic_point)
-        count++
-      }
-      strokePath.addStroke(stroke);
-      initPoints[articulation] = basic_point
-    }
+    initPoints[articulation] = sample.paths[articulation].strokes[0].points[0];
   }
-
-
-
 
   // check min distance END
   let trajectory = [];
+  let nFrames = sample.paths[selectedPoints[0]].strokes[0].points.length;
+
   for (let i = 0; i < nFrames; i++) {
     let vCoordinates = [];
     for (const articulation of selectedPoints) {
       let point = sample.paths[articulation].strokes[0].points[i];
       // check min distance START
-      try{
         let articulationMovement = distance(point, initPoints[articulation]);
         maxMovement = Math.max(maxMovement, articulationMovement);
         // check min distance END
         vCoordinates.push(point.x);
         vCoordinates.push(point.y);
         vCoordinates.push(point.z);
-      }
-      catch(error){
-        sample.paths[articulation].strokes[0].addPoint(basic_point)
-        let point = basic_point;
-        let articulationMovement = distance(point, initPoints[articulation]);
-        maxMovement = Math.max(maxMovement, articulationMovement);
-        // check min distance END
-        vCoordinates.push(point.x);
-        vCoordinates.push(point.y);
-        vCoordinates.push(point.z);
-      }
     }
     trajectory.push(new Vector(vCoordinates));
   }

@@ -12,9 +12,7 @@ class Recognizer extends AbstractDynamicRecognizer {
 		this.samplingPoints = options.samplingPoints;
 		this.selectedPoints = parsePointsNames(options.points);
 		this.recognizer = new P3DollarRecognizer(this.samplingPoints);
-		console.log(this.selectedPoints)
 		if (dataset !== undefined){
-			console.log(dataset)
 			dataset.getGestureClasses().forEach((gesture) => {
 				gesture.getSamples().forEach(sample => {
 						this.addGesture(gesture.name, sample);
@@ -50,6 +48,7 @@ class Recognizer extends AbstractDynamicRecognizer {
 
 function convert(sample, selectedPoints) {
 	let points = [];
+
 	selectedPoints.forEach((articulation, articulationID) => {
 		sample.paths[articulation].strokes.forEach((stroke, strokeId) => {
 			stroke.points.forEach((point) => {

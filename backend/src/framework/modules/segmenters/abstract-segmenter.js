@@ -56,83 +56,38 @@ class AbstractSegmenter {
       })
 
       for(let w = 0; w < this.motionArticulations.length; w++){
-
+        let no_loop = false
         let articulationsPointsFromSelectedPoints = {}
         for(const articulationLabel of this.motionArticulations[w]){
+          if(articulationsPoints[articulationLabel] === undefined){
+            no_loop = true
+          }
+          else{
           articulationsPointsFromSelectedPoints[articulationLabel] = articulationsPoints[articulationLabel]
+          }
         }
 
         let strokeData = new StrokeData();
-      
-        if (isMotion(articulationsPointsFromSelectedPoints, this.motionThreshold, this.motionArticulations[w])) {
-          for (const articulationLabel of this.motionArticulations[w]) {
-            let path = new Path(articulationLabel);
-            strokeData.addPath(articulationLabel, path);
-            let stroke = new Stroke();
-            path.addStroke(stroke);
-            stroke.points = articulationsPointsFromSelectedPoints[articulationLabel];
+
+
+        if(!no_loop){
+          if (isMotion(articulationsPointsFromSelectedPoints, this.motionThreshold, this.motionArticulations[w])) {
+            for (const articulationLabel of this.motionArticulations[w]) {
+              let path = new Path(articulationLabel);
+              strokeData.addPath(articulationLabel, path);
+              let stroke = new Stroke();
+              path.addStroke(stroke);
+              stroke.points = articulationsPointsFromSelectedPoints[articulationLabel];
+            }
+            segments.push(strokeData);
           }
-          segments.push(strokeData);
         }
       }
       
     });
     return segments;
   }
-/*
 
-  segment(frame) {
-
-    // Get raw segments
-    let rawSegments = this.computeSegments(frame);
-    // Convert segments
-    let segments = [];
-    rawSegments.forEach(frames => {
-      // Group all points by articulation
-      let articulationsPoints = {}
-      let articulationsPointsTable = []
-
-      for(let i = 0 ; i < this.motionArticulations.length ; i++){
-        articulationsPointsTable[i] = articulationsPoints
-      }
-
-      frames.forEach(frame => {
-      
-        frame.articulations.forEach(articulation => {
-
-          for(let i = 0 ; i < this.motionArticulations.length ; i++){
-            if(this.motionArticulations[i].indexOf(articulation.label) > -1){
-              
-              if (articulationsPointsTable[i][articulation.label]) {
-                articulationsPointsTable[i][articulation.label].push(articulation.point);
-              } else {
-                articulationsPointsTable[i][articulation.label] = [articulation.point];
-              }
-              i = this.motionArticulations.length
-            }
-          }
-        });
-
-      })
-
-      for(let w = 0; w < this.motionArticulations.length; w++){
-        let strokeData = new StrokeData();
-      
-        if (isMotion(articulationsPointsTable[w], this.motionThreshold, this.motionArticulations[w])) {
-          for (const articulationLabel of this.motionArticulations[w]) {
-            let path = new Path(articulationLabel);
-            strokeData.addPath(articulationLabel, path);
-            let stroke = new Stroke();
-            path.addStroke(stroke);
-            stroke.points = articulationsPointsTable[w][articulationLabel];
-          }
-          segments.push(strokeData);
-        }
-      }
-      
-    });
-    return segments;
-  }*/
 
   computeSegments(frame) {
     throw new Error('You have to implement this function');
@@ -151,7 +106,6 @@ function isMotion(articulationsPoints, threshold, articulations) {
     return true;
   }
   for (const articulation of articulations) {
-    try{
     // Compute motion related to first point
     let refPoint = articulationsPoints[articulation][0];
       
@@ -160,10 +114,6 @@ function isMotion(articulationsPoints, threshold, articulations) {
       if (motion >= threshold) {
         return true;
       }
-    }
-    }
-    catch(error){
-      
     }
   }
   return false;
