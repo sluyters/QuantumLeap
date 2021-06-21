@@ -1,8 +1,6 @@
 const AbstractSensor = require('../../../framework/modules/sensors/abstract-sensor').AbstractSensor
 const Point = require('../../../framework/gestures/point').Point3D;
-net = require('net');
-var count = -1;
-var lastFrame;
+
 
 var articulation_field = ["3D","2DTouch1","2DTouch2","2DTouch3"]
 
@@ -11,13 +9,16 @@ var articulation_field = ["3D","2DTouch1","2DTouch2","2DTouch3"]
 class Sensor extends AbstractSensor{
 
     constructor(options){
-        super("3DTouchPad");
+        super(`3DTouchPad`);
+        this.port = options.port
+        this.lastframe = undefined
+        this.net = require('net');
     }
 
     getPoints(timestamp){
         let points = [];
 
-        if(count === -1 || lastFrame === null){
+        if(this.lastframe === undefined){
             return { 
                 hasData: false,
                 points: points,
@@ -30,61 +31,64 @@ class Sensor extends AbstractSensor{
             for(let i = 0; i < articulation_field.length; i++){
                 if (field !== articulation_field[i]){
                     points.push({
-                        name : articulation_field[i],
+                        name : `${articulation_field[i]}`,
                         point : basic_point
                     })
                 }
             }
         }
-        if(lastFrame.type === "3D"){
+        if(this.lastframe.type === "3D"){
             points.push({
-                name: "3D",
-                point: new Point(lastFrame.x,lastFrame.y,lastFrame.z,lastFrame.count)
+                name: `3D`,
+                point: new Point(this.lastframe.x,this.lastframe.y,this.lastframe.z,this.lastframe.count)
             })
             addMissingPoints("3D",points)
+            
+        
         }
-        else if(lastFrame.type ==="2DTouch1"){
+        else if(this.lastframe.type ==="2DTouch1"){
             points.push({
-                name : "2DTouch1",
-                point: new Point(lastFrame.x[0],lastFrame.y[0],0,lastFrame.count)
+                name : `2DTouch1`,
+                point: new Point(this.lastframe.x[0],this.lastframe.y[0],0,this.lastframe.count)
             })
             addMissingPoints("2DTouch1",points)
         }
-        else if (lastFrame.type === "2DTouch2"){
+        else if (this.lastframe.type === "2DTouch2"){
             points.push({
-                name : "2DTouch2",
-                point: new Point(lastFrame.x[0],lastFrame.y[0],0,lastFrame.count)
+                name : `2DTouch2`,
+                point: new Point(this.lastframe.x[0],this.lastframe.y[0],0,this.lastframe.count)
             })
             addMissingPoints("2DTouch2",points)
 
             points.push({
-                name : "2DTouch2",
-                point: new Point(lastFrame.x[1],lastFrame.y[1],0,lastFrame.count)
+                name : `2DTouch2`,
+                point: new Point(this.lastframe.x[1],this.lastframe.y[1],0,this.lastframe.count)
             })
             addMissingPoints("2DTouch2",points)
         }
-        else if (lastFrame.type === "2DTouch3"){
+        else if (this.lastframe.type === "2DTouch3"){
 
             points.push({
-                name : "2DTouch3",
-                point: new Point(lastFrame.x[0],lastFrame.y[0],0,lastFrame.count)
+                name : `2DTouch3`,
+                point: new Point(this.lastframe.x[0],this.lastframe.y[0],0,this.lastframe.count)
             })
             addMissingPoints("2DTouch3",points)
 
             points.push({
-                name : "2DTouch3",
-                point: new Point(lastFrame.x[1],lastFrame.y[1],0,lastFrame.count)
+                name : `2DTouch3`,
+                point: new Point(this.lastframe.x[1],this.lastframe.y[1],0,this.lastframe.count)
             })
             addMissingPoints("2DTouch3",points)
 
             points.push({
-                name : "2DTouch3",
-                point: new Point(lastFrame.x[2],lastFrame.y[2],0,lastFrame.count)
+                name : `2DTouch3`,
+                point: new Point(this.lastframe.x[2],this.lastframe.y[2],0,this.lastframe.count)
             })
             addMissingPoints("2DTouch3",points)
         }
 
-        lastFrame = null
+        this.lastframe = undefined
+
 
         
         return { 
@@ -98,26 +102,26 @@ class Sensor extends AbstractSensor{
 
     connect(){  
 
-        net.createServer(function (socket) {
+        this.net.createServer( (socket) => {
 			console.log("TouchPad Connected")
-			socket.on('data', function (data) {
-				lastFrame = JSON.parse(data);
-				count ++;
+			socket.on('data', (data) => {
+				try{
+                    this.lastframe = JSON.parse(data);
+                }
+                catch(error){
+                }
 			});
 			
 			socket.on('error', function(e){
-				console.log(e);
+				console.log(`3DTouchpad socket is disconnected`);
 			});
 			
-		}).listen(5000);
+		}).listen(this.port);
 
     }
 
     disconnect(){
-        if (this.ws){
-            this.ws = undefined;
-            this.lastFrame = undefined;
-        }
+        //TODO
     }
 
 }

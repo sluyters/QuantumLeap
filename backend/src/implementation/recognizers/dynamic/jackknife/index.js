@@ -5,6 +5,10 @@ const Vector = require('./jackknife/vector').Vector;
 const Sample = require('./jackknife/sample').Sample;
 const { parsePointsNames } = require('../../../../framework/utils');
 
+const Stroke = require('../../../../framework/gestures/stroke-data').Stroke;
+const Path = require('../../../../framework/gestures/stroke-data').Path;
+const Point3D = require('../../../../framework/gestures/point').Point3D;
+
 class Recognizer extends AbstractDynamicRecognizer {
 
   static name = "JackknifeRecognizer";
@@ -68,24 +72,78 @@ function convert(sample, selectedPoints, name) {
   let maxMovement = 0;
   let threshold = 40;
   let initPoints = {};
-  for (const articulation of selectedPoints) {
-    initPoints[articulation] = sample.paths[articulation].strokes[0].points[0];
+
+ // console.log(sample)
+
+
+  for(let i = 0 ; i < Object.keys(sample.paths).length; i ++){
+    for(let y = 0; y < selectedPoints.length ; y++){
+      if(sample.paths[selectedPoints[y][i]] !== undefined){
+        selectedPoints = selectedPoints[y]
+        y = selectedPoints.length
+        i = sample.paths.length
+      }
+    }
   }
 
+  let nFrames = 0;
+  for(let i = 0; i < selectedPoints.length ; i ++){
+    if(sample.paths[selectedPoints[i]] !== undefined){
+      nFrames = sample.paths[selectedPoints[i]].strokes[0].points.length;
+      i = selectedPoints.length
+    }
+  }
+
+
+
+  let basic_point = new Point3D(10,10,10,10);
+  
+  for (const articulation of selectedPoints) {
+    try{  
+      initPoints[articulation] = sample.paths[articulation].strokes[0].points[0];
+    }
+    catch(error){
+      let strokePath = new Path(articulation)
+      sample.addPath(articulation,strokePath)
+      let stroke = new Stroke(articulation)
+      let count = 0;
+      while(count < nFrames){
+        stroke.addPoint(basic_point)
+        count++
+      }
+      strokePath.addStroke(stroke);
+      initPoints[articulation] = basic_point
+    }
+  }
+
+
+
+
   // check min distance END
-  let nFrames = sample.paths[selectedPoints[0]].strokes[0].points.length;
   let trajectory = [];
   for (let i = 0; i < nFrames; i++) {
     let vCoordinates = [];
     for (const articulation of selectedPoints) {
       let point = sample.paths[articulation].strokes[0].points[i];
       // check min distance START
-      let articulationMovement = distance(point, initPoints[articulation]);
-      maxMovement = Math.max(maxMovement, articulationMovement);
-      // check min distance END
-      vCoordinates.push(point.x);
-      vCoordinates.push(point.y);
-      vCoordinates.push(point.z);
+      try{
+        let articulationMovement = distance(point, initPoints[articulation]);
+        maxMovement = Math.max(maxMovement, articulationMovement);
+        // check min distance END
+        vCoordinates.push(point.x);
+        vCoordinates.push(point.y);
+        vCoordinates.push(point.z);
+      }
+      catch(error){
+        sample.paths[articulation].strokes[0].addPoint(basic_point)
+        let point = basic_point;
+        let articulationMovement = distance(point, initPoints[articulation]);
+        maxMovement = Math.max(maxMovement, articulationMovement);
+        // check min distance END
+        vCoordinates.push(point.x);
+        vCoordinates.push(point.y);
+        vCoordinates.push(point.z);
+      }
     }
     trajectory.push(new Vector(vCoordinates));
   }
@@ -95,6 +153,7 @@ function convert(sample, selectedPoints, name) {
 
 function distance(p1, p2) // Euclidean distance between two points
 {
+
   var dx = p2.x - p1.x;
   var dy = p2.y - p1.y;
   var dz = p2.z - p1.z;

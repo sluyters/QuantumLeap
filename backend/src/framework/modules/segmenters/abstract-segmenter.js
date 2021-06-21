@@ -32,6 +32,7 @@ class AbstractSegmenter {
    * @returns null if the frame and the current set of frames do not correspond to a dynamic gesture , a StrokeData object otherwise.
    */
   segment(frame) {
+
     // Get raw segments
     let rawSegments = this.computeSegments(frame);
     // Convert segments
@@ -39,30 +40,99 @@ class AbstractSegmenter {
     rawSegments.forEach(frames => {
       // Group all points by articulation
       let articulationsPoints = {}
+
       frames.forEach(frame => {
+      
         frame.articulations.forEach(articulation => {
-          if (articulationsPoints[articulation.label]) {
-            articulationsPoints[articulation.label].push(articulation.point);
-          } else {
-            articulationsPoints[articulation.label] = [articulation.point];
-          }
+
+              if (articulationsPoints[articulation.label]) {
+                articulationsPoints[articulation.label].push(articulation.point);
+              } else {
+                articulationsPoints[articulation.label] = [articulation.point];
+              }
+
         });
+
       })
-      // If there is sufficient motion, convert into a StrokeData object
-      if (isMotion(articulationsPoints, this.motionThreshold, this.motionArticulations)) {
-        let strokeData = new StrokeData();
-        for (const articulationLabel of Object.keys(articulationsPoints)) {
-          let path = new Path(articulationLabel);
-          strokeData.addPath(articulationLabel, path);
-          let stroke = new Stroke();
-          path.addStroke(stroke);
-          stroke.points = articulationsPoints[articulationLabel];
+
+      for(let w = 0; w < this.motionArticulations.length; w++){
+
+        let articulationsPointsFromSelectedPoints = {}
+        for(const articulationLabel of this.motionArticulations[w]){
+          articulationsPointsFromSelectedPoints[articulationLabel] = articulationsPoints[articulationLabel]
         }
-        segments.push(strokeData);
+
+        let strokeData = new StrokeData();
+      
+        if (isMotion(articulationsPointsFromSelectedPoints, this.motionThreshold, this.motionArticulations[w])) {
+          for (const articulationLabel of this.motionArticulations[w]) {
+            let path = new Path(articulationLabel);
+            strokeData.addPath(articulationLabel, path);
+            let stroke = new Stroke();
+            path.addStroke(stroke);
+            stroke.points = articulationsPointsFromSelectedPoints[articulationLabel];
+          }
+          segments.push(strokeData);
+        }
       }
+      
     });
     return segments;
   }
+/*
+
+  segment(frame) {
+
+    // Get raw segments
+    let rawSegments = this.computeSegments(frame);
+    // Convert segments
+    let segments = [];
+    rawSegments.forEach(frames => {
+      // Group all points by articulation
+      let articulationsPoints = {}
+      let articulationsPointsTable = []
+
+      for(let i = 0 ; i < this.motionArticulations.length ; i++){
+        articulationsPointsTable[i] = articulationsPoints
+      }
+
+      frames.forEach(frame => {
+      
+        frame.articulations.forEach(articulation => {
+
+          for(let i = 0 ; i < this.motionArticulations.length ; i++){
+            if(this.motionArticulations[i].indexOf(articulation.label) > -1){
+              
+              if (articulationsPointsTable[i][articulation.label]) {
+                articulationsPointsTable[i][articulation.label].push(articulation.point);
+              } else {
+                articulationsPointsTable[i][articulation.label] = [articulation.point];
+              }
+              i = this.motionArticulations.length
+            }
+          }
+        });
+
+      })
+
+      for(let w = 0; w < this.motionArticulations.length; w++){
+        let strokeData = new StrokeData();
+      
+        if (isMotion(articulationsPointsTable[w], this.motionThreshold, this.motionArticulations[w])) {
+          for (const articulationLabel of this.motionArticulations[w]) {
+            let path = new Path(articulationLabel);
+            strokeData.addPath(articulationLabel, path);
+            let stroke = new Stroke();
+            path.addStroke(stroke);
+            stroke.points = articulationsPointsTable[w][articulationLabel];
+          }
+          segments.push(strokeData);
+        }
+      }
+      
+    });
+    return segments;
+  }*/
 
   computeSegments(frame) {
     throw new Error('You have to implement this function');
@@ -81,13 +151,19 @@ function isMotion(articulationsPoints, threshold, articulations) {
     return true;
   }
   for (const articulation of articulations) {
+    try{
     // Compute motion related to first point
     let refPoint = articulationsPoints[articulation][0];
+      
     for (let i = articulationsPoints[articulation].length - 1; i > 0; i--) {
       let motion = distance(refPoint, articulationsPoints[articulation][i]);
       if (motion >= threshold) {
         return true;
       }
+    }
+    }
+    catch(error){
+      
     }
   }
   return false;

@@ -41,5 +41,22 @@
         }
       ]
     },
-    "settings": []
+    "settings": [{
+
+        "type": "TextInput",
+
+        "name": "port",
+
+        "label": "Port",
+
+        "description": "IP address of the server (for app interface).",
+
+        "minLength": 1,
+
+        "maxLength": null,
+
+        "default": "5000"
+
+      }
+    ]
   }

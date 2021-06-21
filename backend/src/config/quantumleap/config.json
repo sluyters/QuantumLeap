@@ -14,12 +14,29 @@
       "sensors": {
         "modules": [
           {
-            "uuid": "1ae884a0-10a0-4bf9-8c90-37ca869f36be",
+            "uuid": "e348ced8-7de1-4af7-b89e-59fc0a5502df",
             "moduleName": "touchPad-sensor",
             "moduleType": "sensors",
-            "moduleSettings": {},
+            "moduleSettings": {
+              "port": "5000",
+              "idientifier": "3Dtchp",
+              "number": "1"
+            },
             "additionalSettings": {
               "id": "3Dtchp"
+            }
+          },
+          {
+            "uuid": "d7f1e96a-b9b2-4d58-b84e-e8d4378a5c56",
+            "moduleName": "touchPad-sensor",
+            "moduleType": "sensors",
+            "moduleSettings": {
+              "port": "5001",
+              "idientifier": "3Dtchp2",
+              "number": "2"
+            },
+            "additionalSettings": {
+              "id": "3Dtchp2"
             }
           }
         ],
@@ -47,166 +64,106 @@
                 ],
                 "id": "3Dtchp"
               }
+            },
+            {
+              "uuid": "12df125e-a875-4578-afdf-fd4ce755289d",
+              "moduleName": "touchPad-loader",
+              "moduleType": "datasets/dynamic",
+              "moduleSettings": {},
+              "additionalSettings": {
+                "datasets": [
+                  "touchPad"
+                ],
+                "id": "3Dtchp2"
+              }
             }
           ],
           "templatesPerClass": 8,
           "aggregateClasses": [
             {
-              "uuid": "a009a3d2-947b-4a34-b206-ba81a2fa24cd",
-              "name": "air_swipe_right",
-              "gestureClasses": [
-                "AirSwipeRight"
-              ]
-            },
-            {
-              "uuid": "81b69cd6-d1bf-43d5-960b-1ff35c0b76db",
-              "name": "air_swipe_left",
-              "gestureClasses": [
-                "AirSwipeLeft"
-              ]
-            },
-            {
-              "uuid": "d8f00abb-cb12-405b-bd62-1245f9f5aca1",
+              "uuid": "c2750eb5-55cb-4eb5-830c-a76ac306aece",
               "name": "air_circle_left",
               "gestureClasses": [
                 "AirCircleLeft"
               ]
             },
             {
-              "uuid": "904494e7-2d3d-4253-8fcd-367ec8edd853",
+              "uuid": "53573c52-f036-4176-a1ab-4da456a776e7",
               "name": "air_circle_right",
               "gestureClasses": [
                 "AirCircleRight"
               ]
             },
             {
-              "uuid": "8b3afaf5-adda-47dd-94c4-a6a66e7c91bb",
+              "uuid": "2bf26fee-9bdf-470b-9c61-f8911c885432",
               "name": "swipe_right_1touch",
               "gestureClasses": [
                 "SwipeRight1Touch"
               ]
             },
             {
-              "uuid": "b61f306c-e72d-41cf-89c7-0eccea57e02c",
+              "uuid": "308a0d93-d82f-4f25-9a40-401afe887f10",
               "name": "swipe_left_1touch",
               "gestureClasses": [
                 "SwipeLeft1Touch"
               ]
             },
             {
-              "uuid": "15ee4919-4613-4191-894a-5706d08e6512",
-              "name": "swipe_down_1touch",
-              "gestureClasses": [
-                "SwipeDown1Touch"
-              ]
-            },
-            {
-              "uuid": "aca3b11e-cb8e-4597-bb28-67033fe75da8",
+              "uuid": "cffcb784-6064-4504-a161-fbf9d1cd7d1a",
               "name": "swipe_up_1touch",
               "gestureClasses": [
                 "SwipeUp1Touch"
               ]
             },
             {
-              "uuid": "ecbbf2c4-420d-4865-9fd7-b8e84a261ff5",
-              "name": "swipe_right_2touch",
+              "uuid": "7bd7f89b-47d9-4488-a0af-16117e805b11",
+              "name": "swipe_down_1touch",
               "gestureClasses": [
-                "SwipeRight2Touch"
+                "SwipeDown1Touch"
               ]
             },
             {
-              "uuid": "7f52528b-ec98-4b1a-ae64-9c0072e6855c",
-              "name": "swipe_left_2touch",
-              "gestureClasses": [
-                "SwipeLeft2Touch"
-              ]
-            },
-            {
-              "uuid": "274d178d-e2e1-4f2d-b68b-1084158a97f6",
-              "name": "swipe_up_2touch",
-              "gestureClasses": [
-                "SwipeUp2Touch"
-              ]
-            },
-            {
-              "uuid": "3f15c373-982d-4587-80a8-92d7dc0299eb",
+              "uuid": "66a8c976-8a3d-4988-b334-9180d2f99ab5",
               "name": "swipe_down_2touch",
               "gestureClasses": [
                 "SwipeDown2Touch"
               ]
             },
             {
-              "uuid": "0d559d98-ada7-4acf-897d-5b91a2bcd45b",
-              "name": "swipe_right_3touch",
+              "uuid": "3279be8c-a16a-4c53-94b8-37e0365b2898",
+              "name": "swipe_up_2touch",
               "gestureClasses": [
-                "SwipeRight3Touch"
+                "SwipeUp2Touch"
               ]
             },
             {
-              "uuid": "603e3ee0-64eb-46c5-a6bd-13dfc8d20bfa",
-              "name": "swipe_down_3touch",
+              "uuid": "b9ea9463-aef8-458b-89d8-19ed7c2256fd",
+              "name": "swipe_right_2touch",
               "gestureClasses": [
-                "SwipeDown3Touch"
+                "SwipeRight2Touch"
               ]
             },
             {
-              "uuid": "dae5430c-c498-41ed-ac03-2ec84d64a9d4",
-              "name": "swipe_up_3touch",
+              "uuid": "0d12d945-86ef-4f61-8b86-9e2608d41172",
+              "name": "swipe_left_2touch",
               "gestureClasses": [
-                "SwipeUp3Touch"
+                "SwipeLeft2Touch"
               ]
             },
             {
-              "uuid": "dae5430c-c498-4365-9580-9ef9f7903c80",
-              "name": "swipe_left_3touch",
+              "uuid": "39bad5da-7e87-416a-9f01-ed373c5bb16a",
+              "name": "air_swipe_right",
               "gestureClasses": [
-                "SwipeLeft3Touch"
+                "AirSwipeRight"
               ]
             },
             {
-              "uuid": "4ceef471-a5b1-4365-9580-9ef9f7903c80",
-              "name": "air_up",
+              "uuid": "c8fec806-43e8-4c90-ad62-d76d7ad0d42d",
+              "name": "air_swipe_left",
               "gestureClasses": [
-                "AirUp"
-              ]
-            },
-            {
-              "uuid": "3807b2df-d868-4474-a46a-076ed6d0b2bb",
-              "name": "air_swipe_down",
-              "gestureClasses": [
-                "AirSwipeDown"
-              ]
-            },
-            {
-              "uuid": "3b0a84db-ca84-4386-b8a1-d8ec331d134a",
-              "name": "air_swipe_up",
-              "gestureClasses": [
-                "AirSwipeUp"
-              ]
-            },
-            {
-              "uuid": "3807b2df-d868-4386-b8a1-d8ec331d134a",
-              "name": "air_down",
-              "gestureClasses": [
-                "AirDown"
-              ]
-            },
-            {
-              "uuid": "dae5430c-c498-4386-b8a1-d8ec331d134a",
-              "name": "zoom_in_2touch",
-              "gestureClasses": [
-                "ZoomIn2Touch"
+                "AirSwipeLeft"
               ]
             }
-            ,
-            {
-              "uuid": "603e3ee0-64eb-4386-b8a1-d8ec331d134a",
-              "name": "zoom_out_2touch",
-              "gestureClasses": [
-                "ZoomOut2Touch"
-              ]
-            }
-
           ]
         }
       },
@@ -224,15 +181,25 @@
                 {
                   "width": 20,
                   "uuid": "5a93d460-7288-4e2e-a2c7-ef20d2bd6ff4"
+                },
+                {
+                  "width": 20,
+                  "uuid": "d0874cf6-e03d-4a73-82c2-352563f308e2"
                 }
               ],
               "intervalLength": 3,
               "pauseLength": 60
             },
             "additionalSettings": {
-              "motionThreshold": 70,
+              "motionThreshold": 59,
               "motionArticulations": {
                 "3Dtchp": [
+                  "3D",
+                  "2DTouch1",
+                  "2DTouch2",
+                  "2DTouch3"
+                ],
+                "3Dtchp2": [
                   "3D",
                   "2DTouch1",
                   "2DTouch2",
@@ -255,13 +222,19 @@
         "dynamic": {
           "modules": [
             {
-              "uuid": "8e1d6701-5e39-4333-8f1e-f2446fc50968",
+              "uuid": "c3c2a8f0-f514-4ea1-8826-0c9833eaea3f",
               "moduleName": "jackknife",
               "moduleType": "recognizers/dynamic",
               "moduleSettings": {
                 "samplingPoints": 16,
                 "points": {
                   "3Dtchp": [
+                    "3D",
+                    "2DTouch1",
+                    "2DTouch2",
+                    "2DTouch3"
+                  ],
+                  "3Dtchp2": [
                     "3D",
                     "2DTouch1",
                     "2DTouch2",
@@ -273,7 +246,7 @@
             }
           ],
           "scoreThreshold": 0.25,
-          "sendIfRequested": true,
+          "sendIfRequested": false,
           "loadOnRequest": false
         }
       }

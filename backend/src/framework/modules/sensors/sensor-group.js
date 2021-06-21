@@ -35,30 +35,38 @@ class SensorGroup {
       sensor.connect();
     })
     let processFrame = function () {
-      let hasData = false;
-      let timestamp = Date.now();
-      // Initialize the frame and appData
-      let frame = new Frame(timestamp);
+      
       let appData = {};
       // Get points from each sensor
       this.sensors.forEach(({sensor, id}) => {
+        
+        let hasData = false;
+
+        let timestamp = Date.now();
+        // Initialize the frame and appData
+        let frame = new Frame(timestamp);
+
         let sensorData = sensor.getPoints(timestamp);
         hasData = hasData || sensorData.hasData;
         sensorData.points.forEach(({name, point}) => {
           let pointName = id ? `${name}_${id}` : name;
+          //console.log(pointName)
           frame.addArticulation(new Articulation(pointName, point));
         });
+
         // TODO change
         appData = {
           ...appData,
           ...sensorData.appData
         };
+
+        frame.hasData = hasData;
+        // Callback only if data was sensed by a sensor
+        if (hasData) {
+          callback(frame, appData);
+        }
       })
-      frame.hasData = hasData;
-      // Callback only if data was sensed by a sensor
-      if (hasData) {
-        callback(frame, appData);
-      }
+      
     }.bind(this);
 
     this.sensorLoop = setInterval(processFrame, 1000 / this.framerate);
