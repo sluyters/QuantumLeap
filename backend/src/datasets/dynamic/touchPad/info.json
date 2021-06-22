@@ -7,9 +7,11 @@
         "AirCircleRight",
         "AirSwipeRight",
         "AirSwipeLeft",
+        "AirSwipeForward",
+        "AirSwipeBackward",
         "AirSwipeUp",
-        "AirSwipeDown",
-        "AirUp",
+		"AirSwipeDown",
+		
         "SwipeDown1Touch",
         "SwipeDown2Touch",
         "SwipeDown3Touch",
@@ -22,7 +24,13 @@
         "SwipeUp1Touch",
         "SwipeUp2Touch",
         "SwipeUp3Touch",
-		"ZoomIn2Touch",
-		"ZoomOut2Touch"
+		"ZoomRelease2Touch",
+		"ZoomPinch2Touch",
+        "CircleRight1Touch",
+        "CircleRight2Touch",
+        "CircleRight3Touch",
+        "CircleLeft1Touch",
+        "CircleLeft2Touch",
+        "CircleLeft3Touch"
     ]
 }
