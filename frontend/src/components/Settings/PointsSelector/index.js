@@ -49,7 +49,7 @@ class PointsSelector extends React.Component {
       } else {
         dataset = values.main.settings.datasets.dynamic.modules[0]
       }
-      let datasetName = dataset.additionalSettings.id;
+      let datasetName = dataset ? dataset.additionalSettings.id : '';
       const changePoints = (event) => {
         let text = event.target.value.replace(/^[, ]*/, '');
         let points = text ? text.split(/[, ]+/) : [];

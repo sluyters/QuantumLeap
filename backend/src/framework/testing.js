@@ -88,8 +88,8 @@ class UserIndependentTesting extends Testing {
           dataset.getGestureClasses().forEach((gestureClass) => {
             // Select a valid training template
             let training = -1;
-            //while (training == -1 || markedTemplates[index].includes(training) || gestureClass.getSamples()[training].user == gestureClass.getSamples()[markedTemplates[index][0]].user) {
-            while (training == -1 || markedTemplates[index].includes(training)) {
+            while (training == -1 || markedTemplates[index].includes(training) || gestureClass.getSamples()[training].user == gestureClass.getSamples()[markedTemplates[index][0]].user) {
+            // while (training == -1 || markedTemplates[index].includes(training)) {
               training = getRandomNumber(0, gestureClass.getSamples().length);
             }
             // Mark the training template
@@ -184,7 +184,7 @@ function loadDataset(type, datasetsConfig) {
       let newClass = new GestureClass(aggregate.name, index);
       let templates = [];
       // Fuse the classes into a new aggregate class
-      for (const className of aggregate.classes) {
+      for (const className of aggregate.gestureClasses) {
         let oldClass = dataset.getGestureClasses().get(className);
         templates = templates.concat(templates, oldClass.getSamples());
       }

@@ -12,7 +12,6 @@ class Recognizer extends AbstractDynamicRecognizer {
 		this.samplingPoints = options.samplingPoints;
 		this.selectedPoints = parsePointsNames(options.points);
 		this.recognizer = new P3DollarRecognizer(this.samplingPoints);
-		console.log(this.selectedPoints)
 		if (dataset !== undefined){
 			console.log(dataset)
 			dataset.getGestureClasses().forEach((gesture) => {

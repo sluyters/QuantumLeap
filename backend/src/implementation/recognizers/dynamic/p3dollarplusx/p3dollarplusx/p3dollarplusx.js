@@ -217,7 +217,7 @@ function Resample(points, n)
 			else D += d;
 		}
 	}
-	if (newpoints.length == n - 1)1) // sometimes we fall a rounding-error short of adding the last point, so add it if so
+	if (newpoints.length == n - 1) // sometimes we fall a rounding-error short of adding the last point, so add it if so
 		newpoints[newpoints.length] = new Point(points[points.length - 1].X, points[points.length - 1].Y, points[points.length - 1].Z, points[points.length - 1].ID);
 	return newpoints;
 }
