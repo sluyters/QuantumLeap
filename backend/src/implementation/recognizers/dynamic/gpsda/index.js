@@ -44,15 +44,17 @@ class Recognizer extends AbstractDynamicRecognizer {
 }
 
 function convert(sample, selectedPoints) {
-  let nFrames = sample.paths[selectedPoints[0]].strokes[0].points.length;
   let points = [];
-  for (let i = 0; i < nFrames; i++) {
-    let coords = [];
-    selectedPoints.forEach(pathName => {
-      coords.push(...sample.paths[pathName].strokes[0].points[i].getCoordinates());
-    });
-    points.push(new Point(coords));
-  }
+  sample.paths[selectedPoints[0]].strokes.forEach(stroke => {
+    let nFrames = stroke.points.length;
+    for (let i = 0; i < nFrames; i++) {
+      let coords = [];
+      selectedPoints.forEach(pathName => {
+        coords.push(...stroke.points[i].getCoordinates());
+      });
+      points.push(new Point(coords));
+    }
+  });
   return points;
 }
 
