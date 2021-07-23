@@ -66,16 +66,22 @@ function convert(sample, selectedPoints, name) {
   } else {
     jackknifeSample = new Sample();
   }
-  let nFrames = sample.paths[selectedPoints[0]].strokes[0].points.length;
+
+  let nStrokes = sample.paths[selectedPoints[0]].strokes.length;
   let trajectory = [];
-  for (let i = 0; i < nFrames; i++) {
-    let vCoordinates = [];
-    for (const articulation of selectedPoints) {
-      let point = sample.paths[articulation].strokes[0].points[i];
-      vCoordinates.push(...point.getCoordinates());
+
+  for (let i = 0; i < nStrokes; i++) {
+    let nFrames = sample.paths[selectedPoints[0]].strokes[i].points.length;
+    for (let j = 0; j < nFrames; j++) {
+      let vCoordinates = [];
+      for (const articulation of selectedPoints) {
+        let point = sample.paths[articulation].strokes[i].points[j];
+        vCoordinates.push(...point.getCoordinates());
+      }
+      trajectory.push(new Vector(vCoordinates));
     }
-    trajectory.push(new Vector(vCoordinates));
   }
+  
   jackknifeSample.add_trajectory(trajectory);
   return jackknifeSample;
 }
