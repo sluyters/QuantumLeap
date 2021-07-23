@@ -43,6 +43,9 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
 **/
+
+const { performance } = require('perf_hooks');
+
 //
 // Point class
 //
@@ -89,7 +92,7 @@ function P3DollarPlusRecognizer(numPoints) // constructor
 	// The $P+ Point-Cloud Recognizer API begins here -- 4 methods: Recognize(), AddGesture(), RemoveGesture(), DeleteUserGestures()
 	//
 	this.Recognize = function (points) {
-		var t0 = Date.now();
+		var t0 = performance.now();
 		var candidate = new PointCloud("", points);
 
 		var u = -1;
@@ -105,7 +108,7 @@ function P3DollarPlusRecognizer(numPoints) // constructor
 				u = i; // point-cloud index
 			}
 		}
-		var t1 = Date.now();
+		var t1 = performance.now();
 		return (u == -1) ? new Result("No match.", 0.0, t1 - t0) : new Result(this.PointClouds[u].Name, b > 1.0 ? 1.0 / b : 1.0, t1 - t0);
 	}
 	this.AddGesture = function (name, points) {

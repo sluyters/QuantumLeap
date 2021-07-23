@@ -5,6 +5,8 @@ const Vector = require('./jackknife/vector').Vector;
 const Sample = require('./jackknife/sample').Sample;
 const { parsePointsNames } = require('../../../../framework/utils');
 
+const { performance } = require('perf_hooks');
+
 class Recognizer extends AbstractDynamicRecognizer {
 
   static name = "JackknifeRecognizer";
@@ -46,9 +48,9 @@ class Recognizer extends AbstractDynamicRecognizer {
     if (!jackknifeSample) {
       return { name: "", score: 0.0, time: 0.0 };
     }
-    let t0 = Date.now();
+    let t0 = performance.now();
     let ret = this.jackknifeRecognizer.classify(jackknifeSample);
-    let t1 = Date.now();
+    let t1 = performance.now();
     return (ret.name == -1) ? { name: "", score: 0.0, time: t1 - t0 } : { name: ret.name, score: ret.score, time: t1 - t0 };
   }
 

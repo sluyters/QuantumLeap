@@ -36,7 +36,7 @@ class Recognizer extends AbstractDynamicRecognizer {
 	recognize(sample) {
 		let results = {};
 		let bestFit = '';
-		let t0 = Date.now();
+		let t0 = performance.now();
 		this.recognizers.forEach((recognizer, index) => {
 			let result = recognizer.recognize(sample);
 			if (result.name) {
@@ -50,7 +50,7 @@ class Recognizer extends AbstractDynamicRecognizer {
 				}
 			}
 		});
-		let t1 = Date.now();
+		let t1 = performance.now();
 		return {
 			name: bestFit ? bestFit : '',
 			score: bestFit ? results[bestFit] / this.recognizers.length : 0.0,
