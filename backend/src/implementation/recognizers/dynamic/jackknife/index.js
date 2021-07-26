@@ -17,6 +17,7 @@ class Recognizer extends AbstractDynamicRecognizer {
     this.selectedPoints = parsePointsNames(options.points);
     let blades = new jackknife_blades();
     blades.set_ip_defaults();
+    blades.resample_cnt = this.N;
     this.jackknifeRecognizer = new Jackknife(blades)
     if (dataset !== undefined) {
       dataset.getGestureClasses().forEach((gesture) => {
