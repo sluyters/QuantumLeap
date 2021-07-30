@@ -5,7 +5,7 @@ const GestureSet = require('../../../../framework/gestures/gesture-set').Gesture
 const GestureClass = require('../../../../framework/gestures/gesture-class').GestureClass;
 const StrokeData = require('../../../../framework/gestures/stroke-data').StrokeData;
 const { Path, Stroke } = require('../../../../framework/gestures/stroke-data');
-const { Point2D, Point3D } = require('../../../../framework/gestures/Point');
+const { Point2D, Point3D, PointND } = require('../../../../framework/gestures/Point');
 
 
 function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
@@ -39,14 +39,18 @@ function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
                         rawPath.strokes.forEach(rawStroke => {
                             let stroke = new Stroke(rawStroke.id);
                             rawStroke.points.forEach(point => {
-                                if (point.hasOwnProperty('z')) {
+                                if (point.hasOwnProperty('coordinates')) {
+                                    // ND
+                                    stroke.addPoint(new PointND(point.coordinates, point.t));
+                                }
+                                // TODO remove all non-generic coordinates ?
+                                else if (point.hasOwnProperty('z')) {
                                     // 3D
                                     stroke.addPoint(new Point3D(point.x, point.y, point.z, point.t));
                                 } else {
                                     // 2D
                                     stroke.addPoint(new Point2D(point.x, point.y, point.t));
                                 }
-                                // TODO make generic, regardless of coordinates
                             })
                             path.addStroke(stroke);
                         });
