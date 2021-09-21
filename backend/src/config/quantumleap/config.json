@@ -14,10 +14,12 @@
       "sensors": {
         "modules": [
           {
-            "uuid": "61365c60-efda-4b48-9134-a15624a4b598",
-            "moduleName": "leap-sensor",
+            "uuid": "49dbb1a4-3ff0-4820-b812-e6814d64dff3",
+            "moduleName": "leap-sensor-handedness",
             "moduleType": "sensors",
-            "moduleSettings": {},
+            "moduleSettings": {
+              "switchHandedness": true
+            },
             "additionalSettings": {
               "id": "lmc"
             }
@@ -44,7 +46,7 @@
               }
             }
           ],
-          "templatesPerClass": 100,
+          "templatesPerClass": 400,
           "aggregateClasses": []
         },
         "dynamic": {
@@ -133,6 +135,7 @@
               "motionThreshold": 70,
               "motionArticulations": {
                 "lmc": [
+                  "leftPalmPosition",
                   "rightPalmPosition"
                 ]
               }
@@ -144,11 +147,11 @@
         "static": {
           "modules": [
             {
-              "uuid": "dc8031ac-9645-400e-8a32-290b8bb06e6c",
+              "uuid": "e146006a-90dd-4f2c-9548-11ce8c83e701",
               "moduleName": "gpsda",
               "moduleType": "recognizers/static",
               "moduleSettings": {
-                "alpha": 0.8,
+                "alpha": 0.7,
                 "points": {
                   "lmc": [
                     "rightPalmPosition",
@@ -173,7 +176,7 @@
               "additionalSettings": {}
             }
           ],
-          "scoreThreshold": 0.15,
+          "scoreThreshold": 0.3,
           "bufferLength": 15,
           "poseRatioThreshold": 0.8,
           "sendIfRequested": true,
@@ -182,7 +185,7 @@
         "dynamic": {
           "modules": [
             {
-              "uuid": "8e1d6701-5e39-4333-8f1e-f2446fc50968",
+              "uuid": "0b4ddafc-4085-470e-b867-1023cc6e79e1",
               "moduleName": "jackknife",
               "moduleType": "recognizers/dynamic",
               "moduleSettings": {
@@ -190,18 +193,28 @@
                 "points": {
                   "lmc": [
                     "rightPalmPosition",
-                    "rightIndexTipPosition",
                     "rightThumbTipPosition",
+                    "rightIndexTipPosition",
                     "rightMiddleTipPosition",
                     "rightRingTipPosition",
-                    "rightPinkyTipPosition"
+                    "rightPinkyTipPosition",
+                    "rightThumbPipPosition",
+                    "rightIndexPipPosition",
+                    "rightMiddlePipPosition",
+                    "rightRingPipPosition",
+                    "rightPinkyPipPosition",
+                    "rightThumbMcpPosition",
+                    "rightIndexMcpPosition",
+                    "rightMiddleMcpPosition",
+                    "rightRingMcpPosition",
+                    "rightPinkyMcpPosition"
                   ]
                 }
               },
               "additionalSettings": {}
             }
           ],
-          "scoreThreshold": 0.25,
+          "scoreThreshold": 0.035,
           "sendIfRequested": true,
           "loadOnRequest": false
         }

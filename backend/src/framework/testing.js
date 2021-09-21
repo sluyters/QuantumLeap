@@ -14,6 +14,7 @@ class Testing {
     this.datasets = config.datasets[recognizerType];
     this.recognizers = config.recognizers[recognizerType];
     // Get testing parameters
+    this.forceDifferentUsers = config.general.testingParams.forceDifferentUsers;
     this.minT = config.general.testingParams.minT;
     this.maxT = config.general.testingParams.maxT;
     this.r = config.general.testingParams.r;
@@ -23,6 +24,7 @@ class Testing {
   }
 
   run() {
+    console.log('Starting testing')
     let results = [];
     for (let i = 0; i < this.datasets.modules.length; i++) {
       let dataset = loadDataset(this.recognizerType, this.datasets);
@@ -45,7 +47,7 @@ class Testing {
       console.log(datasetResults)
       results.push(datasetResults);
     }
-    console.log('end')
+    console.log('Ending Testing')
     fs.writeFileSync(`results-${this.recognizerType}.json`, stringify(results, {maxLength: 150, indend: 2}));
   }
 
@@ -88,14 +90,20 @@ class UserIndependentTesting extends Testing {
           dataset.getGestureClasses().forEach((gestureClass) => {
             // Select a valid training template
             let training = -1;
-            while (training == -1 || markedTemplates[index].includes(training) || gestureClass.getSamples()[training].user == gestureClass.getSamples()[markedTemplates[index][0]].user) {
-            // while (training == -1 || markedTemplates[index].includes(training)) {
-              training = getRandomNumber(0, gestureClass.getSamples().length);
+
+            if (this.forceDifferentUsers) {
+              while (training == -1 || markedTemplates[index].includes(training) || gestureClass.getSamples()[training].user == gestureClass.getSamples()[markedTemplates[index][0]].user) {
+                training = getRandomNumber(0, gestureClass.getSamples().length);
+              }
+            } else {
+              while (training == -1 || markedTemplates[index].includes(training)) {
+                training = getRandomNumber(0, gestureClass.getSamples().length);
+              }
             }
+
             // Mark the training template
             markedTemplates[index].push(training);
             // Train the recognizer
-            //console.log(gestureClass.name)
             recognizer.addGesture(gestureClass.name, gestureClass.getSamples()[training]);
             index++;
           });
@@ -106,13 +114,11 @@ class UserIndependentTesting extends Testing {
           // Retrieve the testing sample
           let toBeTested = gestureClass.getSamples()[candidates[index]];
           // Attempt recognition
-          //console.log(gestureClass.name, toBeTested.id)
           if (this.recognizerType === 'dynamic') {
             var result = recognizer.recognize(toBeTested);
           } else {
             var result = recognizer.recognize(toBeTested.frame);
           }
-          //console.log(result.name)
           // Update the confusion matrix
           if (dataset.getGestureClasses().has(result.name)) {
             let resultIndex = dataset.getGestureClasses().get(result.name).index;
