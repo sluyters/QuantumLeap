@@ -107,10 +107,12 @@
       "analyzers": {
         "modules": [
           {
-            "uuid": "5bb6e233-6879-407f-a029-8f948f2e6d61",
-            "moduleName": "basic",
+            "uuid": "79922010-4318-4ab8-9d14-dd8079514ebe",
+            "moduleName": "basic-handedness",
             "moduleType": "analyzers",
-            "moduleSettings": {},
+            "moduleSettings": {
+              "switchHandedness": true
+            },
             "additionalSettings": {}
           }
         ]

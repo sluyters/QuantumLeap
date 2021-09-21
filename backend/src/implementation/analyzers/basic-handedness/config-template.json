@@ -1,0 +1,16 @@
+{
+  "label": "Basic + Handedness Control",
+  "name": "basic-handedness",
+  "type": "analyzer",
+  "description": "A module that extracts 4 types of data from a frame: pinch, rotation, translation, and thumb vector. Added control over handedness.",
+  "properties": {},
+  "settings": [
+    {
+      "type": "BooleanInput",
+      "name": "switchHandedness",
+      "label": "Switch handedness",
+      "description": "Switch the handedness of the gesture (left- vs. right-handed).",
+      "default": false
+    }
+  ]
+}
