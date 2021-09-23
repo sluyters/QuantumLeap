@@ -23,21 +23,13 @@ class Sensor extends AbstractSensor {
     // Get points
     for (const hand of frame.hands) {
       if (hand.valid) {
-        // Switch handedness if required 
-        if (this.switchHandedness) {
-          if (hand.type === 'right') {
-            hand.type = 'left';
-          } else {
-            hand.type = 'right';
-          }
-        }
         // Check if a hand is visible
         hasRightHand = hasRightHand || hand.type === 'right';
         hasLeftHand = hasLeftHand || hand.type === 'left';
         // Palm positions
         points.push({
           name: hand.type === 'right' ? 'rightPalmPosition' : 'leftPalmPosition',
-          point: new Point(...addHandedness(this.switchHandedness, hand.palmPosition), timestamp)
+          point: new Point(...hand.palmPosition, timestamp)
         });
         // Finger positions
         hand.fingers.forEach((finger) => {
@@ -45,7 +37,7 @@ class Sensor extends AbstractSensor {
           let position = finger.stabilizedTipPosition;
           let normalized = frame.interactionBox.normalizePoint(position);
           fingers.push({
-            'hand': hand.type,
+            'hand': getHandedness(this.switchHandedness, hand.type),
             'type': finger.type,
             'normalizedPosition': normalized,
             'touchDistance': finger.touchDistance,
@@ -55,7 +47,7 @@ class Sensor extends AbstractSensor {
           for (const fingerArticulation of fingerArticulations) {
             points.push({
               name: `${hand.type}${fingerNames[finger.type]}${fingerArticulation}Position`,
-              point: new Point(...addHandedness(this.switchHandedness, finger[`${fingerArticulation.toLowerCase()}Position`]), timestamp)
+              point: new Point(...finger[`${fingerArticulation.toLowerCase()}Position`], timestamp)
             });
           }
         });
@@ -104,11 +96,12 @@ class Sensor extends AbstractSensor {
   }
 }
 
-function addHandedness(switchHandedness, coordinates) {
+function getHandedness(switchHandedness, handedness) {
   if (switchHandedness) {
-    coordinates[0] = - coordinates[0]; 
+    return handedness === "right" ? "left" : "right";
+  } else {
+    return handedness;
   }
-  return coordinates;
 }
 
 module.exports = Sensor;

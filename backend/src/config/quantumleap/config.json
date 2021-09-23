@@ -15,11 +15,9 @@
         "modules": [
           {
             "uuid": "49dbb1a4-3ff0-4820-b812-e6814d64dff3",
-            "moduleName": "leap-sensor-handedness",
+            "moduleName": "leap-sensor",
             "moduleType": "sensors",
-            "moduleSettings": {
-              "switchHandedness": true
-            },
+            "moduleSettings": {},
             "additionalSettings": {
               "id": "lmc"
             }
@@ -108,10 +106,10 @@
         "modules": [
           {
             "uuid": "79922010-4318-4ab8-9d14-dd8079514ebe",
-            "moduleName": "basic-handedness",
+            "moduleName": "basic",
             "moduleType": "analyzers",
             "moduleSettings": {
-              "switchHandedness": true
+              "leftHanded": false
             },
             "additionalSettings": {}
           }
@@ -137,7 +135,6 @@
               "motionThreshold": 70,
               "motionArticulations": {
                 "lmc": [
-                  "leftPalmPosition",
                   "rightPalmPosition"
                 ]
               }
