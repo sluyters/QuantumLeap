@@ -43,6 +43,8 @@ class DatasetSelector extends React.Component {
     selectedDatasets.forEach((datasetName, datasetIndex) => {
       // Get the description of the dataset
       const description = datasets[datasetName].description;
+      // Get the gestures in the dataset
+      const gestures = datasets[datasetName].gestures;
       // Rename variables for to avoid conflicts in the handlers
       let datasetSelectorValue = value;
       let datasetSelectorPath = path;
@@ -76,6 +78,10 @@ class DatasetSelector extends React.Component {
           {/* Render the description of the dataset */}
           <Typography variant='body1'>
             {description}
+          </Typography>
+          {/* Render the gestures in the dataset */}
+          <Typography variant='body1'>
+            Gestures: <i>{gestures.join(', ')}</i>.
           </Typography>
         </div>
       );
