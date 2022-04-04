@@ -22,8 +22,9 @@ function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
             let rawGesturePath = path.join(gestureClassDirPath, file);
             let rawGestureData = JSON.parse(fs.readFileSync(rawGesturePath));
             let gestureData = new StrokeData();
-            let strokePath = new Path("main");
-            gestureData.addPath("main", strokePath);
+            let label = addIdentifier("main", identifier);
+            let strokePath = new Path(label);
+            gestureData.addPath(label, strokePath);
 
             for(let i = 0 ; i < rawGestureData[0].strokes.length ; i++) {
                 let stroke = new Stroke(i);
@@ -42,6 +43,10 @@ function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
     });
     
     return gestureSet;
+}
+
+function addIdentifier(name, identifier) {
+    return identifier ? `${name}_${identifier}` : name;
 }
 
 module.exports = {

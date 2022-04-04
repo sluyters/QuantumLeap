@@ -1,5 +1,6 @@
 const RingBuffer = require('ringbufferjs');
 const { initDataset } = require('./modules/datasets/init-datasets');
+const LogHelper = require('./log-helper');
 
 class FrameProcessor {
   constructor(config) {
@@ -42,6 +43,8 @@ class FrameProcessor {
     this.sgCounter = {};
     // Save config
     this.config = config;
+    // Debug helper code (start)
+    this.previousStatic = undefined;
   }
 
   resetContext() {
@@ -67,18 +70,18 @@ class FrameProcessor {
             try {
               this.recognizers[type].addGesture(name, template);
             } catch(error) {
-              console.error(`Gesture recognizer (${type}) error while adding a template for gesture '${name}': ${error.stack}`);
+              LogHelper.log('error', `Gesture recognizer (${type}) error while adding a template for gesture '${name}': ${error.stack}`);
             }
             if (type === 'dynamic') {
               try {
                 this.segmenter.addGesture(name, template);
               } catch(error) {
-                console.error(`Gesture segmenter error while adding a template for gesture '${name}': ${error.stack}`);
+                LogHelper.log('error', `Gesture segmenter error while adding a template for gesture '${name}': ${error.stack}`);
               }
             }
           }
         } else {
-          console.error(`No ${type} gesture class in the dataset with name '${name}'`);
+          LogHelper.log('error', `No ${type} gesture class in the dataset with name '${name}'`);
         }
       }
       this.enabledGestures[type].push(name);
@@ -94,7 +97,7 @@ class FrameProcessor {
         try {
           this.recognizers[type].removeGesture(name);
         } catch(error) {
-          console.error(`Gesture recognizer (${type}) error while removing gesture '${name}': ${error.stack}`);
+          LogHelper.log('error', `Gesture recognizer (${type}) error while removing gesture '${name}': ${error.stack}`);
         }
       }
     }
@@ -102,7 +105,7 @@ class FrameProcessor {
       try {
         this.segmenter.removeGesture(name);
       } catch(error) {
-        console.error(`Gesture segmenter error while removing gesture '${name}': ${error.stack}`);
+        LogHelper.log('error', `Gesture segmenter error while removing gesture '${name}': ${error.stack}`);
       }
     }
   }
@@ -113,7 +116,7 @@ class FrameProcessor {
     try {
       frame = this.filter.filter(frame);
     } catch (error) {
-      console.error(`Filter error: ${error.stack}`);
+      LogHelper.log('error', `Filter error: ${error.stack}`);
     }
     return frame;
   }
@@ -127,7 +130,7 @@ class FrameProcessor {
         sg = name;
       }
     } catch (error) {
-      console.error(`Static gesture recognizer error: ${error.stack}`);
+      LogHelper.log('error', `Static gesture recognizer error: ${error.stack}`);
     }
     // Compute the ratio of gesture in the buffer and increment the counter
     let sgRatio = 0;
@@ -155,7 +158,7 @@ class FrameProcessor {
     try {
       data = this.analyzer.analyze(frame);
     } catch (error) {
-      console.error(`Analyzer error: ${error.stack}`);
+      LogHelper.log('error', `Analyzer error: ${error.stack}`);
     }
     return data;
   }
@@ -165,7 +168,7 @@ class FrameProcessor {
     try {
       segments = this.segmenter.segment(frame);
     } catch (error) {
-      console.error(`Segmenter error: ${error.stack}`);
+      LogHelper.log('error', `Segmenter error: ${error.stack}`);
     }
     return segments;
   }
@@ -184,7 +187,7 @@ class FrameProcessor {
           bestScore = score;
         }
       } catch (error) {
-        console.error(`Dynamic gesture recognizer error: ${error.stack}`);
+        LogHelper.log('error', `Dynamic gesture recognizer error: ${error.stack}`);
       }
     });
     if (bestScore >= this.scoreThresholds.dynamic) {
@@ -202,15 +205,31 @@ class FrameProcessor {
       // Static gesture detected
       let data = this.analyze(frame);
       this.segmenter.notifyRecognition();
+      if (this.config.general.general.debug && this.previousStatic !== sg) {
+        this.previousStatic = sg;
+        LogHelper.log('debug', `Static gesture recognized (start): ${sg}.`);
+      }
       return { type: 'static', name: sg, data: data };
     } else {
+      if (this.config.general.general.debug && this.previousStatic !== undefined) {
+        LogHelper.log('debug', `Static gesture recognized (end): ${this.previousStatic}.`);
+        this.previousStatic = undefined;
+      }
       // No static gesture detected
       this.analyzer.reset();
       let segments = this.segment(frame);
+      if (this.config.general.general.debug) {
+        segments.forEach(_ => {
+          LogHelper.log('debug', `Candidate dynamic gesture (from segmentation).`);
+        });
+      }
       let dg = this.recognizeDynamic(segments);
       if (dg && (!this.config.recognizers.dynamic.sendIfRequested || this.enabledGestures.dynamic.includes(dg))) {
         // Static gesture detected
         this.segmenter.notifyRecognition();
+        if (this.config.general.general.debug) {
+          LogHelper.log('debug', `Dynamic gesture recognized: ${dg}.`);
+        }
         return { type: 'dynamic', name: dg, data: {} };
       }
     }

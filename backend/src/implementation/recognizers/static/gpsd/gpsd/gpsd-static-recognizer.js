@@ -1,3 +1,5 @@
+const { performance } = require('perf_hooks');
+
 class Recognizer {
   static name = "GPSDRecognizer";
 
@@ -10,7 +12,7 @@ class Recognizer {
     if (points.length != this.numPoints) {
       return { success: false, name: 'No match', score: 0.0, time: 0.0 };
     }
-    var t0 = Date.now();
+    var t0 = performance.now();
     var candidate = new CPS("", points);
     var bestTemplate = null;
     var bestDistance = +Infinity;
@@ -21,7 +23,7 @@ class Recognizer {
         bestDistance = distance;
       }
     }
-    var t1 = Date.now();
+    var t1 = performance.now();
     //console.log(`${bestTemplate.name} \t \t ${bestDistance}`)
     let score = bestDistance > 1.0 ? 1.0 / bestDistance : 1.0;
     return (bestTemplate === null) ? { success: false, name: 'No match', score: 0.0, time: t1 - t0 } : { success: true, name: bestTemplate.name, score: score, time: t1 - t0 };

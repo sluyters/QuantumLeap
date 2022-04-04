@@ -5,9 +5,7 @@ const Vector = require('./jackknife/vector').Vector;
 const Sample = require('./jackknife/sample').Sample;
 const { parsePointsNames } = require('../../../../framework/utils');
 
-const Stroke = require('../../../../framework/gestures/stroke-data').Stroke;
-const Path = require('../../../../framework/gestures/stroke-data').Path;
-const Point3D = require('../../../../framework/gestures/point').Point3D;
+const { performance } = require('perf_hooks');
 
 class Recognizer extends AbstractDynamicRecognizer {
 
@@ -19,6 +17,7 @@ class Recognizer extends AbstractDynamicRecognizer {
     this.selectedPoints = parsePointsNames(options.points);
     let blades = new jackknife_blades();
     blades.set_ip_defaults();
+    blades.resample_cnt = this.N;
     this.jackknifeRecognizer = new Jackknife(blades)
     if (dataset !== undefined) {
       dataset.getGestureClasses().forEach((gesture) => {
@@ -50,9 +49,9 @@ class Recognizer extends AbstractDynamicRecognizer {
     if (!jackknifeSample) {
       return { name: "", score: 0.0, time: 0.0 };
     }
-    let t0 = Date.now();
+    let t0 = performance.now();
     let ret = this.jackknifeRecognizer.classify(jackknifeSample);
-    let t1 = Date.now();
+    let t1 = performance.now();
     return (ret.name == -1) ? { name: "", score: 0.0, time: t1 - t0 } : { name: ret.name, score: ret.score, time: t1 - t0 };
   }
 
@@ -68,57 +67,35 @@ function convert(sample, selectedPoints, name) {
   } else {
     jackknifeSample = new Sample();
   }
-  // check min distance START
-  let maxMovement = 0;
-  let threshold = 40;
-  let initPoints = {};
 
+  // TODO Code added for 3D TouchPad (is it still useful?)
+//   for(let i = 0 ; i < Object.keys(sample.paths).length; i ++){
+//     for(let y = 0; y < selectedPoints.length ; y++){
+//       if(sample.paths[selectedPoints[y][i]] !== undefined){
+//         selectedPoints = selectedPoints[y]
+//         y = selectedPoints.length
+//         i = sample.paths.length
+//       }
+//     }
+//   }
 
-  for(let i = 0 ; i < Object.keys(sample.paths).length; i ++){
-    for(let y = 0; y < selectedPoints.length ; y++){
-      if(sample.paths[selectedPoints[y][i]] !== undefined){
-        selectedPoints = selectedPoints[y]
-        y = selectedPoints.length
-        i = sample.paths.length
-      }
-    }
-  }
-
-  console.log(selectedPoints)
-
-  for (const articulation of selectedPoints) {
-    initPoints[articulation] = sample.paths[articulation].strokes[0].points[0];
-  }
-
-  // check min distance END
+  let nStrokes = sample.paths[selectedPoints[0]].strokes.length;
   let trajectory = [];
-  let nFrames = sample.paths[selectedPoints[0]].strokes[0].points.length;
 
-  for (let i = 0; i < nFrames; i++) {
-    let vCoordinates = [];
-    for (const articulation of selectedPoints) {
-      let point = sample.paths[articulation].strokes[0].points[i];
-      // check min distance START
-        let articulationMovement = distance(point, initPoints[articulation]);
-        maxMovement = Math.max(maxMovement, articulationMovement);
-        // check min distance END
-        vCoordinates.push(point.x);
-        vCoordinates.push(point.y);
-        vCoordinates.push(point.z);
+  for (let i = 0; i < nStrokes; i++) {
+    let nFrames = sample.paths[selectedPoints[0]].strokes[i].points.length;
+    for (let j = 0; j < nFrames; j++) {
+      let vCoordinates = [];
+      for (const articulation of selectedPoints) {
+        let point = sample.paths[articulation].strokes[i].points[j];
+        vCoordinates.push(...point.getCoordinates());
+      }
+      trajectory.push(new Vector(vCoordinates));
     }
-    trajectory.push(new Vector(vCoordinates));
   }
+  
   jackknifeSample.add_trajectory(trajectory);
-  return maxMovement > threshold ? jackknifeSample : null;
-}
-
-function distance(p1, p2) // Euclidean distance between two points
-{
-
-  var dx = p2.x - p1.x;
-  var dy = p2.y - p1.y;
-  var dz = p2.z - p1.z;
-  return Math.sqrt(dx * dx + dy * dy + dz * dz);
+  return jackknifeSample;
 }
 
 module.exports = Recognizer;

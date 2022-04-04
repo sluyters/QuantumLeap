@@ -2,9 +2,12 @@
   "name": "QuantumLeap",
   "version": "2.0.0",
   "scripts": {
-    "backend": "npm start --prefix backend",
-    "frontend": "npm start --prefix frontend",
-    "start": "concurrently \"npm run backend\" \"npm run frontend\""
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend && npm install",
+    "postinstall": "npm run install:backend && npm run install:frontend",
+    "start:backend": "npm start --prefix backend",
+    "start:frontend": "npm start --prefix frontend",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
   },
   "dependencies": {
     "concurrently": "^5.3.0"

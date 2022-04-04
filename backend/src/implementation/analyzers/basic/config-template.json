@@ -4,5 +4,13 @@
   "type": "analyzer",
   "description": "A module that extracts 4 types of data from a frame: pinch, rotation, translation, and thumb vector.",
   "properties": {},
-  "settings": []
+  "settings": [
+    {
+      "type": "BooleanInput",
+      "name": "leftHanded",
+      "label": "Left handed?",
+      "description": "Select the handedness of the gesture analyzer (left- vs. right-handed).",
+      "default": false
+    }
+  ]
 }

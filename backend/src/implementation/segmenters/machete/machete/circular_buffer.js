@@ -115,7 +115,7 @@ class CircularBuffer {
         let ret = [];
 
         for (let idx = start; idx <= end; idx++) {
-            ret.push(this.getValue[idx]);
+            ret.push(this.getValue(idx));
         }
 
         return ret;

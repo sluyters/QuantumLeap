@@ -15,8 +15,8 @@ class Stroke {
         this.id = id;
         this.points = [];
     }
-    addPoint(stroke){
-        this.points.push(stroke);
+    addPoint(point){
+        this.points.push(point);
     }
 }
 

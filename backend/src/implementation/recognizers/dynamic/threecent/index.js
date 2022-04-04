@@ -3,6 +3,8 @@ const math = require('mathjs');
 const Spline = require('cubic-spline');
 const { parsePointsNames } = require('../../../../framework/utils');
 
+const { performance } = require('perf_hooks');
+
 class Point {
   constructor(x, y, z) {
     this.x = x;
@@ -71,7 +73,7 @@ class Recognizer extends AbstractDynamicRecognizer {
 
   recognize(sample) {
     let points = convert(sample);
-    let t0 = Date.now();
+    let t0 = performance.now();
     points = normalizeP(points, NumPoints);
     let bestFitClass = "";
     //let minDist = this.threshold;
@@ -86,7 +88,7 @@ class Recognizer extends AbstractDynamicRecognizer {
         }
       }
     });
-    let t1 = Date.now();
+    let t1 = performance.now();
     let bestScore = 1 / minDist;
     return (bestFitClass === "") ? { name: "", score: 0.0, time: t1 - t0 } : { name: bestFitClass, score: bestScore > 1.0 ? 1.0 : bestScore, time: t1 - t0 };
   }

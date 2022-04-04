@@ -20,16 +20,11 @@ function douglasPeuckerRDensity(points, splits, start, end, threshold) {
     let AB = points[end].subtract(points[start]);
     let denom = AB.dot(AB);
 
-    //console.log(AB, denom)
-
     let largest = Number.NEGATIVE_INFINITY;
     let selected = -1;
 
     for (let i = start + 1; i < end; i++) {
-        // console.log(points[i].data)
-        // console.log(points[start].data)
         let AC = points[i].subtract(points[start]);
-        // console.log(AC.data)
         let numer = AC.dot(AB);
         let d2 = AC.dot(AC) - numer * numer / denom;
 

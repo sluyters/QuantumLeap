@@ -2,6 +2,8 @@
 // Imports
 const fs = require('fs');
 const path = require('path');
+const LogHelper = require('./log-helper');
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Exported functions
@@ -34,23 +36,19 @@ class QLConfiguration {
    */
   load() {
     // Load the configuration
-    console.log('Loading templates...');
-    this.loadTemplates()
-    console.log('Templates loaded!');
-    console.log('Loading configuration...');
+    this.loadTemplates();
+    LogHelper.log('info', `Loading configuration file (${this.configPath}).`)
     if (!this.loadValues()) {
       // No configuration loaded, rebuild the configuration
-      console.log('No valid configuration found. Loading a new configuration...');
+      LogHelper.log('warn', `No valid configuration found at ${this.configPath}. Generating a new configuration.`)
       this.repairValues()
       this.saveValues();
     } else {
-      console.log('Configuration file found! Checking the configuration...');
       if (this.repairValues()) {
-        console.log('Some errors were found in the configuration file. Saving the repaired configuration...');
+        LogHelper.log('warn', `Some errors were found in the configuration file (${this.configPath}). Repairing the configuration.`)
         this.saveValues();
       }
     }
-    console.log('Configuration loaded!');
   }
 
   /**
@@ -74,7 +72,7 @@ class QLConfiguration {
             let parsedData = JSON.parse(fs.readFileSync(itemPath));
             return parsedData;
           } catch (err) {
-            console.error(`Failed to load data at ${itemPath}). Details: ${err.stack}`);
+            LogHelper.log('error', `Failed to load data at ${itemPath}). Details: ${err.stack}`);
           }
         }
       }
@@ -89,7 +87,7 @@ class QLConfiguration {
       // Load datasets
       newConfigDefs['datasets'] = initData(this.datasetsDirectory, this.datasetInfoFilename);
     } catch (err) {
-      console.error(`Failed to load the config templates. Details: ${err.stack}`);
+      LogHelper.log('error', `Failed to load the config templates. Details: ${err.stack}`);
       return false;
     }
     this.templates = newConfigDefs;
@@ -104,7 +102,7 @@ class QLConfiguration {
     try {
       this.values = JSON.parse(fs.readFileSync(this.configPath));
     } catch (err) {
-      console.error(`Failed to load the config values. Details: ${err.stack}`);
+      LogHelper.log('error', `Failed to load the config values. Details: ${err.stack}`);
       this.values = {};
       return false;
     }
@@ -181,7 +179,7 @@ class QLConfiguration {
             }
           }
         } else if (template.hasOwnProperty('settings')) {
-          console.error(`Subsettings unsupported for setting (NAME: ${template.name}, TYPE: ${template.type})!`);
+          LogHelper.log('error', `Subsettings unsupported for setting (NAME: ${template.name}, TYPE: ${template.type})!`);
         }
       });
       return repaired;
@@ -210,7 +208,7 @@ class QLConfiguration {
     try {
       fs.writeFileSync(this.configPath, JSON.stringify(this.values, null, 2));
     } catch (err) {
-      console.error(`Failed to save the configuration. Details: ${err.stack}`);
+      LogHelper.log('error', `Failed to save the configuration. Details: ${err.stack}`);
       return false;
     }
     return true;
@@ -274,7 +272,7 @@ class QLConfiguration {
             });
           }
         } else if (template.hasOwnProperty('settings')) {
-          console.error(`Subsettings unsupported for setting (NAME: ${template.name}, TYPE: ${template.type})!`);
+          LogHelper.log('error', `Subsettings unsupported for setting (NAME: ${template.name}, TYPE: ${template.type})!`);
         }
       });
     };

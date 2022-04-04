@@ -1,3 +1,4 @@
+const { performance } = require('perf_hooks');
 
 class Recognizer {
   static name = "GPSDAlphaDissimilarityRecognizer";
@@ -12,7 +13,7 @@ class Recognizer {
     if (points.length != this.numPoints) {
       return { success: false, name: 'No match', score: 0.0, time: 0.0 };
     }
-    var t0 = Date.now();
+    var t0 = performance.now();
     var candidate = new CPS("", points, this.alpha);
     // Select the 2 best templates according to the GPSD
     var bestTemplates = [null, null];
@@ -37,7 +38,7 @@ class Recognizer {
     let pdd1 = computePDD(bestDistances[0], bestTemplates[0], candidate);
     let pdd2 = computePDD(bestDistances[1], bestTemplates[1], candidate);
     let bestTemplate = pdd1 < pdd2 ? bestTemplates[0] : bestTemplates[1];
-    var t1 = Date.now();
+    var t1 = performance.now();
     let score = bestDistance > 1.0 ? 1.0 / bestDistance : 1.0;
     return (bestTemplate === null) ? { success: false, name: 'No match', score: 0.0, time: t1 - t0 } : { success: true, name: bestTemplate.name, score: score, time: t1 - t0 };
   }

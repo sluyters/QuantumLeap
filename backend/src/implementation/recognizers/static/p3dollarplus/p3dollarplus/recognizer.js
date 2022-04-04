@@ -44,6 +44,8 @@
  * SUCH DAMAGE.
 **/
 
+const { performance } = require('perf_hooks');
+
 //
 // Point class
 //
@@ -94,7 +96,7 @@ class Recognizer {
 		if(points.length != NumPoints) {
 			return { success: false, name: 'No match', score: 0.0, time: 0.0 };
 		}
-		let t0 = Date.now();
+		let t0 = performance.now();
 		var candidate = new PointCloud("", points);
 		var u = -1;
 		var b = +Infinity;
@@ -109,7 +111,7 @@ class Recognizer {
 				u = i; // point-cloud index
 			}
 		}
-		let t1 = Date.now();
+		let t1 = performance.now();
 		return (u == -1) ? { success: false, name: 'No match', score: 0.0, time: t1-t0 } : { success: true, name: this.PointClouds[u].Name, score: b > 1.0 ? 1.0 / b : 1.0, time: t1-t0 }; 
 	}
 

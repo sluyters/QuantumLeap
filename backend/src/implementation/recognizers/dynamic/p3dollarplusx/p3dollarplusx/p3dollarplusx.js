@@ -43,6 +43,9 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
 **/
+
+const { performance } = require('perf_hooks');
+
 //
 // Point class
 //
@@ -92,7 +95,7 @@ function P3DollarPlusXRecognizer(numPoints) // constructor
 	//
 	this.Recognize = function(points)
 	{
-		var t0 = Date.now();
+		var t0 = performance.now();
 		var candidate = new PointCloud("", points);
 		var {u, b} = this.RecognizeHelper(candidate);
 		if (u != -1 && this.Conflicts.hasOwnProperty(this.PointClouds[u].Name)) {
@@ -100,7 +103,7 @@ function P3DollarPlusXRecognizer(numPoints) // constructor
 			let dirDist2 = DirDist(candidate.Points, this.PointClouds[this.Conflicts[this.PointClouds[u].Name].Index].Points);
 			u = dirDist1 > dirDist2 ? u : this.Conflicts[this.PointClouds[u].Name].Index;
 		}
-		var t1 = Date.now();
+		var t1 = performance.now();
 		return (u == -1) ? new Result("No match.", 0.0, t1-t0) : new Result(this.PointClouds[u].Name, b > 1.0 ? 1.0 / b : 1.0, t1-t0);
 	}
 	this.AddGesture = function(name, points)
@@ -217,7 +220,7 @@ function Resample(points, n)
 			else D += d;
 		}
 	}
-	if (newpoints.length == n - 1)1) // sometimes we fall a rounding-error short of adding the last point, so add it if so
+	if (newpoints.length == n - 1) // sometimes we fall a rounding-error short of adding the last point, so add it if so
 		newpoints[newpoints.length] = new Point(points[points.length - 1].X, points[points.length - 1].Y, points[points.length - 1].Z, points[points.length - 1].ID);
 	return newpoints;
 }

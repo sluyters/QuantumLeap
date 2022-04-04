@@ -3,7 +3,7 @@ class Point2D {
     this.x = x;
     this.y = y;
     this.t = t;
-  }
+  } 
 
   getCoordinates() {
     return [this.x, this.y];
@@ -34,7 +34,23 @@ class Point3D {
   }
 }
 
+class PointND {
+  constructor(coordinates, t) {
+    this.coordinates = coordinates;
+    this.t = t;
+  }
+
+  getCoordinates() {
+    return this.coordinates;
+  }
+
+  setCoordinates(coordinates) {
+    this.coordinates = coordinates;
+  }
+}
+
 module.exports = {
   Point2D,
-  Point3D
+  Point3D,
+  PointND
 };

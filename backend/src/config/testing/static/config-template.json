@@ -53,6 +53,13 @@
             "minValue": 1,
             "maxValue": null,
             "default": 1
+          },
+          {
+            "type": "BooleanInput",
+            "name": "forceDifferentUsers",
+            "label": "Force different users",
+            "description": "Force the selection of training templates produced by different users than the one that produced the testing testing.",
+            "default": true
           }
         ]
       },
@@ -112,7 +119,6 @@
           "label": "Gestures",
           "description": "The gestures that are used to train the recognizers(s). All the gestures are used if none is selected.",
           "datasetType": "static",
-          "settings": [],
           "default": []
         }
       ]
