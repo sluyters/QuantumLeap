@@ -1,6 +1,7 @@
 const WSServer = require('ws').Server;
 const FrameProcessor = require('./frame-processor').FrameProcessor;
 const SensorGroup = require('./modules/sensors/sensor-group');
+const LogHelper = require('./log-helper');
 
 class QuantumLeap {
   constructor(httpServer) {
@@ -9,15 +10,15 @@ class QuantumLeap {
 
   start(config) {
     if (this.wss) {
-      console.log('WebSocket server already running!');
+      LogHelper.log('warn', 'WebSocket server already running!');
     } else {
-      console.log('WebSocket server starting...');
+      LogHelper.log('info', 'WebSocket server starting.');
       this.wss = setupWSS(config.main.settings, this.server);
     }
   }
 
   stop(callback=()=>{}) {
-    console.log('WebSocket server stopping...');
+    LogHelper.log('info', 'WebSocket server stopping.');
     if (this.wss) {
       this.wss.close(() => {
         callback();
@@ -44,11 +45,11 @@ function setupWSS(config, server) {
     clientTracking: true,
   });
   wss.on('connection', async function connection(ws, request) {
-    console.log('Connected!')
+    LogHelper.log('info', 'Connected to client.');
     // Handle messages from the client
     ws.on('message', function (message) {
       if (config.general.general.debug) {
-        console.log(message);
+        LogHelper.log('debug', `Received message from client: ${message}`);
       }
       var msg = JSON.parse(message);
       if (msg.type === 'operation') {
@@ -68,14 +69,24 @@ function setupWSS(config, server) {
     // Stop previous sensor loop (if any) TODO In the future, find a better solution
     sensor.stop();
     frameProcessor.resetContext();
+    // // Debugging
+    // let staticGestureDebug = {
+    //   timeout: undefined,
+    //   previousGesture: undefined
+    // };
+    // let handleEndOfStaticGesture = () => {
+    //   clearTimeout(staticGestureDebug.timeout);
+    //   LogHelper.log('debug', `Static gesture recognized (end): ${staticGestureDebug.previousGesture}.`);
+    //   staticGestureDebug.previousGesture = undefined;
+    // };
     // Process sensor frames
     sensor.loop((frame, appData) => {
       let message = getMessage('data');
       if (appData && config.general.general.sendContinuousData) {
         // If there is continuous data to send to the application
         message.data.push({
-          'type': 'frame',
-          'data': appData
+          type: 'frame',
+          data: appData
         });
       }
       // Gesture recognition
@@ -83,9 +94,31 @@ function setupWSS(config, server) {
       if (ret) {
         // If there is gesture data to send to the application
         message.data.push(ret);
-        if (config.general.general.debug) {
-          console.log(JSON.stringify(message));
-        }
+        // if (config.general.general.debug) {
+        //   if (ret.type === 'dynamic') {
+        //     // Handle previous static gesture
+        //     if (staticGestureDebug.previousGesture !== undefined) {
+        //       handleEndOfStaticGesture();
+        //     }
+        //     LogHelper.log('debug', `Dynamic gesture recognized: ${ret.name}.`);
+        //   } else if (ret.type === 'static') {
+        //     if (staticGestureDebug.previousGesture !== undefined) {
+        //       // Handle previous static gesture
+        //       if (ret.name !== staticGestureDebug.previousGesture) {
+        //         handleEndOfStaticGesture();
+        //         LogHelper.log('debug', `Static gesture recognized (start): ${ret.name}.`);
+        //       }
+        //     } else {
+        //       LogHelper.log('debug', `Static gesture recognized (start): ${ret.name}.`);
+        //     }
+        //     staticGestureDebug.previousGesture = ret.name;
+        //     clearTimeout(staticGestureDebug.timeout);
+        //     staticGestureDebug.timeout = setTimeout(() => {
+        //       LogHelper.log('debug', `Static gesture recognized (end): ${ret.name}.`);
+        //       staticGestureDebug.previousGesture = undefined;
+        //     }, 100);
+        //   }
+        // }
       }
       if (message.data.length > 0) {
         ws.send(JSON.stringify(message));
@@ -97,11 +130,11 @@ function setupWSS(config, server) {
         sensor.stop();
         frameProcessor.resetContext();
       }
-      console.log("Disconnected!");
+      LogHelper.log('info', 'Disconnected from client.');
     });
     // Connection error
     ws.on('error', function (error) {
-      console.log(JSON.stringify(error));
+      LogHelper.log('error', `Connection error. ${JSON.stringify(error)}`);
     });
   });
   return wss;
