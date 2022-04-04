@@ -35,12 +35,12 @@ function average(x) {
 }
 
 function median(x) {
-  x.slice().sort((a, b) => a - b );
-  var half = Math.floor(x.length / 2);
-  if (x.length % 2) {
-    return x[half];
+  x2 = x.slice().sort((a, b) => a - b );
+  var half = Math.floor(x2.length / 2);
+  if (x2.length % 2) {
+    return x2[half];
   }
-  return (x[half - 1] + x[half]) / 2;
+  return (x2[half - 1] + x2[half]) / 2;
 }
 
 module.exports = { MovingWindowFilter };

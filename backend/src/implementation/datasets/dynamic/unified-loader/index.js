@@ -32,7 +32,7 @@ function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
                     }
                     let id = parseInt(filenameParsed[filenameParsed.length-1]);
 
-                    let strokeData = new StrokeData(parseInt(user), id, infosupp);
+                    let strokeData = new StrokeData(user, id, infosupp);
                     rawStrokeData.paths.forEach(rawPath =>{
                         let label = addIdentifier(rawPath.label, identifier);
                         let path = new Path(label);
