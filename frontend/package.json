@@ -3,8 +3,8 @@
   "homepage": "./",
   "main": "public/electron.js",
   "version": "0.1.0",
-  "author": "Arthur Sluÿters, Bastien Nothomb",
-  "description": "A framework for gesture recognition.",
+  "author": "Arthur Sluÿters",
+  "description": "The frontend of QuantumLeap, a framework for gesture recognition.",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.0",
@@ -22,7 +22,7 @@
     "react-markdown": "^5.0.3",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.0",
+    "react-scripts": "^5.0.0",
     "react-syntax-highlighter": "^15.4.3",
     "uuid": "^8.3.2",
     "wait-on": "^5.2.1",
@@ -70,7 +70,7 @@
     ]
   },
   "devDependencies": {
-    "electron": "^11.3.0",
+    "electron": "^18.0.1",
     "electron-builder": "^22.9.1"
   }
 }
