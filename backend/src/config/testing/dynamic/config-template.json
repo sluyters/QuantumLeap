@@ -113,6 +113,15 @@
             },
             {
               "type": "TextInput",
+              "name": "users",
+              "label": "User(s)",
+              "description": "The users that are used to train the recognizer(s), separated by a comma (\",\"). Leave empty to select all users.",
+              "minLength": 0,
+              "maxLength": null,
+              "default": ""
+            },
+            {
+              "type": "TextInput",
               "name": "id",
               "label": "Identifier",
               "description": "Unique identifier for the dataset (strongly recommended if multiple datasets are selected).",
