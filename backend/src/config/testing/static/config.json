@@ -9,7 +9,8 @@
           "r": 1000,
           "minT": 1,
           "maxT": 128,
-          "forceDifferentUsers": false
+          "userDependent": true,
+          "userIndependent": true
         },
         "globalParams": {
           "points": []

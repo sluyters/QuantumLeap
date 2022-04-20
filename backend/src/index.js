@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const QuantumLeap = require('./framework/quantumleap');
 const UserIndependentTesting = require('./framework/testing').UserIndependentTesting;
+const UserDependentTesting = require('./framework/testing').UserDependentTesting;
 const Configuration = require('./framework/config-helper');
 const LogHelper = require('./framework/log-helper');
 
@@ -156,9 +157,14 @@ app.put('/testing/dynamic/values', (req, res) => {
 app.post('/testing/dynamic/actions/start', (req, res) => {
   try {
     let parsedTestingConfig = testingConfigD.toQLConfig();
-    // TODO
-    let userIndependentTesting = new UserIndependentTesting('dynamic', parsedTestingConfig.main.settings);
-    userIndependentTesting.run();
+    if (parsedTestingConfig.main.settings.general.testingParams.userDependent) {
+      let userDependentTesting = new UserDependentTesting('dynamic', parsedTestingConfig.main.settings);
+      userDependentTesting.run();
+    }
+    if (parsedTestingConfig.main.settings.general.testingParams.userIndependent) {
+      let userIndependentTesting = new UserIndependentTesting('dynamic', parsedTestingConfig.main.settings);
+      userIndependentTesting.run();
+    }
     return res.status(200).send();
   } catch (err) {
     LogHelper.log('error', `Unable to start testing. Details: ${err.stack}`)

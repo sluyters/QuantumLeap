@@ -9,7 +9,9 @@
           "r": 50,
           "minT": 1,
           "maxT": 8,
-          "forceDifferentUsers": false
+          "forceDifferentUsers": true,
+          "userDependent": true,
+          "userIndependent": true
         },
         "globalParams": {
           "samplingPoints": 16,
@@ -28,7 +30,7 @@
                 "datasets": [
                   "New dataset 4.5 (inversion model, bg_sub, median_filter_window 8 eps 1.05)"
                 ],
-                "users": "01",
+                "users": "",
                 "id": "test"
               }
             }

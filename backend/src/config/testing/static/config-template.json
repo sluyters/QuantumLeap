@@ -56,9 +56,16 @@
           },
           {
             "type": "BooleanInput",
-            "name": "forceDifferentUsers",
-            "label": "Force different users",
-            "description": "Force the selection of training templates produced by different users than the one that produced the testing testing.",
+            "name": "userDependent",
+            "label": "Run user-dependent scenario",
+            "description": "Test the recognizers in a user-dependent scenario, i.e., in which the templates used for training and testing the recognizers are produced by the same user.",
+            "default": true
+          },
+          {
+            "type": "BooleanInput",
+            "name": "userIndependent",
+            "label": "Run user-independent scenario",
+            "description": "Test the recognizers in a user-dependent scenario, i.e., in which the templates used for training are produced by a different set of users that the templates used for testing.",
             "default": true
           }
         ]
