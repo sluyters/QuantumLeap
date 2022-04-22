@@ -12,9 +12,9 @@ const fingers = ["Thumb", "Index", "Middle", "Ring", "Pinky"];
 //const classNames = ["C", "down", "fist_moved", "five", "four", "hang", "heavy", "index", "L", "ok", "palm", "palm_m", "palm_u", "three", "two", "up"];
 const classNames = ["C", "down"];
 
-function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
+function loadDataset(name, datasetPath, sensorId, datasetId, sensorPointsNames) {
     console.log("Loading dataset (this might take some time)...");
-    let dataset = parseGestureSet(datasetPath, "MultiModHandGestRecog");
+    let dataset = parseGestureSet(datasetPath, datasetId, "MultiModHandGestRecog");
     console.log("Data set loaded!");
     return dataset;
 }
@@ -55,12 +55,12 @@ function parseFrame(path) {
     return parsedFrame;
 }
 
-function parseGestureSet(datasetPath, name) {
+function parseGestureSet(datasetPath, datasetId, name) {
     let gestureSet = new GestureSet(name);
     let classIndex = 0;
     for (const className of classNames) {
-        console.log(className)
-        let gestureClass = new GestureClass(className, classIndex);
+        let gestureName = addIdentifier(className, datasetId);
+        let gestureClass = new GestureClass(gestureName, classIndex);
         classIndex += 1;
         fs.readdirSync(datasetPath, { withFileTypes: true }).filter(dirent => !dirent.isFile()).map(dirent => dirent.name).forEach((userDir) => {
             for (const type of ["train_pose", "test_pose"]) {
@@ -83,6 +83,10 @@ function parseGestureSet(datasetPath, name) {
 
 function getArticulationLabel(isRight, name) {
     return `${isRight ? "right" : "left"}${name}Position`;
+}
+
+function addIdentifier(name, identifier) {
+    return identifier ? `${name}_${identifier}` : name;
 }
 
 module.exports = {

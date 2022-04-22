@@ -12,7 +12,7 @@ const Point = require('../../../../framework/gestures/point').Point3D;
 const gestureNames = ["Grab", "Tap", "Expand", "Pinch", "Rotation Clockwise", "Rotation Counter Clockwise",
     "Swipe Right", "Swipe Left", "Swipe Up", "Swipe Down", "Swipe X", "Swipe +", "Swipe V", "Shake"];
 
-function loadDataset(name, datasetPath, identifier, sensorsPointsNames) {
+function loadDataset(name, datasetPath, sensorId, datasetId, sensorsPointsNames) {
     let gestureSet = new GestureSet(name);
     let dirPath = datasetPath;
     let gestureIndex = 0;
@@ -23,7 +23,8 @@ function loadDataset(name, datasetPath, identifier, sensorsPointsNames) {
         if (!stat.isDirectory())
             return;
         gestureClassDirPath = path.join(gestureClassDirPath, "finger_1");
-        let gestureClass = new GestureClass(gestureNames[gestureIndex], gestureIndex);
+        let gestureName = addIdentifier(gestureNames[gestureIndex], datasetId);
+        let gestureClass = new GestureClass(gestureName, gestureIndex);
         gestureIndex+=1;
         fs.readdirSync(gestureClassDirPath).forEach((file) => {
             let rawGesturePath = path.join(gestureClassDirPath, file);
@@ -31,7 +32,7 @@ function loadDataset(name, datasetPath, identifier, sensorsPointsNames) {
             let lines = fs.readFileSync(rawGesturePath, 'utf-8').split(/\r?\n/);
             lines = lines.slice(1, lines.length - 1); //remove header and last line
             let gestureData = new StrokeData(parseInt(filename[1]), parseInt(filename[3]));
-            let pointName = identifier ? `main_${identifier}` : 'main';
+            let pointName = sensorId ? `main_${sensorId}` : 'main';
             let strokePath = new Path(pointName);
             gestureData.addPath(pointName, strokePath);
             // TODO: add missing paths, rename paths
@@ -56,6 +57,10 @@ function loadDataset(name, datasetPath, identifier, sensorsPointsNames) {
     });
     
     return gestureSet;
+}
+
+function addIdentifier(name, identifier) {
+    return identifier ? `${name}_${identifier}` : name;
 }
 
 module.exports = {

@@ -314,10 +314,11 @@ function loadDataset(type, datasetsConfig) {
   // Load the dataset
   let datasetLoaderModule = datasetsConfig.modules[0];
   let datasetLoader = datasetLoaderModule.module;
-  let identifier = datasetLoaderModule.additionalSettings.id;
+  let sensorId = datasetLoaderModule.additionalSettings.sensorId;
+  let datasetId = datasetLoaderModule.additionalSettings.datasetId;
   let datasetName = datasetLoaderModule.additionalSettings.datasets[0];
   let datasetPath = path.resolve(__dirname, '../datasets', type, datasetName); // TODO improve
-  let dataset = datasetLoader.loadDataset(datasetName, datasetPath, identifier, [])
+  let dataset = datasetLoader.loadDataset(datasetName, datasetPath, sensorId, datasetId, [])
   // Select/aggregate/rename classes of the dataset if required
   if (datasetsConfig.aggregateClasses && datasetsConfig.aggregateClasses.length != 0) {
     let newDataset = new GestureSet(dataset.name);

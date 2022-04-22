@@ -129,10 +129,19 @@
             },
             {
               "type": "TextInput",
-              "name": "id",
-              "label": "Identifier",
-              "description": "Unique identifier for the dataset (strongly recommended if multiple datasets are selected).",
-              "minLength": 1,
+              "name": "sensorId",
+              "label": "Sensor identifier",
+              "description": "Identifier of the sensor matching this dataset. The identifier is added at the beginning the name of each point, in the following format: SensorId_PointName. If no sensor identifier is provided, the original names of the points are kept.",
+              "minLength": 0,
+              "maxLength": null,
+              "default": "test"
+            },
+            {
+              "type": "TextInput",
+              "name": "datasetId",
+              "label": "Dataset identifier",
+              "description": "Unique identifier for the dataset (recommended if multiple datasets are selected). The identifier is added at the beginning the name of each gesture, in the following format: DatasetId_GestureName. If no dataset identifier is provided, the original names of the gestures are kept.",
+              "minLength": 0,
               "maxLength": null,
               "default": ""
             }

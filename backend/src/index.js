@@ -196,9 +196,14 @@ app.put('/testing/static/values', (req, res) => {
 app.post('/testing/static/actions/start', (req, res) => {
   try {
     let parsedTestingConfig = testingConfigS.toQLConfig();
-    // TODO
-    let userIndependentTesting = new UserIndependentTesting('static', parsedTestingConfig.main.settings);
-    userIndependentTesting.run();
+    if (parsedTestingConfig.main.settings.general.testingParams.userDependent) {
+      let userDependentTesting = new UserDependentTesting('static', parsedTestingConfig.main.settings);
+      userDependentTesting.run();
+    }
+    if (parsedTestingConfig.main.settings.general.testingParams.userIndependent) {
+      let userIndependentTesting = new UserIndependentTesting('static', parsedTestingConfig.main.settings);
+      userIndependentTesting.run();
+    }
     return res.status(200).send();
   } catch (err) {
     LogHelper.log('error', `Unable to start testing. Details: ${err.stack}`)

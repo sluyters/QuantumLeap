@@ -4,16 +4,17 @@ const path = require('path'); // TODO improve
 
 function initDataset(type, sensorsConfig, datasetsConfig) {
   // Load the names of the points used in the pipeline (TODO)
-  let sensorsPointsNames = getPointsNames(sensorsConfig)
+  let sensorsPointsNames = getPointsNames(sensorsConfig);
   let datasets = [];
   // Load the datasets
   datasetsConfig.modules.forEach(datasetLoaderModule => {
     let datasetLoader = datasetLoaderModule.module;
-    let identifier = datasetLoaderModule.additionalSettings.id;
+    let sensorId = datasetLoaderModule.additionalSettings.sensorId;
+    let datasetId = datasetLoaderModule.additionalSettings.datasetId;
     if (datasetLoaderModule.additionalSettings.datasets !== undefined && datasetLoaderModule.additionalSettings.datasets.length > 0) {
       let datasetName = datasetLoaderModule.additionalSettings.datasets[0];
       let datasetPath = path.resolve(__dirname, '../../../datasets', type, datasetName); // TODO improve
-      datasets.push(datasetLoader.loadDataset(datasetName, datasetPath, identifier, sensorsPointsNames));
+      datasets.push(datasetLoader.loadDataset(datasetName, datasetPath, sensorId, datasetId, sensorsPointsNames));
     }
   });
   let newDataset = new GestureSet('GestureSet');

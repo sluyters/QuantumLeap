@@ -8,7 +8,7 @@ const { Path, Stroke } = require('../../../../framework/gestures/stroke-data');
 const { Point2D, Point3D, PointND } = require('../../../../framework/gestures/Point');
 
 
-function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
+function loadDataset(name, datasetPath, sensorId, datasetId, sensorPointsNames) {
     let gestureSet = new GestureSet(name);
     let dirPath = datasetPath;
     let gestureIndex = 0;
@@ -16,7 +16,8 @@ function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
     fs.readdirSync(dirPath).forEach((gesture) => {
         let gestureDirPath = path.join(dirPath, gesture);
         if (fs.existsSync(gestureDirPath) && fs.lstatSync(gestureDirPath).isDirectory()) {
-            let gestureClass = new GestureClass(gesture, gestureIndex);
+            let gestureName = addIdentifier(gesture, datasetId);
+            let gestureClass = new GestureClass(gestureName, gestureIndex);
             gestureSet.addGestureClass(gestureClass);
             fs.readdirSync(gestureDirPath).forEach((user) => {
                 let userDirPath = path.join(gestureDirPath, user);
@@ -25,7 +26,7 @@ function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
                     let rawStrokeData = JSON.parse(fs.readFileSync(rawGesturePath));
 
                     let filenameParsed = file.split(".")[0].split("-");
-                    let gestureName = filenameParsed[0];
+                    // let gestureName = filenameParsed[0];
                     let infosupp;
                     if(filenameParsed.length > 2){
                         infosupp = filenameParsed[1];
@@ -34,7 +35,7 @@ function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
 
                     let strokeData = new StrokeData(user, id, infosupp);
                     rawStrokeData.paths.forEach(rawPath =>{
-                        let label = addIdentifier(rawPath.label, identifier);
+                        let label = addIdentifier(rawPath.label, sensorId);
                         let path = new Path(label);
                         rawPath.strokes.forEach(rawStroke => {
                             let stroke = new Stroke(rawStroke.id);

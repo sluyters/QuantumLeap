@@ -18,7 +18,7 @@ const device = {
     'acceleration': false, 'webcam': true
 };
 
-function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
+function loadDataset(name, datasetPath, sensorId, datasetId, sensorPointsNames) {
     let gestureSet = new GestureSet(name);
     let dirPath = datasetPath;
     let gestureIndex = 0;
@@ -29,7 +29,7 @@ function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
             let rawGestureData = JSON.parse(fs.readFileSync(rawGesturePath));
 
             let filename = sample.split(".")[0].split("-");
-            let gestureName = filename[0].split("#")[0];
+            let gestureName = addIdentifier(filename[0].split("#")[0], datasetId);
             let infosupp = undefined;
             if (filename[0].split("#").length > 1) {
                 infosupp = filename[0].split("#")[1];
@@ -47,14 +47,14 @@ function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
             }
             // Init stroke paths
             for (const side of ["left", "right"]) {
-                let label = addIdentifier(`${side}PalmPosition`, identifier);
+                let label = addIdentifier(`${side}PalmPosition`, sensorId);
                 let strokePath = new Path(label);
                 gestureData.addPath(label, strokePath);
                 let stroke = new Stroke(0);
                 strokePath.addStroke(stroke);
                 for (const fingerName of fingerNames) {
                     for (const fingerArticulation of fingerArticulations) {
-                        let label = addIdentifier(`${side}${fingerName}${fingerArticulation}Position`, identifier);
+                        let label = addIdentifier(`${side}${fingerName}${fingerArticulation}Position`, sensorId);
                         let strokePath = new Path(label);
                         gestureData.addPath(label, strokePath);
                         let stroke = new Stroke(0);
@@ -102,7 +102,7 @@ function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
                 }
                 // Add points to paths (with default point w/ coordinates (x=0, y=0, z=0))
                 Object.keys(points).forEach((articulation) => {
-                    let pathName = addIdentifier(articulation, identifier);
+                    let pathName = addIdentifier(articulation, sensorId);
                     let stroke = gestureData.paths[pathName].strokes[0];
                     if (points[articulation] === null) {
                         // Default coordinates

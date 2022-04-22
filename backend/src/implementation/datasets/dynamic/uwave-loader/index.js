@@ -8,10 +8,9 @@ const Stroke = require('../../../../framework/gestures/stroke-data').Stroke;
 const Path = require('../../../../framework/gestures/stroke-data').Path;
 const Point = require('../../../../framework/gestures/point').Point3D;
 
-function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
+function loadDataset(name, datasetPath, sensorId, datasetId, sensorPointsNames) {
     let gestureSet = new GestureSet(name);
     let dirPath = datasetPath;
-
     let gestureClasses = {};
 
     // Browse main directory
@@ -46,7 +45,8 @@ function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
             } else {
                 gestureData.addPath("main", strokePath);
                 if (!gestureClasses.hasOwnProperty(gestureId)) {
-                    gestureClasses[gestureId] = new GestureClass(`Gesture ${gestureId}`);
+                    let gestureName = addIdentifier(`Gesture ${gestureId}`, datasetId);
+                    gestureClasses[gestureId] = new GestureClass(gestureName);
                 }
                 gestureClasses[gestureId].addSample(gestureData);
             }
@@ -59,6 +59,11 @@ function loadDataset(name, datasetPath, identifier, sensorPointsNames) {
     
     return gestureSet;
 }
+
+function addIdentifier(name, identifier) {
+    return identifier ? `${name}_${identifier}` : name;
+}
+
 
 module.exports = {
     loadDataset
