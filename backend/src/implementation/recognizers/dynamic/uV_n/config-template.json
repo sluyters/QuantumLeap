@@ -1,0 +1,28 @@
+{
+  "label": "µV_n",
+  "name": "uV_n",
+  "type": "recognizer-dynamic",
+  "description": "µV_n (multi-Vectors) combines the $P+'s cloud matching to satisfy Articulation-invariance and the !FTL's local shape distance to satisfy Rotation-, Scale-, and Translation-invariance (ARST-invariance). Articulation-invariance consists of remaining insensitive to variations in the number, the order, and the direction of the strokes that constitute a multi-stroke gesture.",
+  "properties": {},
+  "settings": [
+    {
+      "type": "IntegerInput",
+      "required": true,
+      "label": "Number of shapes",
+      "name": "numShapes",
+      "description": "The number of shapes into which gestures are converted.",
+      "minValue": 1,
+      "maxValue": null,
+      "default": 8
+    },
+    {
+      "type": "PointsSelector",
+      "label": "Points",
+      "name": "points",
+      "description": "The points that are used by the recognizer.",
+      "minNumber": 1,
+      "maxNumber": null,
+      "default": {}
+    }
+  ]
+}

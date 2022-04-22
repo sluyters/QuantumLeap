@@ -1,0 +1,115 @@
+{
+  "label": "µF",
+  "name": "uF",
+  "type": "recognizer-dynamic",
+  "description": "µF (multi-Features) is an algorithm developed to recognize 2D and 3D gestures sampled by a touch-sensitive surface or an advanced computer vision technique, and characterized by one or several paths (i.e., uni- or multi-paths). The recognizer weights four features to determine the similarity between an (unknown) candidate gesture and a set of templates. All features are invariant to variations along Scale and Translation, whereas the second feature, is insensitive to variations in Rotation (RST-invariant). Weight values (alpha, beta, gamma, delta) are usually (3, 1.5, 1, 2) for 2D gestures, (1, 4, 0, 0) for 3D gestures, and (0, 1, 0, 0) for rotation-invariant gestures.",
+  "properties": {},
+  "settings": [
+    {
+      "type": "IntegerInput",
+      "required": true,
+      "label": "Number of sampling points",
+      "name": "samplingPoints",
+      "description": "The number of points of the gesture after resampling.",
+      "minValue": 2,
+      "maxValue": null,
+      "default": 8
+    },
+    {
+      "type": "Category",
+      "label": "Weights",
+      "name": "weights",
+      "settings": [
+        {
+          "type": "FloatInput",
+          "required": true,
+          "label": "Alpha (VD metric)",
+          "name": "alpha",
+          "description": "The weight for the Between-points Vector Distance (VD) metric.",
+          "minValue": null,
+          "maxValue": null,
+          "default": 1.0
+        },
+        {
+          "type": "FloatInput",
+          "required": true,
+          "label": "Beta (SD metric)",
+          "name": "beta",
+          "description": "The weight for the Between-Shapes Distance (SD) metric.",
+          "minValue": null,
+          "maxValue": null,
+          "default": 4.0
+        },
+        {
+          "type": "FloatInput",
+          "required": true,
+          "label": "Gamma (SSD metric)",
+          "name": "gamma",
+          "description": "The weight for the Between-Shapes Shape Distance (SSD) metric.",
+          "minValue": null,
+          "maxValue": null,
+          "default": 0.0
+        },
+        {
+          "type": "FloatInput",
+          "required": true,
+          "label": "Delta (MSD metric)",
+          "name": "delta",
+          "description": "The weight for the Between-M -dimensional-Shape Distance (MSD) metric.",
+          "minValue": null,
+          "maxValue": null,
+          "default": 0.0
+        }
+      ]
+    },
+    {
+      "type": "Category",
+      "label": "Articulations",
+      "name": "articulations",
+      "settings": [
+        {
+          "type": "CompoundSetting",
+          "name": "unipath",
+          "label": "Uni-path articulations",
+          "description": "The relevant uni-path articulations used by the recognizer. Uni-path articulations are composed of 1 point.",
+          "settings": [
+            {
+              "type": "PointsSelector",
+              "label": "Path",
+              "name": "paths",
+              "description": "The path used for this articulation.",
+              "minNumber": 1,
+              "maxNumber": null,
+              "default": {}
+            }
+          ],
+          "itemName": "Uni-path articulation",
+          "minNumber": null,
+          "maxNumber": null,
+          "default": []
+        },
+        {
+          "type": "CompoundSetting",
+          "name": "multipath",
+          "label": "Multi-path articulations",
+          "description": "The relevant multi-path articulations used by the recognizer. Multi-path articulations are composed of 3 points.",
+          "settings": [
+            {
+              "type": "PointsSelector",
+              "label": "Paths",
+              "name": "paths",
+              "description": "The paths used for this articulation.",
+              "minNumber": 3,
+              "maxNumber": 3,
+              "default": {}
+            }
+          ],
+          "itemName": "Multi-path articulation",
+          "minNumber": null,
+          "maxNumber": null,
+          "default": []
+        }
+      ]
+    }
+  ]
+}
