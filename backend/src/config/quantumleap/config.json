@@ -199,59 +199,16 @@
         "dynamic": {
           "modules": [
             {
-              "uuid": "a4cb9ce0-11de-44c6-9d30-fe9f780dc132",
-              "moduleName": "multi-recognizer-concat",
+              "uuid": "c8c0acdb-489d-4c4b-9f93-f8e306005449",
+              "moduleName": "jackknife",
               "moduleType": "recognizers/dynamic",
               "moduleSettings": {
-                "recognizers": [
-                  {
-                    "uuid": "6d87f7d2-d6fb-4cbd-85cb-7ca2b7256270",
-                    "moduleName": "jackknife",
-                    "moduleType": "recognizers/dynamic",
-                    "moduleSettings": {
-                      "samplingPoints": 16,
-                      "points": {
-                        "lmc": [
-                          "rightPalmPosition"
-                        ]
-                      }
-                    },
-                    "additionalSettings": {
-                      "trainingGestures": [
-                        "rhand_uswipe",
-                        "rhand_lswipe",
-                        "rhand_rswipe"
-                      ]
-                    }
-                  },
-                  {
-                    "uuid": "279e8ad3-c152-4f7a-8dff-801b96b811bf",
-                    "moduleName": "jackknife",
-                    "moduleType": "recognizers/dynamic",
-                    "moduleSettings": {
-                      "samplingPoints": 16,
-                      "points": {
-                        "lmc": [
-                          "rightIndexTipPosition",
-                          "rightMiddleTipPosition",
-                          "rightRingTipPosition",
-                          "rightPinkyTipPosition",
-                          "rightThumbTipPosition",
-                          "rightPalmPosition"
-                        ]
-                      }
-                    },
-                    "additionalSettings": {
-                      "trainingGestures": [
-                        "rhand_uswipe",
-                        "rhand_rswipe",
-                        "rhand_dswipe"
-                      ]
-                    }
-                  }
-                ],
-                "separator": "/",
-                "placeholder": "NO_GESTURE"
+                "samplingPoints": 16,
+                "points": {
+                  "lmc": [
+                    "rightPalmPosition"
+                  ]
+                }
               },
               "additionalSettings": {
                 "trainingGestures": []
