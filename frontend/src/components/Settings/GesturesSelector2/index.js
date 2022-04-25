@@ -60,7 +60,9 @@ class GesturesSelector2 extends React.Component {
         }
       });
       datasetsInfos.forEach(datasetInfo => {
-        availableGestures.push(...datasets[datasetInfo.name].gestures.map((gesture) => datasetInfo.id ? `${gesture}_${datasetInfo.id}` : gesture));
+        if (datasetInfo.name in datasets) {
+          availableGestures.push(...datasets[datasetInfo.name].gestures.map((gesture) => datasetInfo.id ? `${gesture}_${datasetInfo.id}` : gesture));
+        }
       });
     } else {
       // Else, use aggregateClasses

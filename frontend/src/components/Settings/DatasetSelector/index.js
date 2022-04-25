@@ -41,50 +41,61 @@ class DatasetSelector extends React.Component {
     // Render selected datasets
     let renderedSelected = [];
     selectedDatasets.forEach((datasetName, datasetIndex) => {
-      // Get the description of the dataset
-      const description = datasets[datasetName].description;
-      // Get the gestures in the dataset
-      const gestures = datasets[datasetName].gestures;
-      // Rename variables for to avoid conflicts in the handlers
-      let datasetSelectorValue = value;
-      let datasetSelectorPath = path;
-      // Event handlers
-      const handleDatasetDeletion = function() {
-        let newDatasetSelectorValue = datasetSelectorValue.slice();
-        newDatasetSelectorValue.splice(datasetIndex, 1);
-        handleChange(datasetSelectorPath, newDatasetSelectorValue);
+      if (datasetName in datasets) {
+        // Get the description of the dataset
+        const description = datasets[datasetName].description;
+        // Get the gestures in the dataset
+        const gestures = datasets[datasetName].gestures;
+        // Rename variables for to avoid conflicts in the handlers
+        let datasetSelectorValue = value;
+        let datasetSelectorPath = path;
+        // Event handlers
+        const handleDatasetDeletion = function() {
+          let newDatasetSelectorValue = datasetSelectorValue.slice();
+          newDatasetSelectorValue.splice(datasetIndex, 1);
+          handleChange(datasetSelectorPath, newDatasetSelectorValue);
+        }
+        // Render the dataset
+        renderedSelected.push(
+          <div key={datasetName}>
+            {/* Divider */}
+            {datasetIndex > 0 && (
+              <Divider light={true} style={{ marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}/>
+            )}
+            {/* Render the dropdown list */}
+            <FormControl variant="outlined">
+              <Select value={datasetsNames.indexOf(datasetName)} onChange={(event) => handleDatasetSelection(datasetIndex, event)}>
+                {datasetsNames.map((datasetName, optionIndex) => (
+                  <MenuItem key={optionIndex} value={optionIndex}>
+                    {datasets[datasetName].label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            {/* Render the "delete" button */}
+            <IconButton onClick={handleDatasetDeletion}>
+              <DeleteIcon/>
+            </IconButton>
+            {/* Render the description of the dataset */}
+            <Typography variant='body1'>
+              {description}
+            </Typography>
+            {/* Render the gestures in the dataset */}
+            <Typography variant='body1'>
+              Gestures: <i>{gestures.join(', ')}</i>.
+            </Typography>
+          </div>
+        );
+      } else {
+        console.log("hello")
+        renderedSelected.push(
+          <div key={datasetName}>
+            <Typography variant='body1'>
+              Dataset "<i>{datasetName}</i>" not found! Please remove the module and start again.
+            </Typography>
+          </div>
+        );
       }
-      // Render the dataset
-      renderedSelected.push(
-        <div key={datasetName}>
-          {/* Divider */}
-          {datasetIndex > 0 && (
-            <Divider light={true} style={{ marginTop: theme.spacing(2), marginBottom: theme.spacing(2) }}/>
-          )}
-          {/* Render the dropdown list */}
-          <FormControl variant="outlined">
-            <Select value={datasetsNames.indexOf(datasetName)} onChange={(event) => handleDatasetSelection(datasetIndex, event)}>
-              {datasetsNames.map((datasetName, optionIndex) => (
-                <MenuItem key={optionIndex} value={optionIndex}>
-                  {datasets[datasetName].label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          {/* Render the "delete" button */}
-          <IconButton onClick={handleDatasetDeletion}>
-            <DeleteIcon/>
-          </IconButton>
-          {/* Render the description of the dataset */}
-          <Typography variant='body1'>
-            {description}
-          </Typography>
-          {/* Render the gestures in the dataset */}
-          <Typography variant='body1'>
-            Gestures: <i>{gestures.join(', ')}</i>.
-          </Typography>
-        </div>
-      );
     })
 
     // Render

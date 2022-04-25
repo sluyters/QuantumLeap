@@ -57,7 +57,9 @@ class GesturesSelector extends React.Component {
     // Retrieve the available gestures
     let availableGestures = [];
     datasetsInfos.forEach(datasetInfo => {
-      availableGestures.push(...datasets[datasetInfo.name].gestures.map((gesture) => datasetInfo.id ? `${gesture}_${datasetInfo.id}` : gesture));
+      if (datasetInfo.name in datasets) {
+        availableGestures.push(...datasets[datasetInfo.name].gestures.map((gesture) => datasetInfo.id ? `${gesture}_${datasetInfo.id}` : gesture));
+      }
     });
 
     const addGesture = () => {
