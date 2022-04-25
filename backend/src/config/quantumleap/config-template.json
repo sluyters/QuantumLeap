@@ -277,7 +277,16 @@
           "moduleType": "recognizers/static",
           "minModules": 1,
           "maxModules": 1,
-          "settings": [],
+          "settings": [
+            {
+              "type": "GesturesSelector2",
+              "label": "Training gestures",
+              "name": "trainingGestures",
+              "description": "The gestures used for training the recognizer. If no gesture is selected, all gestures are used for training.",
+              "datasetType": "static",
+              "default": []
+            }
+          ],
           "default": []
         },
         {
@@ -334,7 +343,16 @@
           "moduleType": "recognizers/dynamic",
           "minModules": 1,
           "maxModules": 1,
-          "settings": [],
+          "settings": [
+            {
+              "type": "GesturesSelector2",
+              "label": "Training gestures",
+              "name": "trainingGestures",
+              "description": "The gestures used for training the recognizer. If no gesture is selected, all gestures are used for training.",
+              "datasetType": "dynamic",
+              "default": []
+            }
+          ],
           "default": []
         },
         {

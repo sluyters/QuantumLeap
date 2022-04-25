@@ -15,25 +15,33 @@
       "maxModules": null,
       "settings": [
         {
-          "name": "weight",
-          "type": "FloatInput",
-          "label": "Weight",
-          "description": "The weight given to the recognizer. A lower weight means that the result of the recognizer is less significant",
-          "minValue": 0,
-          "maxValue": null,
-          "required": true,
-          "default": 1
-        },
-        {
           "type": "GesturesSelector2",
           "label": "Training gestures",
           "name": "trainingGestures",
           "description": "The gestures used for training the recognizer. If no gesture is selected, all gestures are used for training.",
-          "datasetType": "dynamic",
+          "datasetType": "static",
           "default": []
         }
       ],
       "default": []
+    },
+    {
+      "type": "TextInput",
+      "name": "separator",
+      "label": "Separator",
+      "description": "The character(s) used as separators between the results from two recognizers.",
+      "minLength": 1,
+      "maxLength": null,
+      "default": " "
+    },
+    {
+      "type": "TextInput",
+      "name": "placeholder",
+      "label": "Gesture placeholder",
+      "description": "The name returned when no gesture is recognized by a recognizer.",
+      "minLength": 0,
+      "maxLength": null,
+      "default": "NO_GESTURE"
     }
   ]
 }

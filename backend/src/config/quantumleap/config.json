@@ -3,7 +3,7 @@
     "settings": {
       "general": {
         "general": {
-          "debug": false,
+          "debug": true,
           "sendContinuousData": true
         },
         "server": {
@@ -14,7 +14,7 @@
       "sensors": {
         "modules": [
           {
-            "uuid": "49dbb1a4-3ff0-4820-b812-e6814d64dff3",
+            "uuid": "f58cb892-0f24-4d6a-9188-e4c97155a4ac",
             "moduleName": "leap-sensor",
             "moduleType": "sensors",
             "moduleSettings": {},
@@ -26,7 +26,18 @@
         "framerate": 60
       },
       "filters": {
-        "modules": []
+        "modules": [
+          {
+            "uuid": "3af13a9c-899f-4e9c-9514-f6c3bb944eab",
+            "moduleName": "moving-window",
+            "moduleType": "filters",
+            "moduleSettings": {
+              "type": "average",
+              "windowSize": 10
+            },
+            "additionalSettings": {}
+          }
+        ]
       },
       "datasets": {
         "static": {
@@ -40,7 +51,8 @@
                 "datasets": [
                   "guinevre-static2"
                 ],
-                "id": "lmc"
+                "sensorId": "lmc",
+                "datasetId": ""
               }
             }
           ],
@@ -58,7 +70,8 @@
                 "datasets": [
                   "guinevere"
                 ],
-                "id": "lmc"
+                "sensorId": "lmc",
+                "datasetId": ""
               }
             }
           ],
@@ -172,7 +185,9 @@
                   ]
                 }
               },
-              "additionalSettings": {}
+              "additionalSettings": {
+                "trainingGestures": []
+              }
             }
           ],
           "scoreThreshold": 0.3,
@@ -184,33 +199,63 @@
         "dynamic": {
           "modules": [
             {
-              "uuid": "0b4ddafc-4085-470e-b867-1023cc6e79e1",
-              "moduleName": "jackknife",
+              "uuid": "a4cb9ce0-11de-44c6-9d30-fe9f780dc132",
+              "moduleName": "multi-recognizer-concat",
               "moduleType": "recognizers/dynamic",
               "moduleSettings": {
-                "samplingPoints": 16,
-                "points": {
-                  "lmc": [
-                    "rightPalmPosition",
-                    "rightThumbTipPosition",
-                    "rightIndexTipPosition",
-                    "rightMiddleTipPosition",
-                    "rightRingTipPosition",
-                    "rightPinkyTipPosition",
-                    "rightThumbPipPosition",
-                    "rightIndexPipPosition",
-                    "rightMiddlePipPosition",
-                    "rightRingPipPosition",
-                    "rightPinkyPipPosition",
-                    "rightThumbMcpPosition",
-                    "rightIndexMcpPosition",
-                    "rightMiddleMcpPosition",
-                    "rightRingMcpPosition",
-                    "rightPinkyMcpPosition"
-                  ]
-                }
+                "recognizers": [
+                  {
+                    "uuid": "6d87f7d2-d6fb-4cbd-85cb-7ca2b7256270",
+                    "moduleName": "jackknife",
+                    "moduleType": "recognizers/dynamic",
+                    "moduleSettings": {
+                      "samplingPoints": 16,
+                      "points": {
+                        "lmc": [
+                          "rightPalmPosition"
+                        ]
+                      }
+                    },
+                    "additionalSettings": {
+                      "trainingGestures": [
+                        "rhand_uswipe",
+                        "rhand_lswipe",
+                        "rhand_rswipe"
+                      ]
+                    }
+                  },
+                  {
+                    "uuid": "279e8ad3-c152-4f7a-8dff-801b96b811bf",
+                    "moduleName": "jackknife",
+                    "moduleType": "recognizers/dynamic",
+                    "moduleSettings": {
+                      "samplingPoints": 16,
+                      "points": {
+                        "lmc": [
+                          "rightIndexTipPosition",
+                          "rightMiddleTipPosition",
+                          "rightRingTipPosition",
+                          "rightPinkyTipPosition",
+                          "rightThumbTipPosition",
+                          "rightPalmPosition"
+                        ]
+                      }
+                    },
+                    "additionalSettings": {
+                      "trainingGestures": [
+                        "rhand_uswipe",
+                        "rhand_rswipe",
+                        "rhand_dswipe"
+                      ]
+                    }
+                  }
+                ],
+                "separator": "/",
+                "placeholder": "NO_GESTURE"
               },
-              "additionalSettings": {}
+              "additionalSettings": {
+                "trainingGestures": []
+              }
             }
           ],
           "scoreThreshold": 0.035,

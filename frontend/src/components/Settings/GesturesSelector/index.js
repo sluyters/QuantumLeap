@@ -47,15 +47,17 @@ class GesturesSelector extends React.Component {
     // Retrieve dataset-loaders & datasets infos
     const datasetLoaders = values.main.settings.datasets[datasetType].modules;
     const datasets = templates.datasets[datasetType];
-    // Retrieve the datasets names
-    let datasetsNames = [];
+    // Retrieve the datasets names and ids
+    let datasetsInfos = [];
     datasetLoaders.forEach(datasetLoader => {
-      datasetsNames.push(...datasetLoader.additionalSettings.datasets);
+      if (datasetLoader.additionalSettings.datasets.length > 0) {
+        datasetsInfos.push({ name: datasetLoader.additionalSettings.datasets[0], id: datasetLoader.additionalSettings.datasetId });
+      }
     });
     // Retrieve the available gestures
     let availableGestures = [];
-    datasetsNames.forEach(datasetName => {
-      availableGestures.push(...datasets[datasetName].gestures);
+    datasetsInfos.forEach(datasetInfo => {
+      availableGestures.push(...datasets[datasetInfo.name].gestures.map((gesture) => datasetInfo.id ? `${gesture}_${datasetInfo.id}` : gesture));
     });
 
     const addGesture = () => {

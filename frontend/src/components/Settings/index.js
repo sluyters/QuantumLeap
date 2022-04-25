@@ -1,6 +1,7 @@
 import { BooleanInput, SelectInput, TextInput, FloatInput, IntegerInput } from './SimpleInput';
 import PointsSelector from './PointsSelector';
 import GesturesSelector from './GesturesSelector';
+import GesturesSelector2 from './GesturesSelector2';
 import DatasetSelector from './DatasetSelector';
 import ModuleSelector from './ModuleSelector';
 import CompoundSetting from './CompoundSetting';
@@ -16,6 +17,7 @@ export {
   Category,
   PointsSelector,
   GesturesSelector,
+  GesturesSelector2,
   DatasetSelector,
   ModuleSelector,
   CompoundSetting,

@@ -23,6 +23,14 @@
           "maxValue": null,
           "required": true,
           "default": 1
+        },
+        {
+          "type": "GesturesSelector2",
+          "label": "Training gestures",
+          "name": "trainingGestures",
+          "description": "The gestures used for training the recognizer. If no gesture is selected, all gestures are used for training.",
+          "datasetType": "dynamic",
+          "default": []
         }
       ],
       "default": []

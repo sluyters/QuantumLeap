@@ -10,7 +10,7 @@ function log(level, text) {
       console.error(`${date} \x1b[41mERROR\x1b[0m ${text}`);
       break;
     case "warn":
-      console.error(`${date} \x1b[43mWARN\x1b[0m ${text}`);
+      console.error(`${date} \x1b[43m\x1b[31mWARN\x1b[0m ${text}`);
       break;
     case "info":
       console.log(`${date} \x1b[44mINFO\x1b[0m ${text}`);

@@ -1,0 +1,47 @@
+{
+  "label": "Multiple Recognizers (concat results)",
+  "name": "multi-recognizer-concat",
+  "type": "recognizer-dynamic",
+  "description": "A module that allows the combination of multiple recognizers. The results of all recognizers are concatenated into a single string.",
+  "properties": {},
+  "settings": [
+    {
+      "name": "recognizers",
+      "type": "ModuleSelector",
+      "label": "Recognizers",
+      "description": "The recognizers to combine.",
+      "moduleType": "recognizers/dynamic",
+      "minModules": 1,
+      "maxModules": null,
+      "settings": [
+        {
+          "type": "GesturesSelector2",
+          "label": "Training gestures",
+          "name": "trainingGestures",
+          "description": "The gestures used for training the recognizer. If no gesture is selected, all gestures are used for training.",
+          "datasetType": "dynamic",
+          "default": []
+        }
+      ],
+      "default": []
+    },
+    {
+      "type": "TextInput",
+      "name": "separator",
+      "label": "Separator",
+      "description": "The character(s) used as separators between the results from two recognizers.",
+      "minLength": 1,
+      "maxLength": null,
+      "default": " "
+    },
+    {
+      "type": "TextInput",
+      "name": "placeholder",
+      "label": "Gesture placeholder",
+      "description": "The name returned when no gesture is recognized by a recognizer.",
+      "minLength": 0,
+      "maxLength": null,
+      "default": "NO_GESTURE"
+    }
+  ]
+}

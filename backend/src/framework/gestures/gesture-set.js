@@ -6,7 +6,7 @@ class GestureSet {
     }
 
     addGestureClass(gestureClass) {
-        this.gestures.set(gestureClass.name,gestureClass);
+        this.gestures.set(gestureClass.name, gestureClass);
         this.G += 1;
     }
 

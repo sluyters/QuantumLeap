@@ -1,6 +1,7 @@
 const RingBuffer = require('ringbufferjs');
 const { initDataset } = require('./modules/datasets/init-datasets');
 const LogHelper = require('./log-helper');
+const { GestureSet } = require('./gestures/gesture-set');
 
 class FrameProcessor {
   constructor(config) {
@@ -26,7 +27,13 @@ class FrameProcessor {
       if (config.recognizers[type].loadOnRequest) {
         this.recognizers[type] = new recognizerModule.module(recognizerModule.moduleSettings);
       } else {
-        this.recognizers[type] = new recognizerModule.module(recognizerModule.moduleSettings, this.datasets[type]);
+        let dataset = new GestureSet; 
+        this.datasets[type].getGestureClasses().forEach((gestureClass) => {
+          if(isInTrainingSet(gestureClass.name, recognizerModule.additionalSettings.trainingGestures)) {
+            dataset.addGestureClass(gestureClass);
+          }
+        });
+        this.recognizers[type] = new recognizerModule.module(recognizerModule.moduleSettings, dataset);
       }
       // Keep track of the enabled gestures
       this.enabledGestures[type] = [];
@@ -61,8 +68,8 @@ class FrameProcessor {
   }
 
   enableGesture(type, name) {
-    if (!this.enabledGestures[type].includes(name)) {
-      // The gesture  is not already enabled
+    if (!this.enabledGestures[type].includes(name) && isInTrainingSet(name, this.config.recognizers[type].modules[0].additionalSettings.trainingGestures)) {
+      // The gesture  is not already enabled and the gesture is in the training set of the recognizer
       if (this.config.recognizers[type].loadOnRequest) {
         let gestureClass = this.datasets[type].getGestureClasses().get(name);
         if (gestureClass) {
@@ -234,6 +241,16 @@ class FrameProcessor {
     }
     // Nothing detected
     return null;
+  }
+}
+
+function isInTrainingSet(gesture, trainingSet) {
+  if (trainingSet === undefined || trainingSet === null || trainingSet.length === 0) {
+    // Keep all gestures
+    return true;
+  } else {
+    // Keep only gestures in the training set
+    return trainingSet.indexOf(gesture) !== -1;
   }
 }
 
