@@ -76,9 +76,32 @@ class UserIndependentTesting extends Testing {
 
   testRecognizer(dataset, recognizerModule, printProgress) {
     let results = [];
+
+    // Compute the maximum number of training templates per gesture class
+    let maxTrainingSetSize = Infinity;
+    dataset.getGestureClasses().forEach((gestureClass) => {
+      let nTemplatesPerUser = new Map();
+      gestureClass.getSamples().forEach((sample) => {
+        if (nTemplatesPerUser.has(sample.user)) {
+          nTemplatesPerUser.set(sample.user, nTemplatesPerUser.get(sample.user) + 1);
+        } else {
+          nTemplatesPerUser.set(sample.user, 1);
+        }
+      });
+      let maxTemplatesPerUser = -Infinity;
+      nTemplatesPerUser.forEach((nTemplates) => {
+        maxTemplatesPerUser = Math.max(maxTemplatesPerUser, nTemplates);
+      });
+      maxTrainingSetSize = Math.min(maxTrainingSetSize, gestureClass.TperG - maxTemplatesPerUser);
+    });
+    maxTrainingSetSize = Math.min(maxTrainingSetSize, this.maxT);
+    if (maxTrainingSetSize != this.maxT) {
+      LogHelper.log('warn', `The configured value for maximum number of training templates (T = ${this.maxT}) is too large! The maximum supported value for this gesture set (UI testing) is T = ${maxTrainingSetSize}.`)
+    }
+
     // Compute training set sizes
     let trainingSetSizes = [];
-    for (let trainingSetSize = this.minT; trainingSetSize <= Math.min(dataset.getMinTemplate() - 1, this.maxT); trainingSetSize = computeNextT(trainingSetSize)) {
+    for (let trainingSetSize = Math.max(1, this.minT); trainingSetSize <= maxTrainingSetSize; trainingSetSize = computeNextT(trainingSetSize)) {
       trainingSetSizes.push(trainingSetSize);
     }
 
@@ -154,7 +177,6 @@ class UserIndependentTesting extends Testing {
   }
 }
 
-// TODO
 class UserDependentTesting extends Testing {
   constructor(recognizerType, config) {
     super(recognizerType, config);
@@ -164,25 +186,29 @@ class UserDependentTesting extends Testing {
   testRecognizer(dataset, recognizerModule, printProgress) {
     let results = [];
 
-    // Compute the minimum number of templates per gesture and per user
-    let minTperU = Infinity;
+    // Compute the maximum number of training templates per gesture class
+    let maxTrainingSetSize = Infinity;
     dataset.getGestureClasses().forEach((gestureClass) => {
-      let templatesPerUser = new Map();
+      let nTemplatesPerUser = new Map();
       gestureClass.getSamples().forEach((sample) => {
-        if (templatesPerUser.has(sample.user)) {
-          templatesPerUser.set(sample.user, templatesPerUser.get(sample.user) + 1);
+        if (nTemplatesPerUser.has(sample.user)) {
+          nTemplatesPerUser.set(sample.user, nTemplatesPerUser.get(sample.user) + 1);
         } else {
-          templatesPerUser.set(sample.user, 1);
+          nTemplatesPerUser.set(sample.user, 1);
         }
       });
-      templatesPerUser.forEach((TperU) => {
-        minTperU = Math.min(minTperU, TperU);
+      nTemplatesPerUser.forEach((nTemplates) => {
+        maxTrainingSetSize = Math.min(maxTrainingSetSize, nTemplates - 1);
       });
     });
+    maxTrainingSetSize = Math.min(maxTrainingSetSize, this.maxT);
+    if (maxTrainingSetSize != this.maxT) {
+      LogHelper.log('warn', `The configured value for maximum number of training templates (T = ${this.maxT}) is too large! The maximum supported value for this gesture set (UD testing) is T = ${maxTrainingSetSize}.`)
+    }
 
     // Compute training set sizes
     let trainingSetSizes = [];
-    for (let trainingSetSize = this.minT; trainingSetSize <= Math.min(dataset.getMinTemplate() - 1, minTperU, this.maxT); trainingSetSize = computeNextT(trainingSetSize)) {
+    for (let trainingSetSize = Math.max(1, this.minT); trainingSetSize <= maxTrainingSetSize; trainingSetSize = computeNextT(trainingSetSize)) {
       trainingSetSizes.push(trainingSetSize);
     }
 
