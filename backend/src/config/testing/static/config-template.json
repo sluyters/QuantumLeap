@@ -8,7 +8,7 @@
       {
         "type": "Category",
         "name": "general",
-        "label": "General",
+        "label": "System",
         "settings": [
           {
             "type": "BooleanInput",
@@ -22,68 +22,119 @@
       {
         "type": "Category",
         "name": "testingParams",
-        "label": "Testing parameters",
+        "label": "Testing",
         "settings": [
           {
-            "type": "IntegerInput",
+            "type": "ParameterSelector",
             "required": true,
-            "label": "Number of repetitions",
-            "name": "r",
-            "description": "The number of repetitions for each combination of parameters.",
-            "minValue": 1,
-            "maxValue": null,
-            "default": 100
-          },
-          {
-            "type": "IntegerInput",
-            "required": true,
-            "label": "Minimum number of templates",
-            "name": "minT",
-            "description": "The minimum number of training templates (per gesture class) used for the training of the recognizers.",
-            "minValue": 1,
-            "maxValue": null,
-            "default": 1
-          },
-          {
-            "type": "IntegerInput",
-            "required": true,
-            "label": "Maximum number of templates",
-            "name": "maxT",
-            "description": "The maximum number of training templates (per gesture class) used for the training of the recognizers.",
-            "minValue": 1,
-            "maxValue": null,
-            "default": 1
-          },
-          {
-            "type": "BooleanInput",
-            "name": "userDependent",
-            "label": "Run user-dependent scenario",
-            "description": "Test the recognizers in a user-dependent scenario, i.e., in which the templates used for training and testing the recognizers are produced by the same user.",
-            "default": true
-          },
-          {
-            "type": "BooleanInput",
-            "name": "userIndependent",
-            "label": "Run user-independent scenario",
-            "description": "Test the recognizers in a user-dependent scenario, i.e., in which the templates used for training are produced by a different set of users that the templates used for testing.",
-            "default": true
-          }
-        ]
-      },
-      {
-        "type": "Category",
-        "name": "globalParams",
-        "label": "Global recognizers parameters",
-        "settings": [
-          {
-            "type": "PointsSelector",
-            "label": "Points",
-            "name": "points",
-            "description": "The points that are used by the recognizers.",
-            "minNumber": 1,
-            "maxNumber": null,
-            "default": {}
-          }
+            "name": "types",
+            "label": "Types",
+            "description": "Select the type of testing.",
+            "minParams": 1,
+            "maxParams": null,
+            "params": [
+              {
+                "name": "loocv",
+                "label": "Leave-One-Out Cross Validation",
+                "description": "A configuration of k-fold cross-validation where k is set to the number of examples in the dataset.",
+                "settings": [
+                  {
+                    "type": "ParameterSelector",
+                    "required": true,
+                    "name": "modes",
+                    "label": "Modes",
+                    "description": "Select the testing mode(s).",
+                    "minParams": 1,
+                    "maxParams": null,
+                    "params": [
+                      {
+                        "name": "userDependent",
+                        "label": "User-dependent",
+                        "description": "Train and test on data from the same user.",
+                        "settings": []
+                      },
+                      {
+                        "name": "userIndependent",
+                        "label": "User-independent",
+                        "description": "Train and test on data from different users.",
+                        "settings": []
+                      },
+                      {
+                        "name": "mixed",
+                        "label": "Mixed",
+                        "description": "Train and test on data from all users.",
+                        "settings": []
+                      }
+                    ],
+                    "settings": [],
+                    "default": []
+                  }
+                ]
+              },
+              {
+                "name": "tts",
+                "label": "Train-Test Split",
+                "description": "Previous testing procedure in QuantumLeap. Randomly partitions the dataset into two subsets.",
+                "settings": [
+                  {
+                    "type": "IntegerInput",
+                    "required": true,
+                    "label": "Number of repetitions",
+                    "name": "r",
+                    "description": "The number of repetitions for each combination of parameters.",
+                    "minValue": 1,
+                    "maxValue": null,
+                    "default": 100
+                  },
+                  {
+                    "type": "IntegerInput",
+                    "required": true,
+                    "label": "Minimum number of templates",
+                    "name": "minT",
+                    "description": "The minimum number of training templates (per gesture class) used for the training of the recognizers.",
+                    "minValue": 1,
+                    "maxValue": null,
+                    "default": 1
+                  },
+                  {
+                    "type": "IntegerInput",
+                    "required": true,
+                    "label": "Maximum number of templates",
+                    "name": "maxT",
+                    "description": "The maximum number of training templates (per gesture class) used for the training of the recognizers.",
+                    "minValue": 1,
+                    "maxValue": null,
+                    "default": 1
+                  },
+                  {
+                    "type": "ParameterSelector",
+                    "required": true,
+                    "name": "modes",
+                    "label": "Modes",
+                    "description": "Select the testing mode(s).",
+                    "minParams": 1,
+                    "maxParams": null,
+                    "params": [
+                      {
+                        "name": "userDependent",
+                        "label": "User-dependent",
+                        "description": "Test the recognizers in a user-dependent scenario, i.e., in which the templates used for training and testing the recognizers are produced by the same user.",
+                        "settings": []
+                      },
+                      {
+                        "name": "userIndependent",
+                        "label": "User-independent",
+                        "description": "Test the recognizers in a user-dependent scenario, i.e., in which the templates used for training are produced by a different set of users that the templates used for testing.",
+                        "settings": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "settings": [],
+            "default": []         
+          }          
         ]
       }
     ],

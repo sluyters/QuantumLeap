@@ -178,6 +178,34 @@ class QLConfiguration {
               repaired = repairSettings(moduleTemplate.settings, moduleValue.moduleSettings) || repaired;
             }
           }
+        } else if (template.type === 'ParameterSelector') {
+          // If one or more param(s) is selected, repair subsettings
+          for (let i = values[template.name].length - 1; i >= 0; i--) {
+            let paramValue = values[template.name][i];
+            // Get param templates
+            let paramsTemplates = {};
+            template.params.forEach(param => {
+              paramsTemplates[param.name] = param;
+            });
+            // If there is no corresponding param, remove it. Otherwise, check subsettings
+            if (!paramsTemplates.hasOwnProperty(paramValue.paramName)) {
+              values[template.name].splice(i, 1);
+              repaired = true;
+            } else {
+              // Additional settings
+              if (!paramValue.hasOwnProperty('additionalSettings')) {
+                paramValue.additionalSettings = {};
+                repaired = true;
+              }
+              repaired = repairSettings(template.settings, paramValue.additionalSettings) || repaired;
+              // Param settings
+              if (!paramValue.hasOwnProperty('paramSettings')) {
+                paramValue.paramSettings = {};
+                repaired = true;
+              }
+              repaired = repairSettings(paramsTemplates[paramValue.paramName].settings, paramValue.paramSettings) || repaired;
+            }
+          }
         } else if (template.hasOwnProperty('settings')) {
           LogHelper.log('error', `Subsettings unsupported for setting (NAME: ${template.name}, TYPE: ${template.type})!`);
         }
@@ -271,6 +299,27 @@ class QLConfiguration {
               values[template.name][index] = parsedModule;
             });
           }
+        } else if (template.type === 'ParameterSelector') {
+          values[template.name].forEach((paramValue, index) => {
+            // Get param templates
+            let paramsTemplates = {};
+            template.params.forEach(param => {
+              paramsTemplates[param.name] = param;
+            });
+            let paramsTemplate = paramsTemplates[paramValue.paramName];
+            // Parse param settings
+            let parsedParam = {
+              paramName: paramValue.paramName,
+              paramSettings: paramValue.paramSettings,
+              additionalSettings: paramValue.additionalSettings,
+            };
+            // Additional settings
+            parseSettings(template.settings, paramValue.additionalSettings)
+            // Module settings
+            parseSettings(paramsTemplate.settings, paramValue.paramSettings)
+            // Add module
+            values[template.name][index] = parsedParam;
+          });
         } else if (template.hasOwnProperty('settings')) {
           LogHelper.log('error', `Subsettings unsupported for setting (NAME: ${template.name}, TYPE: ${template.type})!`);
         }

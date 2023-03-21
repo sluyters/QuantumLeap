@@ -2,27 +2,23 @@ const path = require('path');
 const fs = require('fs');
 const GestureSet = require('./gestures/gesture-set').GestureSet;
 const GestureClass = require('./gestures/gesture-class').GestureClass;
-const stringify = require("json-stringify-pretty-compact");
+const stringify = require('json-stringify-pretty-compact');
 const { performance } = require('perf_hooks');
 const LogHelper = require('./log-helper');
 
 // Important values
 const computeNextT = x => x * 2; // Function that computes the next number of training templates
+// const computeNextT = x => (x < 16) ? (x * 2) : (x + 8); // Function that computes the next number of training templates
+
 
 class Testing {
   constructor(recognizerType, config) {
-    this.testingType = '';
+    this.testingType = 'Testing';
     this.recognizerType = recognizerType;
     // Get datasets and recognizers
+    console.log(config)
     this.datasets = config.datasets[recognizerType];
     this.recognizers = config.recognizers[recognizerType];
-    // Get testing parameters
-    this.minT = config.general.testingParams.minT;
-    this.maxT = config.general.testingParams.maxT;
-    this.r = config.general.testingParams.r;
-    // Get global parameters for the recognizers
-    this.n = config.general.globalParams.samplingPoints;
-    this.selectedPoints = config.general.globalParams.points;
   }
 
   run() {
@@ -32,7 +28,7 @@ class Testing {
     for (let i = 0; i < this.datasets.modules.length; i++) {
       let dataset = loadDataset(this.recognizerType, this.datasets);
       let datasetResults = {
-        r: this.r,
+        //r: this.r,
         dataset: dataset.name,
         gestures: Array.from(dataset.getGestureClasses().keys()),
         data: []
@@ -56,7 +52,6 @@ class Testing {
           data: res
         });
       }
-      // console.log('\n', datasetResults);
       results.push(datasetResults);
     }
     LogHelper.log('info', `Ending Testing (${this.testingType})`);
@@ -66,12 +61,177 @@ class Testing {
   testRecognizer(dataset, recognizerModule) {
     throw new Error('You have to implement this function');
   }
+
+  static getTestingScenarios(recognizerType, globalSettings) {
+    let testingScenarios = [];
+    globalSettings.general.testingParams.types.forEach(testingSettings => {
+      switch (testingSettings.paramName) {
+        case 'tts':
+          testingScenarios.push(...TTSTesting.getTestingScenarios(recognizerType, testingSettings, globalSettings));
+          break;
+        case 'loocv':
+          testingScenarios.push(...LOOCVTesting.getTestingScenarios(recognizerType, testingSettings, globalSettings));
+          break;
+        default:
+          throw new Error(`Unknown testing type: ${testingSettings.paramName}.`);
+      }
+    });
+    return testingScenarios;
+  }
 }
 
-class UserIndependentTesting extends Testing {
-  constructor(recognizerType, config) {
-    super(recognizerType, config);
-    this.testingType = 'UI';
+
+// Leave-One-Out Cross-Validation
+
+class LOOCVTesting extends Testing {
+  constructor(recognizerType, testingSettings, globalSettings) {
+    super(recognizerType, globalSettings);
+    this.testingType = 'Leave-One-Out Cross-Validation';
+  }
+
+  testRecognizer(dataset, recognizerModule, printProgress) {
+    let results = [];
+
+    let nTrials = 0;
+    let res = {
+      accuracy: 0.0,
+      time: 0.0,
+      confusionMatrix: []
+    };
+    res.confusionMatrix = new Array(dataset.G).fill(0).map(() => new Array(dataset.G).fill(0));
+
+    let i = 0;
+    dataset.getGestureClasses().forEach(gestureClass => {
+      gestureClass.getSamples().forEach(testingSample => {
+        // Train recognizer
+        let recognizer = new recognizerModule.module(recognizerModule.moduleSettings);
+        this.trainRecognizer(recognizer, dataset, testingSample);
+
+        // Attempt recognition
+        try {
+          if (this.recognizerType === 'dynamic') {
+            var result = recognizer.recognize(testingSample);
+          } else {
+            var result = recognizer.recognize(testingSample.frame);
+          }
+        } catch(err) {
+          console.error(gestureClass.name, testingSample);
+          throw err;
+        }
+
+        // Update the confusion matrix
+        if (dataset.getGestureClasses().has(result.name)) {
+          let resultIndex = dataset.getGestureClasses().get(result.name).index;
+          res.confusionMatrix[gestureClass.index][resultIndex] += 1;
+        }
+
+        // Update execution time and accuracy
+        res.accuracy += (result.name === gestureClass.name) ? 1 : 0;
+        res.time += result.time;
+  
+        // Increment number of trials
+        nTrials++;
+      });
+
+      // Compute and print progress
+      let progress = i  / dataset.G;
+      printProgress(progress);
+      i++;
+    });
+
+    res.accuracy = res.accuracy / nTrials;
+    res.time = res.time / nTrials;
+    results.push(res);
+    return results;
+  }
+
+  trainRecognizer(recognizer, dataset, testClassId, testSampleId) {
+    throw new Error('You have to implement this function');
+  }
+
+  static getTestingScenarios(recognizerType, testingSettings, globalSettings) {
+    let testingScenarios = [];
+    testingSettings.paramSettings.modes.forEach(mode => {
+      switch (mode.paramName) {
+        case 'userDependent':
+          testingScenarios.push(new LOOCVUDTesting(recognizerType, testingSettings, globalSettings));
+          break;
+        case 'userIndependent':
+          testingScenarios.push(new LOOCVUITesting(recognizerType, testingSettings, globalSettings));
+          break;
+        case 'mixed':
+          testingScenarios.push(new LOOCVMixedTesting(recognizerType, testingSettings, globalSettings));
+          break;
+        default:
+          throw new Error(`Unknown testing mode for LOOCVTesting: ${mode.paramName}.`);
+      }
+    });
+    return testingScenarios;
+  }
+}
+
+class LOOCVUDTesting extends LOOCVTesting {
+  constructor(recognizerType, testingSettings, globalSettings) {
+    super(recognizerType, testingSettings, globalSettings);
+    this.testingType = 'Leave-One-Out Cross-Validation User-Dependent';
+  }
+
+  trainRecognizer(recognizer, dataset, testingSample) {
+    dataset.getGestureClasses().forEach(gestureClass => {
+      gestureClass.getSamples().forEach(trainingSample => {
+        if (trainingSample !== testingSample && trainingSample.user === testingSample.user) {
+          recognizer.addGesture(gestureClass.name, trainingSample);
+        }
+      });
+    });
+  }
+}
+
+class LOOCVUITesting extends LOOCVTesting {
+  constructor(recognizerType, testingSettings, globalSettings) {
+    super(recognizerType, testingSettings, globalSettings);
+    this.testingType = 'Leave-One-Out Cross-Validation User-Independent';
+  }
+
+  trainRecognizer(recognizer, dataset, testingSample) {
+    dataset.getGestureClasses().forEach(gestureClass => {
+      gestureClass.getSamples().forEach(trainingSample => {
+        if (trainingSample !== testingSample && trainingSample.user !== testingSample.user) {
+          recognizer.addGesture(gestureClass.name, trainingSample);
+        }
+      });
+    });
+  }
+}
+
+class LOOCVMixedTesting extends LOOCVTesting {
+  constructor(recognizerType, testingSettings, globalSettings) {
+    super(recognizerType, testingSettings, globalSettings);
+    this.testingType = 'Leave-One-Out Cross-Validation Mixed';
+  }
+
+  trainRecognizer(recognizer, dataset, testingSample) {
+    dataset.getGestureClasses().forEach(gestureClass => {
+      gestureClass.getSamples().forEach(trainingSample => {
+        if (trainingSample !== testingSample) {
+          recognizer.addGesture(gestureClass.name, trainingSample);
+        }
+      });
+    });
+  }
+}
+
+
+// Train-Test Split
+
+class TTSTesting extends Testing {
+  constructor(recognizerType, testingSettings, globalSettings) {
+    super(recognizerType, globalSettings);
+    this.testingType = 'Train-Test Split';
+    // Get testing parameters
+    this.minT = testingSettings.paramSettings.minT;
+    this.maxT = testingSettings.paramSettings.maxT;
+    this.r = testingSettings.paramSettings.r;
   }
 
   testRecognizer(dataset, recognizerModule, printProgress) {
@@ -88,11 +248,7 @@ class UserIndependentTesting extends Testing {
           nTemplatesPerUser.set(sample.user, 1);
         }
       });
-      let maxTemplatesPerUser = -Infinity;
-      nTemplatesPerUser.forEach((nTemplates) => {
-        maxTemplatesPerUser = Math.max(maxTemplatesPerUser, nTemplates);
-      });
-      maxTrainingSetSize = Math.min(maxTrainingSetSize, gestureClass.TperG - maxTemplatesPerUser);
+      maxTrainingSetSize = this.getMaxTrainingSetSize(nTemplatesPerUser, maxTrainingSetSize, gestureClass);
     });
     maxTrainingSetSize = Math.min(maxTrainingSetSize, this.maxT);
     if (maxTrainingSetSize != this.maxT) {
@@ -130,11 +286,10 @@ class UserIndependentTesting extends Testing {
         for (let t = 0; t < trainingSetSize; t++) { // Add trainingSetSize strokeData per gestureClass
           // Add one sample for each gesture class
           let index = 0;
-          
           dataset.getGestureClasses().forEach((gestureClass) => {
             // Select a valid training template
             let training = -1;
-            while (training == -1 || markedTemplates[index].includes(training) || gestureClass.getSamples()[training].user === gestureClass.getSamples()[markedTemplates[index][0]].user) {
+            while (training == -1 || markedTemplates[index].includes(training) || !this.isValidUser(gestureClass.getSamples()[training].user, gestureClass.getSamples()[markedTemplates[index][0]].user)) {
               training = getRandomNumber(0, gestureClass.getSamples().length);
             }
             // Mark the training template
@@ -144,16 +299,22 @@ class UserIndependentTesting extends Testing {
             index++;
           });
         }
+
         // Test the recognizer
         let index = 0;
         dataset.getGestureClasses().forEach((gestureClass) => {
           // Retrieve the testing sample
           let toBeTested = gestureClass.getSamples()[candidates[index]];
           // Attempt recognition
-          if (this.recognizerType === 'dynamic') {
-            var result = recognizer.recognize(toBeTested);
-          } else {
-            var result = recognizer.recognize(toBeTested.frame);
+          try {
+            if (this.recognizerType === 'dynamic') {
+              var result = recognizer.recognize(toBeTested);
+            } else {
+              var result = recognizer.recognize(toBeTested.frame);
+            }
+          } catch(err) {
+            console.error(gestureClass.name, toBeTested);
+            throw err;
           }
           // Update the confusion matrix
           if (dataset.getGestureClasses().has(result.name)) {
@@ -174,113 +335,68 @@ class UserIndependentTesting extends Testing {
       results.push(res);
     }
     return results;
+  }
+
+  getMaxTrainingSetSize(nTemplatesPerUser, maxTrainingSetSize, gestureClass) {
+    throw new Error('You have to implement this function');
+  }
+
+  isValidUser(userTraining, userTesting) {
+    throw new Error('You have to implement this function');
+  }
+
+  static getTestingScenarios(recognizerType, testingSettings, globalSettings) {
+    let testingScenarios = [];
+    testingSettings.paramSettings.modes.forEach(mode => {
+      switch (mode.paramName) {
+        case 'userDependent':
+          testingScenarios.push(new TTSUDTesting(recognizerType, testingSettings, globalSettings));
+          break;
+        case 'userIndependent':
+          testingScenarios.push(new TTSUITesting(recognizerType, testingSettings, globalSettings));
+          break;
+        default:
+          throw new Error(`Unknown testing mode for Train-Test Split: ${mode.paramName}.`);
+      }
+    });
+    return testingScenarios;
   }
 }
 
-class UserDependentTesting extends Testing {
-  constructor(recognizerType, config) {
-    super(recognizerType, config);
-    this.testingType = 'UD';
+class TTSUDTesting extends TTSTesting {
+  constructor(recognizerType, testingSettings, globalSettings) {
+    super(recognizerType, testingSettings, globalSettings);
+    this.testingType = 'Train-Test Split User-Dependent';
   }
 
-  testRecognizer(dataset, recognizerModule, printProgress) {
-    let results = [];
-
-    // Compute the maximum number of training templates per gesture class
-    let maxTrainingSetSize = Infinity;
-    dataset.getGestureClasses().forEach((gestureClass) => {
-      let nTemplatesPerUser = new Map();
-      gestureClass.getSamples().forEach((sample) => {
-        if (nTemplatesPerUser.has(sample.user)) {
-          nTemplatesPerUser.set(sample.user, nTemplatesPerUser.get(sample.user) + 1);
-        } else {
-          nTemplatesPerUser.set(sample.user, 1);
-        }
-      });
-      nTemplatesPerUser.forEach((nTemplates) => {
-        maxTrainingSetSize = Math.min(maxTrainingSetSize, nTemplates - 1);
-      });
+  getMaxTrainingSetSize(nTemplatesPerUser, maxTrainingSetSize, gestureClass) {
+    nTemplatesPerUser.forEach((nTemplates) => {
+      maxTrainingSetSize = Math.min(maxTrainingSetSize, nTemplates - 1);
     });
-    maxTrainingSetSize = Math.min(maxTrainingSetSize, this.maxT);
-    if (maxTrainingSetSize != this.maxT) {
-      LogHelper.log('warn', `The configured value for maximum number of training templates (T = ${this.maxT}) is too large! The maximum supported value for this gesture set (UD testing) is T = ${maxTrainingSetSize}.`)
-    }
+    return maxTrainingSetSize;
+  }
 
-    // Compute training set sizes
-    let trainingSetSizes = [];
-    for (let trainingSetSize = Math.max(1, this.minT); trainingSetSize <= maxTrainingSetSize; trainingSetSize = computeNextT(trainingSetSize)) {
-      trainingSetSizes.push(trainingSetSize);
-    }
+  isValidUser(userTraining, userTesting) {
+    return userTesting === userTraining;
+  }
+}
 
-    // Perform the test for each size of training set
-    for (let i = 0; i < trainingSetSizes.length; i++) {
-      let trainingSetSize = trainingSetSizes[i];
-      let res = {
-        n: trainingSetSize,
-        accuracy: 0.0,
-        time: 0.0,
-        confusionMatrix: []
-      };
-      res.confusionMatrix = new Array(dataset.G).fill(0).map(() => new Array(dataset.G).fill(0));
+class TTSUITesting extends TTSTesting {
+  constructor(recognizerType, testingSettings, globalSettings) {
+    super(recognizerType, testingSettings, globalSettings);
+    this.testingType = 'Train-Test Split User-Independent';
+  }
 
-      // Repeat the test this.r times
-      for (let r = 0; r < this.r; r++) {
-        // Initialize the recognizer and select the candidates
-        let recognizer = new recognizerModule.module(recognizerModule.moduleSettings);
-        let candidates = selectCandidates(dataset);
-        // For each gesture class, mark the templates that cannot be reused
-        let markedTemplates = [];
-        candidates.forEach(candidate => {
-          markedTemplates.push([candidate]);
-        });
-        
-        // Train the recognizer
-        for (let t = 0; t < trainingSetSize; t++) { // Add trainingSetSize strokeData per gestureClass
-          // Add one sample for each gesture class
-          let index = 0;
-          dataset.getGestureClasses().forEach((gestureClass) => {
-            // Select a valid training template (could be more efficient by randomizing only over the user's gestures)
-            let training = -1;
-            while (training == -1 || markedTemplates[index].includes(training) || gestureClass.getSamples()[training].user !== gestureClass.getSamples()[markedTemplates[index][0]].user) {
-              training = getRandomNumber(0, gestureClass.getSamples().length);
-            }
-            // Mark the training template
-            markedTemplates[index].push(training);
-            // Train the recognizer
-            recognizer.addGesture(gestureClass.name, gestureClass.getSamples()[training]);
-            index++;
-          });
-        }
-        // Test the recognizer
-        let index = 0;
-        dataset.getGestureClasses().forEach((gestureClass) => {
-          // Retrieve the testing sample
-          let toBeTested = gestureClass.getSamples()[candidates[index]];
-          // Attempt recognition
-          if (this.recognizerType === 'dynamic') {
-            var result = recognizer.recognize(toBeTested);
-          } else {
-            var result = recognizer.recognize(toBeTested.frame);
-          }
-          // Update the confusion matrix
-          if (dataset.getGestureClasses().has(result.name)) {
-            let resultIndex = dataset.getGestureClasses().get(result.name).index;
-            res.confusionMatrix[gestureClass.index][resultIndex] += 1;
-          }
-          // Update execution time and accuracy
-          res.accuracy += (result.name === gestureClass.name) ? 1 : 0;
-          res.time += result.time;
-          index++;
-        });
-        // Compute and print progress
-        let progress = i / trainingSetSizes.length + r / (this.r * trainingSetSizes.length);
-        printProgress(progress);
-      }
-      res.accuracy = res.accuracy / (this.r * dataset.G);
-      res.time = res.time / (this.r * dataset.G);
-      results.push(res);
-    }
-    return results;
+  getMaxTrainingSetSize(nTemplatesPerUser, maxTrainingSetSize, gestureClass) {
+    let maxTemplatesPerUser = -Infinity;
+    nTemplatesPerUser.forEach((nTemplates) => {
+      maxTemplatesPerUser = Math.max(maxTemplatesPerUser, nTemplates);
+    });
+    return Math.min(maxTrainingSetSize, gestureClass.TperG - maxTemplatesPerUser);
+  }
+
+  isValidUser(userTraining, userTesting) {
+    return userTesting !== userTraining;
   }
 }
 
@@ -379,7 +495,5 @@ function loadDataset(type, datasetsConfig) {
 }
 
 module.exports = {
-  Testing,
-  UserDependentTesting,
-  UserIndependentTesting
+  Testing
 }

@@ -14,7 +14,7 @@
       "sensors": {
         "modules": [
           {
-            "uuid": "f58cb892-0f24-4d6a-9188-e4c97155a4ac",
+            "uuid": "6ceeffd5-238e-41a9-b1a8-cc76749c91cc",
             "moduleName": "leap-sensor",
             "moduleType": "sensors",
             "moduleSettings": {},
@@ -26,18 +26,7 @@
         "framerate": 60
       },
       "filters": {
-        "modules": [
-          {
-            "uuid": "3af13a9c-899f-4e9c-9514-f6c3bb944eab",
-            "moduleName": "moving-window",
-            "moduleType": "filters",
-            "moduleSettings": {
-              "type": "average",
-              "windowSize": 10
-            },
-            "additionalSettings": {}
-          }
-        ]
+        "modules": []
       },
       "datasets": {
         "static": {
@@ -131,14 +120,14 @@
       "segmenters": {
         "modules": [
           {
-            "uuid": "87c92956-93a4-4ebf-98b5-ae07d851aa69",
+            "uuid": "e9a2bd58-7c04-43c4-a388-5304a5ac2a26",
             "moduleName": "window",
             "moduleType": "segmenters",
             "moduleSettings": {
               "windows": [
                 {
                   "width": 20,
-                  "uuid": "c06790a2-3d15-41e9-8e99-e31f389f4659"
+                  "uuid": "718f76c2-4de7-4d7e-8e89-8ef2a7825499"
                 }
               ],
               "intervalLength": 3,

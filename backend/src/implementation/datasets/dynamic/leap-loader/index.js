@@ -26,7 +26,13 @@ function loadDataset(name, datasetPath, sensorId, datasetId, sensorPointsNames) 
         let gestureSampleDirPath = path.join(dirPath, user_dir);
         fs.readdirSync(gestureSampleDirPath).forEach((sample) => {
             let rawGesturePath = path.join(gestureSampleDirPath, sample);
-            let rawGestureData = JSON.parse(fs.readFileSync(rawGesturePath));
+            try {
+                var rawGestureData = JSON.parse(fs.readFileSync(rawGesturePath));
+            } catch(err) {
+                console.error(`Gesture path: "${rawGesturePath}".`);
+                throw Error(err);
+            }
+            
 
             let filename = sample.split(".")[0].split("-");
             let gestureName = addIdentifier(filename[0].split("#")[0], datasetId);
@@ -36,7 +42,7 @@ function loadDataset(name, datasetPath, sensorId, datasetId, sensorPointsNames) 
             }
             let id = filename[1];
 
-            let gestureData = new StrokeData(parseInt(user_dir), id, infosupp);
+            let gestureData = new StrokeData(user_dir, id, infosupp);
             if (gestureSet.getGestureClasses().has(gestureName)) {
                 gestureSet.getGestureClasses().get(gestureName).addSample(gestureData);
             } else {

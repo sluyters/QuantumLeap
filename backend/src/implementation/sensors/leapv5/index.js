@@ -80,7 +80,8 @@ class Sensor extends AbstractSensor {
     }
     // TODO find better method to send app data
     let appData = {
-      fingers: fingers
+      fingers: fingers,
+      rawFrame: frame
     };
     return { 
       hasData: hasLeftHand || hasRightHand,

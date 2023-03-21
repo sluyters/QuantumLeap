@@ -3,10 +3,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const QuantumLeap = require('./framework/quantumleap');
-const UserIndependentTesting = require('./framework/testing').UserIndependentTesting;
-const UserDependentTesting = require('./framework/testing').UserDependentTesting;
 const Configuration = require('./framework/config-helper');
 const LogHelper = require('./framework/log-helper');
+const { Testing } = require('./framework/testing');
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants
@@ -157,14 +156,8 @@ app.put('/testing/dynamic/values', (req, res) => {
 app.post('/testing/dynamic/actions/start', (req, res) => {
   try {
     let parsedTestingConfig = testingConfigD.toQLConfig();
-    if (parsedTestingConfig.main.settings.general.testingParams.userDependent) {
-      let userDependentTesting = new UserDependentTesting('dynamic', parsedTestingConfig.main.settings);
-      userDependentTesting.run();
-    }
-    if (parsedTestingConfig.main.settings.general.testingParams.userIndependent) {
-      let userIndependentTesting = new UserIndependentTesting('dynamic', parsedTestingConfig.main.settings);
-      userIndependentTesting.run();
-    }
+    let testingScenarios = Testing.getTestingScenarios('dynamic', parsedTestingConfig.main.settings);
+    testingScenarios.forEach(testingScenario => testingScenario.run());
     return res.status(200).send();
   } catch (err) {
     LogHelper.log('error', `Unable to start testing. Details: ${err.stack}`)
@@ -196,14 +189,8 @@ app.put('/testing/static/values', (req, res) => {
 app.post('/testing/static/actions/start', (req, res) => {
   try {
     let parsedTestingConfig = testingConfigS.toQLConfig();
-    if (parsedTestingConfig.main.settings.general.testingParams.userDependent) {
-      let userDependentTesting = new UserDependentTesting('static', parsedTestingConfig.main.settings);
-      userDependentTesting.run();
-    }
-    if (parsedTestingConfig.main.settings.general.testingParams.userIndependent) {
-      let userIndependentTesting = new UserIndependentTesting('static', parsedTestingConfig.main.settings);
-      userIndependentTesting.run();
-    }
+    let testingScenarios = Testing.getTestingScenarios('static', parsedTestingConfig.main.settings);
+    testingScenarios.forEach(testingScenario => testingScenario.run());
     return res.status(200).send();
   } catch (err) {
     LogHelper.log('error', `Unable to start testing. Details: ${err.stack}`)
