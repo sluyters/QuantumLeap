@@ -11,12 +11,18 @@ const { Point2D, Point3D, PointND } = require('../../../../framework/gestures/Po
 function loadDataset(name, datasetPath, sensorId, datasetId, sensorPointsNames) {
     let gestureSet = new GestureSet(name);
     let dirPath = datasetPath;
-    let gestureIndex = 0;
+
+    // Load info.json file
+    let info = JSON.parse(fs.readFileSync(path.join(dirPath, 'info.json')));
 
     fs.readdirSync(dirPath).forEach((gesture) => {
         let gestureDirPath = path.join(dirPath, gesture);
         if (fs.existsSync(gestureDirPath) && fs.lstatSync(gestureDirPath).isDirectory()) {
             let gestureName = addIdentifier(gesture, datasetId);
+            let gestureIndex = info.gestures.indexOf(gesture);
+            if (gestureIndex === -1) {
+                throw new Error(`Gesture '${gesture}' not listed in info.json file!`);
+            }
             let gestureClass = new GestureClass(gestureName, gestureIndex);
             gestureSet.addGestureClass(gestureClass);
             fs.readdirSync(gestureDirPath).forEach((user) => {
@@ -60,10 +66,8 @@ function loadDataset(name, datasetPath, sensorId, datasetId, sensorPointsNames) 
                     gestureClass.addSample(strokeData);
                 });
             });
-            gestureIndex+=1;
         }
     });
-    
     return gestureSet;
 }
 

@@ -27,10 +27,15 @@ class Testing {
     let results = [];
     for (let i = 0; i < this.datasets.modules.length; i++) {
       let dataset = loadDataset(this.recognizerType, this.datasets);
+      let gestureClasses = dataset.getGestureClasses();
+      let gestures = new Array(gestureClasses.G);
+      gestureClasses.forEach(gestureClass => {
+        gestures[gestureClass.index] = gestureClass.name;
+      });
       let datasetResults = {
-        //r: this.r,
+        r: this.getRepetitions(dataset),
         dataset: dataset.name,
-        gestures: Array.from(dataset.getGestureClasses().keys()),
+        gestures: gestures,
         data: []
       };
       for (let j = 0; j < this.recognizers.modules.length; j++) {
@@ -59,6 +64,10 @@ class Testing {
   }
 
   testRecognizer(dataset, recognizerModule) {
+    throw new Error('You have to implement this function');
+  }
+
+  getRepetitions(dataset) {
     throw new Error('You have to implement this function');
   }
 
@@ -147,6 +156,23 @@ class LOOCVTesting extends Testing {
 
   trainRecognizer(recognizer, dataset, testClassId, testSampleId) {
     throw new Error('You have to implement this function');
+  }
+
+  
+  getRepetitions(dataset) {
+    // Return one value (if all gestures have same number of templates) or a vector of values
+    let isSameValue = true;
+    let repetitionsPerGestureClass = new Array(dataset.G);
+    let prevRepetitions = -1;
+    dataset.getGestureClasses().forEach(gestureClass => {
+      repetitionsPerGestureClass[gestureClass.index] = gestureClass.TperG;
+      if (prevRepetitions !== -1 && prevRepetitions !== gestureClass.TperG)
+        isSameValue = false;
+    });
+    if (isSameValue)
+      return repetitionsPerGestureClass[0];
+    else 
+      return repetitionsPerGestureClass;
   }
 
   static getTestingScenarios(recognizerType, testingSettings, globalSettings) {
@@ -343,6 +369,10 @@ class TTSTesting extends Testing {
 
   isValidUser(userTraining, userTesting) {
     throw new Error('You have to implement this function');
+  }
+
+  getRepetitions(dataset) {
+    return this.r;
   }
 
   static getTestingScenarios(recognizerType, testingSettings, globalSettings) {
