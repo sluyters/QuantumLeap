@@ -28,7 +28,7 @@
             "type": "ParameterSelector",
             "required": true,
             "name": "types",
-            "label": "Types",
+            "label": "Evaluation technique(s)",
             "description": "Select the type of testing.",
             "minParams": 1,
             "maxParams": null,
@@ -42,7 +42,7 @@
                     "type": "ParameterSelector",
                     "required": true,
                     "name": "modes",
-                    "label": "Modes",
+                    "label": "User scenario(s)",
                     "description": "Select the testing mode(s).",
                     "minParams": 1,
                     "maxParams": null,
@@ -110,7 +110,7 @@
                     "type": "ParameterSelector",
                     "required": true,
                     "name": "modes",
-                    "label": "Modes",
+                    "label": "User scenario(s)",
                     "description": "Select the testing mode(s).",
                     "minParams": 1,
                     "maxParams": null,
@@ -143,60 +143,173 @@
     "datasets": {
       "dynamic": [
         {
-          "name": "modules",
-          "type": "ModuleSelector",
-          "label": "Module(s)",
-          "description": "The dynamic gesture dataset loader(s) to use in the pipeline.",
-          "moduleType": "datasets/dynamic",
-          "minModules": 1,
-          "maxModules": 1,
-          "settings": [
+          "type": "ParameterSelector",
+          "required": true,
+          "name": "procedure",
+          "label": "Dataset procedure(s)",
+          "description": "Select the dataset procedure(s).",
+          "minParams": 1,
+          "maxParams": null,
+          "params": [
             {
-              "name": "datasets",
-              "type": "DatasetSelector",
-              "label": "Dataset",
-              "description": "The dynamic gesture dataset to load.",
-              "datasetType": "dynamic",
-              "minDatasets": 1,
-              "maxDatasets": 1,
-              "default": []
+              "name": "singleDataset",
+              "label": "Single dataset",
+              "description": "Use one dataset for both training and testing.",
+              "settings": [
+                {
+                  "name": "modules",
+                  "type": "ModuleSelector",
+                  "label": "Module(s)",
+                  "description": "The dynamic gesture dataset loader(s) to use in the pipeline.",
+                  "moduleType": "datasets/dynamic",
+                  "minModules": 1,
+                  "maxModules": 1,
+                  "settings": [
+                    {
+                      "type": "DatasetSelector",
+                      "name": "datasets",
+                      "label": "Dataset",
+                      "description": "The dynamic gesture dataset to load.",
+                      "datasetType": "dynamic",
+                      "minDatasets": 1,
+                      "maxDatasets": 1,
+                      "default": []
+                    },
+                    {
+                      "type": "TextInput",
+                      "name": "users",
+                      "label": "User(s)",
+                      "description": "The users that are used in to train and test the recognizer(s), separated by a comma (\",\"). Leave empty to select all users.",
+                      "minLength": 0,
+                      "maxLength": null,
+                      "default": ""
+                    },
+                    {
+                      "type": "TextInput",
+                      "name": "datasetId",
+                      "label": "Dataset identifier",
+                      "description": "Unique identifier for the dataset (recommended if multiple datasets are selected). The identifier is added at the beginning the name of each gesture, in the following format: DatasetId_GestureName. If no dataset identifier is provided, the original names of the gestures are kept.",
+                      "minLength": 0,
+                      "maxLength": null,
+                      "default": ""
+                    }
+                  ],
+                  "default": []
+                },
+                {
+                  "name": "aggregateClasses",
+                  "type": "GesturesSelector",
+                  "label": "Gestures",
+                  "description": "The gestures that are used to train and test the recognizer(s). All the gestures are used if none is selected.",
+                  "datasetType": "dynamic",
+                  "relPathsToRefs": [
+                    ["..", "modules"]
+                  ],
+                  "default": []
+                }
+              ]
             },
             {
-              "type": "TextInput",
-              "name": "users",
-              "label": "User(s)",
-              "description": "The users that are used to train the recognizer(s), separated by a comma (\",\"). Leave empty to select all users.",
-              "minLength": 0,
-              "maxLength": null,
-              "default": ""
-            },
-            {
-              "type": "TextInput",
-              "name": "sensorId",
-              "label": "Sensor identifier",
-              "description": "Identifier of the sensor matching this dataset. The identifier is added at the beginning the name of each point, in the following format: SensorId_PointName. If no sensor identifier is provided, the original names of the points are kept.",
-              "minLength": 0,
-              "maxLength": null,
-              "default": "test"
-            },
-            {
-              "type": "TextInput",
-              "name": "datasetId",
-              "label": "Dataset identifier",
-              "description": "Unique identifier for the dataset (recommended if multiple datasets are selected). The identifier is added at the beginning the name of each gesture, in the following format: DatasetId_GestureName. If no dataset identifier is provided, the original names of the gestures are kept.",
-              "minLength": 0,
-              "maxLength": null,
-              "default": ""
+              "name": "crossDataset",
+              "label": "Cross dataset",
+              "description": "Train on one dataset and test on another. CAUTION: make sure that user ids and gesture names correspond between both datasets!",
+              "settings": [
+                {
+                  "name": "trainingModules",
+                  "type": "ModuleSelector",
+                  "label": "Training module(s)",
+                  "description": "The dynamic gesture dataset loader(s) to use in the pipeline (training).",
+                  "moduleType": "datasets/dynamic",
+                  "minModules": 1,
+                  "maxModules": 1,
+                  "settings": [
+                    {
+                      "type": "DatasetSelector",
+                      "name": "datasets",
+                      "label": "Training dataset",
+                      "description": "The dynamic gesture dataset to load for training.",
+                      "datasetType": "dynamic",
+                      "minDatasets": 1,
+                      "maxDatasets": 1,
+                      "default": []
+                    },
+                    {
+                      "type": "TextInput",
+                      "name": "users",
+                      "label": "User(s)",
+                      "description": "The users that are used in to train the recognizer(s), separated by a comma (\",\"). Leave empty to select all users.",
+                      "minLength": 0,
+                      "maxLength": null,
+                      "default": ""
+                    },
+                    {
+                      "type": "TextInput",
+                      "name": "datasetId",
+                      "label": "Dataset identifier",
+                      "description": "Unique identifier for the dataset (recommended if multiple datasets are selected). The identifier is added at the beginning the name of each gesture, in the following format: DatasetId_GestureName. If no dataset identifier is provided, the original names of the gestures are kept.",
+                      "minLength": 0,
+                      "maxLength": null,
+                      "default": ""
+                    }
+                  ],
+                  "default": []
+                },
+                {
+                  "name": "testingModules",
+                  "type": "ModuleSelector",
+                  "label": "Testing module(s)",
+                  "description": "The dynamic gesture dataset loader(s) to use in the pipeline (testing).",
+                  "moduleType": "datasets/dynamic",
+                  "minModules": 1,
+                  "maxModules": 1,
+                  "settings": [
+                    {
+                      "type": "DatasetSelector",
+                      "name": "datasets",
+                      "label": "Testing dataset",
+                      "description": "The dynamic gesture dataset to load for testing.",
+                      "datasetType": "dynamic",
+                      "minDatasets": 1,
+                      "maxDatasets": 1,
+                      "default": []
+                    },
+                    {
+                      "type": "TextInput",
+                      "name": "users",
+                      "label": "User(s)",
+                      "description": "The users that are used in to test the recognizer(s), separated by a comma (\",\"). Leave empty to select all users.",
+                      "minLength": 0,
+                      "maxLength": null,
+                      "default": ""
+                    },
+                    {
+                      "type": "TextInput",
+                      "name": "datasetId",
+                      "label": "Dataset identifier",
+                      "description": "Unique identifier for the dataset (recommended if multiple datasets are selected). The identifier is added at the beginning the name of each gesture, in the following format: DatasetId_GestureName. If no dataset identifier is provided, the original names of the gestures are kept.",
+                      "minLength": 0,
+                      "maxLength": null,
+                      "default": ""
+                    }
+                  ],
+                  "default": []
+                },
+                {
+                  "name": "aggregateClasses",
+                  "type": "GesturesSelector",
+                  "label": "Gestures",
+                  "relPathsToRefs": [
+                    ["..", "trainingModules"],
+                    ["..", "testingModules"]
+                  ],
+                  "description": "The gestures that are used to train and test the recognizer(s). All the gestures are used if none is selected.",
+                  "datasetType": "dynamic",
+                  "default": []
+                }
+              ]
             }
           ],
-          "default": []
-        },
-        {
-          "name": "aggregateClasses",
-          "type": "GesturesSelector",
-          "label": "Gestures",
-          "description": "The gestures that are used to train the recognizer(s). All the gestures are used if none is selected.",
-          "datasetType": "dynamic",
+          "settings": [],
           "default": []
         }
       ]

@@ -41,19 +41,46 @@ class GesturesSelector extends React.Component {
     // Each module has the props, but their value can change
     const { handleChange, level, path, value } = this.props;
     // Unique to each module
-    const { datasetType } = this.props;
+    const { datasetType, relPathsToRefs } = this.props;
     const { classes, theme } = this.props;
 
     // Retrieve dataset-loaders & datasets infos
-    const datasetLoaders = values.main.settings.datasets[datasetType].modules;
+    const datasetLoaders = [];
+    if (relPathsToRefs) {
+      relPathsToRefs.forEach(relPathToRef => {
+        let tmpPath = path.slice();
+        console.log(tmpPath)
+        relPathToRef.forEach(elem => {
+          if (elem === '..' && tmpPath.length > 0) {
+            tmpPath.pop();
+          } else if (elem !== '.') {
+            tmpPath.push(elem);
+          }
+        });
+        let tmpValues = values;
+        try {
+          tmpPath.forEach(elem => {
+            tmpValues = tmpValues[elem];
+          });
+          datasetLoaders.push(...tmpValues);
+        } catch(e) {
+          console.error(`Invalid relPathToRef in GestureSelector: ${relPathToRef}, ${tmpPath}.`);
+          console.log(values);
+        }
+      });
+    } else {
+      datasetLoaders.push(...values.main.settings.datasets[datasetType].modules);
+    }
     const datasets = templates.datasets[datasetType];
     // Retrieve the datasets names and ids
     let datasetsInfos = [];
     datasetLoaders.forEach(datasetLoader => {
+      console.log(datasetLoader)
       if (datasetLoader.additionalSettings.datasets.length > 0) {
         datasetsInfos.push({ name: datasetLoader.additionalSettings.datasets[0], id: datasetLoader.additionalSettings.datasetId });
       }
     });
+    
     // Retrieve the available gestures
     let availableGestures = [];
     datasetsInfos.forEach(datasetInfo => {
@@ -61,6 +88,8 @@ class GesturesSelector extends React.Component {
         availableGestures.push(...datasets[datasetInfo.name].gestures.map((gesture) => datasetInfo.id ? `${gesture}_${datasetInfo.id}` : gesture));
       }
     });
+    let uniqueAvailableGestures = new Set(availableGestures);
+    availableGestures = [...uniqueAvailableGestures];
 
     const addGesture = () => {
       let newValue = this.state.value.slice();

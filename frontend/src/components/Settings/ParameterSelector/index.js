@@ -61,8 +61,9 @@ class ParameterSelector extends React.Component {
       let paramSelectorPath = path;
       // Event handlers
       const handleSettingChange = function(path, value) {
+        let pathDiff = path.slice((paramSelectorPath.length - path.length) + 1); // + 1 needed to remove the paramIndex from the path
         let newParamSelectorValue = paramSelectorValue.slice();
-        setObjectProperty(newParamSelectorValue[paramIndex], value, path);
+        setObjectProperty(newParamSelectorValue[paramIndex], value, pathDiff);
         handleChange(paramSelectorPath, newParamSelectorValue);
       }
       const handleParamDeletion = function() {
@@ -119,7 +120,7 @@ class ParameterSelector extends React.Component {
                     values={values}
                     handleChange={handleSettingChange}
                     level={level + 1}
-                    path={['paramSettings']}
+                    path={path.concat(paramIndex, 'paramSettings')}
                     value={param.paramSettings[setting.name]}
                     setting={setting}
                   />
@@ -136,7 +137,7 @@ class ParameterSelector extends React.Component {
                     values={values}
                     handleChange={handleSettingChange}
                     level={level + 1}
-                    path={['additionalSettings']}
+                    path={path.concat(paramIndex, 'additionalSettings')}
                     value={param.additionalSettings[setting.name]}
                     setting={setting}
                   />
@@ -189,7 +190,7 @@ function setObjectProperty(object, value, keys, index = 0) {
 }
 
 function getValuesFromSettings(settings) {
-  if (settings == undefined) {
+  if (settings === undefined) {
     settings = []
   }
   let parsedSettings = {};

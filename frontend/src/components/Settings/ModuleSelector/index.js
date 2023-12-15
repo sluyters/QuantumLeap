@@ -64,8 +64,9 @@ class ModuleSelector extends React.Component {
       let moduleSelectorPath = path;
       // Event handlers
       const handleSettingChange = function(path, value) {
+        let pathDiff = path.slice((moduleSelectorPath.length - path.length) + 1); // + 1 needed to remove the paramIndex from the path
         let newModuleSelectorValue = moduleSelectorValue.slice();
-        setObjectProperty(newModuleSelectorValue[moduleIndex], value, path);
+        setObjectProperty(newModuleSelectorValue[moduleIndex], value, pathDiff);
         handleChange(moduleSelectorPath, newModuleSelectorValue);
       }
       const handleModuleDeletion = function() {
@@ -122,7 +123,7 @@ class ModuleSelector extends React.Component {
                     values={values}
                     handleChange={handleSettingChange}
                     level={level + 1}
-                    path={['moduleSettings']}
+                    path={path.concat(moduleIndex, 'moduleSettings')}
                     value={module.moduleSettings[setting.name]}
                     setting={setting}
                   />
@@ -139,7 +140,7 @@ class ModuleSelector extends React.Component {
                     values={values}
                     handleChange={handleSettingChange}
                     level={level + 1}
-                    path={['additionalSettings']}
+                    path={path.concat(moduleIndex, 'additionalSettings')}
                     value={module.additionalSettings[setting.name]}
                     setting={setting}
                   />

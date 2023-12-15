@@ -43,13 +43,14 @@ class PointsSelector extends React.Component {
     const { minNumber, maxNumber } = this.props;
 
     if (!values.main.settings.sensors) {
-      let dataset = undefined;
-      if (values.main.settings.datasets.hasOwnProperty('static')) {
-        dataset = values.main.settings.datasets.static.modules[0]
-      } else {
-        dataset = values.main.settings.datasets.dynamic.modules[0]
-      }
-      let datasetName = dataset ? dataset.additionalSettings.sensorId : '';
+      // let dataset = undefined;
+      // if (values.main.settings.datasets.hasOwnProperty('static')) {
+      //   dataset = values.main.settings.datasets.static.modules[0]
+      // } else {
+      //   dataset = values.main.settings.datasets.dynamic.modules[0]
+      // }
+      // let datasetName = dataset ? dataset.additionalSettings.sensorId : '';
+      let datasetName = 'default';
       const changePoints = (event) => {
         let text = event.target.value.replace(/^[, ]*/, '');
         let points = text ? text.split(/[, ]+/) : [];
