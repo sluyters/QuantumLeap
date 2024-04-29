@@ -57,16 +57,36 @@ class GestureSet {
         }  
     }
 
+    // Returns a list of objects (name, sample)
+    flatten() {
+        let flattenedGestureSet = [];
+        for (let gestureClass of this.gestures.values()) {
+            let name = gestureClass.name;
+            for (let sample of gestureClass.getSamples()) {
+                flattenedGestureSet.push({ 'name': name, 'sample': sample });
+            }
+        }
+        return flattenedGestureSet; 
+    }
+
     getGestureClasses() {
         return this.gestures;
     }
 
     getMinTemplate() {
         let TperG = Infinity;
-        for (var gestureClass of this.gestures.values()) {
+        for (let gestureClass of this.gestures.values()) {
             TperG = Math.min(TperG, gestureClass.TperG);
         }
         return TperG;
+    }
+
+    getSize() {
+        let size = 0;
+        for (let [key, gestureClass] of this.getGestureClasses()) {
+            size += gestureClass.TperG;
+        }
+        return size;
     }
 }
 

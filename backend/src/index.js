@@ -5,7 +5,7 @@ const path = require('path');
 const QuantumLeap = require('./framework/quantumleap');
 const Configuration = require('./framework/config-helper');
 const LogHelper = require('./framework/log-helper');
-const { Testing } = require('./framework/testing');
+const { getTestingScenarios } = require('./framework/testing-manager');
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants
@@ -156,7 +156,7 @@ app.put('/testing/dynamic/values', (req, res) => {
 app.post('/testing/dynamic/actions/start', (req, res) => {
   try {
     let parsedTestingConfig = testingConfigD.toQLConfig();
-    let testingScenarios = Testing.getTestingScenarios('dynamic', parsedTestingConfig.main.settings);
+    let testingScenarios = getTestingScenarios('dynamic', parsedTestingConfig.main.settings);
     testingScenarios.forEach(testingScenario => testingScenario.run());
     return res.status(200).send();
   } catch (err) {
@@ -189,7 +189,7 @@ app.put('/testing/static/values', (req, res) => {
 app.post('/testing/static/actions/start', (req, res) => {
   try {
     let parsedTestingConfig = testingConfigS.toQLConfig();
-    let testingScenarios = Testing.getTestingScenarios('static', parsedTestingConfig.main.settings);
+    let testingScenarios = getTestingScenarios('static', parsedTestingConfig.main.settings);
     testingScenarios.forEach(testingScenario => testingScenario.run());
     return res.status(200).send();
   } catch (err) {

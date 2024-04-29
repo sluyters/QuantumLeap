@@ -34,6 +34,42 @@
             "maxParams": null,
             "params": [
               {
+                "name": "kfcv",
+                "label": "k-fold Cross Validation",
+                "description": "A basic, non stratified, k-fold cross-validation.",
+                "settings": [
+                  {
+                    "type": "IntegerInput",
+                    "required": true,
+                    "label": "Number of folds (k)",
+                    "name": "k",
+                    "description": "The number of groups that the dataset should be split into.",
+                    "minValue": 2,
+                    "maxValue": null,
+                    "default": 5
+                  },
+                  {
+                    "type": "ParameterSelector",
+                    "required": true,
+                    "name": "modes",
+                    "label": "User scenario(s)",
+                    "description": "Select the testing mode(s).",
+                    "minParams": 1,
+                    "maxParams": null,
+                    "params": [
+                      {
+                        "name": "mixed",
+                        "label": "Mixed",
+                        "description": "Train and test on data from all users.",
+                        "settings": []
+                      }
+                    ],
+                    "settings": [],
+                    "default": []
+                  }
+                ]
+              },
+              {
                 "name": "loocv",
                 "label": "Leave-One-Out Cross Validation",
                 "description": "A configuration of k-fold cross-validation where k is set to the number of examples in the dataset.",
