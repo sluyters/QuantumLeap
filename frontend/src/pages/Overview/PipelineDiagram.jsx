@@ -12,7 +12,7 @@ const styles = (theme) => ({
 
 const useStyles = makeStyles(styles);
 
-function SvgComponent(props) {
+function PipelineDiagram(props) {
   const { onClick } = props;
   const theme = useTheme();
   // Colors
@@ -671,4 +671,4 @@ function SvgComponent(props) {
   )
 }
 
-export default SvgComponent
+export default PipelineDiagram

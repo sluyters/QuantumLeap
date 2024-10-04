@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Typography, Button, ButtonGroup, Paper, IconButton, Divider, Snackbar, CircularProgress } from '@material-ui/core';
 import { withTheme, withStyles } from '@material-ui/core/styles';
 import { withRouter } from "react-router";
-import PipelineImage from './res/pipeline-svg';
+import PipelineDiagram from './PipelineDiagram';
 import { Pause, PlayArrow } from '@material-ui/icons';
 import { Alert } from '@material-ui/lab';
 
@@ -20,7 +20,7 @@ const styles = (theme) => ({
   controlButtons: {
     padding: theme.spacing(1),
   },
-  pipelineImage: {
+  pipelineDiagram: {
     display: 'block',
   },
   actionButtons: {
@@ -127,7 +127,7 @@ class Overview extends React.Component {
         </Typography>
         <Paper>
           <div className={classes.pipeline}>
-            <PipelineImage className={classes.pipelineImage} onClick={clickHandler}/>
+            <PipelineDiagram className={classes.pipelineDiagram} onClick={clickHandler}/>
           </div>
           <Divider/>
           <div className={classes.controlButtons}>

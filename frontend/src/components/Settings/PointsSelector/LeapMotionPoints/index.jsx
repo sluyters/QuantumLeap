@@ -3,8 +3,8 @@ import { Checkbox } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import { default as LeapHands } from './hands.svg';
-import { default as LeapBones } from './handsbones.svg';
+import LeapHands from './LeapHands.jsx';
+import LeapBones from './LeapBones.jsx';
 
 const styles = (theme) => ({
   root: {
@@ -38,6 +38,51 @@ const styles = (theme) => ({
   },
 });
 
+const HAND_JOINT_COORDINATES = [
+  // Left hand
+  // Palm
+  { name: 'leftPalmPosition', x: 24, y: 44 },
+  // Tips
+  { name: 'leftPinkyTipPosition', x: 9, y: 17.6 },
+  { name: 'leftRingTipPosition', x: 20, y: 6.6 },
+  { name: 'leftMiddleTipPosition', x: 28.5, y: 2 },
+  { name: 'leftIndexTipPosition', x: 36.1, y: 8.8 },
+  { name: 'leftThumbTipPosition', x: 45, y: 43.5 },
+  // Pips
+  { name: 'leftPinkyPipPosition', x: 12.7, y: 28.5 },
+  { name: 'leftRingPipPosition', x: 20.2, y: 21 },
+  { name: 'leftMiddlePipPosition', x: 27.2, y: 16.8 },
+  { name: 'leftIndexPipPosition', x: 33.7, y: 21.7 },
+  { name: 'leftThumbPipPosition', x: 36.5, y: 51 },
+  // Mcps
+  { name: 'leftPinkyMcpPosition', x: 16.5, y: 37.8 },
+  { name: 'leftRingMcpPosition', x: 21, y: 35.1 },
+  { name: 'leftMiddleMcpPosition', x: 25.6, y: 31.7 },
+  { name: 'leftIndexMcpPosition', x: 30.3, y: 33.9 },
+  { name: 'leftThumbMcpPosition', x: 30, y: 58.5 },
+  // Right hand
+  // Palm
+  { name: 'rightPalmPosition', x: 76, y: 44 },
+  // Tips
+  { name: 'rightPinkyTipPosition', x: 91, y: 17.6 },
+  { name: 'rightRingTipPosition', x: 80, y: 6.6 },
+  { name: 'rightMiddleTipPosition', x: 71.5, y: 2 },
+  { name: 'rightIndexTipPosition', x: 63.9, y: 8.8 },
+  { name: 'rightThumbTipPosition', x: 55, y: 43.5 },
+  // Pips
+  { name: 'rightPinkyPipPosition', x: 87.3, y: 28.5 },
+  { name: 'rightRingPipPosition', x: 79.8, y: 21 },
+  { name: 'rightMiddlePipPosition', x: 72.8, y: 16.8 },
+  { name: 'rightIndexPipPosition', x: 66.3, y: 21.7 },
+  { name: 'rightThumbPipPosition', x: 63.5, y: 51 },
+  // Mcps
+  { name: 'rightPinkyMcpPosition', x: 83.5, y: 37.8 },
+  { name: 'rightRingMcpPosition', x: 79, y: 35.1 },
+  { name: 'rightMiddleMcpPosition', x: 74.4, y: 31.7 },
+  { name: 'rightIndexMcpPosition', x: 69.7, y: 33.9 },
+  { name: 'rightThumbMcpPosition', x: 70, y: 58.5 },
+];
+
 class LeapMotionPoints extends React.Component {
   render() {
     const { classes, selectedPoints, onSelect, onDeselect } = this.props;
@@ -51,50 +96,7 @@ class LeapMotionPoints extends React.Component {
     return (
       <div className={classes.root}>
         <div className={classes.container}>
-          {/* Left hand */}
-          {/* Palm */}
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='leftPalmPosition' x={24} y={44} onToggle={clickHandler}/>
-          {/* Tips */}
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='leftPinkyTipPosition' x={9} y={17.6} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='leftRingTipPosition' x={20} y={6.6} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='leftMiddleTipPosition' x={28.5} y={2} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='leftIndexTipPosition' x={36.1} y={8.8} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='leftThumbTipPosition' x={45} y={43.5} onToggle={clickHandler}/>
-          {/* Pips */}
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='leftPinkyPipPosition' x={12.7} y={28.5} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='leftRingPipPosition' x={20.2} y={21} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='leftMiddlePipPosition' x={27.2} y={16.8} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='leftIndexPipPosition' x={33.7} y={21.7} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='leftThumbPipPosition' x={36.5} y={51} onToggle={clickHandler}/>
-          {/* Mcps */}
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='leftPinkyMcpPosition' x={16.5} y={37.8} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='leftRingMcpPosition' x={21} y={35.1} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='leftMiddleMcpPosition' x={25.6} y={31.7} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='leftIndexMcpPosition' x={30.3} y={33.9} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='leftThumbMcpPosition' x={30} y={58.5} onToggle={clickHandler}/>
-
-          {/* Right hand */}
-          {/* Palm */}
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='rightPalmPosition' x={76} y={44} onToggle={clickHandler}/>
-          {/* Tips */}
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='rightPinkyTipPosition' x={91} y={17.6} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='rightRingTipPosition' x={80} y={6.6} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='rightMiddleTipPosition' x={71.5} y={2} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='rightIndexTipPosition' x={63.9} y={8.8} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='rightThumbTipPosition' x={55} y={43.5} onToggle={clickHandler}/>
-          {/* Pips */}
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='rightPinkyPipPosition' x={87.3} y={28.5} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='rightRingPipPosition' x={79.8} y={21} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='rightMiddlePipPosition' x={72.8} y={16.8} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='rightIndexPipPosition' x={66.3} y={21.7} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='rightThumbPipPosition' x={63.5} y={51} onToggle={clickHandler}/>
-          {/* Mcps */}
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='rightPinkyMcpPosition' x={83.5} y={37.8} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='rightRingMcpPosition' x={79} y={35.1} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='rightMiddleMcpPosition' x={74.4} y={31.7} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='rightIndexMcpPosition' x={69.7} y={33.9} onToggle={clickHandler}/>
-          <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint='rightThumbMcpPosition' x={70} y={58.5} onToggle={clickHandler}/>
-          
+          {HAND_JOINT_COORDINATES.map((joint, index) => <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint={joint.name} x={joint.x} y={joint.y} onToggle={clickHandler} key={index} />)}        
           <LeapBones fill='currentColor' className={classes.imageBones}/>
           <LeapHands fill='currentColor' className={classes.image}/>
         </div>
