@@ -3,8 +3,8 @@ import { Checkbox } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import { ReactComponent as LeapHands } from './hands.svg';
-import { ReactComponent as LeapBones } from './handsbones.svg';
+import { default as LeapHands } from './hands.svg';
+import { default as LeapBones } from './handsbones.svg';
 
 const styles = (theme) => ({
   root: {

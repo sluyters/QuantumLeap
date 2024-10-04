@@ -22,7 +22,6 @@
     "react-markdown": "^5.0.3",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^5.0.0",
     "react-syntax-highlighter": "^15.4.3",
     "uuid": "^8.3.2",
     "wait-on": "^5.2.1",
@@ -30,10 +29,9 @@
   },
   "scripts": {
     "dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "postinstall": "electron-builder install-app-deps"
@@ -70,7 +68,9 @@
     ]
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.2",
     "electron": "^18.0.1",
-    "electron-builder": "^22.9.1"
+    "electron-builder": "^22.9.1",
+    "vite": "^5.4.8"
   }
 }
