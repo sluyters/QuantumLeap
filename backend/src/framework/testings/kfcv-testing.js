@@ -94,39 +94,6 @@ class KFCVTesting extends Testing {
         let progress = nTrials / datasetSize;
         printProgress(progress);
       }
-      
-      // testingDataset.getGestureClasses().forEach(gestureClass => {
-      //   gestureClass.getSamples().forEach(testingSample => {
-      //     // Attempt recognition
-      //     try {
-      //       if (this.recognizerType === 'dynamic') {
-      //         var result = recognizer.recognize(testingSample);
-      //       } else {
-      //         var result = recognizer.recognize(testingSample.frame);
-      //       }
-      //     } catch(err) {
-      //       console.error(gestureClass.name, testingSample);
-      //       throw err;
-      //     }
-
-      //     // Update the confusion matrix
-      //     if (dataset.getGestureClasses().has(result.name)) {
-      //       let resultIndex = dataset.getGestureClasses().get(result.name).index;
-      //       res.confusionMatrix[gestureClass.index][resultIndex] += 1;
-      //     }
-
-      //     // Update execution time and accuracy
-      //     res.accuracy += (result.name === gestureClass.name) ? 1 : 0;
-      //     res.time += result.time;
-    
-      //     // Increment number of trials
-      //     nTrials++;
-      //   });
-      //   // Compute and print progress
-      //   j += 1;
-      //   let progress = i / folds.length + j / (folds.length * testingDataset.G);
-      //   printProgress(progress);
-      // });
     }
 
     // Compute averages

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Checkbox } from '@material-ui/core'; 
-import { withStyles } from '@material-ui/core/styles';
-import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import { Checkbox } from '@mui/material'; 
+import { makeStyles } from '@mui/styles';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import LeapHands from './LeapHands.jsx';
 import LeapBones from './LeapBones.jsx';
 
@@ -37,6 +37,7 @@ const styles = (theme) => ({
     zIndex: 1
   },
 });
+const useStyles = makeStyles(styles);
 
 const HAND_JOINT_COORDINATES = [
   // Left hand
@@ -83,29 +84,28 @@ const HAND_JOINT_COORDINATES = [
   { name: 'rightThumbMcpPosition', x: 70, y: 58.5 },
 ];
 
-class LeapMotionPoints extends React.Component {
-  render() {
-    const { classes, selectedPoints, onSelect, onDeselect } = this.props;
-    const clickHandler = function(selected, jointName) {
-      if (selected) {
-        onSelect([jointName]);
-      } else {
-        onDeselect([jointName]);
-      }
-    };
-    return (
-      <div className={classes.root}>
-        <div className={classes.container}>
-          {HAND_JOINT_COORDINATES.map((joint, index) => <CustomCheckbox classes={classes} selectedPoints={selectedPoints} joint={joint.name} x={joint.x} y={joint.y} onToggle={clickHandler} key={index} />)}        
-          <LeapBones fill='currentColor' className={classes.imageBones}/>
-          <LeapHands fill='currentColor' className={classes.image}/>
-        </div>
+function LeapMotionPoints({ selectedPoints, onSelect, onDeselect }) {
+  const classes = useStyles();
+  const clickHandler = function(selected, jointName) {
+    if (selected) {
+      onSelect([jointName]);
+    } else {
+      onDeselect([jointName]);
+    }
+  };
+  return (
+    <div className={classes.root}>
+      <div className={classes.container}>
+        {HAND_JOINT_COORDINATES.map((joint, index) => <CustomCheckbox selectedPoints={selectedPoints} joint={joint.name} x={joint.x} y={joint.y} onToggle={clickHandler} key={index} />)}        
+        <LeapBones fill='currentColor' className={classes.imageBones}/>
+        <LeapHands fill='currentColor' className={classes.image}/>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
-function CustomCheckbox({classes, selectedPoints, joint, x, y, onToggle}) {
+function CustomCheckbox({selectedPoints, joint, x, y, onToggle}) {
+  const classes = useStyles();
   return (
     <Checkbox 
       className={classes.checkboxes} 
@@ -121,4 +121,4 @@ function CustomCheckbox({classes, selectedPoints, joint, x, y, onToggle}) {
   )
 }
 
-export default withStyles(styles)(LeapMotionPoints);
+export default LeapMotionPoints;

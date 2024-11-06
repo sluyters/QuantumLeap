@@ -1,16 +1,20 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import Setting from '../Setting';
 
-class Category extends React.Component {
-  render() {
-    // Unchanged for each setting
-    const { templates, values } = this.props;
-    // Each module has the props, but their value can change
-    const { handleChange, level, path, value } = this.props;
-    // Unique to each module
-    const { label, settings } = this.props;
-
+/**
+ * 
+ * @param {Object} props
+ * @property templates
+ * @property values
+ * @property onChange
+ * @property level: number - An integer representing the depth of the category within the Settings tree
+ * @property path 
+ * @property value 
+ * @property label: string - The label displayed on the screen for this category
+ * @property settings: Setting[] - A list of sub-settings within this category
+ */
+function Category({ templates, values, onChange, level, path, value, label, settings }) {
     // The level will impact the size, boldness, of the setting
     return (
       <React.Fragment>
@@ -23,7 +27,7 @@ class Category extends React.Component {
               key={setting.name}
               templates={templates}
               values={values}
-              handleChange={handleChange}
+              onChange={onChange}
               level={level + 1}
               path={path}
               value={value[setting.name]}
@@ -33,7 +37,6 @@ class Category extends React.Component {
         }
       </React.Fragment>
     );
-  }
 }
 
 export default Category;

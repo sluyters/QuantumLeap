@@ -1,5 +1,5 @@
 import { React, useState } from 'react'
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@mui/styles';
 
 const styles = (theme) => ({
   csvModule: {
@@ -18,7 +18,7 @@ function PipelineDiagram(props) {
   // Colors
   const backgroundColor = '#b3b3b3';
   const dataStreamColor = '#ccc';
-  const hoveredModuleColor = theme.palette.primary.dark;
+  const hoveredModuleColor = theme.palette.primary.main;
   const moduleColor = '#666';
   const moduleTextColor = '#fff'
   const extModuleColor = '#333';

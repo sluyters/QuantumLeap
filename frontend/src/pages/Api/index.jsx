@@ -1,6 +1,6 @@
-import React from 'react'
-import { Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import React, { useEffect, useState } from 'react'
+import { Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import ReactMarkdown from 'react-markdown';
 import CodeBlock from './renderers/codeblock';
 import Heading from './renderers/heading';
@@ -11,37 +11,37 @@ const styles = (theme) => ({
     marginBottom: theme.spacing(2),
   },
 });
+const useStyles = makeStyles(styles);
 
-class Api extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      doc: '',
-    };
-  }
+function Api() {
+  const [document, setDocument] = useState('');
+  const classes = useStyles();
 
-  componentDidMount() {
-    fetch(ApiDoc).then(res => res.text()).then(text => this.setState({ doc: text }));
-  }
+  // Fetch data once the component is mounted
+  useEffect(
+    () => {
+      fetch(ApiDoc)
+        .then(res => res.text())
+        .then(text => setDocument(text));
+    },
+    []
+  );
 
-  render() {
-    const { doc } = this.state;
-    const { classes } = this.props;
-    return (
-      <div>
-        <Typography variant='h2' className={classes.pageTitle}>
-          API
-        </Typography>
-        <ReactMarkdown 
-          source={doc} 
-          renderers={{ 
-            code: CodeBlock,
-            heading: Heading 
-          }}
-        />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Typography variant='h2' className={classes.pageTitle}>
+        API
+      </Typography>
+      <ReactMarkdown 
+        renderers={{ 
+          code: CodeBlock,
+          heading: Heading 
+        }}
+      >
+        {document} 
+      </ReactMarkdown>
+    </div>
+  );
 }
 
-export default withStyles(styles)(Api);
+export default Api;

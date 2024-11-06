@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import Container from '@material-ui/core/Container';
-import { AppBar, IconButton, SwipeableDrawer, Toolbar, Typography, useTheme } from "@material-ui/core";
-import MenuIcon from '@material-ui/icons/Menu';
-import List from '@material-ui/core/List';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Collapse from "@material-ui/core/Collapse";
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from 'react-router';
-import { withStyles } from '@material-ui/core/styles';
-import { withRouter } from "react-router";
+import Container from '@mui/material/Container';
+import { AppBar, IconButton, SwipeableDrawer, Toolbar, Typography, useTheme } from "@mui/material";
+import MenuIcon from '@mui/icons-material/Menu';
+import List from '@mui/material/List';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Collapse from "@mui/material/Collapse";
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import { makeStyles } from '@mui/styles';
+import { useNavigate, useLocation, Outlet } from 'react-router';
 
 const drawerWidth = 280;
 
 const styles = (theme) => ({
   root: {
     display: 'flex',
+    height: '100%',
+    width: '100%',
   },
   appBar: {
     zIndex: 1250,
@@ -66,72 +66,65 @@ const styles = (theme) => ({
     marginRight: theme.spacing(1),
   },
 });
-
 const useStyles = makeStyles(styles);
 
-class Layout extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: true,
-      pathName: props.history.location.pathname
-    };
-  }
+function Layout({ sidebarItems, children }) {
+  const classes = useStyles();
+  const location = useLocation();
+  const [open, setOpen] = useState(true);
+  const [pathName, setPathName] = useState(location.pathname);
 
-  componentDidMount() {
-    this.props.history.listen(() => {
-      this.setState({
-        pathName: this.props.history.location.pathname
-      });
-    });
-  }
+  useEffect(
+    () => {
+      setPathName(location.pathname);
+    },
+    [location]
+  );
 
-  render() {
-    const { actions, classes, sidebarItems, children } = this.props;
-    const toggleDrawer = (open) => (event) => {
-      this.setState({
-        open: open
-      });
-    };
-    return (
-      <div className={classes.root}>
-        <AppBar className={classes.appBar} position='fixed' color='primary'>
-          <Toolbar>
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(!this.state.open)}>
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" className={classes.title}>
-              {this.state.pathName}
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <SwipeableDrawer
-          className={classes.drawer}
-          variant='persistent'
-          anchor='left'
-          open={this.state.open}
-          onClose={toggleDrawer(false)}
-          onOpen={toggleDrawer(true)}
-        >
-          <Toolbar />
-          <div className={classes.drawerContainer}>
-            <Navigation items={sidebarItems} pathName={this.state.pathName} depthStep={4}>
-              {actions}
-            </Navigation>
-          </div>
-        </SwipeableDrawer>
-        <div className={clsx(classes.content, {
-          [classes.contentShift]: this.state.open,
-        })}
-        >
-          <Toolbar />
-          <Container>
-            {children}
-          </Container>
+  const toggleDrawer = () => setOpen(open => !open);
+  return (
+    (<div className={classes.root}>
+      <AppBar className={classes.appBar} position='fixed' color='primary'>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+            onClick={toggleDrawer}
+            size="large">
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            {pathName}
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <SwipeableDrawer
+        className={classes.drawer}
+        variant='persistent'
+        anchor='left'
+        open={open}
+        onClose={toggleDrawer}
+        onOpen={toggleDrawer}
+      >
+        <Toolbar />
+        <div className={classes.drawerContainer}>
+          <Navigation items={sidebarItems} pathName={pathName} depthStep={4}>
+          </Navigation>
         </div>
+      </SwipeableDrawer>
+      <div className={clsx(classes.content, {
+        [classes.contentShift]: open,
+      })}
+      >
+        <Toolbar />
+        <Container>
+          <Outlet />
+        </Container>
       </div>
-    );
-  }
+    </div>)
+  );
 }
 
 
@@ -169,7 +162,7 @@ function Navigation({ children, items, pathName, depthStep, depth }) {
 
 function NavigationItem({ item, pathName, depthStep, depth, theme }) {
   let [collapsed, setCollapsed] = useState();
-  let history = useHistory();
+  let navigate = useNavigate();
   // Build list of subitems (if any)
   let renderedSubItems = [];
   let expandIcon;
@@ -182,7 +175,7 @@ function NavigationItem({ item, pathName, depthStep, depth, theme }) {
           pathName={pathName}
           depthStep={depthStep}
           depth={depth + 1}
-          history={history}
+          navigate={navigate}
           theme={theme}
         />
       );
@@ -196,7 +189,7 @@ function NavigationItem({ item, pathName, depthStep, depth, theme }) {
       setCollapsed(!collapsed);
     } else {
       // Open corresponding page
-      history.push(item.route);
+      navigate(item.route);
     }
   }
   // Render the item and its subitems
@@ -207,7 +200,7 @@ function NavigationItem({ item, pathName, depthStep, depth, theme }) {
         key={item.name}
         style={{ paddingLeft: theme.spacing(2 + depth * depthStep) }}
         onClick={onClick}
-        button
+        // button
         selected={item.route === pathName}
       >
         {ItemIcon && <ListItemIcon><ItemIcon /></ListItemIcon>}
@@ -222,4 +215,4 @@ function NavigationItem({ item, pathName, depthStep, depth, theme }) {
 }
 
 
-export default withStyles(styles)(withRouter(Layout))
+export default Layout;

@@ -1,23 +1,16 @@
-import React from 'react'
-import { Typography } from '@material-ui/core'
-import { withTheme } from '@material-ui/core/styles'
+import React, { useEffect } from 'react'
+import { Typography, useTheme } from '@mui/material'
 
-class NotFound extends React.Component {
-  render() {
-    const { theme } = this.props;
-    return (
-      <div style={{ padding: theme.spacing(2) }}>
-        <Typography variant='h2'>
-          Not found.
-        </Typography>
-      </div>
-    );
-  }
+function NotFound() {
+  const theme = useTheme();
 
-  componentDidMount() {
-    const { setActions } = this.props;
-    setActions('');
-  }
+  return (
+    <div style={{ padding: theme.spacing(2) }}>
+      <Typography variant='h2'>
+        Not found.
+      </Typography>
+    </div>
+  );
 }
 
-export default withTheme(NotFound);
+export default NotFound;

@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Typography, Button, ButtonGroup, Paper, IconButton, Divider, Snackbar, CircularProgress } from '@material-ui/core';
-import { withTheme, withStyles } from '@material-ui/core/styles';
-import { withRouter } from "react-router";
+import { Typography, Button, ButtonGroup, Paper, IconButton, Divider, Snackbar, CircularProgress } from '@mui/material';
 import PipelineDiagram from './PipelineDiagram';
-import { Pause, PlayArrow } from '@material-ui/icons';
-import { Alert } from '@material-ui/lab';
+import { Pause, PlayArrow } from '@mui/icons-material';
+import { Alert } from '@mui/lab';
+import { makeStyles } from '@mui/styles';
+import { useNavigate } from 'react-router';
 
 // Change
 const URL = 'http://127.0.0.1:6442'
@@ -24,7 +24,12 @@ const styles = (theme) => ({
     display: 'block',
   },
   actionButtons: {
+    position: 'sticky',
+    bottom: 0,
     marginTop: theme.spacing(2),
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: theme.spacing(1),
   },
   playPauseIcon: {
     height: '80%',
@@ -44,241 +49,93 @@ const styles = (theme) => ({
     verticalAlign: 'middle',
   }
 });
+const useStyles = makeStyles(styles);
 
-class Overview extends React.Component {
+function Overview() {
+  const classes = useStyles();
+  const navigate = useNavigate();
+  // State
+  const [alert, setAlert] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [isRunning, setIsRunning] = useState(false);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      alert: '',
-      alertMessage: '',
-      loading: false,
-      isRunning: false,
-    };
-    this.handleAlertClose = this.handleAlertClose.bind(this);
-    this.handleValueChange = this.handleValueChange.bind(this);
-    this.fetchData = this.fetchData.bind(this);
-    this.fetchValues = this.fetchValues.bind(this);
-    this.sendValues = this.sendValues.bind(this);
-    this.exportValues = this.exportValues.bind(this);
-    this.importValues = this.importValues.bind(this);
-    this.startQuantumLeap = this.startQuantumLeap.bind(this);
-    this.stopQuantumLeap = this.stopQuantumLeap.bind(this);
-    this.isQuantumLeapRunning = this.isQuantumLeapRunning.bind(this);
-  }
+  // Run when mounted
+  useEffect(
+    () => {
+      // fetchData();
+      isQuantumLeapRunning();
+    },
+    []
+  );
 
-  componentDidMount() {
-    this.fetchData();
-    this.isQuantumLeapRunning();
-  }
-
-  render() {
-    const { history, classes } = this.props;
-    const { loading, alert, alertMessage, isRunning } = this.state;
-
-    const clickHandler = (name) => {
-      console.log(name);
-      switch (name) {
-        case 'sensors':
-          history.push('/pipeline/sensors');
-          break;
-        case 'filters':
-          history.push('/pipeline/filters');
-          break;
-        case 'static-datasets':
-          history.push('/pipeline/datasets/static');
-          break;
-        case 'static-recognizers':
-          history.push('/pipeline/recognizers/static');
-          break;
-        case 'analyzers':
-          history.push('/pipeline/analyzers');
-          break;
-        case 'segmenters':
-          history.push('/pipeline/segmenters');
-          break;
-        case 'dynamic-datasets':
-          history.push('/pipeline/datasets/dynamic');
-          break;
-        case 'dynamic-recognizers':
-          history.push('/pipeline/recognizers/dynamic');
-          break;
-        case 'api':
-          history.push('/api');
-          break;
-        default:
-          console.error(name);
-      }
-    };
-    const toggleRun = () => {
-      this.setState({
-        loading: true,
-      });
-      if (isRunning) {
-        this.stopQuantumLeap();
-      } else {
-        this.startQuantumLeap();
-      }
-    };
-    return (
-      <div>
-        <Typography variant='h2' className={classes.pageTitle}>
-          Overview
-        </Typography>
-        <Paper>
-          <div className={classes.pipeline}>
-            <PipelineDiagram className={classes.pipelineDiagram} onClick={clickHandler}/>
-          </div>
-          <Divider/>
-          <div className={classes.controlButtons}>
-            {loading ? (
-              <div className={classes.toggleStartButton}>
-                <CircularProgress size={48}/>
-              </div>
-            ) : (
-              <IconButton className={classes.toggleStartButton} onClick={toggleRun}>
-                {!isRunning ? <PlayArrow className={classes.toggleStartIcon}/> : <Pause className={classes.toggleStartIcon}/>}
-              </IconButton>
-            )}
-          </div>
-        </Paper>
-        <div className={classes.actionButtons}>
-          <ButtonGroup variant="contained" color="primary">
-            <Button component='label'>
-              Import configuration
-              <input type='file' accept='.json' hidden onChange={this.importValues}/>
-            </Button>
-            <Button onClick={this.exportValues}>
-              Export configuration
-            </Button>
-          </ButtonGroup>
-        </div>
-        <Snackbar open={alert ? true : false} autoHideDuration={5000} disableWindowBlurListener={true} onClose={this.handleAlertClose}>
-          <Alert variant='filled' severity={alert}>
-            {alertMessage}
-          </Alert>
-        </Snackbar>
-      </div>
-    );
-  }
-
-  isQuantumLeapRunning() {
-    this.setState({
-      loading: true,
-    });
+  const isQuantumLeapRunning = () => {
+    setLoading(true);
     return axios.get(`${URL}/quantumleap/state/running`)
-    .then((res) => {
-      this.setState({
-        isRunning: res.data.running,
-        loading: false,
-      });
-    })
-    .catch((err) => {
-      this.setState({
-        alert: 'error',
-        alertMessage: 'Unable to check if QuantumLeap is running!',
-        isRunning: false,
-        loading: false,
-      });
-      console.error(err.message);
-    });
-  }
-
-  startQuantumLeap() {
-    return axios.post(`${URL}/quantumleap/actions/start`)
-    .then((res) => {
-      console.log('QuantumLeap starting');
-      this.setState({
-        alert: 'success',
-        alertMessage: 'QuantumLeap started!',
-        isRunning: true,
-        loading: false,
-      });
-    })
-    .catch((err) => {
-      this.setState({
-        alert: 'error',
-        alertMessage: 'Unable to start QuantumLeap!',
-        isRunning: false,
-        loading: false,
-      });
-      console.error(err.message);
-    });
-  }
-
-  stopQuantumLeap() {
-    return axios.post(`${URL}/quantumleap/actions/stop`)
-    .then((res) => {
-      console.log('QuantumLeap stopping');
-      this.setState({
-        alert: 'success',
-        alertMessage: 'QuantumLeap stopped!',
-        isRunning: false,
-        loading: false,
-      });
-    })
-    .catch((err) => {
-      this.setState({
-        alert: 'error',
-        alertMessage: 'Unable to stop QuantumLeap!',
-        isRunning: false,
-        loading: false,
-      });
-      console.error(err.message);
-    });
-  }
-
-  handleAlertClose() {
-    console.log('hmmmmmmm')
-    this.setState({
-      alert: '',
-      alertMessage: '',
-    });
-  }
-
-  handleValueChange(valuePath, value) {
-    this.setState(prevState => {
-      let values = prevState.values;
-      setObjectProperty(values, value, valuePath);
-      return ({
-        values: values
-      });
-    });
-  }
-
-  fetchData() {
-    let promise1 = axios.get(`${URL}/quantumleap/templates`);
-    let promise2 = axios.get(`${URL}/quantumleap/values`);
-    return Promise.all([promise1, promise2])
-      .then(res => {
-        this.setState({
-          templates: res[0].data,
-          values: res[1].data
-        });
+      .then((res) => {
+        setIsRunning(res.data.running);
+        setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
+        setAlert('error');
+        setAlertMessage('Unable to check if QuantumLeap is running!');
+        setIsRunning(false);
+        setLoading(false);
         console.error(err.message);
-        this.setState({
-          templates: '',
-          values: ''
-        });
       });
   }
 
-  fetchValues() {
+  const startQuantumLeap = () => {
+    return axios.post(`${URL}/quantumleap/actions/start`)
+      .then((res) => {
+        setAlert('success');
+        setAlertMessage('QuantumLeap started!');
+        setIsRunning(true);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setAlert('error');
+        setAlertMessage('Unable to start QuantumLeap!');
+        setIsRunning(false);
+        setLoading(false);
+        console.error(err.message);
+      });
+  }
+
+  const stopQuantumLeap = () => {
+    return axios.post(`${URL}/quantumleap/actions/stop`)
+      .then((res) => {
+        setAlert('success');
+        setAlertMessage('QuantumLeap stopped!');
+        setIsRunning(false);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setAlert('error');
+        setAlertMessage('Unable to stop QuantumLeap!');
+        setLoading(false);
+        console.error(err.message);
+      });
+  }
+
+  const handleAlertClose = () => {
+    setAlert('');
+    setAlertMessage('');
+  }
+
+  const fetchValues = (callback) => {
     return axios.get(`${URL}/quantumleap/values`)
-    .then((res) => {
-      this.setState({
-        values: res.data
+      .then((res) => {
+        let values = res.data;
+        callback(values, '')
+      })
+      .catch((err) => {
+        callback('', err.message);
       });
-    })
-    .catch((err) => {
-      console.error(err.message);
-    });
-  }
+  };
 
-  sendValues() {
-    return axios.put(`${URL}/quantumleap/values`, { data: this.state.values })
+  const sendValues = (values) => {
+    return axios.put(`${URL}/quantumleap/values`, { data: values })
     .then((res) => {
         console.log(res);
         console.log('Data saved');
@@ -286,20 +143,25 @@ class Overview extends React.Component {
       .catch((err) => {
         console.error(err.message);
       });
-  }
+  };
 
-  exportValues() {
-    const { values } = this.state;
-    const fileData = JSON.stringify(values, null, 2);
-    const blob = new Blob([fileData], {type: "text/plain"});
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.download = 'config.json';
-    link.href = url;
-    link.click();
-  }
+  const exportValues = () => {
+    fetchValues((values, error) => {
+      if (values) {
+        const fileData = JSON.stringify(values, null, 2);
+        const blob = new Blob([fileData], {type: "text/plain"});
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = 'config.json';
+        link.href = url;
+        link.click();
+      } else {
+        console.error(error);
+      }
+    });
+  };
 
-  importValues(event) {
+  const importValues = (event) => {
     if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
       alert('The File APIs are not fully supported in this browser.');
       return;
@@ -311,23 +173,100 @@ class Overview extends React.Component {
       var file = event.target.files[0];
       var fileReader = new FileReader();
       fileReader.onload = (event) => {
-        let previousValues = this.state.values;
         try {
           let values = JSON.parse(event.target.result)
-          this.setState({
-            values: values,
-          });
-          this.sendValues();
+          sendValues(values);
         } catch (err) {
           alert('Invalid file.');
-          this.setState({
-            values: previousValues,
-          });
         }
       };
       fileReader.readAsText(file);
     }
   }
+
+  const clickHandler = (name) => {
+    switch (name) {
+      case 'sensors':
+        navigate('/pipeline/sensors');
+        break;
+      case 'filters':
+        navigate('/pipeline/filters');
+        break;
+      case 'static-datasets':
+        navigate('/pipeline/datasets/static');
+        break;
+      case 'static-recognizers':
+        navigate('/pipeline/recognizers/static');
+        break;
+      case 'analyzers':
+        navigate('/pipeline/analyzers');
+        break;
+      case 'segmenters':
+        navigate('/pipeline/segmenters');
+        break;
+      case 'dynamic-datasets':
+        navigate('/pipeline/datasets/dynamic');
+        break;
+      case 'dynamic-recognizers':
+        navigate('/pipeline/recognizers/dynamic');
+        break;
+      case 'api':
+        navigate('/api');
+        break;
+      default:
+        console.error(name);
+    }
+  };
+
+  const toggleRun = () => {
+    setLoading(true);
+    if (isRunning) {
+      stopQuantumLeap();
+    } else {
+      startQuantumLeap();
+    }
+  };
+
+  return (
+    (<div>
+      <Typography variant='h2' className={classes.pageTitle}>
+        Overview
+      </Typography>
+      <Paper>
+        <div className={classes.pipeline}>
+          <PipelineDiagram className={classes.pipelineDiagram} onClick={clickHandler}/>
+        </div>
+        <Divider/>
+        <div className={classes.controlButtons}>
+          {loading ? (
+            <div className={classes.toggleStartButton}>
+              <CircularProgress size={48}/>
+            </div>
+          ) : (
+            <IconButton className={classes.toggleStartButton} onClick={toggleRun} size="large">
+              {!isRunning ? <PlayArrow className={classes.toggleStartIcon}/> : <Pause className={classes.toggleStartIcon}/>}
+            </IconButton>
+          )}
+        </div>
+      </Paper>
+      <div className={classes.actionButtons}>
+        <ButtonGroup variant="contained" color="primary">
+          <Button component='label'>
+            Import configuration
+            <input type='file' accept='.json' hidden onChange={importValues}/>
+          </Button>
+          <Button onClick={exportValues}>
+            Export configuration
+          </Button>
+        </ButtonGroup>
+      </div>
+      <Snackbar open={alert ? true : false} autoHideDuration={5000} disableWindowBlurListener={true} onClose={handleAlertClose}>
+        <Alert variant='filled' severity={alert}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
+    </div>)
+  ); 
 }
 
 function setObjectProperty(object, value, keys, index = 0) {
@@ -338,4 +277,4 @@ function setObjectProperty(object, value, keys, index = 0) {
   }
 }
 
-export default withRouter(withStyles(styles)(withTheme(Overview)));
+export default Overview;

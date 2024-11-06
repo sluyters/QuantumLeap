@@ -1,23 +1,21 @@
 import React, { useState } from 'react'
 // Style
 import './App.css';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import CssBaseline from '@mui/material/CssBaseline';
 // Components
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Navigate, createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Layout from './components/Layout'
-import { Home as HomeIcon, Settings as PipelineIcon, Gesture as GestureSetsIcon, Extension, Speed as TestingIcon } from '@material-ui/icons'
+import { Home as HomeIcon, Settings as PipelineIcon, Gesture as GestureSetsIcon, Extension, Speed as TestingIcon } from '@mui/icons-material'
 // Pages
-import Home from './pages/Home'
 import Api from './pages/Api'
 import Testing from './pages/Testing';
 import NotFound from './pages/NotFound';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material';
 import Overview from './pages/Overview';
 import Module from './pages/Module';
 
 const pages = [
-  // { name: 'home', route: '/', label: 'Home', icon: HomeIcon },
   { name: 'quantumleap', route: '/quantumleap', label: 'QuantumLeap', icon: Extension, items: [
       { name: 'overview', route: '/overview', label: 'Overview', icon: null },
       { name: 'api', route: '/api', label: 'API', icon: null },
@@ -40,14 +38,6 @@ const pages = [
       { name: 'dynamicTesting', route: '/testing/dynamic', label: 'Dynamic gestures', icon: null },
     ] 
   },
-
-  // { name: 'pipeline2', route: '/pipeline2', label: 'Recognition pipeline', icon: PipelineIcon },
-  // { name: 'datasets', route: '/datasets', label: 'Gesture sets', icon: GestureSetsIcon },
-  // { name: 'testing', route: '/testing', label: 'Testing', icon: TestingIcon, items: [
-  //     { name: 'staticTesting', route: '/testing/static', label: 'Static gestures', icon: null },
-  //     { name: 'dynamicTesting', route: '/testing/dynamic', label: 'Dynamic gestures', icon: null },
-  //   ] 
-  // },
 ]
 
 const routesInfos = {
@@ -62,84 +52,81 @@ const routesInfos = {
   '/pipeline/recognizers/dynamic': { label: 'Dynamic recognizer' },
 }
 
+const routes = createBrowserRouter([
+    {
+      element: <Layout sidebarItems={pages} />,
+      children: [
+        {
+          exact: true,
+          path: '/',
+          element: <Navigate to='./overview' />,
+        },
+        {
+          exact: true,
+          path: '/api',
+          element: <Api />,
+        },
+        {
+          exact: true,
+          path: '/overview',
+          element: <Overview />,
+        },
+        {
+          exact: true,
+          path: '/pipeline/:moduleType/:gestureType?',
+          element: <Module key={Date.now()} routesInfos={routesInfos} />,
+        },
+        {
+          exact: true,
+          path: '/testing/:gestureType',
+          element: <Testing type='static' />,
+        },
+
+        {
+          exact: true,
+          path: '/not-found',
+          element: <NotFound />,
+        },
+        {
+          path: '*',
+          element: <Navigate to='not-found' />
+        },
+      ]
+    },
+]);
+
 function App() {
-  const [currentActions, setCurrentActions] = useState('');
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: light)');
   const theme = React.useMemo(
     () =>
-      createMuiTheme({
+      createTheme({
         palette: {
-          type: prefersDarkMode ? 'dark' : 'light',
+          mode: prefersDarkMode ? 'dark' : 'light',
           primary: {
-            light: '#87ffff',
-            main: '#4ccfe0',
-            dark: '#009eae',
+            light: '#bdcdda',
+            main: '#0d5581',
+            dark: '#003051',
+            contrastText: '#ffffff'
           },
           secondary: {
-            light: '#e5ffff',
-            main: '#b2ebf2',
-            dark: '#81b9bf',
+            light: '#ebebeb',
+            main: '#5a5a5a',
+            dark: '#070707',
+            contrastText: '#ffffff'
           },
         },
       }),
     [prefersDarkMode],
   );
   return (
-    <div className='App'>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Layout sidebarItems={pages} actions={currentActions} >
-          <Switch>
-            <Route 
-              exact
-              path='/' 
-              render={(props) => (<Overview {...props} setActions={setCurrentActions} />)}
-            />
-            <Route 
-              exact
-              path='/api' 
-              render={(props) => (<Api {...props} setActions={setCurrentActions} />)}
-            />
-            <Route 
-              exact
-              path='/overview' 
-              render={(props) => (<Overview {...props} setActions={setCurrentActions} />)}
-            />
-            <Route 
-              exact
-              key={Date.now()}
-              path='/pipeline/:moduleType/:gestureType?' 
-              render={(props) => (<Module {...props} key={Date.now()} routesInfos={routesInfos} />)}
-            />
-            {/* <Route 
-              exact
-              key='pipeline2'
-              path='/pipeline2' 
-              render={(props) => (<Pipeline {...props} setActions={setCurrentActions} />)}
-            /> */}
-            <Route 
-              exact
-              key='testing-static'
-              path='/testing/static' 
-              render={(props) => (<Testing {...props} type='static' setActions={setCurrentActions} />)}
-            />
-            <Route 
-              exact
-              key='testing-dynamic'
-              path='/testing/dynamic' 
-              render={(props) => (<Testing {...props} type='dynamic' setActions={setCurrentActions} />)}
-            />
-            <Route 
-              exact
-              key='not-found'
-              path='/not-found'
-              render={(props) => (<NotFound {...props} setActions={setCurrentActions} />)}
-            />
-            <Redirect to='not-found' />
-          </Switch>
-        </Layout>
-      </ThemeProvider>
-    </div>
+    (<div className='App'>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <RouterProvider router={routes} />
+        </ThemeProvider>
+      </StyledEngineProvider>
+    </div>)
   );
 }
 

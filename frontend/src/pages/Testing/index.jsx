@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Typography, Paper, Button, ButtonGroup } from '@material-ui/core'
-import { withStyles, withTheme } from '@material-ui/core/styles'
+import { Typography, Button, ButtonGroup } from '@mui/material'
+import { makeStyles, useTheme } from '@mui/styles'
 import { Setting } from '../../components/Settings'
+import { useParams } from 'react-router'
 
 // Change
 const URL = 'http://127.0.0.1:6442'
@@ -24,159 +25,69 @@ const styles = (theme) => ({
     margin: theme.spacing(0.5, 0),
   },
   actionButtons: {
-    width: '100%',
+    position: 'sticky',
+    bottom: 0,
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: theme.spacing(1),
   },
   componentName: {
     marginBottom: theme.spacing(2),
   }
 });
+const useStyles = makeStyles(styles);
 
-class Testing extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      templates: '',
-      values: ''
-    };
-    this.renderComponentSettings = this.renderComponentSettings.bind(this);
-    this.handleValueChange = this.handleValueChange.bind(this);
-    this.fetchData = this.fetchData.bind(this);
-    this.startBenchmarking = this.startBenchmarking.bind(this);
-    this.sendValues = this.sendValues.bind(this);
-    this.discardValues = this.discardValues.bind(this);
-    this.downloadValues = this.downloadValues.bind(this);
-    this.loadValues = this.loadValues.bind(this);
-  }
+function Testing({ setActions = () => {} }) {
+  const classes = useStyles();
+  const { gestureType } = useParams();
+  const [templates, setTemplates] = useState();
+  const [values, setValues] = useState();
 
-  componentDidMount() {
-    const { setActions, classes } = this.props;
-    this.fetchData();
-    setActions(
-      <ButtonGroup
-        orientation="vertical"
-        color="primary"
-        disableElevation 
-        className={classes.actionButtons}
-      >
-        <Button onClick={this.startBenchmarking}>Start testing</Button>
-        <Button onClick={() => {}}>Stop testing</Button>
-        <Button onClick={this.sendValues}>Save config</Button>
-        <Button onClick={this.discardValues}>Discard changes</Button>
-        <Button onClick={this.downloadValues}>Download config</Button>
-        <Button component="label">
-          Load config 
-          <input type="file" accept=".json" hidden onChange={this.loadValues}/>
-        </Button>
-      </ButtonGroup>
-    );
-  }
-
-  render() {
-    const { classes, theme, type } = this.props;
-    const { templates, values } = this.state;
-    return (
-      <React.Fragment>
-        {/* General settings */}
-        {this.renderComponentSettings(['main', 'settings', 'general'], 'General', true)}
-        {/* Gesture dataset settings */}
-        {this.renderComponentSettings(['main', 'settings', 'datasets', type], `${type === 'static' ? 'Static' : 'Dynamic'} dataset`)}
-        {/* Gesture recognizer settings */}
-        {this.renderComponentSettings(['main', 'settings', 'recognizers', type], `${type === 'static' ? 'Static' : 'Dynamic'} recognizer(s)`)}
-      </React.Fragment>
-    );
-  }
-
-  renderComponentSettings(path, label, disableMargin=false) {
-    const { classes, theme } = this.props;
-    const { templates, values } = this.state;
-    let componentTemplate = templates;
-    let componentValue = values;
-    for (let key of path) {
-      componentTemplate = componentTemplate[key];
-      componentValue = componentValue[key];
-      if (!componentValue || !componentTemplate) {
-        break;
-      }
-    }
-    return (
-      <div style={{ padding: theme.spacing(2), marginTop: disableMargin ? 0 : theme.spacing(3) }}>
-        <Typography className={classes.componentName} variant='h2'>
-          {label}
-        </Typography>
-        {(componentValue && componentTemplate) ? (
-          componentTemplate.map(setting => {
-            return <Setting
-              templates={templates}
-              values={values}
-              handleChange={this.handleValueChange}
-              level={0}
-              path={path}
-              value={componentValue[setting.name]}
-              setting={setting}
-            />
-          })
-        ) : (
-          <Typography variant='body1'>
-            No settings available.
-          </Typography>
-        )}
-      </div>
-    );
-  }
-
-  handleValueChange(valuePath, value) {
-    this.setState(prevState => {
-      let values = prevState.values;
-      setObjectProperty(values, value, valuePath);
-      return ({
-        values: values
-      });
+  const handleValueChange = (valuePath, value) => {
+    setValues(values => {
+      let newValues = values;
+      setObjectProperty(newValues, value, valuePath);
+      return {...newValues}
     });
   }
 
-  fetchData() {
-    let promise1 = axios.get(`${URL}/testing/${this.props.type}/templates`);
-    let promise2 = axios.get(`${URL}/testing/${this.props.type}/values`);
+  const fetchData = () => {
+    let promise1 = axios.get(`${URL}/testing/${gestureType}/templates`);
+    let promise2 = axios.get(`${URL}/testing/${gestureType}/values`);
     return Promise.all([promise1, promise2])
       .then(res => {
-        this.setState({
-          templates: res[0].data,
-          values: res[1].data
-        });
+        console.log(res)
+        setTemplates(res[0].data);
+        setValues(res[1].data);
       })
       .catch(err => {
         console.error(err.message);
-        this.setState({
-          templates: '',
-          values: ''
-        });
+        setTemplates('');
+        setValues('res[1].data');
       });
   }
 
-  startBenchmarking() {
-    return axios.post(`${URL}/testing/${this.props.type}/actions/start`)
+  const startBenchmarking = () => {
+    return axios.post(`${URL}/testing/${gestureType}/actions/start`)
     .then((res) => {
-      console.log('Testing starting');
+      console.log('Testing starting'); // TODO display toast notification
     })
     .catch((err) => {
       console.error(err.message);
     });
   }
 
-  discardValues() {
-    return axios.get(`${URL}/testing/${this.props.type}/values`)
+  const discardValues = () => {
+    return axios.get(`${URL}/testing/${gestureType}/values`)
     .then((res) => {
-      this.setState({
-        values: res.data
-      });
+      setValues(res.data);
     })
     .catch((err) => {
       console.error(err.message);
     });
   }
   
-  downloadValues() {
-    const { values } = this.state;
+  const downloadValues = () => {
     const fileData = JSON.stringify(values, null, 2);
     const blob = new Blob([fileData], {type: "text/plain"});
     const url = window.URL.createObjectURL(blob);
@@ -186,7 +97,7 @@ class Testing extends React.Component {
     link.click();
   }
 
-  loadValues(event) {
+  const loadValues = (event) => {
     if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
       alert('The File APIs are not fully supported in this browser.');
       return;
@@ -198,17 +109,13 @@ class Testing extends React.Component {
       var file = event.target.files[0];
       var fileReader = new FileReader();
       fileReader.onload = (event) => {
-        let previousValues = this.state.values;
+        let savedValues = values;
         try {
-          let values = JSON.parse(event.target.result)
-          this.setState({
-            values: values,
-          });
+          let newValues = JSON.parse(event.target.result)
+          setValues(newValues);
         } catch (err) {
           alert('Invalid file.');
-          this.setState({
-            values: previousValues,
-          });
+          setValues(savedValues);
         }
       };
       fileReader.readAsText(file);
@@ -216,8 +123,8 @@ class Testing extends React.Component {
     console.log(event.target.files[0])
   }
 
-  sendValues() {
-    return axios.put(`${URL}/testing/${this.props.type}/values`, { data: this.state.values })
+  const sendValues = () => {
+    return axios.put(`${URL}/testing/${gestureType}/values`, { data: values })
     .then((res) => {
         console.log(res);
         console.log('Data saved');
@@ -226,6 +133,100 @@ class Testing extends React.Component {
         console.error(err.message);
       });
   }
+
+  // TODO improve, add stop button
+  useEffect(
+    () => {
+      fetchData();
+      setActions(
+        <ButtonGroup
+          orientation="vertical"
+          color="primary"
+          disableElevation 
+          className={classes.actionButtons}
+        >
+          <Button onClick={startBenchmarking}>Start testing</Button>
+          <Button onClick={() => {}}>Stop testing</Button>
+          <Button onClick={sendValues}>Save config</Button>
+          <Button onClick={discardValues}>Discard changes</Button>
+          <Button onClick={downloadValues}>Download config</Button>
+          <Button component="label">
+            Load config 
+            <input type="file" accept=".json" hidden onChange={loadValues}/>
+          </Button>
+        </ButtonGroup>
+      );
+    },
+    []
+  );
+
+  if (templates && values) {
+    return (
+      <React.Fragment>
+        {/* General settings */}
+        <TestingSection templates={templates} values={values} label='General' path={['main', 'settings', 'general']} onChange={handleValueChange} disableMargin />
+        {/* Gesture dataset settings */}
+        <TestingSection templates={templates} values={values} label={`${gestureType === 'static' ? 'Static' : 'Dynamic'} dataset`} path={['main', 'settings', 'datasets', gestureType]} onChange={handleValueChange} disableMargin />
+        {/* Gesture recognizer settings */}
+        <TestingSection templates={templates} values={values} label={`${gestureType === 'static' ? 'Static' : 'Dynamic'} recognizer(s)`} path={['main', 'settings', 'recognizers', gestureType]} onChange={handleValueChange} disableMargin />
+        <div className={classes.actionButtons}>
+          <ButtonGroup variant='contained' color='primary'>
+            <Button onClick={startBenchmarking}>Start</Button>
+            <Button disabled onClick={() => {}}>Stop</Button>
+          </ButtonGroup>
+          <ButtonGroup variant='contained' color='primary'>
+            <Button onClick={sendValues}>Save changes</Button>
+            <Button onClick={discardValues}>Discard changes</Button>
+            <Button component="label">
+              Load config 
+              <input type="file" accept=".json" hidden onChange={loadValues}/>
+            </Button>
+            <Button onClick={downloadValues}>Export config</Button>
+          </ButtonGroup>
+        </div>
+      </React.Fragment>
+    );
+  } else {
+    return false;
+  }
+}
+
+function TestingSection({ templates, values, label, path, onChange, disableMargin = false }) {
+  const classes = useStyles();
+  const theme = useTheme();
+  let componentTemplate = templates;
+  let componentValue = values;
+  for (let key of path) {
+    componentTemplate = componentTemplate[key];
+    componentValue = componentValue[key];
+    if (!componentValue || !componentTemplate) {
+      break;
+    }
+  }
+  return (
+    <div style={{ padding: theme.spacing(2), marginTop: disableMargin ? 0 : theme.spacing(3) }}>
+      <Typography className={classes.componentName} variant='h2'>
+        {label}
+      </Typography>
+      {(componentValue && componentTemplate) ? (
+        componentTemplate.map(setting => {
+          return <Setting
+            templates={templates}
+            values={values}
+            onChange={onChange}
+            level={0}
+            path={path}
+            value={componentValue[setting.name]}
+            setting={setting}
+          />
+        })
+      ) : (
+        <Typography variant='body1'>
+          No settings available.
+        </Typography>
+      )}
+    </div>
+  );
 }
 
 function setObjectProperty(object, value, keys, index = 0) {
@@ -236,4 +237,4 @@ function setObjectProperty(object, value, keys, index = 0) {
   }
 }
 
-export default withTheme(withStyles(styles)(Testing))
+export default Testing

@@ -6,11 +6,11 @@ function flatten(text, child) {
     : React.Children.toArray(child.props.children).reduce(flatten, text)
 }
 
-const Heading = (props) => {
-  var children = React.Children.toArray(props.children)
+function Heading({ level, children }) {
+  var children = React.Children.toArray(children)
   var text = children.reduce(flatten, '')
   var slug = text.toLowerCase().replace(/\W/g, '-')
-  return React.createElement('h' + props.level, {id: slug}, props.children)
+  return React.createElement('h' + level, {id: slug}, children)
 }
 
 export default Heading
