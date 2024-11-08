@@ -260,7 +260,7 @@ function Overview() {
           </Button>
         </ButtonGroup>
       </div>
-      <Snackbar open={alert ? true : false} autoHideDuration={5000} disableWindowBlurListener={true} onClose={handleAlertClose}>
+      <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} open={alert ? true : false} autoHideDuration={5000} disableWindowBlurListener={true} onClose={handleAlertClose}>
         <Alert variant='filled' severity={alert}>
           {alertMessage}
         </Alert>

@@ -63,7 +63,12 @@ function Module({ routesInfos }) {
           setTemplates(templates);
           setValues(values);
           setComponentKey(Date.now());
+          if (error) {
+            setAlert('error');
+            setAlertMessage(error);
+          }
         });
+      setChanges(false);
     },
     [moduleType, gestureType]
   );
@@ -93,11 +98,15 @@ function Module({ routesInfos }) {
 
   // Helpers TODO duplicate code
   const discardChanges = () => {
-    fetchValues()
+    fetchData(moduleType, gestureType)
       .then(({ templates, values, error }) => {
         setTemplates(templates);
         setValues(values);
         setComponentKey(Date.now());
+        if (error) {
+          setAlert('error');
+          setAlertMessage(error);
+        }
       });
     setChanges(false);
   };
@@ -108,23 +117,12 @@ function Module({ routesInfos }) {
   };
 
   const handleValueChange = (valuePath, value) => {
-    console.log(value)
     setValues(values => {
       let newValues = values;
       setObjectProperty(newValues, value, valuePath);
       return {...newValues};
     });
     setChanges(true);
-  };
-
-  const fetchValues = () => {
-    return axios.get(`${URL}/quantumleap/values`)
-      .then((res) => {
-        setValues(res.data);
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
   };
 
   const sendValues = () => {
@@ -193,7 +191,7 @@ function Module({ routesInfos }) {
           </Button>
         </DialogActions>
       </Dialog>
-      <Snackbar open={alert ? true : false} disableWindowBlurListener={true} autoHideDuration={5000} onClose={handleAlertClose}>
+      <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} open={alert ? true : false} disableWindowBlurListener={true} autoHideDuration={5000} onClose={handleAlertClose}>
         <Alert variant='filled' severity={alert}>
           {alertMessage}
         </Alert>
