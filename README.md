@@ -1,6 +1,6 @@
 # QuantumLeap
 ## How to run the QuantumLeap framework?
-1. Install the [Leap Motion SDK](https://developer.leapmotion.com/releases/leap-motion-orion-321).
+1. Install the [Leap Motion SDK (v3.2.1)]([https://developer.leapmotion.com/releases/leap-motion-orion-321](https://www.ultraleap.com/downloads/leap-controller/)).
 2. Install [Node.js](https://nodejs.org/en/download/).
 3. Install the dependencies.
 
